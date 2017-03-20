@@ -2321,8 +2321,18 @@ License: You must have a valid license purchased only from themeforest(the above
                             </li>
                         </ul>
                         <div class="page-toolbar">
-                            <div class="btn-group pull-right">
-                                <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown"> 管理操作
+                            <div class="btn-group btn-group-devided" data-toggle="buttons">
+                                <label class="btn btn-transparent green btn-outline btn-circle btn-sm active">
+                                    <input type="radio" name="options" class="toggle" id="option1">个人配置</label>
+                                <label class="btn btn-transparent blue btn-outline btn-circle btn-sm">
+                                    <input type="radio" name="options" class="toggle" id="option2">角色管理</label>
+                                 <label class="btn btn-transparent blue btn-outline btn-circle btn-sm">
+                                    <input type="radio" name="options" class="toggle" id="option3">用户管理</label>
+                             </div>
+                             <div class="btn-group">
+                                <button type="button" class="btn red btn-sm btn-outline btn-circle dropdown-toggle" data-toggle="dropdown"> 
+                                   <i class="fa fa-share"></i>
+                                    更多管理
                                     <i class="fa fa-angle-down"></i>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
@@ -2344,7 +2354,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <i class="icon-bag"></i> 权限管理</a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div>                            
+                         
                         </div>
                     </div>
                     <!-- END PAGE BAR -->
