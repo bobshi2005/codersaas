@@ -1,0 +1,414 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <!-- <a href="index.html">资产管理</a> -->
+            <span>资产管理</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>工单管理</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>我受理的</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>工单详情</span>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <!-- <div class="btn-group pull-right">
+            <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown">Actions
+                <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a href="#">
+                        <i class="icon-bell"></i> Action</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="icon-shield"></i> Another action</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="icon-user"></i> Something else here</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <i class="icon-bag"></i> Separated link</a>
+                </li>
+            </ul>
+        </div> -->
+    </div>
+</div>
+<!-- END PAGE BAR -->
+<!-- BEGIN PAGE TITLE-->
+<!--
+<h3 class="page-title"> Order View
+        <small>Order View</small>
+</h3>
+-->
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+
+<br>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs  font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">工单信息</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row static-info">
+                    <div class="col-md-1 name"> 工单号：</div>
+                    <div class="col-md-3 value"> 10001212 </div>
+                    <div class="col-md-2 name"> 发起人：</div>
+                    <div class="col-md-2 value"> Jhon Doe </div>
+                    <div class="col-md-1 name"> 工单类型：</div>
+                    <div class="col-md-3 value"> 类型一 </div>
+                </div>
+                <div class="row static-info">
+                    <div class="col-md-1 name"> 创建时间：</div>
+                    <div class="col-md-3 value"> 2017-02-20 12:22:09 </div>
+                    <div class="col-md-2 name"> 受理组/人：</div>
+                    <div class="col-md-2 value"> Jerry </div>
+                    <div class="col-md-1 name"> 设备：</div>
+                    <div class="col-md-3 value"> 变速器 </div>
+                </div>
+                <div class="row static-info">
+                    <div class="col-md-1 name"> 优先级：</div>
+                    <div class="col-md-3 value"> <span class="label label-success">一般 </span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">工单状态</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="mt-element-step">
+                    <div class="row step-line">
+                        <div class="col-md-3 mt-step-col first done">
+                            <div class="mt-step-number bg-white">1</div>
+                            <div class="mt-step-title uppercase font-grey-cascade">创建</div>
+                            <div class="mt-step-content font-grey-cascade">创建工单</div>
+                        </div>
+                        <div class="col-md-3 mt-step-col error">
+                            <div class="mt-step-number bg-white">2</div>
+                            <div class="mt-step-title uppercase font-grey-cascade">处理</div>
+                            <div class="mt-step-content font-grey-cascade">工单正在处理中</div>
+                        </div>
+                        <div class="col-md-3 mt-step-col active">
+                            <div class="mt-step-number bg-white">3</div>
+                            <div class="mt-step-title uppercase font-grey-cascade">完成</div>
+                            <div class="mt-step-content font-grey-cascade">工单已完成</div>
+                        </div>
+                        <div class="col-md-3 mt-step-col last">
+                            <div class="mt-step-number bg-white">4</div>
+                            <div class="mt-step-title uppercase font-grey-cascade">关闭</div>
+                            <div class="mt-step-content font-grey-cascade">工单已关闭</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal form-row-seperated" action="#">
+            <div class="portlet">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-shopping-cart"></i>工单服务记录
+                    </div>
+                    <div class="actions btn-set">
+                        <button type="button" name="back" class="btn btn-secondary-outline" ng-click="saveModalMsg()">
+                            <i class="fa fa-angle-left"></i> 返回</button>
+                        <button class="btn btn-secondary-outline" ng-click="saveModalMsg()">
+                            <i class="fa fa-reply"></i> 重置</button>
+                        <button class="btn btn-success" ng-click="saveModalMsg()">
+                            <i class="fa fa-check"></i> 保存</button>
+                        <button class="btn btn-success" ng-click="saveModalMsg()">
+                            <i class="fa fa-check-circle"></i> 编辑</button>
+                        <div class="btn-group">
+                            <a class="btn btn-success dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                                <i class="fa fa-share"></i> 更多
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <div class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;" ng-click="saveModalMsg()"> 复制 </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" ng-click="saveModalMsg()"> 删除 </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li>
+                                    <a href="javascript:;" ng-click="saveModalMsg()"> 打印 </a>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div id="myModal_autocomplete" class="modal fade" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">新增服务记录</h4>
+                                </div>
+                                <div class="modal-body form skin skin-line">
+                                    <form action="" class="form-horizontal form-row-seperated">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                工单标题</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="typeahead_example_modal_1" name="typeahead_example_modal_1" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">工单详情</label>
+                                            <div class="col-sm-6">
+                                                <textarea class="form-control" rows="5">
+                                                  </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">上传附件</label>
+                                            <div class="col-sm-6">
+                                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                    <div class="fileinput-new thumbnail" style="width: 100px; height: 75px;">
+                                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
+                                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 100px; max-height: 75px;"> </div>
+                                                    <div>
+                                                        <span class="btn btn-sm default btn-file">
+                                                                <span class="fileinput-new"> 选图 </span>
+                                                        <span class="fileinput-exists"> 更换 </span>
+                                                        <input type="file" name="..."> </span>
+                                                        <a href="javascript:;" class="btn btn-sm red fileinput-exists" data-dismiss="fileinput"> 移除 </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">工单优先级</label>
+                                            <div class="col-sm-8">
+                                                <!-- <div class="icheck-inline">
+                                                    <label>
+                                                            <input type="radio" name="radio2" checked
+                                                            class="icheck" data-radio="iradio_line-green" data-label="一般">
+                                                        </label>
+                                                    <label>
+                                                            <input type="radio" name="radio2"  class="icheck" data-radio="iradio_line-blue" data-label="紧急">
+                                                        </label>
+                                                    <label>
+                                                            <input type="radio" name="radio2" class="icheck" data-radio="iradio_line-red" data-label="非常紧急">
+                                                        </label>
+                                                </div> -->
+                                                <div class="radio">
+                                                    <label>
+                                                		<input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 一般
+                                                	</label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                		<input type="radio" name="optionsRadios" id="optionsRadios2" value="2">紧急
+                                                	</label2>
+                                                </div>
+                                                <div class="radio">
+                                                	<label>
+                                                		<input type="radio" name="optionsRadios" id="optionsRadios3" value="3">非常紧急
+                                                	</label2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group last">
+                                            <label class="col-sm-4 control-label">工单受理组/人</label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control">
+                                                    <option>鹿晗</option>
+                                                    <option>吴亦凡</option>
+                                                    <option>杨洋</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group last">
+                                            <label class="col-sm-4 control-label">工单分类</label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control">
+                                                    <option>分类一</option>
+                                                    <option>分类二</option>
+                                                    <option>分类三</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                        用户信息</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="typeahead_example_modal_1" name="typeahead_example_modal_1" class="form-control" placeholder="用户姓名" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                        </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="typeahead_example_modal_1" name="typeahead_example_modal_1" class="form-control" placeholder="用户手机" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                        </label>
+                                            <div class="col-sm-6">
+                                                <input type="text" id="typeahead_example_modal_1" name="typeahead_example_modal_1" class="form-control" placeholder="用户邮箱" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button>
+                                        <button type="button" class="btn green" data-dismiss="modal" ng-click="saveModalMsg()">
+                                            <i class="fa fa-check"></i> 确定添加 </button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="btn-group">
+                                        <a href="/#myModal_autocomplete" role="button" class="btn sbold green" data-toggle="modal">新增服务记录
+                                    <i class="fa fa-plus"></i>
+                                    </a>
+                                        <a href="#" role="button" class="btn sbold red" data-toggle="modal">接受工单分配
+                                    <i class="fa fa-user"></i>
+                                    </a>
+                                        <a href="#" role="button" class="btn sbold blue" data-toggle="modal">工单处理完成
+                                    <i class="fa fa-cog"></i>
+                                    </a>
+                                        <a href="#" role="button" class="btn sbold dark" data-toggle="modal">关闭此工单
+                                    <i class="fa fa-close"></i>
+                                    </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="btn-group pull-right">
+                                        <!-- <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                        <i class="fa fa-angle-down"></i>
+                                    </button> -->
+                                        <ul class="dropdown-menu pull-right">
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <i class="fa fa-print"></i> Print </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <i class="fa fa-file-excel-o"></i> Export to Excel </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="portlet light bordered">
+                                        <div class="portlet-title">
+                                            <div class="caption caption-md">
+                                                <i class="icon-bar-chart font-dark hide"></i>
+                                                <span class="caption-subject font-dark bold uppercase">工单服务列表</span>
+                                                <span class="caption-helper">记录总数：3</span>
+                                            </div>
+                                            <div class="inputs">
+                                                <div class="portlet-input input-inline input-small ">
+                                                    <div class="input-icon right">
+                                                        <i class="icon-magnifier"></i>
+                                                        <input type="text" class="form-control form-control-solid input-circle" placeholder="搜索...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="scroller" style="height: 500px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
+                                                <div class="general-item-list">
+                                                    <div class="item">
+                                                        <div class="item-head">
+                                                            <div class="item-details">
+                                                                <img class="item-pic rounded" src="../assets/pages/media/users/avatar4.jpg">
+                                                                <a href="" class="item-name primary-link">吴亦凡</a>
+                                                                <span class="item-label">2017-03-09 11:23:00</span>
+                                                            </div>
+                                                            <span class="item-status">
+                                                                <span class="badge badge-empty badge-primary"></span> 创建工单
+                                                            </span>
+                                                        </div>
+                                                        <div class="item-body">请QA小组检查发动机噪音问题，出现频率：经常！</div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="item-head">
+                                                            <div class="item-details">
+                                                                <img class="item-pic rounded" src="../assets/pages/media/users/avatar3.jpg">
+                                                                <a href="" class="item-name primary-link">QA小组</a>
+                                                                <span class="item-label">2017-03-09 13:10:11</span>
+                                                            </div>
+                                                            <span class="item-status">
+                                                              <span class="badge badge-empty badge-danger"></span> 工单处理中
+                                                            </span>
+                                                        </div>
+                                                        <div class="item-body">已确认故障原因，预计故障排除时间 3 小时</div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="item-head">
+                                                            <div class="item-details">
+                                                                <img class="item-pic rounded" src="../assets/pages/media/users/avatar3.jpg">
+                                                                <a href="" class="item-name primary-link">QA小组</a>
+                                                                <span class="item-label">2017-03-09 17:10:01</span>
+                                                            </div>
+                                                            <span class="item-status">
+                                                                <span class="badge badge-empty badge-success"></span> 已完成
+                                                            </span>
+                                                        </div>
+                                                        <div class="item-body">故障已排除.</div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+<!-- END CONTENT BODY -->
+</div>
+<!-- END CONTENT -->

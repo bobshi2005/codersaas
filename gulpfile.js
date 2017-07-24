@@ -7,23 +7,40 @@ var prettify = require('gulp-prettify');
 var minifyCss = require("gulp-minify-css");
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
-var rtlcss = require("gulp-rtlcss");
+var rtlcss = require("gulp-rtlcss");  
+var connect = require('gulp-connect');
+
+var serverConfig={
+  // root:'./admin',//从哪个目录开启server
+  port:8099,//将服务开启在哪个端口
+}
+
+//*** Localhost server tast
+gulp.task('localhost', function() {
+  connect.server(serverConfig);
+});
+
+gulp.task('localhost-live', function() {
+  connect.server({
+    livereload: true
+  });
+});
 
 //*** SASS compiler task
 gulp.task('sass', function () {
   // bootstrap compilation
-	gulp.src('./sass/bootstrap.scss').pipe(sass()).pipe(gulp.dest('./assets/global/plugins/bootstrap/css/'));
+  gulp.src('./sass/bootstrap.scss').pipe(sass()).pipe(gulp.dest('./assets/global/plugins/bootstrap/css/'));
 
   // select2 compilation using bootstrap variables
-	gulp.src('./assets/global/plugins/select2/sass/select2-bootstrap.min.scss').pipe(sass({outputStyle: 'compressed'})).pipe(gulp.dest('./assets/global/plugins/select2/css/'));
+  gulp.src('./assets/global/plugins/select2/sass/select2-bootstrap.min.scss').pipe(sass({outputStyle: 'compressed'})).pipe(gulp.dest('./assets/global/plugins/select2/css/'));
 
   // global theme stylesheet compilation
-	gulp.src('./sass/global/*.scss').pipe(sass()).pipe(gulp.dest('./assets/global/css'));
-	gulp.src('./sass/apps/*.scss').pipe(sass()).pipe(gulp.dest('./assets/apps/css'));
-	gulp.src('./sass/pages/*.scss').pipe(sass()).pipe(gulp.dest('./assets/pages/css'));
+  gulp.src('./sass/global/*.scss').pipe(sass()).pipe(gulp.dest('./assets/global/css'));
+  gulp.src('./sass/apps/*.scss').pipe(sass()).pipe(gulp.dest('./assets/apps/css'));
+  gulp.src('./sass/pages/*.scss').pipe(sass()).pipe(gulp.dest('./assets/pages/css'));
 
   // theme layouts compilation
-	gulp.src('./sass/layouts/layout/*.scss').pipe(sass()).pipe(gulp.dest('./assets/layouts/layout/css'));
+  gulp.src('./sass/layouts/layout/*.scss').pipe(sass()).pipe(gulp.dest('./assets/layouts/layout/css'));
   gulp.src('./sass/layouts/layout/themes/*.scss').pipe(sass()).pipe(gulp.dest('./assets/layouts/layout/css/themes'));
 
   gulp.src('./sass/layouts/layout2/*.scss').pipe(sass()).pipe(gulp.dest('./assets/layouts/layout2/css'));
@@ -44,7 +61,7 @@ gulp.task('sass', function () {
 
 //*** SASS watch(realtime) compiler task
 gulp.task('sass:watch', function () {
-	gulp.watch('./sass/**/*.scss', ['sass']);
+  gulp.watch('./sass/**/*.scss', ['sass']);
 });
 
 //*** CSS & JS minify task
@@ -109,12 +126,12 @@ gulp.task('rtlcss', function () {
 
 //*** HTML formatter task
 gulp.task('prettify', function() {
-  	
-  	gulp.src('./**/*.html').
-  	  	pipe(prettify({
-    		indent_size: 4, 
-    		indent_inner_html: true,
-    		unformatted: ['pre', 'code']
-   		})).
-   		pipe(gulp.dest('./'));
+    
+    gulp.src('./**/*.html').
+        pipe(prettify({
+        indent_size: 4, 
+        indent_inner_html: true,
+        unformatted: ['pre', 'code']
+      })).
+      pipe(gulp.dest('./'));
 });

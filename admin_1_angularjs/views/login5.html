@@ -1,0 +1,142 @@
+        <!-- BEGIN : LOGIN PAGE 5-1 -->
+        <div class="user-login-5">
+            <div class="row bs-reset">
+                <div class="col-md-6 bs-reset">
+                    <div class="login-bg" style="background-image:url(../assets/pages/img/login/bg1-final.jpg)">
+                        <img class="login-logo" src="../assets/layouts/layout/img/logo.png" /> </div>
+                </div>
+                <div class="col-md-6 login-container bs-reset bg-white">
+                    <div class="login-content">
+                        <h3 class="text-center">
+                            <img src="../assets/pages/img/login/logoky.png" width="50%" />
+                        </h3>
+                        <h3 class="text-center">
+                            <span class="text-warning" style="font-family: "微软雅黑" ! important;">重新定义</span>
+                            <span class="font-blue-madison" style="font-family: "微软雅黑" ! important;">设备监控物联网平台</span>
+                        </h3>
+                        <p class="text-center"> <span class="font-blue-madison">像访问电子邮箱一样使用设备监控服务，设备厂家服务升级转型新模式，<br> 专注于工业设备监控运维管理，提供从数据采集网关到云平台/APP一站式服务
+                        </span></p>
+
+                        <form action="javascript:;" method="post" ng-submit="login()">
+                            <div class="alert alert-danger display-hide">
+                                <button class="close" data-close="alert"></button>
+                                <span>请输入用户名和密码. </span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <div class="form-group form-md-line-input has-success">
+                                        <div class="input-icon left">
+                                           <i class="icon-user"></i>
+                                           <input type="text" class="form-control" placeholder="用户名" name="userId"  ng-model="loginForm.userId" required/>
+                                       </div>
+                                   </div>
+                               </div>
+
+                                <div class="col-xs-6 col-xs-offset-3" style="margin-top:-20px">
+                                    <div class="form-group form-md-line-input has-success">
+                                        <div class="input-icon left">
+                                           <i class="icon-key"></i>
+                                           <input type="password" class="form-control" placeholder="密码" name="password"  ng-model="loginForm.password" required/>
+                                       </div>
+                                   </div>
+                               </div>
+                                <!--
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <input class="form-control form-control-solid placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="用户名" name="userId"  ng-model="loginForm.userId" required/> </div>
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <input class="form-control form-control-solid placeholder-no-fix form-group" type="password" autocomplete="off" placeholder="密码" name="password"  ng-model="loginForm.password" required/> </div>
+                                -->
+								<div class="col-xs-6 col-xs-offset-3">
+									<button class="btn blue btn-block" type="submit" ng-disabled="!loginForm.userId||!loginForm.password">登录</button>
+								</div>
+
+                            </div>
+                            <div class="row">
+                                 <div class="col-xs-6 col-xs-offset-3  text-right" style="margin-top:10px">
+                                    <div class="forgot-password">
+                                        <a href="javascript:;"  ng-click="gotoRegist()" id="forget-password" class="forget-password"><span class="caption-subject font-blue bold uppercase">还没有账号？点我立刻注册</span><i class="icon-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="row">
+                                <div class="col-xs-4 col-xs-offset-4 text-center"  style="margin-top:20px">
+                                    <img src="../assets/pages/img/login/appdown.png" width="80%" />
+                                </div>
+                            </div>
+                            -->
+                            <!--
+                            <div class="row">
+                                <div class="col-sm-4">
+
+                                    <div class="rem-password">
+                                        <label class="rememberme mt-checkbox mt-checkbox-outline">
+                                            <input type="checkbox" name="remember" value="1" /> 记住密码
+                                            <span></span>
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-8 text-right">
+                                    <div class="forgot-password">
+                                        <a href="javascript:;"  ng-click="gotoRegist()" id="forget-password" class="forget-password"><span class="caption-subject font-blue-madison bold uppercase">还没有账号？点我立刻注册</span></a>
+                                    </div>
+
+                                    <button class="btn green" type="submit" ng-disabled="!loginForm.userId||!loginForm.password">登录</button>
+
+                                </div>
+                            </div>
+                            -->
+                        </form>
+                        <!-- BEGIN FORGOT PASSWORD FORM -->
+                        <!-- <form class="forget-form" action="javascript:;" method="post">
+                            <h3 class="font-green">Forgot Password ?</h3>
+                            <p> Enter your e-mail address below to reset your password. </p>
+                            <div class="form-group">
+                                <input class="form-control placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="Email" name="email" /> </div>
+                            <div class="form-actions">
+                                <button type="button" id="back-btn" class="btn green btn-outline">Back</button>
+                                <button type="submit" class="btn btn-success uppercase pull-right">Submit</button>
+                            </div>
+                        </form> -->
+                        <!-- END FORGOT PASSWORD FORM -->
+                    </div>
+                    <div class="login-footer">
+                        <div class="row bs-reset">
+                            <div class="col-xs-4 bs-reset login-social">
+                                <img src="../assets/pages/img/login/appdown.png" width="40%" />
+
+                                <ul class="login-social hidden">
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="icon-social-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="icon-social-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="icon-social-dribbble"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-8 bs-reset">
+                                <div class="login-copyright text-right">
+                                    <p>
+                                    联系我们：0512-86861827（工作时间）
+									<br>18652424835（7x24全天候）
+									<br>地址：苏州工业园苏虹东路177号方正科技园
+									<br>2017 © 库德莱兹物联科技（苏州）有限公司
+									</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

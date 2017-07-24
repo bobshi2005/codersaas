@@ -1,0 +1,140 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <span>资产管理</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>备品备件</span>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase">配件列表</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div id="myModal_autocomplete" class="modal fade" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">创建配件</h4>
+                                </div>
+                                <div class="modal-body form">
+                                    <form action="javascript:alert('xx');" class="form-horizontal form-row-seperated">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">*配件名称</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="name" ng-model="createData.name" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">*配件类别</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" ng-model="partCategory" ng-options="x.name for x in partCategoryList" required />
+                                            </div>
+                                        </div>
+                                        <div class="form-group last">
+                                            <label class="col-sm-4 control-label">规格</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="spec" ng-model="createData.spec" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group last">
+                                            <label class="col-sm-4 control-label">型号</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="model" ng-model="createData.model" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">*单位</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="unit" ng-model="createData.unit" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group last">
+                                            <label class="col-sm-4 control-label">品牌</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="brand" ng-model="createData.brand" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button>
+                                    <button type="button" class="btn green" data-dismiss="modal" ng-click='createPart()'><i class="fa fa-check"/> 确定添加 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="getModels()">创建设备
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table ng-table="tableParams" class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" class="group-checkable" data-set="#sample_1.checkboxes" />
+                                        <span></span>
+                                    </label>
+                            </th>
+                            <!--<th> 配件编码 </th>-->
+                            <th> 配件名称 </th>
+                            <th> 配件类别 </th>
+                            <th> 规格 </th>
+                            <th> 型号 </th>
+                            <th> 单位 </th>
+                            <th> 品牌 </th>
+                            <th> 操作 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" ng-repeat="param in  $data">
+                            <td>
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" class="checkboxes" value="1" />
+                                        <span></span>
+                                    </label>
+                            </td>
+                            <td> {{param.name}} </td>
+                            <td><span class="label label-sm label-success"> {{param.categoryName}} </span></td>
+                            <td> {{param.spec}} </td>
+                            <td> {{param.model}} </td>
+                            <td> {{param.unit}} </td>
+                            <td> {{param.brand}} </td>
+
+                            <td>
+                                <div class="btn-group btn-group-devided" data-toggle="buttons">
+                                    <a href="#" role="button" class="btn btn-transparent green btn-outline btn-circle btn-sm" ng-click='saveModalMsg()'>入库</a>
+                                    <a href="#" role="button" class="btn btn-transparent yellow btn-outline btn-circle btn-sm" ng-click='saveModalMsg()'>出库</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+</div>
+<!-- END CONTENT BODY -->
+</div>
+<!-- END CONTENT -->

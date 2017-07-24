@@ -1,0 +1,162 @@
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> -->
+<!-- saved from url=(0106)http://demo.proudsmart.com/cas/login?service=http%3A%2F%2Fdemo.proudsmart.com%2Fapp-freeboard%2Findex.html -->
+<!-- <html>
+
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>库云物联平台-用户登录</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link type="text/css" rel="stylesheet" media="screen" href="../assets/apps/login_files/slide.css">
+    <link type="text/css" rel="stylesheet" media="screen" href="../assets/apps/login_files/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" media="screen" href="../assets/apps/login_files/login.css">
+    <meta name="viewport" content="width=0.4, initial-scale=1.0, maximum-scale=0.7, minimum-scale = 0.5, user-scalable=0">
+    <link rel="shortcut icon" href="favicon.ico" /> </head>
+</head> -->
+
+<!-- <body class="hold-transition skin-blue sidebar-mini fixed"> -->
+<body>
+  <div id="loginContainer">
+    <div id="ie6-warning">您正在使用 Internet Explorer，在本页面的显示效果可能有差异。建议您下载
+        <a href="http://w.x.baidu.com/alading/anquan_soft_down_ub/14744">Chrome</a>浏览器
+    </div>
+    <div id="header" >
+        <div class="header-layout y-row">
+            <a class="logo"><img style="width:200px" src="../assets/apps/login_files/logo.svg"></a>
+            <!-- <a class="logo"><img src="images/login/ouke.jpg"></a> -->
+            <div class="header-nav">
+                <span><a style="color: #444;" href="http://www.coderise.cn/col.jsp?id=112">App下载</a></span>
+                <span><img src="../assets/apps/login_files/code.svg"></span>
+                <!--
+					<span style="border: 1px solid #ccc;"><img src="../assets/apps/login_files/industry.png"></span>
+					-->
+            </div>
+        </div>
+    </div>
+    <div class="content" style="background-color: #ebebeb;width: 100%;height: 70%;">
+        <div class="ck-slide y-row ">
+            <div class="ck-slide-dir">
+                <ul class="ck-slide-wrapper" style="width: 2400px; margin-left: 0px;">
+                    <li id="1" name="1" style="float: left; position: relative; margin-left: 0px;">
+                        <a href="javascript:" tabindex="-1"><img src="../assets/apps/login_files/cut_1.png" alt=""></a>
+                    </li>
+                    <li id="2" name="2" style="float: left; position: relative; margin-left: 0px;">
+                        <a href="javascript:" tabindex="-1"><img src="../assets/apps/login_files/cut_2.png" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="ck-slidebox" style="margin-left: -44px;">
+                <div class="slideWrap">
+                    <ul class="dot-wrap">
+                        <li class="current"><em>1</em></li>
+                        <li class=""><em>2</em></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="login-module" ng-controller="LoginController">
+                <div class="iframe-show iframe-loaded">
+                    <div class="iframe-tit">
+                        <h1>欢迎登录</h1></div>
+                    <form id="fm1" class="fm-v clearfix" ng-submit="login()">
+                        <div class="iframe-inp" style="margin-top: 38px;">
+                            <label><img src="../assets/apps/login_files/user.svg"></label>
+
+                            <input id="username" name="userId" class="fm-text" accesskey="n" type="text" ng-model="loginForm.userId" autocomplete="false">
+
+
+                        </div>
+
+                        <div class="iframe-inp">
+                            <label><img src="../assets/apps/login_files/pwd.svg"></label>
+                        <!--
+                            <input id="password" name="password" class="fm-text"  accesskey="p" type="password" ng-model="loginForm.password" autocomplete="off">
+                        -->
+                            <input id="password" name="password" class="fm-text"  accesskey="p" type="text" ng-model="loginForm.password" autocomplete="off"  onfocus="this.type='password'">
+                        </div>
+
+                        <div class="row btn-row">
+                            <input type="hidden" name="lt" value="LT-2090-WeyvaXjqRFhBfVPAt3tlDzyBR17rtt">
+                            <input type="hidden" name="execution" value="e1s1">
+                            <input type="hidden" name="_eventId" value="submit">
+                            <div class="iframe-btn">
+                                <input class="btn-txt" id="logBtn" name="logBtn" accesskey="l" value="登　录" tabindex="4" type="submit">
+                            </div>
+                        </div>
+                        <div class="iframe-click">
+                            <!-- <label class="click-l">还没有账号？</label> -->
+                            <label class="click-r"><a href="#" ng-click="gotoRegist()">点我注册</a></label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright-100">
+        <div class="y-row copyright">
+            <p class="big">联系我们：<em style="margin-left: 15px;" class="copy-em">0512-86861827</em>（工作时间）<em style=" margin-left: 20px;" class="copy-em">18652424835</em>（7x24全天候）</p>
+            <p class="fine">地址：苏州工业园苏虹东路177号方正科技园</p>
+            <p class="fine">2017&copy 库德莱兹物联科技（苏州）有限公司.</p>
+        </div>
+    </div>
+  </div>
+  <script src="../assets/apps/login_files/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript">
+      function pic() {
+          var username = document.getElementById("username");
+          username.focus();
+      }
+
+      $(function() {
+          pic();
+          var ver = $.browser.version;
+          var test = ver.split(".");
+          if (navigator.userAgent.indexOf("Chrome") < 0) {
+              if (navigator.userAgent.indexOf('MSIE') >= 0) {
+                  if (test[0] < 11) {
+                      $("#ie6-warning").html('您正在使用 Internet Explorer，在本页面的显示效果可能有差异。建议您下载<a href="http://w.x.baidu.com/alading/anquan_soft_down_ub/14744">Chrome</a>浏览器');
+                      $("#ie6-warning").show();
+                      $("#logBtn").css("background-color", "#ccc");
+                      $("#logBtn").attr('disabled', "true");
+                      return;
+                  } else {
+                      $("#ie6-warning").html('为了更好的访问库云，建议使用Chrome浏览器');
+                      $("#ie6-warning").show();
+                  }
+              } else if (navigator.userAgent.indexOf('Trident') >= 0) {
+                  console.log("userAgent" + test[0]);
+                  if (test[0] < 11) {
+                      $("#ie6-warning").html('您正在使用 Internet Explorer，在本页面的显示效果可能有差异。建议您下载<a href="http://w.x.baidu.com/alading/anquan_soft_down_ub/14744">Chrome</a>浏览器');
+                      $("#ie6-warning").show();
+                      $("#logBtn").css("background-color", "#ccc");
+                      $("#logBtn").attr('disabled', "true");
+                      return;
+                  } else {
+                      $("#ie6-warning").html('为了更好的访问库云，建议使用Chrome浏览器');
+                      $("#ie6-warning").show();
+                  }
+              } else {
+                  $("#ie6-warning").html('为了更好的访问库云，建议使用Chrome浏览器');
+                  $("#ie6-warning").show();
+              }
+          }
+      });
+  </script>
+  <script src="../assets/apps/login_files/slide.js"></script>
+  <script>
+      $('.ck-slide').ckSlide({
+          autoPlay: true, //默认为不自动播放，需要时请以此设置
+          dir: 'x', //默认效果淡隐淡出，x为水平移动，y 为垂直滚动
+          interval: 3000 //默认间隔2000毫秒
+
+      });
+      $('.ck-slide-wrapper li').on('focus', function() {
+          console.log($(this).attr("id"));
+          //slideChange(nextSlide);
+      });
+  </script>
+
+</body>
+
+<!-- </html> -->
