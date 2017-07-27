@@ -78,7 +78,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
        }
      });
      if ((unchecked == 0) || (checked == 0)) {
-       $scope.checkboxes.checked = (checked == total);
+       $scope.checkboxes.checked = (checked == total && total>0);
      }
     //  grayed checkbox
      angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
@@ -196,7 +196,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       //       alert(err);
       //       alert('网络连接问题，请稍后再试！');
       //   });
-
+      $scope.propertylist=[];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
       $scope.tableParams = new NgTableParams({
@@ -218,6 +218,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             });
         }
       });
+      $scope.tableParams.reload();
     }
 
     function createPropertyItem(){

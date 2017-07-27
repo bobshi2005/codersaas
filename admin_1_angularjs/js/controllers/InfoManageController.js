@@ -89,6 +89,10 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $scope.showMap = function() {
       $scope.isShowmap = true;
     };
+    $scope.checkboxes = {
+      checked: false,
+      items: {}
+    };
     $scope.map = new AMap.Map('mapContainer', {
         resizeEnable: true,
         center: [116.397428, 39.90923],
@@ -201,24 +205,22 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
         }
     };
 
-    $scope.checkboxes = {
-      checked: false,
-      items: {}
-    };
-
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
     }, function(value) {
+      console.log('checkbox',value);
       angular.forEach($scope.devicelist, function(item) {
         $scope.checkboxes.items[item.number] = value;
       });
+      console.log('checkbox',$scope.checkboxes.items);
     });
 
     // watch for data checkboxes
      $scope.$watch(function() {
        return $scope.checkboxes.items;
      }, function(values) {
+       console.log('checkbox2',$scope.checkboxes.checked);
        var checked = 0, unchecked = 0,
        total = $scope.devicelist.length;
        angular.forEach($scope.checkboxes.items, function(item) {
@@ -229,7 +231,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
          }
        });
        if ((unchecked == 0) || (checked == 0)) {
-         $scope.checkboxes.checked = (checked == total);
+         $scope.checkboxes.checked = (checked == total && total>0);
        }
       //  grayed checkbox
        angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
@@ -351,9 +353,10 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       //       alert(err);
       //       alert('网络连接问题，请稍后再试！');
       //   });
-
+      $scope.devicelist=[];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
+      // console.log('hahaha',$scope.checkboxes.items);
       $scope.tableParams = new NgTableParams({
         page: 1,
         count:10
@@ -382,6 +385,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
             });
         }
       });
+      $scope.tableParams.reload();
     };
 
     function createDevice() {
