@@ -143,11 +143,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                  linechart.setOption($scope.linechartoption);　
 
             }else {
-              alert(result.data.errMsg);
+              // alert(result.data.errMsg);
             }
         }, function(err) {
-            alert(err);
-            alert('网络连接问题，请稍后再试！');
+            // alert(err);
       });
     }
     $scope.map = new AMap.Map('mapContainer', {
@@ -293,11 +292,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
             }
             // console.log('markers',$scope.markers);
           }else {
-            alert(result.errMsg);
+            // alert(result.errMsg);
           }
       }, function(err) {
-          alert(err);
-          alert('网络连接问题，请稍后再试！');
+          // alert(err);
       });
 
     userApi.getCityTree($scope.userrole)
@@ -315,11 +313,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
        			 treeObj.selectNode(devNodes[0]);
              selectNode();
           }else {
-            alert(result.data.errMsg);
+            // alert(result.data.errMsg);
           }
       }, function(err) {
-          alert(err);
-          alert('网络连接问题，请稍后再试！');
+          // alert(err);
       });
     //$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
@@ -551,11 +548,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
              }
 
         }else {
-          alert(result.data.errMsg);
+          // alert(result.data.errMsg);
         }
       },function(err){
-        alert(err);
-        alert('网络连接问题，请稍后再试！');
+        // alert(err);
       });
 
     };
@@ -571,11 +567,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                  $scope.groupname1=dataArr[1].groupName;
                  $scope.varsArr1=dataArr[1].vars;
             }else {
-              alert(result.data.errMsg);
+              // alert(result.data.errMsg);
             }
         }, function(err) {
-            alert(err);
-            alert('网络连接问题，请稍后再试！');
+            // alert(err);
       });
     };
     function getEquipmentInfo(equipid){
@@ -615,11 +610,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 setInfoWindow(data);
 
             }else {
-              alert(result.data.errMsg);
+              // alert(result.data.errMsg);
             }
         }, function(err) {
-            alert(err);
-            alert('网络连接问题，请稍后再试！');
+            // alert(err);
         });
     }
 /*
@@ -638,7 +632,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
             }
         }, function(err) {
             alert(err);
-            alert('网络连接问题，请稍后再试！');
         });
 */
     // var option = {
