@@ -84,7 +84,33 @@
         </div>
       </div>
   </div>
+  <div class="portlet light portlet-fit portlet-datatable bordered">
+      <div class="portlet-title">
+          <div class="caption">
+              <i class="icon-settings font-dark"></i>传感器设置</div>
+      </div>
+      <div class="portlet-body">
+        <div class="row">
+          <table ng-table="tableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px">
+              <tbody>
+                  <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                      <td header="'headerCheckbox.html'"><input type="checkbox" ng-model="checkboxes.items[param.equipmentModelPropertyId]" /></td>
+                      <td title="'参数名称'" class="center">{{param.name}}</td>
+                      <td title="'数据类型'" class="center">{{param.dataType}}</td>
+                      <td title="'参数单位'" class="center">{{param.unit}}</td>
+                      <td title="'读写指令'">
+                          <div class="margin-bottom-5">
+                            <a href="#" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>设置
+                            </a>
+                          </div>
 
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
 </div>
 
 </div>
