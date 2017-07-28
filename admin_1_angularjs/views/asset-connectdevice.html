@@ -25,9 +25,66 @@
 <br>
 
 <div class="row">
-    <div class="col-md-12">
-        hahah
-    </div>
+  <div class="portlet light portlet-fit portlet-datatable bordered">
+      <div class="portlet-title">
+          <div class="caption">
+              <i class="icon-settings font-dark"></i>设备接入设置</div>
+      </div>
+      <div class="portlet-body">
+        <div class="row">
+          <div class="col-md-6">
+            <form action="" class="form-horizontal form-row-seperated" name="form">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        设备名称</label>
+                    <div class="col-sm-6">
+                        <input type="text" ng-model="equipmentname" class="form-control"  ng-disabled="true" required/>
+                    </div>
+                </div>
+                <div class="form-group last">
+                    <label class="col-sm-4 control-label">链接协议</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" ng-model="protocolId"  ng-options="o.id as o.name for o in protocolLists"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        心跳包格式（长度<20）</label>
+                    <div class="col-sm-6">
+                        <input type="text" ng-model="heartData" class="form-control"  required/>
+                    </div>
+                </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <form action="" class="form-horizontal form-row-seperated">
+              <div class="form-group">
+                  <label class="col-sm-4 control-label">
+                      Ip</label>
+                  <div class="col-sm-6">
+                      <input type="text" ng-model="accessdev.ip" class="form-control"   ng-disabled="true" required/>
+                  </div>
+                  <label class="col-sm-4 control-label">
+                      端口号</label>
+                  <div class="col-sm-6">
+                      <input type="text" ng-model="accessdev.port" class="form-control"  ng-disabled="true" required/>
+                  </div>
+                  <label class="col-sm-4 control-label">
+                      接入注册包</label>
+                  <div class="col-sm-6">
+                      <input type="text" ng-model="equipmentId" class="form-control"  ng-disabled="true" required/>
+                  </div>
+              </div>
+            </form>
+          <div class="col-md-4 col-md-offset-8">
+            <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='saveConnectInfo()'><i class="fa fa-edit"></i>保存
+            </a>
+          </div>
+        </div>
+        </div>
+      </div>
+  </div>
+
 </div>
 
 </div>

@@ -275,7 +275,7 @@
                                           <div class="margin-bottom-5">
                                             <!-- <a href="#" role="button" class="btn btn-sm btn-success sbold blue " ng-click='getSelDevice(param.name,param.equipmentId,param.protocolId,param.heartData)'><i class="fa fa-plus"></i>设备接入
                                             </a> -->
-                                            <a ui-sref="main.asset.connectdevice" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>设备接入
+                                            <a ui-sref="main.asset.connectdevice({equipmentId:param.equipmentId,name:param.name,heartData: param.heartData, protocolId:param.protocolId})" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>设备接入
                                             </a>
                                             <!-- <a href="#" role="button" class="btn btn-sm btn-danger sbold red " ng-click='saveModalMsg()'><i class="fa fa-plus"></i>指令控制
                                             </a> -->

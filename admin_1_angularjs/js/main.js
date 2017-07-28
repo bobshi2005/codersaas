@@ -484,6 +484,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         })
         .state('main.asset.connectdevice', {
             url: "/connectdevice",
+            params:{"equipmentId":null, "name": null, "heartData":null, "protocolId":null},
             templateUrl: "views/asset-connectdevice.html?version=2017071304",
             controller: 'ConnectDeviceController',
             resolve: {
