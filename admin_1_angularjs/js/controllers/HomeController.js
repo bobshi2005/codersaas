@@ -9,7 +9,6 @@ angular.module('MetronicApp').controller('HomeController', ['$scope', '$rootScop
     var statusChart;
     var myOption4;
     $scope.$on('$viewContentLoaded', function() {
-      console.log('mmmm');
           if ($("#echarts_pie").length > 0) {
               statusChart = echarts.init(document.getElementById('echarts_pie'));
               statusChart.setOption({
@@ -186,7 +185,6 @@ angular.module('MetronicApp').controller('HomeController', ['$scope', '$rootScop
 
     userApi.getAlarms($scope.userrole)
         .then(function(result) {
-            console.log('getalarm:',result.data);
             if(result.data.errCode == 0) {
                  var alarms=result.data.alarms;
                  //alert(alarms.length);

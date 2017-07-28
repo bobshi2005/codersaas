@@ -88,11 +88,11 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.lineLabel=$scope.lineType+$scope.lineTab;
       starttime = (new Date(starttime)).format('yyyy-MM-dd h:m:s');
       endtime = (new Date(endtime)).format('yyyy-MM-dd h:m:s');
-      console.log(index,starttime, endtime);
+      // console.log(index,starttime, endtime);
       userApi.getHistory(tab.varid,starttime,endtime)
         .then(function(result) {
             if(result.data.errCode == 0) {
-                 console.log(result.data,result.data.data.length);
+                //  console.log(result.data,result.data.data.length);
                  var xdata=[];
                  var ydata=[];
                  for(var i=0;i<result.data.data.length;i++){
@@ -102,7 +102,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                    xdata.push(tempdata);
                    ydata.push(result.data.data[i][1].toFixed(2));
                  }
-                 console.log('xdata',xdata);
+                //  console.log('xdata',xdata);
                  $scope.linechartoption={
                      tooltip: {
                          trigger: 'axis',
@@ -176,13 +176,13 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
     var player = new EZUIPlayer('myPlayer');
     player.on('error', function(){
-      console.log('error');
+      // console.log('error');
     });
     player.on('play', function(){
-      console.log('play');
+      // console.log('play');
     });
     player.on('pause', function(){
-      console.log('pause');
+      // console.log('pause');
     });
 
     //$rootScope.settings.layout.pageSidebarClosed = false;

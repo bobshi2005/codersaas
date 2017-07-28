@@ -5,18 +5,8 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
     $rootScope.loginForm.userId = locals.get("username");
     $rootScope.loginForm.password = locals.get("password");
     $scope.login = function(){
-      /*
-        deviceApi.login('admin','123456')
-          .then(function(result) {
-            console.log('logupms',result);
-          }, function(err) {
-
-          });
-       */
-      //userApi.login($scope.loginForm.userId, $scope.loginForm.password)
         deviceApi.login($scope.loginForm.userId, $scope.loginForm.password,'false','')
           .then(function(result) {
-              console.log('logindata:',result.data);
               if(result.data.code == 1) {
                 $rootScope.isloginpage = false;
                 locals.set("islogin", 1);

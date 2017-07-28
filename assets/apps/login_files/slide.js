@@ -124,12 +124,12 @@
     });
   };
   var slideChange = function(nextSlide) {
-  
+
     if (/(iPhone|iPod|iOS|android)/i.test(navigator.userAgent)) {
-		console.log("test222");
+		// console.log("test222");
 		$(".content").css("background-color", "#3ab4fd");
     }else{
-	  console.log("test222245");
+	  // console.log("test222245");
 	  if (nextSlide == 0) {
         $(".content").css("background-color", "#eaeaea");
       } else if (nextSlide == 1) {
@@ -183,12 +183,12 @@
     $(this).find('.ck-slidebox li').removeClass('current');
     $(this).find('.ck-slidebox li').eq(show).addClass('current');
   }
- 
+
 
   $.fn.ckSlide.opts = {
     autoPlay: false, //默认不自动播放
     dir: null, //默认淡隐淡出效果
     isAnimate: false, //默认按钮可用
-    interval: 1000 //默认自动2秒切换 
+    interval: 1000 //默认自动2秒切换
   };
 })(jQuery);

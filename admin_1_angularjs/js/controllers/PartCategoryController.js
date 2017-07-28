@@ -35,7 +35,7 @@ angular.module('MetronicApp').controller('PartCategoryController', ['$scope', '$
     };
 
     $scope.createPartCategory = function(){
-        console.log("create start");
+        // console.log("create start");
         if(!$scope.createData.hasOwnProperty("name") || $scope.createData.name == ''){
             alert('必须填写类别名称');
         }else{
@@ -46,7 +46,7 @@ angular.module('MetronicApp').controller('PartCategoryController', ['$scope', '$
     function createPartCategoryImpl() {
         deviceApi.createPartCategory($scope.createData.name)
             .then(function(result){
-                console.log("result"+ result);
+                // console.log("result"+ result);
                 if(result.data.code == 1 ){
                     getPartCategoryList();
                 }

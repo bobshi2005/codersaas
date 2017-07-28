@@ -113,18 +113,13 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
         $scope.marker.setPosition([e.lnglat.getLng(),e.lnglat.getLat()]);
     });
     $scope.setdismiss = function(){
-        console.log('hahahah1');
         $('#myModal_autocomplete').modal('hide');
     };
     $scope.setAccessDevDismiss = function(){
-        console.log('myModal_accessdev hide');
         $('#myModal_accessdev').modal('hide');
     };
     $scope.saveCreateDevice = function(){
 
-      console.log('create',$scope.createData);
-      // console.log('location',$scope.longitude, $scope.latitude);
-      // console.log('modalID',$scope.selectedmodel.equipmentModelId);
       if(!$scope.createData.hasOwnProperty("name") || $scope.createData.name == ''){
         alert('必须填写设备名称');
       }else if(!$scope.createData.hasOwnProperty("number")  || $scope.createData.number == ''){
@@ -184,7 +179,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
 
     $scope.saveAccessDevice = function(){
 
-        console.log('access dev',$scope.createData);
+        // console.log('access dev',$scope.createData);
         // console.log('location',$scope.longitude, $scope.latitude);
         // console.log('modalID',$scope.selectedmodel.equipmentModelId);
         if(!$scope.accessdev.hasOwnProperty("eName") || $scope.accessdev.eName == ''){
@@ -209,18 +204,15 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
     }, function(value) {
-      console.log('checkbox',value);
       angular.forEach($scope.devicelist, function(item) {
         $scope.checkboxes.items[item.number] = value;
       });
-      console.log('checkbox',$scope.checkboxes.items);
     });
 
     // watch for data checkboxes
      $scope.$watch(function() {
        return $scope.checkboxes.items;
      }, function(values) {
-       console.log('checkbox2',$scope.checkboxes.checked);
        var checked = 0, unchecked = 0,
        total = $scope.devicelist.length;
        angular.forEach($scope.checkboxes.items, function(item) {
@@ -253,7 +245,6 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
         else
             $scope.accessdev.pId=pId;
 
-        console.log("pid="+$scope.accessdev.pId);
         $scope.accessdev.hData=hData;
 
         $scope.protocolLists=[{"id":0,"name":"请选择"},{"id":1,"name":"MB RTU"},{"id":2,"name":"MB TCP"},{"id":3,"name":"MQTT"}];

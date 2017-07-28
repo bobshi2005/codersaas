@@ -13,7 +13,6 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
             //userApi.checkAccount($scope.formData.account)
             deviceApi.checkAccount($scope.formData.account)
                 .then(function(result) {
-                    console.log('checkacount', result.data);
 
                     if (result.data.code == 1) {
                         $scope.btncheckAccount = '用户名可用';
@@ -37,11 +36,9 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
         }
     };
     $scope.submitForm = function() {
-        console.log('formData', $scope.formData);
         //userApi.CheckVerifyCode($scope.formData.phone, $scope.formData.code)
         deviceApi.createUser($scope.formData.account, $scope.formData.password,$scope.formData.name, $scope.formData.company,$scope.formData.email, $scope.formData.phone,$scope.formData.code)
             .then(function(result) {
-                console.log('createUser', result.data);
                 if (result.data.code == 1) {
                     alert("用户创建成功，请登录");
                     $state.go('login');
@@ -111,7 +108,7 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
                                 };
                             }
                         }, 1000)
-                        console.log('sendCode', result.data);
+                        // console.log('sendCode', result.data);
 
                         if (result.data.code == 200) {
                             alert('验证码已发送到 ' + $scope.formData.phone);

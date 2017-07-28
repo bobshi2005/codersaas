@@ -9,7 +9,6 @@ angular.module('MetronicApp').controller('HomeController2', ['$scope', '$rootSco
               mapChart = echarts.init(document.getElementById('echarts_world'));
               mapChart.setOption(worldoption);
               mapChart.on('click', function (params) {
-                  console.log('mapclick',params);
                   if(params.data.name =='中国'){
                     $rootScope.showMap = true;
                     $rootScope.pagetitle = '地图模式';
@@ -412,7 +411,7 @@ var convertData = function (data) {
     $scope.checkoption1 = function(){
       $scope.energyeXdata=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
       $scope.energyeYdata=[120, 159, 340, 290, 430, 540, 480, 430,390, 320, 430, 230];
-      console.log('option1',$scope.energyeYdata);
+      // console.log('option1',$scope.energyeYdata);
       lineChart1.setOption({
         xAxis: {
           data: $scope.energyeXdata
@@ -425,7 +424,7 @@ var convertData = function (data) {
     $scope.checkoption2 = function(){
       $scope.energyeXdata=['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
       $scope.energyeYdata=[7.8, 12.3, 11.9, 16.5, 20.9, 18.4, 13.8, 12.4, 11.5, 6.7, 5.5, 5.9, 9.4,3.0, 5.7,9, 18.4, 13.8,11.9, 16.5, 20.9,12.3, 11.9, 16.5, 20.9, 18.4, 12.8, 12.9, 10.5, 8.7];
-      console.log('option2',$scope.energyeYdata);
+      // console.log('option2',$scope.energyeYdata);
       lineChart1.setOption({
         xAxis: {
           data: $scope.energyeXdata
@@ -438,7 +437,7 @@ var convertData = function (data) {
     $scope.checkoption3 = function(){
       $scope.energyeXdata=['0:00','1:00','2:00','3:00','4:00','5:00','6:00','7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00',];
       $scope.energyeYdata=[0.5, 0.9, 0.6, 0.3, 0.5, 0.8, 0.34, 0.44,0.65, 0.58, 0.43, 0.26,0.5, 0.9, 0.6, 0.3, 0.59, 0.78, 0.24, 0.84,0.15, 0.38, 0.48, 0.29,];
-      console.log('option3',$scope.energyeYdata);
+      // console.log('option3',$scope.energyeYdata);
       lineChart1.setOption({
         xAxis: {
           data: $scope.energyeXdata

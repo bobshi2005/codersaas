@@ -75,7 +75,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       $scope.sensor = [];
     }
     $scope.saveSensor = function(){
-      console.log('sensor',$scope.sensor);
+      // console.log('sensor',$scope.sensor);
       deviceApi.createSensor($scope.sensor)
           .then(function(result){
               if(result.data.code ==1 ){
