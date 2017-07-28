@@ -5,9 +5,9 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.equipmentname = $stateParams.name;
     $scope.protocolId = $stateParams.protocolId;
     $scope.heartData = $stateParams.heartData;
-    $scope.propertylist=[];
+    $scope.propertylist = [];
+    $scope.sensor = {};
     $scope.equipmentModelId = $stateParams.equipmentModelId;
-    console.log('equipmentModelId',$stateParams.equipmentModelId);
 
     $scope.protocolLists =[
       {"id":1,"name":"MB RTU"},
@@ -62,7 +62,32 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
         accessDevice();
       }
     };
-    getmodelPropertylist();
+
+    $scope.showSetSeneor = function(param){
+      $scope.sensor = [];
+      $scope.sensor.equipmentModelPropertyId = param.equipmentModelPropertyId;
+      $scope.sensor.equipmentId = $scope.equipmentId;
+      $('#myModal_setSeneor').modal('show');
+    }
+
+    $scope.setSensorDismiss = function(){
+      $('#myModal_setSeneor').modal('hide');
+      $scope.sensor = [];
+    }
+    $scope.saveSensor = function(){
+      console.log('sensor',$scope.sensor);
+      deviceApi.createSensor($scope.sensor)
+          .then(function(result){
+              if(result.data.code ==1 ){
+                  alert('读写指令设置成功');
+                  $('#myModal_setSeneor').modal('hide');
+              }
+          }, function(err) {
+              alert(err);
+              $('#myModal_setSeneor').modal('hide');
+          });
+    }
+    getmodelPropertylist();//获取参数列表
 
     function accessDevice() {
         var params={};
@@ -77,7 +102,6 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                 }
             }, function(err) {
                 alert(err);
-                alert('网络连接问题，请稍后再试！');
             });
     };
 
