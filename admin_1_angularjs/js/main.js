@@ -482,6 +482,21 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]
             }
         })
+        .state('main.asset.connectdevice', {
+            url: "/connectdevice",
+            templateUrl: "views/asset-connectdevice.html?version=2017071304",
+            controller: 'ConnectDeviceController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'connectdeviceApp',
+                        files: [
+                          'js/controllers/ConnectDeviceController.js?version=2017071304 '
+                        ]
+                    }])
+                }]
+            }
+        })
         .state('main.asset.mtcmanage', {
             url: "/mtcmanage",
             templateUrl: "views/asset-mtcmanage.html?version=2017071304",
