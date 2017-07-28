@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '$rootScope', 'deviceApi','$stateParams','NgTableParams','$element',function($scope, $rootScope, deviceApi, $stateParams,NgTableParams,$element) {
+angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '$rootScope', 'deviceApi','$stateParams','NgTableParams','$element','$state',function($scope, $rootScope, deviceApi, $stateParams,NgTableParams,$element,$state) {
     $rootScope.menueName = 'sidebar-asset';
     $scope.menueName = $rootScope.menueName;
     $scope.equipmentId = $stateParams.equipmentId;
@@ -86,6 +86,10 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
               alert(err);
               $('#myModal_setSeneor').modal('hide');
           });
+    }
+
+    $scope.goback = function(){
+      $state.go('main.asset.infomanage');
     }
     getmodelPropertylist();//获取参数列表
 
