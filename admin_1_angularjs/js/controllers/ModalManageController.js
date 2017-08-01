@@ -168,6 +168,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.modellist=[];
       deviceApi.getdeviceModellist('asc', 0, 100)
         .then(function(result) {
+          console.log('s1',result);
             if(result.data.total > 0) {
                  $scope.modellist=result.data.rows;
                  initSlick();
@@ -175,8 +176,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
               $scope.modellist=[];
             }
         }, function(err) {
-            alert(err);
-            alert('网络连接问题，请稍后再试！');
+            console.log('s2',err);
+            // alert(err);
+            // alert('网络连接问题，请稍后再试！');
         });
     }
 

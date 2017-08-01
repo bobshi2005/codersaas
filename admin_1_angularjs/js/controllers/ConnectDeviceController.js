@@ -15,6 +15,13 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       {"id":3,"name":"MQTT"}
     ];
 
+    $scope.codeLists =[
+      {"id":1,"name":"01 读写"},
+      {"id":2,"name":"02 只读"},
+      {"id":3,"name":"03 读写"},
+      {"id":4,"name":"04 只读"}
+    ];
+
     $scope.checkboxes = {
       checked: false,
       items: {}
@@ -64,15 +71,34 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     };
 
     $scope.showSetSeneor = function(param){
-      $scope.sensor = [];
+      $scope.sensor = {};
       $scope.sensor.equipmentModelPropertyId = param.equipmentModelPropertyId;
       $scope.sensor.equipmentId = $scope.equipmentId;
-      $('#myModal_setSeneor').modal('show');
+      deviceApi.getSensor($scope.equipmentId, $scope.sensor.equipmentModelPropertyId)
+          .then(function(result){
+
+              if(result.data.sensor && result.data.sensor!=null){
+                let sensor = result.data.sensor;
+                $scope.sensor.salveId = sensor.salveId;
+                $scope.sensor.sensorId = sensor.sensorId;
+                $scope.sensor.period = sensor.period;
+                $scope.sensor.functionCode = sensor.functionCode;
+                $scope.sensor.address = sensor.address;
+                $scope.sensor.quantity = sensor.quantity;
+              }
+              $('#myModal_setSeneor').modal('show');
+          }, function(err) {
+              // alert(err);
+              if(err.status == 404){
+                $('#myModal_setSeneor').modal('show');
+              }
+          });
+      // $('#myModal_setSeneor').modal('show');
     }
 
     $scope.setSensorDismiss = function(){
       $('#myModal_setSeneor').modal('hide');
-      $scope.sensor = [];
+      $scope.sensor = {};
     }
     $scope.saveSensor = function(){
       // console.log('sensor',$scope.sensor);
@@ -87,6 +113,17 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
               $('#myModal_setSeneor').modal('hide');
           });
     }
+
+    // function getSensor(){
+    //   deviceApi.getSensor($scope.equipmentId, $scope.protocolId)
+    //       .then(function(result){
+    //           if(result.data.code ==1 ){
+    //             console.log('get success',result);
+    //           }
+    //       }, function(err) {
+    //           alert(err);
+    //       });
+    // }
 
     $scope.goback = function(){
       $state.go('main.asset.infomanage');
