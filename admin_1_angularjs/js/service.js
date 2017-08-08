@@ -817,7 +817,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
             url: deviceUrl+ '/manage/location/list',
   		      headers: {"Accept":"application/json"},
             withCredentials: true,
-            params: {order:'asc', offset:offset, limit:limit}
+            params: {warehouseId: warehouseId,order:'asc', offset:offset, limit:limit}
         }).then(function(response) {
             d.resolve(response);
         }).catch(function(err) {

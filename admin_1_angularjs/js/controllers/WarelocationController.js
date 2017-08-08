@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('WarelocationController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element','$stateParams', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element,$stateParams) {
+angular.module('MetronicApp').controller('WarelocationController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element','$stateParams','$state', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element,$stateParams,$state) {
     $rootScope.menueName = 'sidebar-asset';
     $scope.menueName = $rootScope.menueName;
     $scope.warehouseId = $stateParams.warehouseId;
@@ -114,6 +114,10 @@ angular.module('MetronicApp').controller('WarelocationController', ['$scope', '$
       getWarelocationlist();
     });
 
+    $scope.goback = function(){
+      $state.go('main.asset.warehousemanage');
+    };
+
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
     }, function(value) {
@@ -152,7 +156,7 @@ angular.module('MetronicApp').controller('WarelocationController', ['$scope', '$
       }, {
         counts:[2,10,50],
         getData: function(params) {
-          return deviceApi.getWarelocationlist('asc', (params.page()-1)*params.count(), params.count())
+          return deviceApi.getWarelocationlistById($scope.warehouseId,'asc', (params.page()-1)*params.count(), params.count())
             .then(function(result) {
                 if(result.data.total > 0) {
                      $scope.warelocationlist=result.data.rows;
