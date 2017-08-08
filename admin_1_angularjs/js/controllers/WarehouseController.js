@@ -15,11 +15,36 @@ angular.module('MetronicApp').controller('WarehouseController', ['$scope', '$roo
       $scope.currentData = [];
       $('#myModal_addwarehouse').modal();
     };
+
+    $scope.updatewarehouse = function(){
+      $scope.currentData = [];
+      var checked = 0, index = 0;
+      angular.forEach($scope.checkboxes.items, function(value,key) {
+        if(value){
+          index = key;
+          checked += 1;
+        }
+      });
+      if(checked == 0){
+        $scope.message = '请选择一个仓库';
+        $('#myModal_alert').modal();
+      }else if(checked > 1){
+        $scope.message = '只能选择一个仓库进行编辑';
+        $('#myModal_alert').modal();
+      }else{
+        for(var i=0; i< $scope.warehouselist.length; i++){
+          if($scope.warehouselist[i].warehouseId == index){
+            $scope.currentData = $scope.warehouselist[i];
+            break;
+          }
+        }
+        $('#myModal_updatewarehouse').modal();
+      }
+    };
     $scope.deletewarehouse = function(){
       var checked = 0;
       $scope.deletelist = [];
       angular.forEach($scope.checkboxes.items, function(value,key) {
-        console.log('item',key,value);
         if(value){
           checked += 1;
           let tempdata={};
@@ -32,7 +57,7 @@ angular.module('MetronicApp').controller('WarehouseController', ['$scope', '$roo
           }
         }
       });
-      if(checked = 0){
+      if(checked == 0){
         $scope.message = '请选择一个仓库';
         $('#myModal_alert').modal();
       }else{
@@ -56,6 +81,16 @@ angular.module('MetronicApp').controller('WarehouseController', ['$scope', '$roo
           Addwarehouse();
       }
     };
+    $scope.saveUpdateWarehouse = function(){
+      if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
+        alert('必须填写仓库名称');
+      }else if(!$scope.currentData.hasOwnProperty("comments")  || $scope.currentData.comments == ''){
+        alert('必须填写仓库备注');
+      }else{
+          $('#myModal_updatewarehouse').modal('hide');
+          Updatewarehouse();
+      }
+    };
     $scope.saveDeleteWarehouse = function(){
       $('#myModal_deletewarehouse').modal('hide');
       DeleteWarehouse();
@@ -66,9 +101,13 @@ angular.module('MetronicApp').controller('WarehouseController', ['$scope', '$roo
     $scope.disalert = function() {
       $('#myModal_alert').modal('hide');
     };
+    $scope.updatedismiss = function() {
+      $('#myModal_updatewarehouse').modal('hide');
+    };
     $scope.deletedismiss = function() {
       $('#myModal_deletewarehouse').modal('hide');
     };
+
 
     $scope.$on('$viewContentLoaded', function() {
       getWarehouselist();
@@ -142,6 +181,19 @@ angular.module('MetronicApp').controller('WarehouseController', ['$scope', '$roo
       .then(function(result){
           if(result.data.code ==1 ){
             $scope.message = '仓库创建成功！';
+            $('#myModal_alert').modal();
+            getWarehouselist();
+          }
+      }, function(err) {
+          alert(err);
+      });
+    }
+
+    function Updatewarehouse(){
+      deviceApi.updateWarehouse($scope.currentData.warehouseId,$scope.currentData.name, $scope.currentData.comments)
+      .then(function(result){
+          if(result.data.code ==1 ){
+            $scope.message = '仓库编辑成功！';
             $('#myModal_alert').modal();
             getWarehouselist();
           }

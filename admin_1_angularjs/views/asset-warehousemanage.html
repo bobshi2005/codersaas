@@ -59,6 +59,40 @@
                           </div>
                       </div>
                   </div>
+                  <div id="myModal_updatewarehouse" class="modal fade" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                  <h4 class="modal-title">编辑仓库</h4>
+                              </div>
+                              <div class="modal-body form skin skin-line">
+                                  <form action="" class="form-horizontal form-row-seperated" name="form">
+                                      <div class="form-group">
+                                          <label class="col-sm-4 control-label">
+                                              仓库名称</label>
+                                          <div class="col-sm-6">
+                                              <input type="text" ng-model="currentData.name" class="form-control" required/>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-sm-4 control-label">
+                                              备注</label>
+                                          <div class="col-sm-6">
+                                              <input type="text" ng-model="currentData.comments" class="form-control" required/>
+                                          </div>
+                                      </div>
+
+                                  </form>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn grey-salsa btn-outline " ng-click='updatedismiss()' >取消操作</button>
+                                  <button type="button" class="btn green"  ng-click='saveUpdateWarehouse()'>
+                                      <i class="fa fa-check"></i> 确定修改 </button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
                   <div id="myModal_deletewarehouse" class="modal fade" role="dialog" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
@@ -110,7 +144,7 @@
                               <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="addwarehouse()">添加
                                   <i class="fa fa-plus"></i>
                               </a>
-                              <a href="#" role="button" class="btn  sbold blue " ng-click='saveModalMsg()'>编辑<i class="fa fa-edit"></i>
+                              <a href="#" role="button" class="btn  sbold blue " data-toggle="modal" ng-click='updatewarehouse()'>编辑<i class="fa fa-edit"></i>
                               </a>
                               <a href="#" role="button" class="btn sbold red " data-toggle="modal" ng-click='deletewarehouse()' >删除<i class="fa fa-times"></i>
                               </a>
