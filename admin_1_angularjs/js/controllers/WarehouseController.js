@@ -2,12 +2,33 @@ angular.module('MetronicApp').controller('WarehouseController', ['$scope', '$roo
     $rootScope.menueName = 'sidebar-asset';
     $scope.menueName = $rootScope.menueName;
 
-    $scope.warehouselist=[];
-
+    $scope.warehouselist = [];//仓库列表
+    $scope.currentData = [];//当前仓库数据
+    $scope.message = ''; // alert 提示信息
     $scope.checkboxes = {
       checked: false,
       items: {}
     };
+    $scope.addwarehouse = function(){
+      $scope.currentData = [];
+      $('#myModal_addwarehouse').modal();
+    };
+    $scope.saveCreateWarehouse = function(){
+      if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
+        alert('必须填写仓库名称');
+      }else if(!$scope.currentData.hasOwnProperty("comments")  || $scope.currentData.comments == ''){
+        alert('必须填写仓库备注');
+      }else{
+          $('#myModal_addwarehouse').modal('hide');
+          Addwarehouse();
+      }
+    };
+    $scope.addismiss = function() {
+      $('#myModal_addwarehouse').modal('hide');
+    };
+    $scope.disalert = function() {
+      $('#myModal_alert').modal('hide');
+    }
 
     $scope.$on('$viewContentLoaded', function() {
       getWarehouselist();
@@ -42,6 +63,8 @@ angular.module('MetronicApp').controller('WarehouseController', ['$scope', '$roo
        angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
      }, true);
 
+
+
     function getWarehouselist() {
       $scope.warehouselist=[];
       $scope.checkboxes.checked = false;
@@ -72,6 +95,19 @@ angular.module('MetronicApp').controller('WarehouseController', ['$scope', '$roo
         }
       });
       $scope.tableParams.reload();
+    }
+
+    function Addwarehouse(){
+      deviceApi.createWarehouse($scope.currentData.name, $scope.currentData.comments)
+      .then(function(result){
+          if(result.data.code ==1 ){
+            $scope.message = '仓库创建成功！';
+            $('#myModal_alert').modal();
+            getWarehouselist();
+          }
+      }, function(err) {
+          alert(err);
+      });
     }
 
     Date.prototype.format = function(format) {

@@ -507,6 +507,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     return $ocLazyLoad.load([{
                         name: 'WarehouseApp',
                         files: [
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                           'js/controllers/WarehouseController.js?version=2017071304 '
                         ]
                     }])
