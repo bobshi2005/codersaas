@@ -17,6 +17,32 @@ angular.module('MetronicApp').controller('WarelocationController', ['$scope', '$
       $scope.currentData = [];
       $('#myModal_addwarelocation').modal();
     };
+    $scope.updatewarelocation = function(){
+      $scope.currentData = [];
+      var checked = 0, index = 0;
+      angular.forEach($scope.checkboxes.items, function(value,key) {
+        if(value){
+          index = key;
+          checked += 1;
+        }
+      });
+      if(checked == 0){
+        $scope.message = '请选择一个仓位';
+        $('#myModal_alert').modal();
+      }else if(checked > 1){
+        $scope.message = '只能选择一个仓位进行编辑';
+        $('#myModal_alert').modal();
+      }else{
+        for(var i=0; i< $scope.warelocationlist.length; i++){
+          if($scope.warelocationlist[i].locationId == index){
+            $scope.currentData = $scope.warelocationlist[i];
+            console.log('curent',$scope.currentData );
+            break;
+          }
+        }
+        $('#myModal_updatewarelocation').modal();
+      }
+    };
     $scope.saveCreateWarelocation = function(){
       if(!$scope.currentData.hasOwnProperty("number") || $scope.currentData.number == ''){
         alert('必须填写仓位号码');
@@ -27,6 +53,16 @@ angular.module('MetronicApp').controller('WarelocationController', ['$scope', '$
           Addwarelocation();
       }
     };
+    $scope.saveUpdateWarehouse = function(){
+      if(!$scope.currentData.hasOwnProperty("number") || $scope.currentData.number == ''){
+        alert('必须填写仓位号码');
+      }else if(!$scope.currentData.hasOwnProperty("comments")  || $scope.currentData.comments == ''){
+        alert('必须填写仓位备注');
+      }else{
+          $('#myModal_updatewarelocation').modal('hide');
+          Updatewarelocation();
+      }
+    }
 
     $scope.addismiss = function() {
       $('#myModal_addwarelocation').modal('hide');
@@ -34,9 +70,9 @@ angular.module('MetronicApp').controller('WarelocationController', ['$scope', '$
     $scope.disalert = function() {
       $('#myModal_alert').modal('hide');
     };
-    // $scope.updatedismiss = function() {
-    //   $('#myModal_updatewarelocation').modal('hide');
-    // };
+    $scope.updatedismiss = function() {
+      $('#myModal_updatewarelocation').modal('hide');
+    };
     // $scope.deletedismiss = function() {
     //   $('#myModal_deletewarelocation').modal('hide');
     // };
@@ -112,6 +148,19 @@ angular.module('MetronicApp').controller('WarelocationController', ['$scope', '$
             $scope.message = '仓位创建成功！';
             $('#myModal_alert').modal();
             getWarelocationlist();
+          }
+      }, function(err) {
+          alert(err);
+      });
+    }
+
+    function Updatewarelocation(){
+      deviceApi.updateWarehouse($scope.currentData.locationId,$scope.currentData.number, $scope.currentData.comments)
+      .then(function(result){
+          if(result.data.code ==1 ){
+            $scope.message = '仓位编辑成功！';
+            $('#myModal_alert').modal();
+            getWarehouselist();
           }
       }, function(err) {
           alert(err);
