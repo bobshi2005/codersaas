@@ -96,6 +96,32 @@
                             </div>
                         </div>
                     </div>
+                    <div id="myModal_deletewarelocation" class="modal fade" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">删除仓位</h4>
+                                </div>
+                                <div class="modal-body form skin skin-line">
+                                    <form action="" class="form-horizontal form-row-seperated" name="form">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">
+                                                您确定要删除仓位</label>
+                                            <label class="col-sm-6 control-label">
+                                                {{deletestr}}吗?</label>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn grey-salsa btn-outline " ng-click='deletedismiss()' >取消操作</button>
+                                    <button type="button" class="btn green"  ng-click='saveDeleteWarelocation()'>
+                                        <i class="fa fa-check"></i> 确定删除 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="myModal_alert" class="modal fade" role="dialog" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
