@@ -59,6 +59,32 @@
                           </div>
                       </div>
                   </div>
+                  <div id="myModal_deletewarehouse" class="modal fade" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                  <h4 class="modal-title">删除仓库</h4>
+                              </div>
+                              <div class="modal-body form skin skin-line">
+                                  <form action="" class="form-horizontal form-row-seperated" name="form">
+                                      <div class="form-group">
+                                          <label class="col-sm-4 control-label">
+                                              您确定要删除仓库</label>
+                                          <label class="col-sm-6 control-label">
+                                              {{deletestr}}吗?</label>
+                                      </div>
+
+                                  </form>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn grey-salsa btn-outline " ng-click='deletedismiss()' >取消操作</button>
+                                  <button type="button" class="btn green"  ng-click='saveDeleteWarehouse()'>
+                                      <i class="fa fa-check"></i> 确定删除 </button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
                   <div id="myModal_alert" class="modal fade" role="dialog" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
@@ -86,7 +112,7 @@
                               </a>
                               <a href="#" role="button" class="btn  sbold blue " ng-click='saveModalMsg()'>编辑<i class="fa fa-edit"></i>
                               </a>
-                              <a href="#" role="button" class="btn sbold red " ng-click='saveModalMsg()' >删除<i class="fa fa-times"></i>
+                              <a href="#" role="button" class="btn sbold red " data-toggle="modal" ng-click='deletewarehouse()' >删除<i class="fa fa-times"></i>
                               </a>
                           </div>
                       </div>
