@@ -515,6 +515,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]
             }
         })
+        .state('main.asset.warelocation', {
+            url: "/warelocation",
+            params:{"warehouseId":null, "name": null},
+            templateUrl: "views/asset-warelocation.html?version=2017071304",
+            controller: 'WarelocationController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'WarelocationApp',
+                        files: [
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                          'js/controllers/WarelocationController.js?version=2017071304 '
+                        ]
+                    }])
+                }]
+            }
+        })
         .state('main.asset.stocksmanage', {
             url: "/stocksmanage",
             templateUrl: "views/asset-stocksmanage.html?version=2017071304",
