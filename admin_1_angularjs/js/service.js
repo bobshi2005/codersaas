@@ -731,6 +731,85 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
+    //仓库管理
+    service.getWarehouselist = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/warehouse/list',
+  		      headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+    service.createWarehouse = function(name, comments) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/warehouse/create',
+  		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:{name:name,comments:comments},
+            withCredentials: true,
+            transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.updateWarehouse = function(id, name, comments) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/warehouse/update/'+id,
+  		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:{name:name, comments:comments},
+            withCredentials: true,
+            transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.deletedWarehouse = function(id) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/warehouse/delete/'+id,
+  		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
     //配件类别
     service.createPartCategory = function(name) {
         var d = $q.defer();
