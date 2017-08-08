@@ -498,6 +498,36 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]
             }
         })
+        .state('main.asset.warehousemanage', {
+            url: "/warehousemanage",
+            templateUrl: "views/asset-warehousemanage.html?version=2017071304",
+            controller: 'WarehouseController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'WarehouseApp',
+                        files: [
+                          'js/controllers/WarehouseController.js?version=2017071304 '
+                        ]
+                    }])
+                }]
+            }
+        })
+        .state('main.asset.stocksmanage', {
+            url: "/stocksmanage",
+            templateUrl: "views/asset-stocksmanage.html?version=2017071304",
+            controller: 'StocksmanageController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'stocksmanageApp',
+                        files: [
+                          'js/controllers/StocksmanageController.js?version=2017071304 '
+                        ]
+                    }])
+                }]
+            }
+        })
         .state('main.asset.mtcmanage', {
             url: "/mtcmanage",
             templateUrl: "views/asset-mtcmanage.html?version=2017071304",

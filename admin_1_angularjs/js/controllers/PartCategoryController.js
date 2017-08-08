@@ -1,6 +1,7 @@
 angular.module('MetronicApp').controller('PartCategoryController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi) {
 
     $rootScope.menueName = 'sidebar-asset';
+    $scope.menueName = $rootScope.menueName;
     $scope.loadModels = false;
     $scope.partCategoryList = [];
     $scope.createData = {};
