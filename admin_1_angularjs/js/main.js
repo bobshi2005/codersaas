@@ -580,9 +580,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]
             }
         })
-        .state('main.asset.part', {
-            url: "/part",
-            templateUrl: "views/asset-part.html?version=2017071304",
+        .state('main.asset.partmanage', {
+            url: "/partmanage",
+            templateUrl: "views/asset-partmanage.html?version=2017071304",
             controller: 'PartController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
