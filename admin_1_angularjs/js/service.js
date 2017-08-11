@@ -452,146 +452,107 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
 
 
   //设备模型管理
-  service.createdeviceModel = function(userId, name, number) {
-      var d = $q.defer();
-      $http({
-          method: 'post',
-          url: deviceUrl+ '/manage/equipment/model/create',
-		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-          data:{userId:userId,name:name,number:number},
-          withCredentials: true,
-          transformRequest: function(obj) {
-            var str = [];
-            for(var p in obj){
-              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    service.createdeviceModel = function(userId, name, number) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/equipment/model/create',
+  		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:{userId:userId,name:name,number:number},
+            withCredentials: true,
+            transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
             }
-            return str.join("&");
-          }
 
-      }).then(function(response) {
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
-  service.updatedeviceModel = function(id, userid, name, number) {
-      var d = $q.defer();
-      $http({
-          method: 'post',
-          url: deviceUrl+ '/manage/equipment/model/update/'+id,
-		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-          data:{userid: userid, name:name, number:number},
-          withCredentials: true,
-          transformRequest: function(obj) {
-            var str = [];
-            for(var p in obj){
-              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    service.updatedeviceModel = function(id, userid, name, number) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/equipment/model/update/'+id,
+  		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:{userid: userid, name:name, number:number},
+            withCredentials: true,
+            transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
             }
-            return str.join("&");
-          }
 
-      }).then(function(response) {
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
-  service.deletedeviceModel = function(id) {
-      var d = $q.defer();
-      $http({
-          method: 'get',
-          url: deviceUrl+ '/manage/equipment/model/delete/'+id,
-		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-          withCredentials: true,
-      }).then(function(response) {
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
+    service.deletedeviceModel = function(id) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/model/delete/'+id,
+  		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
-  service.getdeviceModellist = function(order, offset, limit) {
-      var d = $q.defer();
-      $http({
-          method: 'get',
-          url: deviceUrl+ '/manage/equipment/model/list',
-		      headers: {"Accept":"application/json"},
-          withCredentials: true,
-          params: {order:'asc', offset:offset, limit:limit}
-      }).then(function(response) {
-          sharedataApi.setModeldata(response.data.rows);
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
+    service.getdeviceModellist = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/model/list',
+  		      headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            sharedataApi.setModeldata(response.data.rows);
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
-  service.getmodelPropertylist = function(equipmentid,order, offset, limit) {
-      var d = $q.defer();
-      $http({
-          method: 'get',
-          url: deviceUrl+ '/manage/equipment/model/property/list/'+equipmentid,
-		      headers: {"Accept":"application/json"},
-          withCredentials: true,
-          params: {order:'asc', offset:offset, limit:limit}
-      }).then(function(response) {
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
+    service.getmodelPropertylist = function(equipmentid,order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/model/property/list/'+equipmentid,
+  		      headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
-  service.createPropertyItem = function(params) {
-    var d = $q.defer();
-    $http({
-        method: 'post',
-        url: deviceUrl+ '/manage/equipment/model/property/create',
-        headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-        data: params,
-        withCredentials: true,
-        transformRequest: function(obj) {
-          var str = [];
-          for(var p in obj){
-            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-          }
-          return str.join("&");
-        }
-
-    }).then(function(response) {
-        d.resolve(response);
-    }).catch(function(err) {
-        d.reject(err);
-    });
-    return d.promise;
-  }
-
-  service.deletePropertyItem = function(id) {
-      var d = $q.defer();
-      $http({
-          method: 'get',
-          url: deviceUrl+ '/manage/equipment/model/property/delete/'+id,
-		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-          withCredentials: true,
-      }).then(function(response) {
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
-
-  service.updatePropertyItem = function(id, params) {
+    service.createPropertyItem = function(params) {
       var d = $q.defer();
       $http({
           method: 'post',
-          url: deviceUrl+ '/manage/equipment/model/property/update/'+ id,
+          url: deviceUrl+ '/manage/equipment/model/property/create',
           headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
           data: params,
           withCredentials: true,
@@ -609,64 +570,103 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           d.reject(err);
       });
       return d.promise;
-  };
+    }
 
-  service.getDevicelist = function(order, offset, limit) {
-      var d = $q.defer();
-      $http({
-          method: 'get',
-          url: deviceUrl+ '/manage/equipment/list',
-		      headers: {"Accept":"application/json"},
-          withCredentials: true,
-          params: {order:'asc', offset:offset, limit:limit}
-      }).then(function(response) {
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
+    service.deletePropertyItem = function(id) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/model/property/delete/'+id,
+  		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
-  service.createDevice = function(params) {
-      var d = $q.defer();
-      $http({
-          method: 'post',
-          url: deviceUrl+ '/manage/equipment/create',
-          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-          data:params,
-          withCredentials: true,
-          transformRequest: function(obj) {
-            var str = [];
-            for(var p in obj){
-              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    service.updatePropertyItem = function(id, params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/equipment/model/property/update/'+ id,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data: params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
             }
-            return str.join("&");
-          }
 
-      }).then(function(response) {
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
-  service.deleteDevice = function(id) {
-      var d = $q.defer();
-      $http({
-          method: 'get',
-          url: deviceUrl+ '/manage/equipment/delete/'+id,
-		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-          withCredentials: true,
-      }).then(function(response) {
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
+    service.getDevicelist = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/list',
+  		      headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
-  //设备接入
+    service.createDevice = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/equipment/create',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.deleteDevice = function(id) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/delete/'+id,
+  		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    //设备接入
 
     service.accessDevice = function(params) {
         var d = $q.defer();
@@ -747,6 +747,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
+
     service.createWarehouse = function(name, comments) {
         var d = $q.defer();
         $http({
@@ -905,6 +906,85 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
+    //库存管理
+    service.getInventorylist = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/inventory/list',
+  		      headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.createInventory = function(params) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/inventory/create',
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          data:params,
+          withCredentials: true,
+          transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
+          }
+
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+    };
+
+    service.updateInventory = function(inventoryId, params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/inventory/update/'+inventoryId,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.deleteInventory = function(ids) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/inventory/delete/'+ids,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
     //配件类别
     service.createPartCategory = function(name) {
         var d = $q.defer();
@@ -986,7 +1066,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
-
     //配件
     service.createPart = function(params) {
         var d = $q.defer();
@@ -1011,8 +1090,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-
-
 
     service.updatePart = function(id, params) {
         var d = $q.defer();
@@ -1069,7 +1146,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-
 
   return service;
 }]);

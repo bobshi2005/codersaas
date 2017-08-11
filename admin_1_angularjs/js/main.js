@@ -542,6 +542,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     return $ocLazyLoad.load([{
                         name: 'stocksmanageApp',
                         files: [
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                           'js/controllers/StocksmanageController.js?version=2017071304 '
                         ]
                     }])
