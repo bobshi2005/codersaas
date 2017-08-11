@@ -3,7 +3,6 @@ angular.module('MetronicApp').controller('PartController', ['$scope', '$rootScop
     $scope.menueName = $rootScope.menueName;
 
     $scope.partCategoryList = [];
-    $scope.partCategory = {};//当前配件类
     $scope.partList = [];
     $scope.currentData = {};
     $scope.message = ''; // alert 提示信息
@@ -36,7 +35,7 @@ angular.module('MetronicApp').controller('PartController', ['$scope', '$rootScop
         for(var i=0; i< $scope.partList.length; i++){
           if($scope.partList[i].partId == index){
             $scope.currentData = $scope.partList[i];
-            $scope.partCategory = getCategoryById($scope.currentData.categoryId);
+            $scope.currentData.partCategory = getCategoryById($scope.currentData.categoryId);
             break;
           }
         }
@@ -91,6 +90,8 @@ angular.module('MetronicApp').controller('PartController', ['$scope', '$rootScop
     $scope.saveCreatePart = function(){
         if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
             alert('必须填写配件名称');
+        }else if(!$scope.currentData.hasOwnProperty("partCategory")  || $scope.currentData.partCategory == ''){
+            alert('必须填写规格');
         }else if(!$scope.currentData.hasOwnProperty("spec")  || $scope.currentData.spec == ''){
             alert('必须填写规格');
         }else if(!$scope.currentData.hasOwnProperty("model")  || $scope.currentData.model == ''){
@@ -107,6 +108,8 @@ angular.module('MetronicApp').controller('PartController', ['$scope', '$rootScop
     $scope.saveUpdatePart = function(){
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
           alert('必须填写配件名称');
+      }else if(!$scope.currentData.hasOwnProperty("partCategory")  || $scope.currentData.partCategory == ''){
+          alert('必须填写规格');
       }else if(!$scope.currentData.hasOwnProperty("spec")  || $scope.currentData.spec == ''){
           alert('必须填写规格');
       }else if(!$scope.currentData.hasOwnProperty("model")  || $scope.currentData.model == ''){
@@ -127,7 +130,6 @@ angular.module('MetronicApp').controller('PartController', ['$scope', '$rootScop
     };
 
     $scope.$on('$viewContentLoaded', function() {
-      $scope.partCategoryList = sharedataApi.getpartCategorydata;
       getPartCategoryList();
       getPartList();
     });
@@ -163,7 +165,6 @@ angular.module('MetronicApp').controller('PartController', ['$scope', '$rootScop
         deviceApi.getPartCategoryList('asc',0,100)
             .then(function(result) {
                 if(result.data.total > 0) {
-                    $scope.partCategory=result.data.rows[0];
                     $scope.partCategoryList=result.data.rows;
                 }else {
                     $scope.partCategoryList=[];
@@ -221,12 +222,14 @@ angular.module('MetronicApp').controller('PartController', ['$scope', '$rootScop
       params.model = $scope.currentData.model;
       params.unit = $scope.currentData.unit;
       params.brand = $scope.currentData.brand;
-      params.categoryId = $scope.partCategory.categoryId;
+      params.categoryId = $scope.currentData.partCategory.categoryId;
 
       deviceApi.createPart(params)
           .then(function(result){
               if(result.data.code == 1 ){
-                  getPartList();
+                $scope.message = '新建配件成功！';
+                $('#myModal_alert').modal();
+                getPartList();
               }else{
                 $scope.message = result.data.message;
                 $('#myModal_alert').modal();
@@ -243,7 +246,7 @@ angular.module('MetronicApp').controller('PartController', ['$scope', '$rootScop
       params.model = $scope.currentData.model;
       params.unit = $scope.currentData.unit;
       params.brand = $scope.currentData.brand;
-      params.categoryId = $scope.partCategory.categoryId;
+      params.categoryId = $scope.currentData.partCategory.categoryId;
 
       deviceApi.updatePart($scope.currentData.partId,params)
           .then(function(result){
