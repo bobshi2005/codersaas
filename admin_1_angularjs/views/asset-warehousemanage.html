@@ -17,168 +17,163 @@
 <br class="">
 <div class="row">
     <div class="col-md-12">
-      <form class="form-horizontal form-row-seperated" action="#">
-          <div class="portlet light portlet-fit portlet-datatable bordered">
-              <div class="portlet-title">
-                  <div class="caption">
-                      <i class="icon-settings font-dark"></i>仓库管理</div>
-
-              </div>
-              <div class="portlet-body">
-                  <div id="myModal_addwarehouse" class="modal fade" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                  <h4 class="modal-title">创建仓库</h4>
-                              </div>
-                              <div class="modal-body form skin skin-line">
-                                  <form action="" class="form-horizontal form-row-seperated" name="form">
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              仓库名称</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="currentData.name" class="form-control" required/>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              备注</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="currentData.comments" class="form-control" required/>
-                                          </div>
-                                      </div>
-
-                                  </form>
-                              </div>
-                              <div class="modal-footer">
-                                  <button type="button" class="btn grey-salsa btn-outline " ng-click='addismiss()' >取消操作</button>
-                                  <button type="button" class="btn green"  ng-click='saveCreateWarehouse()'>
-                                      <i class="fa fa-check"></i> 确定添加 </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div id="myModal_updatewarehouse" class="modal fade" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                  <h4 class="modal-title">编辑仓库</h4>
-                              </div>
-                              <div class="modal-body form skin skin-line">
-                                  <form action="" class="form-horizontal form-row-seperated" name="form">
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              仓库名称</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="currentData.name" class="form-control" required/>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              备注</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="currentData.comments" class="form-control" required/>
-                                          </div>
-                                      </div>
-
-                                  </form>
-                              </div>
-                              <div class="modal-footer">
-                                  <button type="button" class="btn grey-salsa btn-outline " ng-click='updatedismiss()' >取消操作</button>
-                                  <button type="button" class="btn green"  ng-click='saveUpdateWarehouse()'>
-                                      <i class="fa fa-check"></i> 确定修改 </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div id="myModal_deletewarehouse" class="modal fade" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                  <h4 class="modal-title">删除仓库</h4>
-                              </div>
-                              <div class="modal-body form skin skin-line">
-                                  <form action="" class="form-horizontal form-row-seperated" name="form">
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              您确定要删除仓库</label>
-                                          <label class="col-sm-6 control-label">
-                                              {{deletestr}}吗?</label>
-                                      </div>
-
-                                  </form>
-                              </div>
-                              <div class="modal-footer">
-                                  <button type="button" class="btn grey-salsa btn-outline " ng-click='deletedismiss()' >取消操作</button>
-                                  <button type="button" class="btn green"  ng-click='saveDeleteWarehouse()'>
-                                      <i class="fa fa-check"></i> 确定删除 </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div id="myModal_alert" class="modal fade" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                  <h4 class="modal-title">提示</h4>
-                              </div>
-                              <div class="modal-body form skin skin-line">
-                                  <label class="col-sm-4 control-label">
-                                      {{message}}</label>
-
-                              </div>
-                              <div class="modal-footer">
-                                  <button type="button" class="btn green"  ng-click='disalert()'>
-                                      <i class="fa fa-check"></i> 确定 </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-md-6">
-                          <div class="btn-group">
-                              <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="addwarehouse()">添加
-                                  <i class="fa fa-plus"></i>
-                              </a>
-                              <a href="#" role="button" class="btn  sbold blue " data-toggle="modal" ng-click='updatewarehouse()'>编辑<i class="fa fa-edit"></i>
-                              </a>
-                              <a href="#" role="button" class="btn sbold red " data-toggle="modal" ng-click='deletewarehouse()' >删除<i class="fa fa-times"></i>
-                              </a>
-                          </div>
-                      </div>
-                  </div>
-
-                  <div class="row">
-                      <script type="text/ng-template" id="headerCheckbox.html">
-                        <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" />
-                      </script>
-                      <table ng-table="tableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px">
-                          <tbody>
-                              <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
-                                  <td header="'headerCheckbox.html'"><input type="checkbox" ng-model="checkboxes.items[param.warehouseId]" /></td>
-                                  <td title="'仓库ID'">{{param.warehouseId}}</td>
-                                  <td title="'仓库名称'">{{param.name}}</td>
-                                  <td title="'备注'">{{param.comments}}</td>
-                                  <td title="'时间'">{{param.updateTime}}</td>
-                                  <td title="'操作'">
-                                      <div class="margin-bottom-5">
-                                        <a ui-sref="main.asset.warelocation({warehouseId:param.warehouseId,name:param.name})" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>仓位
-                                        </a>
-                                      </div>
-
-                                  </td>
-                              </tr>
-                          </tbody>
-                      </table>
-
-                  </div>
-
+      <div class="portlet light portlet-fit portlet-datatable bordered">
+          <div class="portlet-title">
+              <div class="caption">
+                  <i class="icon-settings font-dark"></i>仓库管理
               </div>
           </div>
-      </form>
+          <div class="portlet-body">
+              <div id="myModal_addwarehouse" class="modal fade" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                              <h4 class="modal-title">创建仓库</h4>
+                          </div>
+                          <div class="modal-body form skin skin-line">
+                              <form action="" class="form-horizontal form-row-seperated" name="form">
+                                  <div class="form-group">
+                                      <label class="col-sm-4 control-label">
+                                          仓库名称</label>
+                                      <div class="col-sm-6">
+                                          <input type="text" ng-model="currentData.name" class="form-control" required/>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-sm-4 control-label">
+                                          备注</label>
+                                      <div class="col-sm-6">
+                                          <input type="text" ng-model="currentData.comments" class="form-control" required/>
+                                      </div>
+                                  </div>
+
+                              </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn grey-salsa btn-outline " ng-click='addismiss()' >取消操作</button>
+                              <button type="button" class="btn green"  ng-click='saveCreateWarehouse()'>
+                                  <i class="fa fa-check"></i> 确定添加 </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div id="myModal_updatewarehouse" class="modal fade" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                              <h4 class="modal-title">编辑仓库</h4>
+                          </div>
+                          <div class="modal-body form skin skin-line">
+                              <form action="" class="form-horizontal form-row-seperated" name="form">
+                                  <div class="form-group">
+                                      <label class="col-sm-4 control-label">
+                                          仓库名称</label>
+                                      <div class="col-sm-6">
+                                          <input type="text" ng-model="currentData.name" class="form-control" required/>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-sm-4 control-label">
+                                          备注</label>
+                                      <div class="col-sm-6">
+                                          <input type="text" ng-model="currentData.comments" class="form-control" required/>
+                                      </div>
+                                  </div>
+
+                              </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn grey-salsa btn-outline " ng-click='updatedismiss()' >取消操作</button>
+                              <button type="button" class="btn green"  ng-click='saveUpdateWarehouse()'>
+                                  <i class="fa fa-check"></i> 确定修改 </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div id="myModal_deletewarehouse" class="modal fade" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                              <h4 class="modal-title">删除仓库</h4>
+                          </div>
+                          <div class="modal-body form skin skin-line">
+                              <form action="" class="form-horizontal form-row-seperated" name="form">
+                                  <div class="form-group">
+                                      <label class="col-sm-4 control-label">
+                                          您确定要删除仓库</label>
+                                      <label class="col-sm-6 control-label">
+                                          {{deletestr}}吗?</label>
+                                  </div>
+
+                              </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn grey-salsa btn-outline " ng-click='deletedismiss()' >取消操作</button>
+                              <button type="button" class="btn green"  ng-click='saveDeleteWarehouse()'>
+                                  <i class="fa fa-check"></i> 确定删除 </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div id="myModal_alert" class="modal fade" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                              <h4 class="modal-title">提示</h4>
+                          </div>
+                          <div class="modal-body form skin skin-line">
+                              <label class="col-sm-4 control-label">
+                                  {{message}}</label>
+
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn green"  ng-click='disalert()'>
+                                  <i class="fa fa-check"></i> 确定 </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="btn-group">
+                          <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="addwarehouse()">添加
+                              <i class="fa fa-plus"></i>
+                          </a>
+                          <a href="#" role="button" class="btn  sbold blue " data-toggle="modal" ng-click='updatewarehouse()'>编辑<i class="fa fa-edit"></i>
+                          </a>
+                          <a href="#" role="button" class="btn sbold red " data-toggle="modal" ng-click='deletewarehouse()' >删除<i class="fa fa-times"></i>
+                          </a>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <script type="text/ng-template" id="headerCheckbox.html">
+                    <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" />
+                  </script>
+                  <table ng-table="tableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px">
+                      <tbody>
+                          <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                              <td header="'headerCheckbox.html'"><input type="checkbox" ng-model="checkboxes.items[param.warehouseId]" /></td>
+                              <td title="'仓库ID'">{{param.warehouseId}}</td>
+                              <td title="'仓库名称'">{{param.name}}</td>
+                              <td title="'备注'">{{param.comments}}</td>
+                              <td title="'时间'">{{param.updateTime}}</td>
+                              <td title="'操作'">
+                                  <div class="margin-bottom-5">
+                                    <a ui-sref="main.asset.warelocation({warehouseId:param.warehouseId,name:param.name})" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>仓位
+                                    </a>
+                                  </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
     </div>
 </div>

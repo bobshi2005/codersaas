@@ -210,7 +210,7 @@ angular.module('MetronicApp').controller('WarehouseController', ['$scope', '$roo
       deviceApi.deletedWarehouse(ids)
       .then(function(result){
           if(result.data.code ==1 ){
-            $scope.message = '仓库删除创建成功！';
+            $scope.message = '仓库删除成功！';
             $('#myModal_alert').modal();
             getWarehouselist();
           }
