@@ -1094,12 +1094,26 @@ AppService.factory('locals', ['$window', function($window) {
 
 AppService.factory('sharedataApi',function() {
     var service = {};
-    var modeldata = {};
+    var modeldata = {}; // 共享的设备模型list数据
+    var partCategorydata ={}; // 共享的备件类别数据
+    var wareHousedata = {};// 共享的仓库数据
     service.setModeldata = function(data){
       modeldata = data;
     }
     service.getModeldata = function(){
       return modeldata;
+    }
+    service.setpartCategorydata = function(data){
+      partCategorydata = data;
+    }
+    service.getpartCategorydata = function(){
+      return partCategorydata;
+    }
+    service.setwareHousedata = function(data){
+      wareHousedata = data;
+    }
+    service.getwareHousedata = function(){
+      return wareHousedata;
     }
     return service;
 });
