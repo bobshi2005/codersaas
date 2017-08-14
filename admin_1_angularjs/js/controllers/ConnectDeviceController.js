@@ -22,9 +22,34 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       {"id":4,"name":"04 只读"}
     ];
 
+    $scope.formatLists =[
+      {"id":'UNSIGNED_16',"name":"16位 无符号数"},
+      {"id":'SIGNED_16',"name":"16位 有符号数"},
+      {"id":'UNSIGNED_32',"name":"32位 无符号数"},
+      {"id":'UNSIGNED_32',"name":"32位 无符号数"},
+      {"id":'FLOAT_32',"name":"32位 浮点数"}
+    ];
+
+    $scope.bitorderLists =[
+      {"id":'AB CD',"name":"AB CD"},
+      {"id":'CD AB',"name":"CD AB"},
+      {"id":'BA DC',"name":"BA DC"},
+      {"id":'DC BA',"name":"DC BA"}
+    ];
+
     $scope.checkboxes = {
       checked: false,
       items: {}
+    };
+
+    $scope.selectFormat = function(){
+      if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
+        $scope.sensor.bitOrder = 'noValue';
+        $('#bitcode').hide();
+
+      }else{
+        $('#bitcode').show();
+      }
     };
 
     //监听 checkbox
@@ -84,16 +109,22 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                 $scope.sensor.period = sensor.period;
                 $scope.sensor.functionCode = sensor.functionCode;
                 $scope.sensor.address = sensor.address;
-                $scope.sensor.quantity = sensor.quantity;
+                // $scope.sensor.quantity = sensor.quantity;
+                $scope.sensor.bitOrder = sensor.bitOrder;
+                $scope.sensor.dataFormat = sensor.dataFormat;
+              }
+              if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
+                $scope.sensor.bitOrder = 'noValue';
+                $('#bitcode').hide();
+              }else{
+                $('#bitcode').show();
               }
               $('#myModal_setSeneor').modal('show');
           }, function(err) {
-              // alert(err);
               if(err.status == 404){
                 $('#myModal_setSeneor').modal('show');
               }
           });
-      // $('#myModal_setSeneor').modal('show');
     }
 
     $scope.setSensorDismiss = function(){
@@ -101,7 +132,6 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       $scope.sensor = {};
     }
     $scope.saveSensor = function(){
-      // console.log('sensor',$scope.sensor);
       deviceApi.createSensor($scope.sensor)
           .then(function(result){
               if(result.data.code ==1 ){
