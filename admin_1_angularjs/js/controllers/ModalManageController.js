@@ -9,6 +9,16 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.PropertyItemData;
     $scope.offset = 0;
     $scope.limit = 2;
+
+    $scope.typeList = [
+      {"id":"analog",'name':'模拟量'},
+      {"id":"digital",'name':'开关量'}
+    ];
+    $scope.displayTypeList = [
+      {"id":"led",'name':'LED'},
+      {"id":"pie",'name':'饼图'},
+      {"id":"guage","name":"仪表盘"}
+    ];
     // $rootScope.settings.layout.pageSidebarClosed = false;
     // Cookies.set('sidebar_closed', '1');
 
@@ -203,9 +213,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.checkboxes.items = {};
       $scope.tableParams = new NgTableParams({
         page: 1,
-        count:1
+        count:10
       }, {
-        counts:[1,2,10],
+        counts:[2,10,20],
         getData: function(params) {
           return deviceApi.getmodelPropertylist($scope.currentModal.equipmentModelId,'asc', (params.page()-1)*params.count(), params.count())
             .then(function(result) {
@@ -246,7 +256,8 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         address: $scope.PropertyItemData.address,
         dataType: $scope.PropertyItemData.dataType,
         alarmType: $scope.PropertyItemData.alarmType,
-        refreshPeriod: $scope.PropertyItemData.refreshPeriod
+        refreshPeriod: $scope.PropertyItemData.refreshPeriod,
+        displayType: $scope.PropertyItemData.displayType
       };
       var id = $scope.PropertyItemData.equipmentModelPropertyId;
       deviceApi.updatePropertyItem(id,params)

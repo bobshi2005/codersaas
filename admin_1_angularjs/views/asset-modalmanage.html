@@ -144,12 +144,13 @@
                                         <tr ng-repeat="param in  $data" style=" text-align: center;">
                                             <td header="'headerCheckbox.html'"><input type="checkbox" ng-model="checkboxes.items[param.equipmentModelPropertyId]" /></td>
                                             <td title="'参数名称'">{{param.name}}</td>
-                                            <td title="'参数别名'">{{param.lable}}</td>
+                                            <!-- <td title="'参数别名'">{{param.lable}}</td> -->
                                             <td title="'数据类型'">{{param.dataType}}</td>
                                             <td title="'参数单位'">{{param.unit}}</td>
-                                            <td title="'参数地址'">{{param.address}}</td>
+                                            <td title="'显示类型'">{{param.displayType}}</td>
+                                            <!-- <td title="'参数地址'">{{param.address}}</td>
                                             <td title="'刷新周期'">{{param.refreshPeriod}}</td>
-                                            <td title="'报警设置'">{{param.alarmType}}</td>
+                                            <td title="'报警设置'">{{param.alarmType}}</td> -->
                                             <td title="'操作'">
                                                 <a href="/#myModal_updatePropertyItem" data-toggle="modal"
                                                    class="btn blue btn-outline sbold uppercase"
@@ -259,42 +260,48 @@
                             <input type="text" name="name" class="form-control" ng-model="PropertyItemData.name" required />
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="col-sm-3 control-label">参数别名</label>
                         <div class="col-sm-8">
                             <input type="text" name="lable" class="form-control" ng-model="PropertyItemData.lable" required />
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">参数单位</label>
                         <div class="col-sm-8">
                             <input type="text" name="unit" class="form-control" ng-model="PropertyItemData.unit" required/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="col-sm-3 control-label">参数地址</label>
                         <div class="col-sm-8">
                             <input type="text" name="address" class="form-control" ng-model="PropertyItemData.address" required/>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">数据类型</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="dataType" class="form-control" ng-model="PropertyItemData.dataType" required/>
+                        <label class="col-sm-3 control-label">参数类型</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" ng-model="PropertyItemData.dataType"  ng-options="o.id as o.name for o in typeList"></select>
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 control-label">展示类型</label>
+                        <div class="col-sm-3">
+                          <select class="form-control" ng-model="PropertyItemData.displayType"  ng-options="o.id as o.name for o in displayTypeList"></select>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
                         <label class="col-sm-3 control-label">报警设置</label>
                         <div class="col-sm-8">
                             <input type="text" name="alarmType" class="form-control" ng-model="PropertyItemData.alarmType" required/>
                         </div>
-                    </div>
-                    <div class="form-group">
+                    </div> -->
+                    <!-- <div class="form-group">
                         <label class="col-sm-3 control-label">刷新周期</label>
                         <div class="col-sm-8">
                             <input type="text" name="refreshPeriod" class="form-control" ng-model="PropertyItemData.refreshPeriod" required/>
                         </div>
-                    </div>
+                    </div> -->
                 </form>
             </div>
             <div class="modal-footer">
@@ -321,31 +328,37 @@
                             <input type="text" name="name" class="form-control" ng-model="PropertyItemData.name" required />
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="col-sm-3 control-label">参数别名</label>
                         <div class="col-sm-8">
                             <input type="text" name="lable" class="form-control" ng-model="PropertyItemData.lable" required />
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">参数单位</label>
                         <div class="col-sm-8">
                             <input type="text" name="unit" class="form-control" ng-model="PropertyItemData.unit" required/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="col-sm-3 control-label">参数地址</label>
                         <div class="col-sm-8">
                             <input type="text" name="address" class="form-control" ng-model="PropertyItemData.address" required/>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">数据类型</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="dataType" class="form-control" ng-model="PropertyItemData.dataType" required/>
+                        <label class="col-sm-3 control-label">参数类型</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" ng-model="PropertyItemData.dataType"  ng-options="o.id as o.name for o in typeList"></select>
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 control-label">展示类型</label>
+                        <div class="col-sm-3">
+                          <select class="form-control" ng-model="PropertyItemData.displayType"  ng-options="o.id as o.name for o in displayTypeList"></select>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
                         <label class="col-sm-3 control-label">报警设置</label>
                         <div class="col-sm-8">
                             <input type="text" name="alarmType" class="form-control" ng-model="PropertyItemData.alarmType" required/>
@@ -356,7 +369,7 @@
                         <div class="col-sm-8">
                             <input type="text" name="refreshPeriod" class="form-control" ng-model="PropertyItemData.refreshPeriod" required/>
                         </div>
-                    </div>
+                    </div> -->
                 </form>
             </div>
             <div class="modal-footer">
