@@ -2,11 +2,18 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $rootScope.showHeader = true;
     $rootScope.menueName = 'sidebar-device';
     $scope.menueName = $rootScope.menueName;
-    // $rootScope.showMap = false;
-    // $rootScope.pagetitle = '列表模式';
-    // $rootScope.listMode = '切换地图';
-    var mapheight= document.body.clientHeight-180;
-    $("#mapContainer").css("height",mapheight);
+
+    $scope.equipname = 'acw';
+    $scope.latitude=31.35046;
+    $scope.longitude=120.35046;
+    $scope.linechartoption=[];
+    $scope.lineType='最近10分钟';
+    $scope.lineTab='温度曲线';
+    $scope.linevarstab=[];
+    $scope.selectedlinetab={};
+    $scope.selectedlindex=1;
+    $scope.lineLabel=$scope.lineType+$scope.lineTab;
+    $scope.echartValue = [];
     $scope.changelistState = function() {
       $rootScope.showMap = !$rootScope.showMap;
       if($rootScope.showMap){
@@ -19,17 +26,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         $rootScope.pagetitle = '列表模式';
       }
     }
-
-    $scope.equipname = 'acw';
-    $scope.latitude=31.35046;
-    $scope.longitude=120.35046;
-    $scope.linechartoption=[];
-    $scope.lineType='最近10分钟';
-    $scope.lineTab='温度曲线';
-    $scope.linevarstab=[];
-    $scope.selectedlinetab={};
-    $scope.selectedlindex=1;
-    $scope.lineLabel=$scope.lineType+$scope.lineTab;
     $scope.checktab = function checktab(selecttab){
       $scope.selectedlinetab = selecttab;
       $scope.lineTab=selecttab.name;
@@ -38,10 +34,90 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.setHistoryTime = function setHistoryTime(index){
       $scope.selectedlindex = index;
       getHistoryData();
-
-      // console.log('selecttabindex',index);
     };
+    $scope.markers=[];
+    $scope.map = new AMap.Map('mapContainer', {
+        center: [116.397428, 39.90923],
+        zoom: 4
+    });
+    $scope.map.plugin(["AMap.ToolBar"], function() {
+        $scope.map.addControl(new AMap.ToolBar());
+    });
+    $scope.selectNodefromMap= function(){
+     var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+     var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
+     treeObj.selectNode(devNodes[0]);
+     selectNode();
+     $rootScope.showMap = !$rootScope.showMap;
+     $scope.listMode = '地图模式';
+   };
+    $scope.formatStateValue = function(state,unit) {
+     if (state == 'OFF' || state == '停止' || state == 'False')
+       $scope.htmlStr='<a href="javascritp:;" class="btn btn-warning">'+state+'</a>';
+     else
+     if (state == 'ON' || state == '开启' || state == 'True')
+       $scope.htmlStr='<a href="javascritp:;" class="btn green btn-info">'+state+'</a>';
+     else
+       $scope.htmlStr='<a href="javascritp:;" class="btn green btn-info">'+state+unit+'</a>';
+    };
+    $scope.formatStateValue2 = function(name) {
+        $scope.htmlStr2='<a href="javascritp:;" class="btn blue btn-outline">'+name+'</a>';
+    };
+    $scope.userrole=locals.get("userrole");
+    $scope.refreshData = function(){
+      if($scope.selectedequipid && $scope.selectedequipid>0){
+        getDataModelAndValues($scope.selectedequipid);
+      }
+    };
+    var linechart;
+    var mapheight= document.body.clientHeight-180;
+    $("#mapContainer").css("height",mapheight);
+    var player = new EZUIPlayer('myPlayer');
+    player.on('error', function(){});
+    player.on('play', function(){});
+    player.on('pause', function(){});
 
+    if (location.href.indexOf('&guide=1') !== -1) {
+        $scope.map.setStatus({
+            scrollWheel: false
+        })
+    }
+    AMap.plugin('AMap.AdvancedInfoWindow',function(){
+      $scope.infowindow = new AMap.AdvancedInfoWindow({
+      content: '',
+      offset: new AMap.Pixel(-3, -16),
+      placeSearch :false,
+      asOrigin :false,
+      asDestination :false
+     });
+    })
+    var timer = $interval($scope.refreshData,10000);
+    var setting = {
+      data : {
+        key : { title : "name"}
+      },
+      view: {
+        showIcon: false
+      },
+      callback: {
+        onClick: function(event, treeId, treeNode) {
+          var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+          var sNodes = treeObj.getSelectedNodes();
+          if (sNodes.length > 0) {
+            var level = sNodes[0].level;
+            if(level==1)//city node
+            {
+               $scope.map.setZoomAndCenter(6, [treeNode.longitude,treeNode.latitude]);
+            }
+            else if(level==2)//device node
+            {
+                $scope.selectedequipid = treeNode.id;
+                selectNode();
+            }
+          }
+        }
+      }
+    };
     Date.prototype.format = function(format) {
        var date = {
               "M+": this.getMonth() + 1,
@@ -63,7 +139,58 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
        }
        return format;
      };
+    function getEquipmentList(){
+      userApi.getEquipmentList($scope.userrole)
+        .then(function(result) {
+          // console.log('list',result);
+            if(result.data.errCode == 0) {
+              if(result.data.equipments.length>0){
+                result.data.equipments.forEach(item => {
+                  var marker = new AMap.Marker({
+                          position: [item.longitude, item.latitude],
+                          offset: new AMap.Pixel(-12, -12),
+                          zIndex: 101,
+                          extData: item,
+                          map: $scope.map
+                      });
+                  marker.on('click', function(e) {
+                    // console.log('sss');
+                    $scope.selectedequipid = item.equipid;
+                    setInfoWindow(item);
+                  })
+                  $scope.markers.push(marker);
+                })
+              }
+              // console.log('markers',$scope.markers);
+            }else {
+              // alert(result.errMsg);
+            }
+        }, function(err) {
+            // alert(err);
+        });
+    }
+    function getCityTree(){
+      userApi.getCityTree($scope.userrole)
+        .then(function(result) {
+            // console.log('getCityTree',result.data);
+            if(result.data.errCode == 0) {
+                var data=result.data;
 
+               //alert(data.tree);
+               var zNodes=data.tree;
+               var treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+               treeObj.expandAll(true);
+               $scope.selectedequipid = zNodes[0].children[0].children[0].id;
+               var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
+         			 treeObj.selectNode(devNodes[0]);
+               selectNode();
+            }else {
+              // alert(result.data.errMsg);
+            }
+        }, function(err) {
+            // alert(err);
+        });
+    }
     function getHistoryData(){
       var newdate = new Date();
       var endtime = Date.parse(newdate);
@@ -149,47 +276,11 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
             // alert(err);
       });
     }
-    $scope.map = new AMap.Map('mapContainer', {
-        center: [116.397428, 39.90923],
-        zoom: 4
-    });
-    $scope.map.plugin(["AMap.ToolBar"], function() {
-        $scope.map.addControl(new AMap.ToolBar());
-    });
-    if (location.href.indexOf('&guide=1') !== -1) {
-        $scope.map.setStatus({
-            scrollWheel: false
-        })
-    }
-    AMap.plugin('AMap.AdvancedInfoWindow',function(){
-      $scope.infowindow = new AMap.AdvancedInfoWindow({
-      content: '',
-      offset: new AMap.Pixel(-3, -16),
-      placeSearch :false,
-      asOrigin :false,
-      asDestination :false
-     });
-   })
-    $scope.markers=[];
-
-
-    var player = new EZUIPlayer('myPlayer');
-    player.on('error', function(){
-      // console.log('error');
-    });
-    player.on('play', function(){
-      // console.log('play');
-    });
-    player.on('pause', function(){
-      // console.log('pause');
-    });
-
-    //$rootScope.settings.layout.pageSidebarClosed = false;
-    //Cookies.set('sidebar_closed', '0');
-
-    //UITree.init();
-
-
+    function selectNode(){
+      getEquipmentInfo($scope.selectedequipid);
+      getDataModelAndValues($scope.selectedequipid);
+      getDataModel($scope.selectedequipid);
+    };
     function setInfoWindow(infodata){
       var content1=`
       <div>
@@ -206,143 +297,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.infowindow.setContent(content[0]);
       $scope.infowindow.open($scope.map,[infodata.longitude,infodata.latitude]);
     }
-
-    $scope.selectNodefromMap= function(){
-      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-			var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
-			treeObj.selectNode(devNodes[0]);
-      selectNode();
-      $rootScope.showMap = !$rootScope.showMap;
-      $scope.listMode = '地图模式';
-    };
-
-    function selectNode(){
-      getEquipmentInfo($scope.selectedequipid);
-      getDataModelAndValues($scope.selectedequipid);
-      // console.log('tab',$scope.selectedlinetab);
-      getDataModel($scope.selectedequipid);
-
-    };
-
-    var setting = {
-      data : {
-        key : { title : "name"}
-      },
-      view: {
-        showIcon: false
-      },
-      callback: {
-        onClick: function(event, treeId, treeNode) {
-          var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-          var sNodes = treeObj.getSelectedNodes();
-          if (sNodes.length > 0) {
-            var level = sNodes[0].level;
-            if(level==1)//city node
-            {
-               $scope.map.setZoomAndCenter(6, [treeNode.longitude,treeNode.latitude]);
-            }
-            else if(level==2)//device node
-            {
-                $scope.selectedequipid = treeNode.id;
-                selectNode();
-            }
-          }
-        }
-      }
-    };
-
-    $scope.formatStateValue = function(state,unit) {
-      if (state == 'OFF' || state == '停止' || state == 'False')
-        //$scope.htmlStr='<span class="label label-warning">'+state+'</span>';
-        $scope.htmlStr='<a href="javascritp:;" class="btn btn-warning">'+state+'</a>';
-      else
-      if (state == 'ON' || state == '开启' || state == 'True')
-        //$scope.htmlStr='<span class="label label-success">'+state+'</span>';
-        $scope.htmlStr='<a href="javascritp:;" class="btn green btn-info">'+state+'</a>';
-      else
-        //$scope.htmlStr=state+unit;
-        $scope.htmlStr='<a href="javascritp:;" class="btn green btn-info">'+state+unit+'</a>';
-    };
-
-    $scope.formatStateValue2 = function(name) {
-        $scope.htmlStr2='<a href="javascritp:;" class="btn blue btn-outline">'+name+'</a>';
-    };
-
-    $scope.userrole=locals.get("userrole");
-    userApi.getEquipmentList($scope.userrole)
-      .then(function(result) {
-        // console.log('list',result);
-          if(result.data.errCode == 0) {
-            if(result.data.equipments.length>0){
-              result.data.equipments.forEach(item => {
-                var marker = new AMap.Marker({
-                        position: [item.longitude, item.latitude],
-                        offset: new AMap.Pixel(-12, -12),
-                        zIndex: 101,
-                        extData: item,
-                        map: $scope.map
-                    });
-                marker.on('click', function(e) {
-                  // console.log('sss');
-                  $scope.selectedequipid = item.equipid;
-                  setInfoWindow(item);
-                })
-                $scope.markers.push(marker);
-              })
-            }
-            // console.log('markers',$scope.markers);
-          }else {
-            // alert(result.errMsg);
-          }
-      }, function(err) {
-          // alert(err);
-      });
-
-    userApi.getCityTree($scope.userrole)
-      .then(function(result) {
-          // console.log('getCityTree',result.data);
-          if(result.data.errCode == 0) {
-              var data=result.data;
-
-             //alert(data.tree);
-             var zNodes=data.tree;
-             var treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-             treeObj.expandAll(true);
-             $scope.selectedequipid = zNodes[0].children[0].children[0].id;
-             var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
-       			 treeObj.selectNode(devNodes[0]);
-             selectNode();
-          }else {
-            // alert(result.data.errMsg);
-          }
-      }, function(err) {
-          // alert(err);
-      });
-    //$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-
-    //ZUITree.init();
-    ComponentsKnobDials.init();
-
-    // TableDatatablesManaged.init();
-
-    if($scope.selectedequipid && $scope.selectedequipid>0){
-      getDataModelAndValues($scope.selectedequipid);
-      getEquipmentInfo($scope.selectedequipid);
-    }
-    $scope.refreshData = function(){
-      // console.log('refreshData',$scope.selectedequipid);
-      if($scope.selectedequipid && $scope.selectedequipid>0){
-        getDataModelAndValues($scope.selectedequipid);
-        // getEquipmentInfo($scope.selectedequipid);
-      }
-    };
-
-    var timer = $interval($scope.refreshData,10000);
-    $scope.$on('$destroy',function(){
-       $interval.cancel(timer);
-    });
-
-    $scope.echartValue = [];
     function formatEchartValue(origindata) {
       $scope.echartValue = [];
       if(origindata.length>0){
@@ -483,7 +437,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         }
       }
     };
-
     function resetlineoption(){
       var xdata=[];
       var ydata=[];
@@ -521,7 +474,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       };
       linechart.setOption($scope.linechartoption);　
     };
-
     function getDataModel(equipid){
       $scope.selectedlinetab=[];
       $scope.lineTab='';
@@ -555,7 +507,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       });
 
     };
-
     function getDataModelAndValues(equipid) {
       userApi.getDataModelAndValues(equipid)
         .then(function(result) {
@@ -616,112 +567,66 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
             // alert(err);
         });
     }
-/*
-    $scope.userrole=locals.get("userrole");
 
-    userApi.getEquipmentList($scope.userrole)
-        .then(function(result) {
-            console.log('getEquipmentList:',result.data);
-            if(result.data.errCode == 0) {
-
-
-
-            //  $state.go('home.dashboard');
-            }else {
-              alert(result.data.errMsg);
-            }
-        }, function(err) {
-            alert(err);
-        });
-*/
-    // var option = {
-    //     tooltip: {
-    //         trigger: 'axis'
-    //     },
-    //     legend: {
-    //         data: ['设备温度']
-    //     },
-    //     grid: {
-    //         left: '3%',
-    //         right: '5%',
-    //         bottom: '3%',
-    //         containLabel: true
-    //     },
-    //     toolbox: {
-    //         feature: {
-    //             saveAsImage: {}
-    //         }
-    //     },
-    //     xAxis: {
-    //         type: 'category',
-    //         boundaryGap: false,
-    //         data: ['0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00','7:00', '8:00', '9:00', '10:00',
-    //                 '11:00', '12:00', '13:00', '14:00', '15:00', '16:00','17:00', '18:00', '19:00', '20:00',
-    //                 '21:00', '22:00', '23:00']
-    //     },
-    //     yAxis: {
-    //         type: 'value'
-    //     },
-    //     series: [
-    //         {
-    //             name: '设备温度',
-    //             type: 'line',
-    //             smooth: '1',
-    //             data: [13.1, 13.7, 12.9, 14.6, 16.3, 17.3, 18.2, 15.6, 14.8, 13.9, 14.5, 14.8, 15.8, 13.9, 15.6, 14.7, 15, 15.1, 14.8, 13.9, 13.5, 13.8, 13.6,14.0]
-    //         }
-    //     ]
-    // };
-    var linechart;
-    $('.nav-pills li a').click(function() {　
-        // console.log('click');
-        　
-        $(this).addClass('active').siblings().removeClass('active');　
-        var _id = $(this).attr('href');　　
-        $('.tabs-contents').find('#' + _id).addClass('active').siblings().removeClass('active');
-        　
-        switch (_id) {　　　　
-            case "/#tab_1_1":
-              break;　　　　
-            case "/#tab_1_2":
-              $scope.refreshData();
-              $interval.cancel(timer);
-              timer = $interval($scope.refreshData,10000);
-              window.onresize=function(){
+    $scope.$on('$destroy',function(){
+       $interval.cancel(timer);
+    });
+    $scope.$on('$viewContentLoaded', function() {
+      getEquipmentList();
+      getCityTree();
+      ComponentsKnobDials.init();
+      if($scope.selectedequipid && $scope.selectedequipid>0){
+        getDataModelAndValues($scope.selectedequipid);
+        getEquipmentInfo($scope.selectedequipid);
+      }
+      $('.nav-pills li a').click(function() {　
+          $(this).addClass('active').siblings().removeClass('active');　
+          var _id = $(this).attr('href');　　
+          $('.tabs-contents').find('#' + _id).addClass('active').siblings().removeClass('active');
+          　
+          switch (_id) {　　　　
+              case "/#tab_1_1":
+                break;　　　　
+              case "/#tab_1_2":
                 $scope.refreshData();
                 $interval.cancel(timer);
                 timer = $interval($scope.refreshData,10000);
-              };
-              break;
-
-            case "/#tab_1_3":
-                {
-                  if ($("#echarts_line").length > 0) {
-                      var mychartContainer = document.getElementById('echarts_line');
-                      mychartContainer.style.width=$('#navContainer').width()-20+'px';
-                      linechart = echarts.init(mychartContainer);
-                      // linechart.setOption($scope.linechartoption);　
-                      if($scope.selectedlinetab.name){
-                          getHistoryData();
-                      }
-                  }
-
-                  window.onresize=function(){
-                    mychartContainer.style.width=$('#navContainer').width()-20+'px';
-                    linechart.resize();
-                  };
-                }
-                　　　　　
+                window.onresize=function(){
+                  $scope.refreshData();
+                  $interval.cancel(timer);
+                  timer = $interval($scope.refreshData,10000);
+                };
                 break;
-            case "/#tab_1_4":
-                　　　　　　break;
-            case "/#tab_1_5":
-                　　　　　　break;
-            case "/#tab_1_6":
-                　　　　　　break;　　　　
-            default:
-                　　　　　　　　　　　
-                break;　　
-        }
-    });
 
+              case "/#tab_1_3":
+                  {
+                    if ($("#echarts_line").length > 0) {
+                        var mychartContainer = document.getElementById('echarts_line');
+                        mychartContainer.style.width=$('#navContainer').width()-20+'px';
+                        linechart = echarts.init(mychartContainer);
+                        // linechart.setOption($scope.linechartoption);　
+                        if($scope.selectedlinetab.name){
+                            getHistoryData();
+                        }
+                    }
+
+                    window.onresize=function(){
+                      mychartContainer.style.width=$('#navContainer').width()-20+'px';
+                      linechart.resize();
+                    };
+                  }
+                  　　　　　
+                  break;
+              case "/#tab_1_4":
+                  　　　　　　break;
+              case "/#tab_1_5":
+                  　　　　　　break;
+              case "/#tab_1_6":
+                  　　　　　　break;　　　　
+              default:
+                  　　　　　　　　　　　
+                  break;　　
+          }
+      });
+    });
 }]);
