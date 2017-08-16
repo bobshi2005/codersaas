@@ -118,7 +118,6 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
         }
 
     };
-
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
@@ -129,16 +128,16 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     });
     // watch for data checkboxes
     $scope.$watch(function() {
-     return $scope.checkboxes.items;
-    }, function(values) {
-     var checked = 0, unchecked = 0,
-     total = $scope.devicelist.length;
-     angular.forEach($scope.checkboxes.items, function(item) {
-       if(item){
-         checked += 1;
-       }else{
-         unchecked +=1;
-       }
+      return $scope.checkboxes.items;
+      }, function(values) {
+       var checked = 0, unchecked = 0,
+       total = $scope.devicelist.length;
+       angular.forEach($scope.checkboxes.items, function(item) {
+         if(item){
+           checked += 1;
+         }else{
+           unchecked +=1;
+         }
      });
      if ((unchecked == 0) || (checked == 0)) {
        $scope.checkboxes.checked = (checked == total && total>0);
@@ -151,76 +150,79 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       getdeviceModellist();
     };
 
-
     $scope.$on('$viewContentLoaded', function() {
       getdeviceModellist();
       getCityData();
       $scope.modellist = sharedataApi.getModeldata();
 
       $('.form_date1').datetimepicker({
-          language: 'zh-CN',/*加载日历语言包，可自定义*/
+          language: 'zh-CN',
           weekStart: 1,
           todayBtn: 1,
           autoclose: 1,
-          todayHighlight: 1,
           startView: 2,
-          forceParse: 0
+          forceParse: 0,
+          minView:'month',
+          format: 'yyyy-mm-dd',
+          todayHighlight: true,
       }).on('hide', function (e) {
           var $this = $(this);
           var _this = this;
           $scope.$apply(function(){
-             // $scope.$this.attr('ng-model') = _this.value;
               $scope.currentData.createTime = _this.value;
           });
         });
 
         $('.form_date2').datetimepicker({
-            language: 'zh-CN',/*加载日历语言包，可自定义*/
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0
+          language: 'zh-CN',
+          weekStart: 1,
+          todayBtn: 1,
+          autoclose: 1,
+          startView: 2,
+          forceParse: 0,
+          minView:'month',
+          format: 'yyyy-mm-dd',
+          todayHighlight: true,
         }).on('hide', function (e) {
             var $this = $(this);
             var _this = this;
             $scope.$apply(function(){
-            //    $scope.$this.attr('ng-model') = _this.value;
                 $scope.currentData.factoryDate = _this.value;
             });
         });
 
         $('.form_date3').datetimepicker({
-            language: 'zh-CN',/*加载日历语言包，可自定义*/
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0
+          language: 'zh-CN',
+          weekStart: 1,
+          todayBtn: 1,
+          autoclose: 1,
+          startView: 2,
+          forceParse: 0,
+          minView:'month',
+          format: 'yyyy-mm-dd',
+          todayHighlight: true,
         }).on('hide', function (e) {
             var $this = $(this);
             var _this = this;
             $scope.$apply(function(){
-            //    $scope.$this.attr('ng-model') = _this.value;
                 $scope.currentData.warrantyStartDate = _this.value;
             });
         });
 
         $('.form_date4').datetimepicker({
-            language: 'zh-CN',/*加载日历语言包，可自定义*/
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0
+          language: 'zh-CN',
+          weekStart: 1,
+          todayBtn: 1,
+          autoclose: 1,
+          startView: 2,
+          forceParse: 0,
+          minView:'month',
+          format: 'yyyy-mm-dd',
+          todayHighlight: true,
         }).on('hide', function (e) {
             var $this = $(this);
             var _this = this;
             $scope.$apply(function(){
-            //    $scope.$this.attr('ng-model') = _this.value;
                 $scope.currentData.warrantyEndDate = _this.value;
             });
         });
