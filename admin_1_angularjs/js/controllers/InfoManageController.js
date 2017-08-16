@@ -2,7 +2,6 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $rootScope.menueName = 'sidebar-asset';
     $scope.isShowmap = false;
     $scope.loadModels = false;
-    $scope.accessdev = {};
     $scope.deletedev = {};
     $scope.message = '';
     $scope.devicelist = [];
@@ -58,27 +57,30 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $scope.disalert = function(){
         $('#myModal_alert').modal('hide')
     };
-    $scope.setAccessDevDismiss = function(){
-        $('#myModal_accessdev').modal('hide');
-    };
     $scope.saveCreateDevice = function(){
 
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-        alert('必须填写设备名称');
+        $scope.message = '必须填写设备名称';
+        $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("number")  || $scope.currentData.number == ''){
-        alert('必须填写设备编号');
+        $scope.message = '必须填写设备编号';
+        $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("serialNumber")  || $scope.currentData.serialNumber == ''){
-        alert('必须填写设备序列号');
+        $scope.message = '必须填写设备序列号';
+        $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("createTime")  || $scope.currentData.createTime == ''){
-        alert('必须填写生产日期');
+        $scope.message = '必须填写生产日期';
+        $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("factoryDate")  || $scope.currentData.factoryDate == ''){
-        alert('必须填写出厂日期');
+        $scope.message = '必须填写出厂日期';
+        $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("warrantyStartDate")  || $scope.currentData.warrantyStartDate == ''){
-        alert('必须填写质保开始日期');
+        $scope.message = '必须填写质保开始日期';
+        $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("warrantyEndDate")  || $scope.currentData.warrantyEndDate == ''){
-        alert('必须填写质保结束日期');
+        $scope.message = '必须填写质保结束日期';
+        $('#myModal_alert').modal();
       }else{
-
           $('#myModal_createDevice').modal('hide');
           createDevice();
       }
@@ -117,28 +119,6 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
 
     };
 
-    $scope.saveAccessDevice = function(){
-
-        // console.log('access dev',$scope.currentData);
-        // console.log('location',$scope.longitude, $scope.latitude);
-        // console.log('modalID',$scope.selectedmodel.equipmentModelId);
-        if(!$scope.accessdev.hasOwnProperty("eName") || $scope.accessdev.eName == ''){
-            alert('必须填写设备名称');
-        }else if(!$scope.accessdev.hasOwnProperty("pId")  || $scope.accessdev.pId == ''){
-            alert('必须选择链接协议');
-        }else if(!$scope.accessdev.hasOwnProperty("hData")  || $scope.accessdev.hData == ''){
-            alert('必须填写心跳包数据');
-        }else if(!$scope.accessdev.hasOwnProperty("eId")  || $scope.accessdev.eId == ''){
-            alert('必须填写注册包参数');
-        }else{
-
-            $('#myModal_accessdev').modal('hide');
-
-            //  alert("access dev");
-            accessDevice();
-
-        }
-    };
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
@@ -171,26 +151,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       getdeviceModellist();
     };
 
-    $scope.getSelDevice = function(eName,eId,pId,hData) {
-        $('#myModal_accessdev').modal();
-        //getdeviceModellist();
-        $scope.accessdev.eName=eName;
-        $scope.accessdev.eId=eId;
 
-
-        if(pId==null)
-            $scope.accessdev.pId=0;
-        else
-            $scope.accessdev.pId=pId;
-
-        $scope.accessdev.hData=hData;
-
-        $scope.protocolLists=[{"id":0,"name":"请选择"},{"id":1,"name":"MB RTU"},{"id":2,"name":"MB TCP"},{"id":3,"name":"MQTT"}];
-
-        //$scope.selectedProtocol=pId;
-
-        //getSelDeviceInfo();
-    };
     $scope.$on('$viewContentLoaded', function() {
       getdeviceModellist();
       getCityData();
@@ -279,18 +240,6 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
             $scope.modellist=[];
           }
         });
-    }
-
-    function getSelDeviceInfo(){
-        deviceApi.getdeviceModellist('asc',0,100)
-            .then(function(result) {
-                if(result.data.total > 0) {
-                    $scope.selectedmodel=result.data.rows[0];
-                    $scope.modellist=result.data.rows;
-                }else {
-                    $scope.modellist=[];
-                }
-            })
     }
 
     Date.prototype.format = function(format) {
@@ -403,28 +352,6 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
         }, function(err) {
             console.log('createDeviceerr',err);
         });
-    };
-
-    function accessDevice() {
-
-        var params={};
-
-        params.equipmentId = $scope.accessdev.eId;
-        params.protocolId = $scope.accessdev.pId;
-        params.heartData = $scope.accessdev.hData;
-
-       // alert(eId+pId+hData);
-
-        deviceApi.accessDevice(params)
-            .then(function(result){
-                if(result.data.code ==1 ){
-                    alert('设备接入成功');
-                    getDevicelist();
-                }
-            }, function(err) {
-                alert(err);
-                alert('网络连接问题，请稍后再试！');
-            });
     };
 
     function getCityData(){

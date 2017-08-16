@@ -173,61 +173,6 @@
                           </div>
                       </div>
                   </div>
-                  <div id="myModal_accessdev" class="modal fade" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                  <h4 class="modal-title">设备接入</h4>
-                              </div>
-                              <div class="modal-body form skin skin-line">
-                                  <form action="" class="form-horizontal form-row-seperated" name="form">
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              设备名称</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="accessdev.eName" class="form-control" ng-value="{{ accessdev.eName }}" ng-disabled="true" required/>
-                                          </div>
-                                      </div>
-                                      <div class="form-group last">
-                                          <label class="col-sm-4 control-label">链接协议</label>
-                                          <div class="col-sm-4">
-                                              <!--<select class="form-control" ng-model="selectedProtocol" required>-->
-                                                  <!--<option value="0">请选择</option>-->
-                                                  <!--<option value="1">MB RTU</option>-->
-                                                  <!--<option value="2">MB TCP</option>-->
-                                                  <!--<option value="3">MQTT</option>-->
-                                              <!--</select>-->
-
-                                              <select class="form-control" ng-model="accessdev.pId" ng-options="o.id as o.name for o in protocolLists"></select>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              心跳包格式（长度<20）</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="accessdev.hData" class="form-control"  ng-value="{{ accessdev.hData }}" required/>
-                                          </div>
-                                      </div>
-
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              接入注册包参数</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="accessdev.eId" class="form-control"   ng-value="{{ accessdev.eId }}"  ng-disabled="true" required/>
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
-                              <div class="modal-footer">
-                                  <!-- <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button> -->
-                                  <button type="button" class="btn grey-salsa btn-outline " ng-click='setAccessDevDismiss()' >取消操作</button>
-                                  <button type="button" class="btn green"  ng-click='saveAccessDevice()' ng-disabled="form.$invalid">
-                                      <i class="fa fa-check"></i> 确定添加 </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
 
                   <div class="row">
                       <div class="col-md-6">
@@ -264,19 +209,9 @@
                                       <td title="'质保开始日期'" class="center">{{param.warrantyStartDate}}</td>
                                       <td title="'质保结束日期'" class="center">{{param.warrantyEndDate}}</td>
                                       <td title="'操作'">
-                                          <!-- <div class="margin-bottom-5">
-                                              <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='saveModalMsg()'><i class="fa fa-edit"></i>编辑
-                                              </a>
-                                              <a href="#" role="button" class="btn btn-sm btn-danger sbold red " ng-click='deleteDevice(param.name,param.equipmentId)' ><i class="fa fa-times"></i>删除
-                                              </a>
-                                          </div> -->
                                           <div class="margin-bottom-5">
-                                            <!-- <a href="#" role="button" class="btn btn-sm btn-success sbold blue " ng-click='getSelDevice(param.name,param.equipmentId,param.protocolId,param.heartData)'><i class="fa fa-plus"></i>设备接入
-                                            </a> -->
                                             <a ui-sref="main.asset.connectdevice({equipmentId:param.equipmentId,name:param.name,heartData: param.heartData, protocolId:param.protocolId, equipmentModelId: param.equipmentModelId})" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>设备接入
                                             </a>
-                                            <!-- <a href="#" role="button" class="btn btn-sm btn-danger sbold red " ng-click='saveModalMsg()'><i class="fa fa-plus"></i>指令控制
-                                            </a> -->
                                           </div>
 
                                       </td>
