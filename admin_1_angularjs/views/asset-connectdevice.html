@@ -114,14 +114,7 @@
                               <div class="form-group last">
                                   <label class="col-sm-4 control-label">读取模式</label>
                                   <div class="col-sm-4">
-                                      <!-- <select class="form-control" ng-model="sensor.functionCode" required>
-                                          <option value="1">01 读写</option>
-                                          <option value="2">02 只读</option>
-                                          <option value="3">03 读写</option>
-                                          <option value="4">04 只读</option>
-                                      </select> -->
                                       <select class="form-control" ng-model="sensor.functionCode"  ng-options="o.id as o.name for o in codeLists" required></select>
-
                                   </div>
                               </div>
                               <div class="form-group">
@@ -174,10 +167,11 @@
               <tbody>
                   <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
                       <td header="'headerCheckbox.html'"><input type="checkbox" ng-model="checkboxes.items[param.equipmentModelPropertyId]" /></td>
-                      <td title="'ID'" class="center">{{param.equipmentModelPropertyId}}</td>
+                      <!-- <td title="'ID'" class="center">{{param.equipmentModelPropertyId}}</td> -->
                       <td title="'参数名称'" class="center">{{param.name}}</td>
-                      <td title="'数据类型'" class="center">{{param.dataType}}</td>
-                      <td title="'参数单位'" class="center">{{param.unit}}</td>
+                      <!-- <td title="'参数地址'" class="center">{{param.address}}</td> -->
+                      <td title="'数据类型'" class="center">{{param.dataTypename}}</td>
+                      <td title="'数据展示'" class="center">{{param.displayname}}</td>
                       <td title="'读写指令'">
                           <div class="margin-bottom-5">
                             <a href="#" data-toggle="modal" ng-click="showSetSeneor(param)" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>设置

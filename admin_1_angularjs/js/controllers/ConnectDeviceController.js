@@ -37,6 +37,16 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       {"id":'DC BA',"name":"DC BA"}
     ];
 
+    $scope.typeList = [
+      {"id":"analog",'name':'模拟量'},
+      {"id":"digital",'name':'开关量'}
+    ];
+    $scope.displayTypeList = [
+      {"id":"led",'name':'LED'},
+      {"id":"pie",'name':'饼图'},
+      {"id":"guage","name":"仪表盘"}
+    ];
+
     $scope.checkboxes = {
       checked: false,
       items: {}
@@ -176,20 +186,43 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
             });
     };
 
+    function getdataTypeNameByID(id){
+      for(var i=0;i<$scope.typeList.length;i++){
+        if($scope.typeList[i].id == id){
+          return $scope.typeList[i].name;
+          break;
+        }
+      }
+    }
+
+    function getdisplayNameByID(id){
+      for(var i=0;i<$scope.displayTypeList.length;i++){
+        if($scope.displayTypeList[i].id == id){
+          return $scope.displayTypeList[i].name;
+          break;
+        }
+      }
+    }
+
     function getmodelPropertylist(){
       $scope.propertylist=[];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
       $scope.tableParams = new NgTableParams({
         page: 1,
-        count:2
+        count:10
       }, {
-        counts:[2,5,10],
+        counts:[2,10,20],
         getData: function(params) {
           return deviceApi.getmodelPropertylist($scope.equipmentModelId,'asc', (params.page()-1)*params.count(), params.count())
             .then(function(result) {
                 if(result.data.total > 0) {
                      $scope.propertylist=result.data.rows;
+                     for(var i=0;i<result.data.rows.length;i++){
+                       $scope.propertylist[i].periodname = $scope.propertylist[i].period+ '秒';
+                       $scope.propertylist[i].dataTypename = getdataTypeNameByID($scope.propertylist[i].dataType);
+                       $scope.propertylist[i].displayname = getdisplayNameByID($scope.propertylist[i].displayType);
+                     }
                 }else {
                   $scope.propertylist=[];
                 }
