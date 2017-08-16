@@ -4,91 +4,31 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $scope.loadModels = false;
     $scope.accessdev = {};
     $scope.deletedev = {};
-
-    $scope.$on('$viewContentLoaded', function() {
-      getdeviceModellist();
-      $scope.modellist = sharedataApi.getModeldata();
-
-      $('.form_date1').datetimepicker({
-          language: 'zh-CN',/*加载日历语言包，可自定义*/
-          weekStart: 1,
-          todayBtn: 1,
-          autoclose: 1,
-          todayHighlight: 1,
-          startView: 2,
-          forceParse: 0
-      }).on('hide', function (e) {
-          var $this = $(this);
-          var _this = this;
-          $scope.$apply(function(){
-             // $scope.$this.attr('ng-model') = _this.value;
-              $scope.createData.createTime = _this.value;
-          });
-        });
-
-        $('.form_date2').datetimepicker({
-            language: 'zh-CN',/*加载日历语言包，可自定义*/
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0
-        }).on('hide', function (e) {
-            var $this = $(this);
-            var _this = this;
-            $scope.$apply(function(){
-            //    $scope.$this.attr('ng-model') = _this.value;
-                $scope.createData.factoryDate = _this.value;
-            });
-        });
-
-        $('.form_date3').datetimepicker({
-            language: 'zh-CN',/*加载日历语言包，可自定义*/
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0
-        }).on('hide', function (e) {
-            var $this = $(this);
-            var _this = this;
-            $scope.$apply(function(){
-            //    $scope.$this.attr('ng-model') = _this.value;
-                $scope.createData.warrantyStartDate = _this.value;
-            });
-        });
-
-        $('.form_date4').datetimepicker({
-            language: 'zh-CN',/*加载日历语言包，可自定义*/
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0
-        }).on('hide', function (e) {
-            var $this = $(this);
-            var _this = this;
-            $scope.$apply(function(){
-            //    $scope.$this.attr('ng-model') = _this.value;
-                $scope.createData.warrantyEndDate = _this.value;
-            });
-        });
-
-      $timeout(getDevicelist(),1000);
-
-    });
+    $scope.message = '';
     $scope.devicelist = [];
     $scope.latitude = 33.4;
     $scope.longitude = 116.3;
     $scope.models = [];
-    $scope.createData = {};
+    $scope.currentData = {};
     $scope.modellist = [];
-    $scope.showMap = function() {
-      $scope.isShowmap = true;
+    $scope.provinceList = [];
+    $scope.allcity = []; //所有的城市数据
+    $scope.cityList = [];
+    $scope.doProvAndCityRelation = function(){
+      console.log('selectPro',$scope.currentData.province);
+      $scope.cityList = [];
+      $.each($scope.allcity,
+        function(i, val) {
+          if (val.id.substr(0, 2) == $scope.currentData.province.substr(0, 2)) {
+            $scope.cityList.push(val);
+          }
+        }
+      );
     };
+    $scope.doGetCity = function(){
+      console.log('selectCity',$scope.currentData.city);
+    };
+    $scope.showMap = function() {$scope.isShowmap = true;};
     $scope.checkboxes = {
       checked: false,
       items: {}
@@ -112,37 +52,37 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
         document.getElementById("formlatitude").value = e.lnglat.getLat();
         $scope.marker.setPosition([e.lnglat.getLng(),e.lnglat.getLat()]);
     });
-    $scope.setdismiss = function(){
-        $('#myModal_autocomplete').modal('hide');
+    $scope.discreate = function(){
+        $('#myModal_createDevice').modal('hide');
+    };
+    $scope.disalert = function(){
+        $('#myModal_alert').modal('hide')
     };
     $scope.setAccessDevDismiss = function(){
         $('#myModal_accessdev').modal('hide');
     };
     $scope.saveCreateDevice = function(){
 
-      if(!$scope.createData.hasOwnProperty("name") || $scope.createData.name == ''){
+      if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
         alert('必须填写设备名称');
-      }else if(!$scope.createData.hasOwnProperty("number")  || $scope.createData.number == ''){
+      }else if(!$scope.currentData.hasOwnProperty("number")  || $scope.currentData.number == ''){
         alert('必须填写设备编号');
-      }else if(!$scope.createData.hasOwnProperty("serialNumber")  || $scope.createData.serialNumber == ''){
+      }else if(!$scope.currentData.hasOwnProperty("serialNumber")  || $scope.currentData.serialNumber == ''){
         alert('必须填写设备序列号');
-      }else if(!$scope.createData.hasOwnProperty("createTime")  || $scope.createData.createTime == ''){
+      }else if(!$scope.currentData.hasOwnProperty("createTime")  || $scope.currentData.createTime == ''){
         alert('必须填写生产日期');
-      }else if(!$scope.createData.hasOwnProperty("factoryDate")  || $scope.createData.factoryDate == ''){
+      }else if(!$scope.currentData.hasOwnProperty("factoryDate")  || $scope.currentData.factoryDate == ''){
         alert('必须填写出厂日期');
-      }else if(!$scope.createData.hasOwnProperty("warrantyStartDate")  || $scope.createData.warrantyStartDate == ''){
+      }else if(!$scope.currentData.hasOwnProperty("warrantyStartDate")  || $scope.currentData.warrantyStartDate == ''){
         alert('必须填写质保开始日期');
-      }else if(!$scope.createData.hasOwnProperty("warrantyEndDate")  || $scope.createData.warrantyEndDate == ''){
+      }else if(!$scope.currentData.hasOwnProperty("warrantyEndDate")  || $scope.currentData.warrantyEndDate == ''){
         alert('必须填写质保结束日期');
       }else{
 
-          $('#myModal_autocomplete').modal('hide');
-       //   $(".modal-backdrop").remove();
-       //   $(".modal-backdrop").hide();
+          $('#myModal_createDevice').modal('hide');
           createDevice();
       }
     };
-
 
     $scope.deleteDevice = function(eName,eId) {
         $('#myModal_deleteDevice').modal();
@@ -179,7 +119,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
 
     $scope.saveAccessDevice = function(){
 
-        // console.log('access dev',$scope.createData);
+        // console.log('access dev',$scope.currentData);
         // console.log('location',$scope.longitude, $scope.latitude);
         // console.log('modalID',$scope.selectedmodel.equipmentModelId);
         if(!$scope.accessdev.hasOwnProperty("eName") || $scope.accessdev.eName == ''){
@@ -199,37 +139,35 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
 
         }
     };
-
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
-    }, function(value) {
+      }, function(value) {
       angular.forEach($scope.devicelist, function(item) {
         $scope.checkboxes.items[item.number] = value;
       });
     });
-
     // watch for data checkboxes
-     $scope.$watch(function() {
-       return $scope.checkboxes.items;
-     }, function(values) {
-       var checked = 0, unchecked = 0,
-       total = $scope.devicelist.length;
-       angular.forEach($scope.checkboxes.items, function(item) {
-         if(item){
-           checked += 1;
-         }else{
-           unchecked +=1;
-         }
-       });
-       if ((unchecked == 0) || (checked == 0)) {
-         $scope.checkboxes.checked = (checked == total && total>0);
+    $scope.$watch(function() {
+     return $scope.checkboxes.items;
+    }, function(values) {
+     var checked = 0, unchecked = 0,
+     total = $scope.devicelist.length;
+     angular.forEach($scope.checkboxes.items, function(item) {
+       if(item){
+         checked += 1;
+       }else{
+         unchecked +=1;
+       }
+     });
+     if ((unchecked == 0) || (checked == 0)) {
+       $scope.checkboxes.checked = (checked == total && total>0);
        }
       //  grayed checkbox
        angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
      }, true);
     $scope.getModels = function() {
-      $('#myModal_autocomplete').modal();
+      $('#myModal_createDevice').modal();
       getdeviceModellist();
     };
 
@@ -253,6 +191,83 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
 
         //getSelDeviceInfo();
     };
+    $scope.$on('$viewContentLoaded', function() {
+      getdeviceModellist();
+      getCityData();
+      $scope.modellist = sharedataApi.getModeldata();
+
+      $('.form_date1').datetimepicker({
+          language: 'zh-CN',/*加载日历语言包，可自定义*/
+          weekStart: 1,
+          todayBtn: 1,
+          autoclose: 1,
+          todayHighlight: 1,
+          startView: 2,
+          forceParse: 0
+      }).on('hide', function (e) {
+          var $this = $(this);
+          var _this = this;
+          $scope.$apply(function(){
+             // $scope.$this.attr('ng-model') = _this.value;
+              $scope.currentData.createTime = _this.value;
+          });
+        });
+
+        $('.form_date2').datetimepicker({
+            language: 'zh-CN',/*加载日历语言包，可自定义*/
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0
+        }).on('hide', function (e) {
+            var $this = $(this);
+            var _this = this;
+            $scope.$apply(function(){
+            //    $scope.$this.attr('ng-model') = _this.value;
+                $scope.currentData.factoryDate = _this.value;
+            });
+        });
+
+        $('.form_date3').datetimepicker({
+            language: 'zh-CN',/*加载日历语言包，可自定义*/
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0
+        }).on('hide', function (e) {
+            var $this = $(this);
+            var _this = this;
+            $scope.$apply(function(){
+            //    $scope.$this.attr('ng-model') = _this.value;
+                $scope.currentData.warrantyStartDate = _this.value;
+            });
+        });
+
+        $('.form_date4').datetimepicker({
+            language: 'zh-CN',/*加载日历语言包，可自定义*/
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0
+        }).on('hide', function (e) {
+            var $this = $(this);
+            var _this = this;
+            $scope.$apply(function(){
+            //    $scope.$this.attr('ng-model') = _this.value;
+                $scope.currentData.warrantyEndDate = _this.value;
+            });
+        });
+
+      $timeout(getDevicelist(),1000);
+
+    });
+
 
     function getdeviceModellist(){
       deviceApi.getdeviceModellist('asc',0,100)
@@ -323,31 +338,9 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
 
     function getDevicelist() {
       $scope.devicelist=[];
-      // deviceApi.getDevicelist('asc', 0, 100)
-      //   .then(function(result) {
-      //       if(result.data.total > 0) {
-      //            $scope.devicelist=result.data.rows;
-      //            for(var i=0;i<result.data.rows.length;i++) {
-      //              var tempname = getModelnameById($scope.devicelist[i].equipmentModelId);
-      //              $scope.devicelist[i].equipmentModelname = tempname;
-      //              $scope.devicelist[i].factoryDate = changeTimeFormat($scope.devicelist[i].factoryDate);
-      //              $scope.devicelist[i].createTime = changeTimeFormat($scope.devicelist[i].createTime);
-      //              $scope.devicelist[i].warrantyStartDate = changeTimeFormat($scope.devicelist[i].warrantyStartDate);
-      //              $scope.devicelist[i].warrantyEndDate = changeTimeFormat($scope.devicelist[i].warrantyEndDate);
-      //            }
-      //       }else {
-      //         $scope.devicelist=[];
-      //       }
-      //       $scope.tableParams.settings().dataset = $scope.devicelist;
-      //       $scope.tableParams.reload();
-      //   }, function(err) {
-      //       alert(err);
-      //       alert('网络连接问题，请稍后再试！');
-      //   });
       $scope.devicelist=[];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
-      // console.log('hahaha',$scope.checkboxes.items);
       $scope.tableParams = new NgTableParams({
         page: 1,
         count:10
@@ -382,28 +375,33 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     function createDevice() {
       var params={};
       params.userId = 1;
-      params.name = $scope.createData.name;
-      params.number = $scope.createData.number;
-      params.serial_number = $scope.createData.serialNumber;
+      params.name = $scope.currentData.name;
+      params.number = $scope.currentData.number;
+      params.serial_number = $scope.currentData.serialNumber;
       params.equipmentModelId = $scope.selectedmodel.equipmentModelId;
       params.imagePath = '';
       params.longitude = Math.round(document.getElementById("formlongitude").value);
       params.latitude = Math.round(document.getElementById("formlatitude").value);
-      params.factoryDate = changeTimeFormat2($scope.createData.factoryDate);
-      params.createTime = changeTimeFormat2($scope.createData.createTime);
-      params.warrantyStartDate = changeTimeFormat2($scope.createData.warrantyStartDate);
-      params.warrantyEndDate = changeTimeFormat2($scope.createData.warrantyEndDate);
+      params.factoryDate = changeTimeFormat2($scope.currentData.factoryDate);
+      params.createTime = changeTimeFormat2($scope.currentData.createTime);
+      params.warrantyStartDate = changeTimeFormat2($scope.currentData.warrantyStartDate);
+      params.warrantyEndDate = changeTimeFormat2($scope.currentData.warrantyEndDate);
       params.commissioningDate = changeTimeFormat2(new Date());
-      params.maintenancePeriod = $scope.createData.maintenancePeriod;
+      params.maintenancePeriod = $scope.currentData.maintenancePeriod;
+      params.province = $scope.currentData.province;
+      params.city = $scope.currentData.city;
       deviceApi.createDevice(params)
         .then(function(result){
             if(result.data.code ==1 ){
-              //alert('创建模型成功');
+              $scope.message="创建设备成功！";
+              $('#myModal_alert').modal();
               getDevicelist();
+            }else{
+              $scope.message=result.data.message;
+              $('#myModal_alert').modal();
             }
         }, function(err) {
-            alert(err);
-            alert('网络连接问题，请稍后再试！');
+            console.log('createDeviceerr',err);
         });
     };
 
@@ -429,4 +427,9 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
             });
     };
 
+    function getCityData(){
+      $.getJSON("./data/areas.json", function(value){
+        $scope.provinceList = value.province;
+        $scope.allcity = value.city;
+    })}
 }]);
