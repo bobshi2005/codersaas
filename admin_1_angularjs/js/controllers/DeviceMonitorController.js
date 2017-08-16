@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval', function($scope, $rootScope, $http, userApi, locals, $compile, $interval) {
+angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval','deviceApi', function($scope, $rootScope, $http, userApi, locals, $compile, $interval,deviceApi) {
     $rootScope.showHeader = true;
     $rootScope.menueName = 'sidebar-device';
     $scope.menueName = $rootScope.menueName;
@@ -140,12 +140,13 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
        return format;
      };
     function getEquipmentList(){
-      userApi.getEquipmentList($scope.userrole)
+      deviceApi.getDevicelist('asc',0,10000)
         .then(function(result) {
-          // console.log('list',result);
-            if(result.data.errCode == 0) {
-              if(result.data.equipments.length>0){
-                result.data.equipments.forEach(item => {
+          console.log('devicelist',result);
+            if(result.data.total > 0) {
+              if(result.data.rows.length>0){
+                for(var i=0;i<result.data.rows.length;i++){
+                  var item = result.data.rows[i];
                   var marker = new AMap.Marker({
                           position: [item.longitude, item.latitude],
                           offset: new AMap.Pixel(-12, -12),
@@ -154,14 +155,14 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                           map: $scope.map
                       });
                   marker.on('click', function(e) {
-                    // console.log('sss');
-                    $scope.selectedequipid = item.equipid;
-                    setInfoWindow(item);
+                    $scope.selectedequipid = item.equipmentId;
+                    // console.log('click',e.target.getExtData());
+                    setInfoWindow(e.target.getExtData());
                   })
                   $scope.markers.push(marker);
-                })
+                }
               }
-              // console.log('markers',$scope.markers);
+              console.log('markers',$scope.markers);
             }else {
               // alert(result.errMsg);
             }
@@ -288,8 +289,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
           设备概况</div>
         <div style="padding: 4px;color: #666666;line-height: 35px; width: 300px">
              <img style=" float: left; margin: 3px; width: 60px" src="../assets/pages/media/works/img7.jpg">
-             <a href="javascritp:void(0);" ng-click="selectNodefromMap()">${infodata.equipname}</a><br/>
-             ${infodata.vendor}<br/>
+             <a href="javascritp:void(0);" ng-click="selectNodefromMap()">${infodata.name}</a><br/>
+             ${infodata.equipmentId}<br/>
         </div>
         </div>
         `;
