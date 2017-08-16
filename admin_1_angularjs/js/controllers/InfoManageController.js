@@ -2,11 +2,10 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $rootScope.menueName = 'sidebar-asset';
     $scope.isShowmap = false;
     $scope.loadModels = false;
-    $scope.deletedev = {};
-    $scope.message = '';
+    $scope.deletelist = [];
+    $scope.deletestr = ''; //删除队列显示字符串
+    $scope.message = ''; // 自定义消息提示内容
     $scope.devicelist = [];
-    $scope.latitude = 33.4;
-    $scope.longitude = 116.3;
     $scope.models = [];
     $scope.currentData = {};
     $scope.modellist = [];
@@ -15,47 +14,135 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $scope.cityList = [];
     $scope.doProvAndCityRelation = function(){
       console.log('selectPro',$scope.currentData.province);
-      $scope.cityList = [];
-      $.each($scope.allcity,
-        function(i, val) {
-          if (val.id.substr(0, 2) == $scope.currentData.province.substr(0, 2)) {
-            $scope.cityList.push(val);
-          }
-        }
-      );
+      getProCity($scope.currentData.province);
     };
     $scope.doGetCity = function(){
       console.log('selectCity',$scope.currentData.city);
     };
-    $scope.showMap = function() {$scope.isShowmap = true;};
+    $scope.showMap1 = function() {
+      $scope.isShowmap = true;
+    };
+    $scope.showMap2 = function() {
+      $scope.isShowmap = true;
+    };
     $scope.checkboxes = {
       checked: false,
       items: {}
     };
-    $scope.map = new AMap.Map('mapContainer', {
+    $scope.map1 = new AMap.Map('mapContainer1', {
         resizeEnable: true,
         center: [116.397428, 39.90923],
         zoom: 4
     });
-    $scope.marker = new AMap.Marker({
-      position: $scope.map.getCenter(),
+    $scope.marker1 = new AMap.Marker({
+      position: $scope.map1.getCenter(),
       offset: new AMap.Pixel(-12, -12),
       zIndex: 101,
-      map: $scope.map
+      map: $scope.map1
     });
-    $scope.map.plugin(["AMap.ToolBar"], function() {
-        $scope.map.addControl(new AMap.ToolBar());
+    $scope.map1.plugin(["AMap.ToolBar"], function() {
+        $scope.map1.addControl(new AMap.ToolBar());
     });
-    $scope.map.on('click', function(e) {
-        document.getElementById("formlongitude").value = e.lnglat.getLng();
-        document.getElementById("formlatitude").value = e.lnglat.getLat();
-        $scope.marker.setPosition([e.lnglat.getLng(),e.lnglat.getLat()]);
+    $scope.map1.on('click', function(e) {
+        document.getElementById("formlongitude1").value = e.lnglat.getLng();
+        document.getElementById("formlatitude1").value = e.lnglat.getLat();
+        $scope.marker1.setPosition([e.lnglat.getLng(),e.lnglat.getLat()]);
+    });
+    $scope.map2 = new AMap.Map('mapContainer2', {
+        resizeEnable: true,
+        center: [116.397428, 39.90923],
+        zoom: 4
+    });
+    $scope.marker2 = new AMap.Marker({
+      position: $scope.map2.getCenter(),
+      offset: new AMap.Pixel(-12, -12),
+      zIndex: 101,
+      map: $scope.map2
+    });
+    $scope.map2.plugin(["AMap.ToolBar"], function() {
+        $scope.map2.addControl(new AMap.ToolBar());
+    });
+    $scope.map2.on('click', function(e) {
+        document.getElementById("formlongitude2").value = e.lnglat.getLng();
+        document.getElementById("formlatitude2").value = e.lnglat.getLat();
+        $scope.marker2.setPosition([e.lnglat.getLng(),e.lnglat.getLat()]);
     });
     $scope.discreate = function(){
         $('#myModal_createDevice').modal('hide');
+        $scope.isShowmap = false;
+    };
+    $scope.disdelete = function(){
+        $('#myModal_deleteDevice').modal('hide');
+    };
+    $scope.disupdate = function(){
+      $('#myModal_updateDevice').modal('hide');
+      $scope.isShowmap = false;
     };
     $scope.disalert = function(){
         $('#myModal_alert').modal('hide')
+    };
+    $scope.createDevice = function() {
+      $scope.currentData = [];
+      $('#myModal_createDevice').modal();
+      getdeviceModellist();
+    };
+    $scope.updateDevice = function() {
+      $scope.currentData = {};
+      var checked = 0, index = 0;
+      angular.forEach($scope.checkboxes.items, function(value,key) {
+        if(value){
+          index = key;
+          checked += 1;
+        }
+      });
+      if(checked == 0){
+        $scope.message = '请选择一个设备';
+        $('#myModal_alert').modal();
+      }else if(checked > 1){
+        $scope.message = '只能选择一个设备类行编辑';
+        $('#myModal_alert').modal();
+      }else{
+        for(var i=0; i< $scope.devicelist.length; i++){
+          if($scope.devicelist[i].equipmentId == index){
+            $scope.currentData = $scope.devicelist[i];
+            $scope.currentData.model = getModelByID($scope.currentData.equipmentModelId);
+            getProCity($scope.currentData.province);
+            $scope.marker2.setPosition([$scope.currentData.longitude,$scope.currentData.latitude]);
+            break;
+          }
+        }
+        $('#myModal_updateDevice').modal();
+      }
+    };
+    $scope.deleteDevice = function() {
+        var checked = 0;
+        $scope.deletelist = [];
+        angular.forEach($scope.checkboxes.items, function(value,key) {
+          if(value){
+            checked += 1;
+            let tempdata={};
+            for(var i=0; i< $scope.devicelist.length; i++){
+              if($scope.devicelist[i].equipmentId == key){
+                tempdata = $scope.devicelist[i];
+                $scope.deletelist.push(tempdata);
+                break;
+              }
+            }
+          }
+        });
+        if(checked == 0){
+          $scope.message = '请至少选择一个设备';
+          $('#myModal_alert').modal();
+        }else{
+          let tempstr = '';
+          for(var i=0; i< $scope.deletelist.length; i++){
+            tempstr =tempstr+ $scope.deletelist[i].name;
+            tempstr =tempstr+ ' ';
+          }
+          tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个设备';
+          $scope.deletestr = tempstr;
+          $('#myModal_deleteDevice').modal();
+        }
     };
     $scope.saveCreateDevice = function(){
 
@@ -82,41 +169,41 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
         $('#myModal_alert').modal();
       }else{
           $('#myModal_createDevice').modal('hide');
-          createDevice();
+          createDeviceImpl();
       }
     };
-
-    $scope.deleteDevice = function(eName,eId) {
-        $('#myModal_deleteDevice').modal();
-
-        $scope.deletedev.eName=eName;
-        $scope.deletedev.eId=eId;
-
-    };
-
-    $scope.doneDeleteDevice = function() {
-
+    $scope.saveDeleteDevice = function() {
         $('#myModal_deleteDevice').modal("hide");
-
-        if($scope.deletedev.eId)
-        {
-            //alert($scope.deletedev.eName);
-
-            var eId=$scope.deletedev.eId;
-
-            deviceApi.deleteDevice(eId)
-                .then(function(result){
-                    if(result.data.code ==1 ){
-                        alert('删除设备成功');
-                        getDevicelist();
-                    }
-                }, function(err) {
-                    alert(err);
-                    alert('网络连接问题，请稍后再试！');
-                });
-
-        }
-
+        $scope.isShowmap = false;
+        deleteDeviceImpl();
+    };
+    $scope.saveUpdateDevice = function(){
+      if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
+        $scope.message = '必须填写设备名称';
+        $('#myModal_alert').modal();
+      }else if(!$scope.currentData.hasOwnProperty("number")  || $scope.currentData.number == ''){
+        $scope.message = '必须填写设备编号';
+        $('#myModal_alert').modal();
+      }else if(!$scope.currentData.hasOwnProperty("serialNumber")  || $scope.currentData.serialNumber == ''){
+        $scope.message = '必须填写设备序列号';
+        $('#myModal_alert').modal();
+      }else if(!$scope.currentData.hasOwnProperty("createTime")  || $scope.currentData.createTime == ''){
+        $scope.message = '必须填写生产日期';
+        $('#myModal_alert').modal();
+      }else if(!$scope.currentData.hasOwnProperty("factoryDate")  || $scope.currentData.factoryDate == ''){
+        $scope.message = '必须填写出厂日期';
+        $('#myModal_alert').modal();
+      }else if(!$scope.currentData.hasOwnProperty("warrantyStartDate")  || $scope.currentData.warrantyStartDate == ''){
+        $scope.message = '必须填写质保开始日期';
+        $('#myModal_alert').modal();
+      }else if(!$scope.currentData.hasOwnProperty("warrantyEndDate")  || $scope.currentData.warrantyEndDate == ''){
+        $scope.message = '必须填写质保结束日期';
+        $('#myModal_alert').modal();
+      }else{
+          $('#myModal_updateDevice').modal('hide');
+          $scope.isShowmap = false;
+          updateDeviceImpl();
+      }
     };
     //监听 checkbox
     $scope.$watch(function() {
@@ -145,10 +232,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       //  grayed checkbox
        angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
      }, true);
-    $scope.getModels = function() {
-      $('#myModal_createDevice').modal();
-      getdeviceModellist();
-    };
+
 
     $scope.$on('$viewContentLoaded', function() {
       getdeviceModellist();
@@ -244,6 +328,17 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
         });
     }
 
+    function getModelByID(id){
+      var obj = {};
+        for(var i=0; i<$scope.modellist.length; i++){
+            if($scope.modellist[i].equipmentModelId == id){
+                obj = $scope.modellist[i]
+                break;
+            }
+        }
+        return obj;
+    }
+
     Date.prototype.format = function(format) {
       var date = {
             "M+": this.getMonth() + 1,
@@ -323,16 +418,16 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       $scope.tableParams.reload();
     };
 
-    function createDevice() {
+    function createDeviceImpl() {
       var params={};
-      params.userId = 1;
+      // params.userId = 1;
       params.name = $scope.currentData.name;
       params.number = $scope.currentData.number;
-      params.serial_number = $scope.currentData.serialNumber;
+      params.serialNumber = $scope.currentData.serialNumber;
       params.equipmentModelId = $scope.selectedmodel.equipmentModelId;
       params.imagePath = '';
-      params.longitude = Math.round(document.getElementById("formlongitude").value);
-      params.latitude = Math.round(document.getElementById("formlatitude").value);
+      params.longitude = Math.round(document.getElementById("formlongitude1").value);
+      params.latitude = Math.round(document.getElementById("formlatitude1").value);
       params.factoryDate = changeTimeFormat2($scope.currentData.factoryDate);
       params.createTime = changeTimeFormat2($scope.currentData.createTime);
       params.warrantyStartDate = changeTimeFormat2($scope.currentData.warrantyStartDate);
@@ -355,10 +450,72 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
             console.log('createDeviceerr',err);
         });
     };
+    function updateDeviceImpl() {
+      var params ={};
+      params.name = $scope.currentData.name;
+      params.number = $scope.currentData.number;
+      params.serialNumber = $scope.currentData.serialNumber;
+      params.equipmentModelId = $scope.selectedmodel.equipmentModelId;
+      params.imagePath = '';
+      params.longitude = Math.round(document.getElementById("formlongitude2").value);
+      params.latitude = Math.round(document.getElementById("formlatitude2").value);
+      params.factoryDate = changeTimeFormat2($scope.currentData.factoryDate);
+      params.createTime = changeTimeFormat2($scope.currentData.createTime);
+      params.warrantyStartDate = changeTimeFormat2($scope.currentData.warrantyStartDate);
+      params.warrantyEndDate = changeTimeFormat2($scope.currentData.warrantyEndDate);
+      params.commissioningDate = changeTimeFormat2(new Date());
+      params.maintenancePeriod = $scope.currentData.maintenancePeriod;
+      params.province = $scope.currentData.province;
+      params.city = $scope.currentData.city;
+      deviceApi.updateDevice($scope.currentData.equipmentId,params)
+        .then(function(result){
+            if(result.data.code ==1 ){
+              $scope.message="编辑设备成功！";
+              $('#myModal_alert').modal();
+              getDevicelist();
+            }else{
+              $scope.message=result.data.message;
+              $('#myModal_alert').modal();
+            }
+        }, function(err) {
+            console.log('updateDeviceerr',err);
+        });
 
-    function getCityData(){
+    }
+    function deleteDeviceImpl() {
+      var ids='';
+      for(var i=0; i< $scope.deletelist.length; i++){
+        ids =ids+ $scope.deletelist[i].equipmentId+'-';
+      }
+      deviceApi.deleteDevice(ids)
+        .then(function(result){
+            if(result.data.code ==1 ){
+                $scope.message = '设备删除成功';
+                $('#myModal_alert').modal();
+                getDevicelist();
+            }else{
+              $scope.message = result.data.message;
+              $('#myModal_alert').modal();
+            }
+        }, function(err) {
+            console.log('deleteerr',err);
+        });
+    }
+    function getCityData() {
       $.getJSON("./data/areas.json", function(value){
         $scope.provinceList = value.province;
         $scope.allcity = value.city;
     })}
+    function getProCity(procode) {
+      $scope.cityList = [];
+      if(procode!=null && procode!=''){
+        $.each($scope.allcity,
+          function(i, val) {
+            if (val.id.substr(0, 2) == procode.substr(0, 2)) {
+              $scope.cityList.push(val);
+            }
+          }
+        );
+      }
+    }
 }]);

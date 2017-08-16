@@ -473,8 +473,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         files: [
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                            "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
                             "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+                            "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
                             "../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
                             'js/controllers/InfoManageController.js?version=2017071304 '
                         ]
