@@ -19,30 +19,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       {"id":"pie",'name':'饼图'},
       {"id":"guage","name":"仪表盘"}
     ];
-    // $rootScope.settings.layout.pageSidebarClosed = false;
-    // Cookies.set('sidebar_closed', '1');
 
-    // $scope.tableParams = new NgTableParams(
-    //
-    // );
-
-    // $scope.tableParams = new NgTableParams({}, {
-    //   getData: function(params) {
-    //     console.log('hahah',params);
-    //     return deviceApi.getmodelPropertylist($scope.currentModal.equipmentModelId,'asc', $scope.offset, $scope.limit)
-    //       .then(function(result) {
-    //           if(result.data.total > 0) {
-    //                $scope.propertylist=result.data.rows;
-    //                console.log('++++',$scope.propertylist);
-    //           }else {
-    //             $scope.propertylist=[];
-    //           }
-    //           params.total(result.data.total);
-    //           return $scope.propertylist;
-    //       }, function(err) {
-    //       });
-    //   }
-    // });
     $scope.checkboxes = {
       checked: false,
       items: {}
@@ -192,22 +169,25 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         });
     }
 
+    function getdataTypeNameByID(id){
+      for(var i=0;i<$scope.typeList.length;i++){
+        if($scope.typeList[i].id == id){
+          return $scope.typeList[i].name;
+          break;
+        }
+      }
+    }
+
+    function getdisplayNameByID(id){
+      for(var i=0;i<$scope.displayTypeList.length;i++){
+        if($scope.displayTypeList[i].id == id){
+          return $scope.displayTypeList[i].name;
+          break;
+        }
+      }
+    }
+
     function getmodelPropertylist(){
-      // $scope.propertylist=[];
-      // deviceApi.getmodelPropertylist($scope.currentModal.equipmentModelId,'asc', $scope.offset, $scope.limit)
-      //   .then(function(result) {
-      //       if(result.data.total > 0) {
-      //            $scope.propertylist=result.data.rows;
-      //            console.log('-----',$scope.propertylist.length);
-      //       }else {
-      //         $scope.propertylist=[];
-      //       }
-      //       // $scope.tableParams.settings().dataset = $scope.propertylist;
-      //       // $scope.tableParams.reload();
-      //   }, function(err) {
-      //       alert(err);
-      //       alert('网络连接问题，请稍后再试！');
-      //   });
       $scope.propertylist=[];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
@@ -221,6 +201,10 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             .then(function(result) {
                 if(result.data.total > 0) {
                      $scope.propertylist=result.data.rows;
+                     for(var i=0;i<result.data.rows.length;i++){
+                       $scope.propertylist[i].dataTypename = getdataTypeNameByID($scope.propertylist[i].dataType);
+                       $scope.propertylist[i].displayname = getdisplayNameByID($scope.propertylist[i].displayType);
+                     }
                 }else {
                   $scope.propertylist=[];
                 }
