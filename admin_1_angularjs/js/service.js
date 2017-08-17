@@ -450,7 +450,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
-
   //设备模型管理
     service.createdeviceModel = function(userId, name, number) {
         var d = $q.defer();
@@ -610,7 +609,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-
+  //设备信息管理
     service.getDevicelist = function(order, offset, limit) {
         var d = $q.defer();
         $http({
@@ -689,9 +688,22 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-
-    //设备接入
-
+  //设备展示
+    service.getDeviceTree = function() {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/city/tree',
+            headers: {"Accept":"application/json"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+  //设备接入
     service.accessDevice = function(params) {
         var d = $q.defer();
         $http({
@@ -754,8 +766,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-
-    //仓库管理
+  //仓库管理
     service.getWarehouselist = function(order, offset, limit) {
         var d = $q.defer();
         $http({
@@ -929,8 +940,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-
-    //库存管理
+  //库存管理
     service.getInventorylist = function(order, offset, limit) {
         var d = $q.defer();
         $http({
@@ -1009,7 +1019,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-    //配件类别
+  //配件类别
     service.createPartCategory = function(name) {
         var d = $q.defer();
         $http({
@@ -1089,8 +1099,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-
-    //配件
+  //配件
     service.createPart = function(params) {
         var d = $q.defer();
         $http({

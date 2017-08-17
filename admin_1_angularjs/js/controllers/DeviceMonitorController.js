@@ -63,7 +63,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.formatStateValue2 = function(name) {
         $scope.htmlStr2='<a href="javascritp:;" class="btn blue btn-outline">'+name+'</a>';
     };
-    $scope.userrole=locals.get("userrole");
+
     $scope.refreshData = function(){
       if($scope.selectedequipid && $scope.selectedequipid>0){
         getDataModelAndValues($scope.selectedequipid);
@@ -106,8 +106,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
           if (sNodes.length > 0) {
             var level = sNodes[0].level;
             if(level==1)//city node
-            {
-               $scope.map.setZoomAndCenter(6, [treeNode.longitude,treeNode.latitude]);
+            {  //城市中心点 后期修改
+              //  $scope.map.setZoomAndCenter(6, [treeNode.longitude,treeNode.latitude]);
             }
             else if(level==2)//device node
             {
@@ -171,15 +171,13 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         });
     }
     function getCityTree(){
-      userApi.getCityTree($scope.userrole)
+      deviceApi.getDeviceTree()
         .then(function(result) {
-            // console.log('getCityTree',result.data);
-            if(result.data.errCode == 0) {
-                var data=result.data;
-
-               //alert(data.tree);
-               var zNodes=data.tree;
+            console.log('getCityTree',result.data);
+            if(result.data.code == 1) {
+               var zNodes=result.data.data.provices;
                var treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+               console.log('zNodes',zNodes);
                treeObj.expandAll(true);
                $scope.selectedequipid = zNodes[0].children[0].children[0].id;
                var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
@@ -575,7 +573,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.$on('$viewContentLoaded', function() {
       getEquipmentList();
       getCityTree();
-      ComponentsKnobDials.init();
       if($scope.selectedequipid && $scope.selectedequipid>0){
         getDataModelAndValues($scope.selectedequipid);
         getEquipmentInfo($scope.selectedequipid);
@@ -630,4 +627,5 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
           }
       });
     });
+
 }]);
