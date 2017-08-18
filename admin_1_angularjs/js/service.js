@@ -771,7 +771,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         var d = $q.defer();
         $http({
             method: 'get',
-            url: deviceUrl+ '/manage/equipment/sensor/'+eId+'/'+pId,
+            url: deviceUrl+ '/manage/equipment/sensor/modbus/'+eId+'/'+pId,
             headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
             withCredentials: true,
         }).then(function(response) {
