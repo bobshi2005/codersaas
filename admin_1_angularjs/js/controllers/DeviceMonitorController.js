@@ -3,7 +3,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $rootScope.menueName = 'sidebar-device';
     $scope.menueName = $rootScope.menueName;
 
-    $scope.equipname = 'acw';
+    $scope.equipname = '';
     $scope.latitude=31.35046;
     $scope.longitude=120.35046;
     $scope.linechartoption=[];
@@ -350,7 +350,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
               $scope.echartValue.push(tempoption);
             }
             break;
-            case 'gauge':{
+            case 'guage':{
               var tempoption = {
                 widgetName:origindata[i].name,
                 widgetType: 'gauge',
@@ -477,45 +477,68 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.selectedlinetab=[];
       $scope.lineTab='';
       $scope.lineLabel='';
-      userApi.getDataModel(equipid)
-      .then(function(result) {
-        if(result.data.errCode == 0) {
-             var dataArr=result.data.data[0].vars;
-             $scope.linevarstab = [];
-             for(var i=0;i<dataArr.length;i++){
-               if(dataArr[i].showchart == true){
-                 $scope.linevarstab.push(dataArr[i]);
-               }
-             }
-             if($scope.linevarstab.length>0){
-               $scope.selectedlinetab = $scope.linevarstab[0];
-               $scope.lineTab=$scope.selectedlinetab.name;
-               $scope.lineLabel=$scope.lineType+$scope.lineTab;
-             }
-             if($scope.selectedlinetab.name){
-                 getHistoryData();
-             }else{
-               resetlineoption();
-             }
+      deviceApi.getDeviceSensorData(equipid)
+        .then(function(result) {
+            if(result.data.code == 1) {
+              console.log('getDataModel',result.data.data);
+                 var dataArr=result.data.data;
+                 if(dataArr.length>0){
+                   $scope.groupname0=dataArr[0].groupName;
+                   $scope.varsArr0=dataArr[0].vars;
+                   formatEchartValue(dataArr[0].vars);
+                  //  $scope.groupname1=dataArr[1].groupName;
+                  //  $scope.varsArr1=dataArr[1].vars;
+                 }
 
-        }else {
-          // alert(result.data.errMsg);
-        }
-      },function(err){
-        // alert(err);
+            }else {
+              // alert(result.data.errMsg);
+            }
+        }, function(err) {
+            // alert(err);
       });
+
+      // userApi.getDataModel(equipid)
+      // .then(function(result) {
+      //   if(result.data.errCode == 0) {
+      //        var dataArr=result.data.data[0].vars;
+      //        $scope.linevarstab = [];
+      //        for(var i=0;i<dataArr.length;i++){
+      //          if(dataArr[i].showchart == true){
+      //            $scope.linevarstab.push(dataArr[i]);
+      //          }
+      //        }
+      //        if($scope.linevarstab.length>0){
+      //          $scope.selectedlinetab = $scope.linevarstab[0];
+      //          $scope.lineTab=$scope.selectedlinetab.name;
+      //          $scope.lineLabel=$scope.lineType+$scope.lineTab;
+      //        }
+      //        if($scope.selectedlinetab.name){
+      //            getHistoryData();
+      //        }else{
+      //          resetlineoption();
+      //        }
+      //
+      //   }else {
+      //     // alert(result.data.errMsg);
+      //   }
+      // },function(err){
+      //   // alert(err);
+      // });
 
     };
     function getDataModelAndValues(equipid) {
-      userApi.getDataModelAndValues(equipid)
+      deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
-            if(result.data.errCode == 0) {
+            if(result.data.code == 1) {
+              console.log('getDataModelAndValues',result.data);
                  var dataArr=result.data.data;
-                 $scope.groupname0=dataArr[0].groupName;
-                 $scope.varsArr0=dataArr[0].vars;
-                 formatEchartValue(dataArr[0].vars);
-                 $scope.groupname1=dataArr[1].groupName;
-                 $scope.varsArr1=dataArr[1].vars;
+                 if(dataArr.length>0){
+                   $scope.groupname0=dataArr[0].groupName;
+                   $scope.varsArr0=dataArr[0].vars;
+                   formatEchartValue(dataArr[0].vars);
+                  //  $scope.groupname1=dataArr[1].groupName;
+                  //  $scope.varsArr1=dataArr[1].vars;
+                 }
             }else {
               // alert(result.data.errMsg);
             }
@@ -524,47 +547,28 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       });
     };
     function getEquipmentInfo(equipid){
-      userApi.getEquipmentInfo(equipid)
-        .then(function(result) {
-            // console.log('getEquipmentInfo',result.data, equipid);
-            if(result.data.errCode == 0) {
-                var data=result.data;
-                gatewaySN   =data.gatewaySN;
-                address     =data.address;
-                phone       =data.phone;
-                contactor   =data.contactor;
-                equipname   =data.equipname;
-                vendor      =data.vendor;
-                type        =data.type;
-                sn          =data.sn;
-                user        =data.user;
-                deliverDate =data.deliverDate;
-                tryrunDate  =data.tryrunDate;
-                latitude    =data.latitude;
-                longitude   =data.longitude;
+      var data ={};
+      for(var i=0;i<$scope.markers.length;i++){
+        var obj = $scope.markers[i].getExtData();
+        if(obj.equipmentId == equipid){
+          data = obj;
+          console.log('getEquipmentInfo哈哈哈',obj);
+          break;
+        }
+      }
+      if(data.equipmentId){
+        $scope.gatewaySN=data.serialNumber;
+        $scope.equipmentId=data.equipmentId;
+        $scope.equipname=data.name;
+        $scope.number=data.number;
+        $scope.factoryDate=changeTimeFormat(data.factoryDate);
+        $scope.commissioningDate=changeTimeFormat(data.commissioningDate);
+        $scope.latitude=data.latitude;
+        $scope.longitude=data.longitude;
+        setInfoWindow(data);
+      }
+      // setInfoWindow(data);
 
-                $scope.gatewaySN=gatewaySN;
-                $scope.address=address;
-                $scope.phone=phone;
-                $scope.contactor=contactor;
-                $scope.equipname=equipname;
-                $scope.vendor=vendor;
-                $scope.type=type;
-                $scope.sn=sn;
-                $scope.user=user;
-                $scope.deliverDate=deliverDate;
-                $scope.tryrunDate=tryrunDate;
-                $scope.latitude=latitude;
-                $scope.longitude=longitude;
-
-                setInfoWindow(data);
-
-            }else {
-              // alert(result.data.errMsg);
-            }
-        }, function(err) {
-            // alert(err);
-        });
     }
 
     $scope.$on('$destroy',function(){
@@ -627,5 +631,33 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
           }
       });
     });
+
+    Date.prototype.format = function(format) {
+      var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S+": this.getMilliseconds()
+      };
+      if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+      }
+      for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                   format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                          ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+      }
+      return format;
+    }
+
+    function changeTimeFormat(timestamp) {
+      var newDate = new Date();
+      newDate.setTime(timestamp);
+      return newDate.format('yyyy-MM-dd');
+    }
 
 }]);
