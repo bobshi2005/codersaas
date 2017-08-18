@@ -107,7 +107,11 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
             $scope.currentData = $scope.devicelist[i];
             $scope.currentData.model = getModelByID($scope.currentData.equipmentModelId);
             getProCity($scope.currentData.province);
-            $scope.marker2.setPosition([$scope.currentData.longitude,$scope.currentData.latitude]);
+            if($scope.currentData.longitude!=null && $scope.currentData.latitude!=null){
+              $scope.marker2.setPosition([$scope.currentData.longitude,$scope.currentData.latitude]);
+            }else{
+              $scope.marker2.setPosition([116,39]);
+            }
             break;
           }
         }
