@@ -781,6 +781,40 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
+  //设备启停
+    service.startCollect = function(param) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/equipment/collect/start/',
+            headers: {"Content-Type":"application/json"},
+            data: param,
+            withCredentials: true
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+    service.stopCollect = function(param) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/equipment/collect/stop/',
+            headers: {"Content-Type":"application/json"},
+            data: param,
+            withCredentials: true
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
   //仓库管理
     service.getWarehouselist = function(order, offset, limit) {
         var d = $q.defer();

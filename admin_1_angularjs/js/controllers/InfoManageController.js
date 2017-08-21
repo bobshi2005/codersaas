@@ -209,6 +209,54 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
           updateDeviceImpl();
       }
     };
+
+    $scope.openStatusModal = function(param){
+      //设备启停
+        $scope.currentData = param;
+        if(param.collectStatus == "Working"){
+          $scope.status ="已开启";
+          $scope.statusAction = "停止";
+        }else {
+          $scope.status ="已停止";
+          $scope.statusAction = "开启";
+        }
+        $('#myModal_status').modal();
+    };
+    $scope.changeStatus = function(){
+      $('#myModal_status').modal('hide');
+      param = {};
+      param.ids=$scope.currentData.equipmentId;
+      if($scope.statusAction == '开启'){
+        deviceApi.startCollect(param)
+          .then(function(result) {
+            if(result.data.code == 1) {
+              $scope.message="设备开启成功！";
+              $('#myModal_alert').modal();
+              getDevicelist();
+            }else {
+              $scope.message=result.data.message;
+              $('#myModal_alert').modal();
+            }
+          }, function(err) {
+              console.log('startCollectErr',err);
+          });
+
+      }else if($scope.statusAction == '停止'){
+        deviceApi.stopCollect(param)
+          .then(function(result) {
+            if(result.data.code == 1) {
+              $scope.message="设备停止成功！";
+              $('#myModal_alert').modal();
+              getDevicelist();
+            }else {
+              $scope.message=result.data.message;
+              $('#myModal_alert').modal();
+            }
+          }, function(err) {
+              console.log('stopCollectErr',err);
+          });
+      }
+    };
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;

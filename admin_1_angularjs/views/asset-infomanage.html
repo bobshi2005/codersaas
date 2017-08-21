@@ -289,6 +289,33 @@
                           </div>
                       </div>
                   </div>
+                  <div id="myModal_status" class="modal fade" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                  <h4 class="modal-title">设备启停</h4>
+                              </div>
+                              <div class="modal-body form skin skin-line">
+                                <form action="" class="form-horizontal form-row-seperated">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">
+                                            {{status}}</label>
+                                        <div class="col-sm-6">
+                                          <button type="button" class="btn green"  ng-click='changeStatus()'>
+                                              <i class="fa fa-check"></i> {{statusAction}} </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                  <div>
+
+                                  </div>
+
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
                   <div id="myModal_alert" class="modal fade" role="dialog" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
@@ -308,6 +335,7 @@
                           </div>
                       </div>
                   </div>
+
                   <div class="row">
                       <div class="col-md-6">
                           <div class="btn-group">
@@ -344,6 +372,8 @@
                                       <td title="'操作'">
                                           <div class="margin-bottom-5">
                                             <a ui-sref="main.asset.connectdevice({equipmentId:param.equipmentId,name:param.name,heartData: param.heartData, protocolId:param.protocolId, equipmentModelId: param.equipmentModelId})" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>设备接入
+                                            </a>
+                                            <a  href="#" class="btn btn-sm btn-success sbold green " ng-click="openStatusModal(param)"><i class="fa fa-times"></i>设备启停
                                             </a>
                                           </div>
 
