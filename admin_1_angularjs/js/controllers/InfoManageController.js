@@ -214,7 +214,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       return $scope.checkboxes.checked;
       }, function(value) {
       angular.forEach($scope.devicelist, function(item) {
-        $scope.checkboxes.items[item.number] = value;
+        $scope.checkboxes.items[item.equipmentId] = value;
       });
     });
     // watch for data checkboxes
