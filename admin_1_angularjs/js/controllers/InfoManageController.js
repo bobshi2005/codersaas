@@ -81,6 +81,10 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $scope.disalert = function(){
         $('#myModal_alert').modal('hide')
     };
+
+    $scope.disstatus = function(){
+        $('#myModal_status').modal('hide')
+    };
     $scope.createDevice = function() {
       $scope.currentData = [];
       $('#myModal_createDevice').modal();
