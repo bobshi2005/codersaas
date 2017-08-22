@@ -12,6 +12,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.linevarstab=[];
     $scope.selectedlinetab={};
     $scope.selectedlindex=1;
+    $scope.showAnalogTab = false; //控制模拟量tab的显示
+    $scope.showDigitalTab = false; //控制开关量tab的显示
     $scope.lineLabel=$scope.lineType+$scope.lineTab;
     $scope.echartValue = [];
     $scope.changelistState = function() {
@@ -65,7 +67,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     };
 
     $scope.refreshData = function(){
-      if($scope.selectedequipid && $scope.selectedequipid>0){
+      if($scope.selectedequipid && $scope.selectedequipid!=null){
         getDataModelAndValues($scope.selectedequipid);
       }
     };
@@ -91,7 +93,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       asDestination :false
      });
     })
-    var timer = $interval($scope.refreshData,10000);
+    var timer;
     var setting = {
       data : {
         key : { title : "name"}
@@ -170,7 +172,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
             // alert(err);
         });
     }
-    function getCityTree(){
+    function getCityTree(callback){
       deviceApi.getDeviceTree()
         .then(function(result) {
             console.log('getCityTree',result.data);
@@ -214,70 +216,72 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.lineLabel=$scope.lineType+$scope.lineTab;
       starttime = (new Date(starttime)).format('yyyy-MM-dd h:m:s');
       endtime = (new Date(endtime)).format('yyyy-MM-dd h:m:s');
-      // console.log(index,starttime, endtime);
-      userApi.getHistory(tab.varid,starttime,endtime)
-        .then(function(result) {
-            if(result.data.errCode == 0) {
-                //  console.log(result.data,result.data.data.length);
-                 var xdata=[];
-                 var ydata=[];
-                 for(var i=0;i<result.data.data.length;i++){
-                   var xstr=result.data.data[i][0];
-                   var n=xstr.indexOf(".");
-                   var tempdata=xstr.substr(0,n);
-                   xdata.push(tempdata);
-                   ydata.push(result.data.data[i][1].toFixed(2));
-                 }
-                //  console.log('xdata',xdata);
-                 $scope.linechartoption={
-                     tooltip: {
-                         trigger: 'axis',
-                         formatter: "{a} <br/>{b}: {c}"+tab.unit
-                     },
-                     grid: {
-                         left: '3%',
-                         right: '5%',
-                         bottom: '3%',
-                         containLabel: true
-                     },
-                     toolbox: {
-                         feature: {
-                             saveAsImage: {}
-                         }
-                     },
-                     xAxis: {
-                         type: 'category',
-                         boundaryGap: false,
-                         data: xdata
-                     },
-                     yAxis: {
-                        type: 'value',
-                        scale: true,
-                        axisLabel : {
-                            formatter: '{value}'+tab.unit
-                        },
-                     },
-                     series: [
-                         {
-                             name: tab.name,
-                             type: 'line',
-                             smooth: '1',
-                             data:  ydata,
-                         }
-                     ]
-                 };
-                 linechart.setOption($scope.linechartoption);　
 
-            }else {
-              // alert(result.data.errMsg);
-            }
-        }, function(err) {
-            // alert(err);
-      });
+      console.log('getHistoryhahahahahahh');
+      //old method
+      // userApi.getHistory(tab.varid,starttime,endtime)
+      //   .then(function(result) {
+      //       if(result.data.errCode == 0) {
+      //           //  console.log(result.data,result.data.data.length);
+      //            var xdata=[];
+      //            var ydata=[];
+      //            for(var i=0;i<result.data.data.length;i++){
+      //              var xstr=result.data.data[i][0];
+      //              var n=xstr.indexOf(".");
+      //              var tempdata=xstr.substr(0,n);
+      //              xdata.push(tempdata);
+      //              ydata.push(result.data.data[i][1].toFixed(2));
+      //            }
+      //           //  console.log('xdata',xdata);
+      //            $scope.linechartoption={
+      //                tooltip: {
+      //                    trigger: 'axis',
+      //                    formatter: "{a} <br/>{b}: {c}"+tab.unit
+      //                },
+      //                grid: {
+      //                    left: '3%',
+      //                    right: '5%',
+      //                    bottom: '3%',
+      //                    containLabel: true
+      //                },
+      //                toolbox: {
+      //                    feature: {
+      //                        saveAsImage: {}
+      //                    }
+      //                },
+      //                xAxis: {
+      //                    type: 'category',
+      //                    boundaryGap: false,
+      //                    data: xdata
+      //                },
+      //                yAxis: {
+      //                   type: 'value',
+      //                   scale: true,
+      //                   axisLabel : {
+      //                       formatter: '{value}'+tab.unit
+      //                   },
+      //                },
+      //                series: [
+      //                    {
+      //                        name: tab.name,
+      //                        type: 'line',
+      //                        smooth: '1',
+      //                        data:  ydata,
+      //                    }
+      //                ]
+      //            };
+      //            linechart.setOption($scope.linechartoption);　
+      //
+      //       }else {
+      //         // alert(result.data.errMsg);
+      //       }
+      //   }, function(err) {
+      //       // alert(err);
+      // });
     }
     function selectNode(){
       getEquipmentInfo($scope.selectedequipid);
-      getDataModelAndValues($scope.selectedequipid);
+      // getDataModelAndValues($scope.selectedequipid);
       getDataModel($scope.selectedequipid);
     };
     function setInfoWindow(infodata){
@@ -481,13 +485,45 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         .then(function(result) {
             if(result.data.code == 1) {
               console.log('getDataModel',result.data.data);
+              var analogflag=0,digitalflag=0;
                  var dataArr=result.data.data;
                  if(dataArr.length>0){
-                   $scope.groupname0=dataArr[0].groupName;
-                   $scope.varsArr0=dataArr[0].vars;
-                   formatEchartValue(dataArr[0].vars);
-                  //  $scope.groupname1=dataArr[1].groupName;
-                  //  $scope.varsArr1=dataArr[1].vars;
+                  $.each(dataArr,
+                    function(i, val) {
+                      if(val.type == 'analog'){
+                        analogflag = analogflag+1;
+                        $scope.showAnalogTab = true;
+                        $scope.groupname0=val.groupName;
+                        $scope.varsArr0=val.vars;
+                        formatEchartValue($scope.varsArr0);
+                        $scope.linevarstab = [];
+                        for(var j=0;j<val.vars.length;j++){
+                            console.log('testshowchart',val.vars[j]);
+                           if(val.vars[j].showchart == true){
+                             $scope.linevarstab.push(val.vars[j]);
+                           }
+                        }
+                        if($scope.linevarstab.length>0){
+                            $scope.selectedlinetab = $scope.linevarstab[0];
+                            $scope.lineTab=$scope.selectedlinetab.name;
+                            $scope.lineLabel=$scope.lineType+$scope.lineTab;
+                        }
+                        if($scope.selectedlinetab.name){
+                            getHistoryData();
+                        }else{
+                           resetlineoption();
+                        }
+                      }
+                      if(val.type == 'digital'){
+                        digitalflag = digitalflag+1;
+                        $scope.showDigitalTab = true;
+                        $scope.groupname1=val.groupName;
+                        $scope.varsArr1=val.vars;
+                      }
+                      if(digitalflag == 0){$scope.showDigitalTab = false;}
+                      if(analogflag == 0){$scope.showAnalogTab = false;}
+                    }
+                  );
                  }
 
             }else {
@@ -530,14 +566,21 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
             if(result.data.code == 1) {
-              console.log('getDataModelAndValues',result.data);
                  var dataArr=result.data.data;
                  if(dataArr.length>0){
-                   $scope.groupname0=dataArr[0].groupName;
-                   $scope.varsArr0=dataArr[0].vars;
-                   formatEchartValue(dataArr[0].vars);
-                  //  $scope.groupname1=dataArr[1].groupName;
-                  //  $scope.varsArr1=dataArr[1].vars;
+                   $.each(dataArr,
+                     function(i, val) {
+                       if(val.type == 'analog'){
+                         $scope.groupname0=val.groupName;
+                         $scope.varsArr0=val.vars;
+                         formatEchartValue($scope.varsArr0);
+                       }
+                       if(val.type == 'digital'){
+                         $scope.groupname1=val.groupName;
+                         $scope.varsArr1=val.vars;
+                       }
+                     }
+                   );
                  }
             }else {
               // alert(result.data.errMsg);
@@ -576,11 +619,13 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     });
     $scope.$on('$viewContentLoaded', function() {
       getEquipmentList();
-      getCityTree();
-      if($scope.selectedequipid && $scope.selectedequipid>0){
-        getDataModelAndValues($scope.selectedequipid);
-        getEquipmentInfo($scope.selectedequipid);
-      }
+      getCityTree(function(){
+        if($scope.selectedequipid && $scope.selectedequipid>0){
+          getDataModelAndValues($scope.selectedequipid);
+          getEquipmentInfo($scope.selectedequipid);
+        }
+      });
+
       $('.nav-pills li a').click(function() {　
           $(this).addClass('active').siblings().removeClass('active');　
           var _id = $(this).attr('href');　　
