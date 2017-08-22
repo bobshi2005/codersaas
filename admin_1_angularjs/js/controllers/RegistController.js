@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('RegistController', ['$scope', '$http', '$interval', '$state', 'userApi','deviceApi', function($scope, $http, $interval, $state, userApi,deviceApi) {
+angular.module('MetronicApp').controller('RegistController', ['$scope', '$http', '$interval', '$state', 'userApi', function($scope, $http, $interval, $state, userApi) {
     $scope.formData = {};
     $scope.formData.industry=1;
     $scope.inputType = 'password';
@@ -11,7 +11,7 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
     $scope.checkAccount = function() {
         if ($scope.formData.account && $scope.formData.account != null && $scope.formData.username != "") {
             //userApi.checkAccount($scope.formData.account)
-            deviceApi.checkAccount($scope.formData.account)
+            userApi.checkAccount($scope.formData.account)
                 .then(function(result) {
 
                     if (result.data.code == 1) {
@@ -21,7 +21,7 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
                         alert('用户名已存在，请重新输入');
                     }
                 }, function(err) {
-                    alert(err);
+                    console.log(err);
                     alert('网络连接问题，请稍后再试！');
                 });
         }
@@ -36,17 +36,16 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
         }
     };
     $scope.submitForm = function() {
-        //userApi.CheckVerifyCode($scope.formData.phone, $scope.formData.code)
-        deviceApi.createUser($scope.formData.account, $scope.formData.password,$scope.formData.name, $scope.formData.company,$scope.formData.email, $scope.formData.phone,$scope.formData.code)
+        userApi.createUser($scope.formData.account, $scope.formData.password,$scope.formData.name, $scope.formData.company,$scope.formData.email, $scope.formData.phone,$scope.formData.code)
             .then(function(result) {
                 if (result.data.code == 1) {
                     alert("用户创建成功，请登录");
                     $state.go('login');
                 } else {
-                    alert(result.data.data);
+                    console.log(result.data.data);
                 }
             }, function(err) {
-                alert(err);
+                console.log(err);
                 alert('网络连接问题，请稍后再试！');
             });
 
@@ -87,8 +86,7 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
         timer: null,
         ToSend: function() {
             if ($scope.formData.phone && $scope.formData.phone != null && $scope.formData.phone != "") {
-                //userApi.SendVerifyCode($scope.formData.phone)
-                deviceApi.SendVerifyCode($scope.formData.phone)
+                userApi.SendVerifyCode($scope.formData.phone)
                     .then(function(result) {
                         timer = $interval(function() {
                             $scope.send.second--;
@@ -113,10 +111,10 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
                         if (result.data.code == 200) {
                             alert('验证码已发送到 ' + $scope.formData.phone);
                         } else {
-                            alert(result.data.msg);
+                            console.log(result.data.msg);
                         }
                     }, function(err) {
-                        alert(err);
+                        console.log(err);
                         alert('网络连接问题，请稍后再试！');
                     });
             } else {

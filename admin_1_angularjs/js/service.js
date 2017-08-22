@@ -9,342 +9,6 @@ var userUrl = "http://118.89.140.11:1111";  //user manager api
 //用户相关api
 AppService.factory('userApi', ['$http', '$q', function($http, $q) {
     var service = {};
-    service.login = function(userid, password) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain"
-            },
-            processData: false,
-            data: {
-                "cmd": "login",
-                "account": userid,
-                "password": password
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.checkAccount = function(account) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                 "Content-Type":"text/plain"
-            },
-            processData: false,
-            data: {
-                "cmd": "checkAccount",
-                "account": account
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.SendVerifyCode = function(phone) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain"
-            },
-            processData: false,
-            data: {
-                "cmd": "sendVerifyCode",
-                "phone": phone
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.CheckVerifyCode = function(phone, code) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain"
-            },
-            processData: false,
-            data: {
-                "cmd": "checkVerifyCode",
-                "phone": phone,
-                "verifyCode": code
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.createUser = function(params) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd": "createUser",
-                "account": params.account,
-                "name": params.name,
-                "password": params.password,
-                "company": params.company,
-                "phone": params.phone,
-                "email": params.email,
-                "industry": parseInt(params.industry)
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.getData = function(equipid) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd": "getData",
-                "equipid": equipid
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.getDataModelAndValues = function(equipid) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd": "getDataModelAndValues",
-                "equipid": equipid
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.getHistory = function(varid,start,end) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd": "getHistory",
-                "varid": varid,
-                "start": start,
-                "end"  : end
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-     service.getEquipmentList = function(role) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd": "getEquipmentList",
-                "role": role
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-     service.getEquipmentInfo = function(equipid) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd": "getEquipmentInfo",
-                "equipid": equipid
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.getDataModel = function(equipid) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd": "getDataModel",
-                "equipid": equipid
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-     service.getAlarms = function(role) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd": "getAlarms",
-                "role": role
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.getSnapshot = function(equipid,datetime) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd"     : "getSnapshot",
-                "equipid" : equipid,
-                "datetime": datetime
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-    service.getCityTree = function(role) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: url,
-            headers: {
-                "accept": "application/json",
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-            processData: false,
-            data: {
-                "cmd"     : "getCityTree",
-                "role"    : role,
-            }
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
-
-
-    return service;
-}]);
-
-AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q, sharedataApi) {
-  var service = {};
-  service.login = function(username, password) {
-      var d = $q.defer();
-      $http({
-          method: 'post',
-          url: userUrl+ '/sso/login',
-		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-          data:{username:username,password:password,rememberMe:false,backurl:''},
-          transformRequest: function(obj) {
-            var str = [];
-            for(var p in obj){
-              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-            }
-            return str.join("&");
-          },
-          withCredentials: true
-
-      }).then(function(response) {
-          d.resolve(response);
-      }).catch(function(err) {
-          d.reject(err);
-      });
-      return d.promise;
-  };
-
     service.checkAccount = function(account) {
         var d = $q.defer();
         $http({
@@ -449,6 +113,56 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
+    //  service.getAlarms = function(role) {
+    //     var d = $q.defer();
+    //     $http({
+    //         method: 'post',
+    //         url: url,
+    //         headers: {
+    //             "accept": "application/json",
+    //             "Content-Type":"text/plain;charset=utf-8"
+    //         },
+    //         processData: false,
+    //         data: {
+    //             "cmd": "getAlarms",
+    //             "role": role
+    //         }
+    //     }).then(function(response) {
+    //         d.resolve(response);
+    //     }).catch(function(err) {
+    //         d.reject(err);
+    //     });
+    //     return d.promise;
+    // };
+    // service.getSnapshot = function(equipid,datetime) {
+    //     var d = $q.defer();
+    //     $http({
+    //         method: 'post',
+    //         url: url,
+    //         headers: {
+    //             "accept": "application/json",
+    //             "Content-Type":"text/plain;charset=utf-8"
+    //         },
+    //         processData: false,
+    //         data: {
+    //             "cmd"     : "getSnapshot",
+    //             "equipid" : equipid,
+    //             "datetime": datetime
+    //         }
+    //     }).then(function(response) {
+    //         d.resolve(response);
+    //     }).catch(function(err) {
+    //         d.reject(err);
+    //     });
+    //     return d.promise;
+    // };
+
+    return service;
+}]);
+
+AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q, sharedataApi) {
+  var service = {};
+
 
   //设备模型管理
     service.createdeviceModel = function(userId, name, number) {

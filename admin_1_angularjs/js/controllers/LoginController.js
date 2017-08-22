@@ -1,11 +1,11 @@
-angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootScope', '$state', '$http', 'userApi','deviceApi', 'locals','deviceApi',function($scope, $rootScope, $state, $http, userApi,deviceApi,locals,deviceApi) {
+angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootScope', '$state', '$http', 'userApi', 'locals','deviceApi',function($scope, $rootScope, $state, $http, userApi,locals,deviceApi) {
     $rootScope.isloginpage = true;
     $rootScope.showHeader = false;
     $rootScope.loginForm = {};
     $rootScope.loginForm.userId = locals.get("username");
     $rootScope.loginForm.password = locals.get("password");
     $scope.login = function(){
-        deviceApi.login($scope.loginForm.userId, $scope.loginForm.password,'false','')
+        userApi.login($scope.loginForm.userId, $scope.loginForm.password,'false','')
           .then(function(result) {
               if(result.data.code == 1) {
                 $rootScope.isloginpage = false;
@@ -21,7 +21,6 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
                 alert(result.data.data);
               }
           }, function(err) {
-              alert(err);
               alert('网络连接问题，请稍后再试！');
           });
       // $state.go('home.dashboard');//断网测试
