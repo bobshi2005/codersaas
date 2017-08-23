@@ -3,8 +3,11 @@ angular.module('MetronicApp').controller('HelpController', ['$scope', '$rootScop
   $scope.menueName = $rootScope.menueName;
 
   $scope.gotoHelpConnectRTU = function(){
-    var url = $state.href('main.setting.helpConnect',{basicType:8});
+    var url = $state.href('main.setting.helpConnectRTU',{basicType:8});
+    window.open(url,'_blank');
+  };
+  $scope.gotoHelpSetRTU = function(){
+    var url = $state.href('main.setting.helpSetRTU',{basicType:8});
     window.open(url,'_blank');
   }
-
 }]);
