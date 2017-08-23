@@ -732,6 +732,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     return $ocLazyLoad.load([{
                         name: 'helpApp',
                         files: [
+                          
                             'js/controllers/HelpController.js?version=2017071304 '
                         ]
                     }])

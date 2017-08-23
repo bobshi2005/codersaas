@@ -11,58 +11,61 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>RTU模块设置</span>
+            <span>DTU模块设置</span>
         </li>
     </ul>
+    <div class="page-toolbar">
+      <div class="btn-group pull-right" style="margin-right: 100px">
+        <a href="#" role="button" class="btn green btn-sm btn-outline center"  ng-click="gotoHelpSetRTU()">
+          新窗口查看
+        </a>
+
+      </div>
+
+    </div>
 </div>
+
 <br class="">
 
 <div class="row">
     <div class="col-md-12">
-      <form class="form-horizontal form-row-seperated" action="#">
-          <div class="portlet light portlet-fit portlet-datatable bordered">
-              <div class="portlet-title">
-                  <div class="caption">
-                      <i class="icon-settings font-dark"></i>有人RTU设置
-                  </div>
-                  <div class="btn-group pull-right">
-                    <a href="#" role="button" class="btn green btn-sm btn-outline " ng-click="gotoHelpSetRTU()">
-                      新窗口查看
-                    </a>
-                  </div>
-              </div>
-              <div class="portlet-body">
+        <div class="portlet-body">
                   <div class="row">
-                      <div  class="col-md-10 col-md-offset-1" >
-                          <p class="bg-primary">设备接入指导</p>
-                          <p>1.1 设备接入流程</p>
-                          <img src="../assets/pages/img/help/1.jpg" style="height: 600px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
+                    <div class="panel-group accordion scrollable" id="accordion1">
+                        <div class="panel panel-default purple">
+                            <div class="panel-heading purple">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="/#collapse_1_1">
+                                        <i class="icon-settings font-dark"></i> 有人DTU配置
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse_1_1" class="panel-collapse in">
+                                <div class="panel-body">
+                                    <p>完成平台设备新建，并使用RTU方式设置平台设备连接后，通过配置DTU就能够将真实的设备接入平台。有人DTU设置界面如下：</p>
+                                    <img src="../assets/pages/img/help/youren1.jpg" style="height: 600px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
 
-                          <p>1.2 DTU设置信息</p>
-                          <p>服务中心：</p>
-                              <p class="col-sm-offset-1">IP: 118.89.140.11</p>
-                              <p class="col-sm-offset-1">Port: 8037</p>
-                          <p>注册信息：</p>
-                              <p class="col-sm-offset-1">总长度 10个字符(以ascii方式发送)，以@开头，以#结尾；</p>
-                              <p class="col-sm-offset-1">中间为8位数字，前四位用户编号*，后四位dtu编号*，建立连接时发送一次即可</p>
-                          <p>例：</p>
-                              <p class="col-sm-offset-1">@00010001#：客户0001的0001个dtu。（*注：当前请联系销售人员获取用户编号和dtu编号，后期支持在线申请）</p>
-                          <p>心跳包：</p>
-                                <p class="col-sm-offset-1">内容同注册信息</p>
-
-                          <p>发送间隔</p>
-                                <p class="col-sm-offset-1">5分钟（300秒）。（注：DTU模块目前仅支持modbus协议。各种PLC协议请另选模块接入。）</p>
-                          <p>1.3 有人DTU设置方法</p>
-                              <img src="../assets/pages/img/help/2.jpg" style="height: 600px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
-
-                          <p>1.4 四信DTU设置方法</p>
-                              <!-- <h5 style="height: 600px; margin: 0 auto; padding: 10px">第一步</h5> -->
-                              <img src="../assets/pages/img/help/3.jpg" style="height: 600px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
-                              <img src="../assets/pages/img/help/4.jpg" style="height: 600px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
-                      </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default purple">
+                            <div class="panel-heading purple">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="/#collapse_1_2">
+                                        <i class="icon-settings font-dark"></i> 四信DTU配置
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse_1_2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                  <p>完成平台设备新建，并使用RTU方式设置平台设备连接后，通过配置DTU就能够将真实的设备接入平台。四信DTU设置界面如下：</p>
+                                  <img src="../assets/pages/img/help/sixin1.png" style="height: 600px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
+                                  <img src="../assets/pages/img/help/sixin2.jpg" style="height: 600px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                   </div>
               </div>
-          </div>
-      </form>
     </div>
 </div>
