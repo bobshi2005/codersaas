@@ -708,9 +708,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]
             }
         })
-        .state('main.setting.help', {
-            url: "/help",
-            templateUrl: "views/setting-help.html?version=2017071304",
+        .state('main.setting.helpConnectRTU', {
+            url: "/helpConnectRTU",
+            templateUrl: "views/setting-help-connectRTU.html?version=2017071304",
+            controller: 'HelpController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'helpApp',
+                        files: [
+                            'js/controllers/HelpController.js?version=2017071304 '
+                        ]
+                    }])
+                }]
+            }
+        })
+        .state('main.setting.helpMonitor', {
+            url: "/helpMonitor",
+            templateUrl: "views/setting-help-monitor.html?version=2017071304",
             controller: 'HelpController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
