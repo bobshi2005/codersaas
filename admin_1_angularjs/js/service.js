@@ -340,6 +340,21 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
+    service.getDeviceInfoById = function(id) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/'+id,
+            headers: {"Accept":"application/json"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
     service.createDevice = function(params) {
         var d = $q.defer();
         $http({

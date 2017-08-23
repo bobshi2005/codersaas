@@ -144,7 +144,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     function getEquipmentList(){
       deviceApi.getDevicelist('asc',0,10000)
         .then(function(result) {
-          console.log('devicelist',result);
             if(result.data.total > 0) {
               if(result.data.rows.length>0){
                 for(var i=0;i<result.data.rows.length;i++){
@@ -164,7 +163,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                   $scope.markers.push(marker);
                 }
               }
-              console.log('markers',$scope.markers);
             }else {
               // alert(result.errMsg);
             }
@@ -175,11 +173,9 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     function getCityTree(callback){
       deviceApi.getDeviceTree()
         .then(function(result) {
-            console.log('getCityTree',result.data);
             if(result.data.code == 1) {
                var zNodes=result.data.data.provices;
                var treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-               console.log('zNodes',zNodes);
                treeObj.expandAll(true);
                $scope.selectedequipid = zNodes[0].children[0].children[0].id;
                var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
@@ -217,7 +213,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       starttime = (new Date(starttime)).format('yyyy-MM-dd h:m:s');
       endtime = (new Date(endtime)).format('yyyy-MM-dd h:m:s');
 
-      console.log('getHistoryhahahahahahh');
       //old method
       // userApi.getHistory(tab.varid,starttime,endtime)
       //   .then(function(result) {
@@ -484,7 +479,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
             if(result.data.code == 1) {
-              console.log('getDataModel',result.data.data);
               var analogflag=0,digitalflag=0;
                  var dataArr=result.data.data;
                  if(dataArr.length>0){
@@ -498,7 +492,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                         formatEchartValue($scope.varsArr0);
                         $scope.linevarstab = [];
                         for(var j=0;j<val.vars.length;j++){
-                            console.log('testshowchart',val.vars[j]);
                            if(val.vars[j].showchart == true){
                              $scope.linevarstab.push(val.vars[j]);
                            }
@@ -591,26 +584,45 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     };
     function getEquipmentInfo(equipid){
       var data ={};
-      for(var i=0;i<$scope.markers.length;i++){
-        var obj = $scope.markers[i].getExtData();
-        if(obj.equipmentId == equipid){
-          data = obj;
-          console.log('getEquipmentInfo哈哈哈',obj);
-          break;
-        }
-      }
-      if(data.equipmentId){
-        $scope.gatewaySN=data.serialNumber;
-        $scope.equipmentId=data.equipmentId;
-        $scope.equipname=data.name;
-        $scope.number=data.number;
-        $scope.factoryDate=changeTimeFormat(data.factoryDate);
-        $scope.commissioningDate=changeTimeFormat(data.commissioningDate);
-        $scope.latitude=data.latitude;
-        $scope.longitude=data.longitude;
-        setInfoWindow(data);
-      }
-      // setInfoWindow(data);
+      // for(var i=0;i<$scope.markers.length;i++){
+      //   var obj = $scope.markers[i].getExtData();
+      //   if(obj.equipmentId == equipid){
+      //     data = obj;
+      //     console.log('getEquipmentInfo哈哈哈',obj);
+      //     break;
+      //   }
+      // }
+      // if(data.equipmentId){
+      //   $scope.gatewaySN=data.serialNumber;
+      //   $scope.equipmentId=data.equipmentId;
+      //   $scope.equipname=data.name;
+      //   $scope.number=data.number;
+      //   $scope.factoryDate=changeTimeFormat(data.factoryDate);
+      //   $scope.commissioningDate=changeTimeFormat(data.commissioningDate);
+      //   $scope.latitude=data.latitude;
+      //   $scope.longitude=data.longitude;
+      //   setInfoWindow(data);
+      // }
+
+      deviceApi.getDeviceInfoById(equipid)
+        .then(function(result) {
+            if(result.data.code == 1) {
+                data = result.data.data
+                $scope.gatewaySN=data.serialNumber;
+                $scope.equipmentId=data.equipmentId;
+                $scope.equipname=data.name;
+                $scope.number=data.number;
+                $scope.factoryDate=changeTimeFormat(data.factoryDate);
+                $scope.commissioningDate=changeTimeFormat(data.commissioningDate);
+                $scope.latitude=data.latitude;
+                $scope.longitude=data.longitude;
+                setInfoWindow(data);
+            }else {
+              console.log('getEquipmentInfobyIderr',result.message);
+            }
+        }, function(err) {
+            console.log('getEquipmentInfobyIderr',err);
+        });
 
     }
 
