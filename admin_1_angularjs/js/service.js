@@ -113,6 +113,21 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
         });
         return d.promise;
     };
+
+    service.logout = function() {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: userUrl+ '/sso/logout',
+  		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
     //  service.getAlarms = function(role) {
     //     var d = $q.defer();
     //     $http({

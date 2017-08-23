@@ -153,8 +153,9 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','locals', function($rootScope, $scope, $state, locals) {
+MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','locals','userApi', function($rootScope, $scope, $state, locals,userApi) {
     $scope.logout = function() {
+        userApi.logout().then(function(result){},function(err){});
         locals.set("islogin", 0);
         locals.set("username", '');
         locals.set("password", '');
@@ -732,7 +733,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     return $ocLazyLoad.load([{
                         name: 'helpApp',
                         files: [
-                          
+
                             'js/controllers/HelpController.js?version=2017071304 '
                         ]
                     }])
