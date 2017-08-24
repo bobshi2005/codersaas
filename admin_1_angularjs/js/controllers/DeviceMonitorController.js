@@ -280,17 +280,24 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       getDataModel($scope.selectedequipid);
     };
     function setInfoWindow(infodata){
-      var content1=`
-      <div>
-        <div style="color: white;font-size: 14px;background-color: rgba(0,155,255,0.8);line-height: 26px; padding: 0px 0 0 6px; font-weight: lighter; varter-spacing: 1px">
-          设备概况</div>
-        <div style="padding: 4px;color: #666666;line-height: 35px; width: 300px">
-             <img style=" float: left; margin: 3px; width: 60px" src="../assets/pages/media/works/img7.jpg">
-             <a href="javascritp:void(0);" ng-click="selectNodefromMap()">${infodata.name}</a><br/>
-             ${infodata.equipmentId}<br/>
-        </div>
-        </div>
-        `;
+      // var content1=`
+      // <div>
+      //   <div style="color: white;font-size: 14px;background-color: rgba(0,155,255,0.8);line-height: 26px; padding: 0px 0 0 6px; font-weight: lighter; varter-spacing: 1px">
+      //     设备概况</div>
+      //   <div style="padding: 4px;color: #666666;line-height: 35px; width: 300px">
+      //        <img style=" float: left; margin: 3px; width: 60px" src="../assets/pages/media/works/img7.jpg">
+      //        <a href="javascritp:void(0);" ng-click="selectNodefromMap()">${infodata.name}</a><br/>
+      //        ${infodata.equipmentId}<br/>
+      //   </div>
+      //   </div>
+      //   `;
+        var content1='<div>'+
+        '<div style="color: white;font-size: 14px;background-color: rgba(0,155,255,0.8);line-height: 26px; padding: 0px 0 0 6px; font-weight: lighter; varter-spacing: 1px">'+
+        '设备概况</div>'+
+        '<div style="padding: 4px;color: #666666;line-height: 35px; width: 300px">'+
+        '<img style=" float: left; margin: 3px; width: 60px" src="../assets/pages/media/works/img7.jpg">'+
+        '<a href="javascritp:void(0);" ng-click="selectNodefromMap()">'+ infodata.name +'</a><br/>'+infodata.equipmentId+'<br/>'+
+        '</div></div>';
       var content=$compile(content1)($scope);
       $scope.infowindow.setContent(content[0]);
       $scope.infowindow.open($scope.map,[infodata.longitude,infodata.latitude]);

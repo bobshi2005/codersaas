@@ -269,18 +269,29 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       var modellist = $scope.modellist;
       var count = modellist.length;
       for(var i=0; i<count; i++){
-        var divStr=`
-          <div class="slickitem widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 bordered" ng-click="selectModel(${i})">
-            <h4 class="widget-thumb-heading">${modellist[i].number}</h4>
-            <div class="widget-thumb-wrap">
-              <i class="widget-thumb-icon bg-green icon-layers"></i>
-              <div class="widget-thumb-body">
-                <span class="widget-thumb-subtitle">${modellist[i].name}</span>
-                <span class="widget-thumb-body-stat">${modellist[i].equipmentModelId}</span>
-              </div>
-            </div>
-          </div>
-        `;
+        // var divStr=`
+        //   <div class="slickitem widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 bordered" ng-click="selectModel(${i})">
+        //     <h4 class="widget-thumb-heading">${modellist[i].number}</h4>
+        //     <div class="widget-thumb-wrap">
+        //       <i class="widget-thumb-icon bg-green icon-layers"></i>
+        //       <div class="widget-thumb-body">
+        //         <span class="widget-thumb-subtitle">${modellist[i].name}</span>
+        //         <span class="widget-thumb-body-stat">${modellist[i].equipmentModelId}</span>
+        //       </div>
+        //     </div>
+        //   </div>
+        // `;
+        var divStr=
+            '<div class="slickitem widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 bordered" ng-click="selectModel('+i+')">'
+          + '<h4 class="widget-thumb-heading">'+modellist[i].number+'</h4>'
+          + '<div class="widget-thumb-wrap">'
+          + '<i class="widget-thumb-icon bg-green icon-layers"></i>'
+          + '<div class="widget-thumb-body">'
+          + '<span class="widget-thumb-subtitle">'+modellist[i].name+'</span>'
+          + '<span class="widget-thumb-body-stat">'+modellist[i].equipmentModelId+'</span>'
+          + '</div></div></div>';
+
+
         var content=$compile(divStr)($scope);
         $('.multiple-items').slick('slickAdd',content[0]);
         $('.multiple-items').slick('refresh');
