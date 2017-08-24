@@ -26,6 +26,9 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
       // $state.go('home.dashboard');//断网测试
 
     }
+    $scope.$on('$viewContentLoaded', function() {
+      userApi.logout().then(function(result){},function(err){});
+    });
     $scope.gotoRegist = function() {
         $state.go('regist');
     };
