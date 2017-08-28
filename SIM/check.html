@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>库云平台SIM卡流量查询</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div style="padding: 100px 100px 10px;">
+	<form class="bs-example bs-example-form" role="form">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="input-group">
+          <input id="number" type="text" class="form-control">
+					<span class="input-group-btn">
+						<button id="check" class="btn btn-default" type="button">
+							  查询
+						</button>
+					</span>
+				</div><!-- /input-group -->
+			</div><!-- /.col-lg-6 --><br>
+			<div class="col-lg-12" >
+
+				  当前流量
+
+				<label id="usage" style="padding:20px 20px 20px"/>
+			</div><!-- /.col-lg-6 -->
+		</div><!-- /.row -->
+	</form>
+</div>
+
+</body>
+<script>
+	var token = '';
+  $(document).ready(function(){
+		if(getCookie('token')!='' && getCookie('token')!=null){
+			token = getCookie('token');
+			console.log('token',token);
+		}else{
+			login(function(result){
+	      console.log('callback',result.token);
+				setCookie('token', result.token,1);
+	    })
+		}
+  });
+	$('#check').click(function(){
+		console.log($('#number').val());
+		if(!$('#number').val()){
+			alert('提示','请输入要查询的sim卡号');
+		}else{
+			checkUsage($('#number').val());
+		}
+	});
+
+	/*set cookie*/
+	function setCookie(name, value, Days){
+		if(Days == null || Days == ''){
+			Days = 300;
+		}
+		var exp  = new Date();
+		exp.setTime(exp.getTime() + Days*24*60*60*1000);
+		document.cookie = name + "="+ escape (value) + "; path=/;expires=" + exp.toGMTString();
+	}
+
+	/*get cookie*/
+	function getCookie(name) {
+		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+		if(arr=document.cookie.match(reg))
+			return unescape(arr[2]);
+		else
+			return null;
+	}
+  function login(callback){
+		var settings = {
+		  "async": true,
+		  "crossDomain": true,
+		  "url": "http://127.0.0.1:8080/api/access_token/",
+		  "method": "POST",
+		  "headers": {
+		    "accept": "application/json",
+		    "content-type": "application/x-www-form-urlencoded",
+		  },
+		  "data": {
+		    "username": "szcoderise",
+		    "password": "123123"
+		  }
+		}
+		$.ajax(settings).done(function (response) {
+		  console.log(response);
+			var temp = JSON.parse(response);
+			callback(temp);
+		});
+  }
+
+	function checkUsage(id){
+		var settings = {
+		  "async": true,
+		  "crossDomain": true,
+		  "url": "http://127.0.0.1:8080/api/card/",
+		  "method": "GET",
+		  "headers": {
+		    "content-type": "application/json",
+		    "authorization": "Basic "+token,
+		    "accept": "application/json",
+		  },
+			"data": {
+		    "id": id,
+				"token": token
+		  }
+		}
+
+		$.ajax(settings).done(function (response) {
+		  var temp = JSON.parse(response)
+			if(temp.code == 200){
+				$('#usage').html(temp.data_usage+' M');
+			}else if(temp.code == 502){
+				$('#usage').html(temp.msg);
+			}else if(temp.code == 403){
+				$('#usage').html('登录验证已过期，自动登录中 请重试');
+				login(function(result){
+					setCookie('token', result.token,1);
+		    })
+			}
+		});
+	}
+</script>
+</html>
