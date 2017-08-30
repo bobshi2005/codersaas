@@ -364,7 +364,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                           "../assets/global/plugins/ezuikit/ezuikit.js",
                           "http://cache.amap.com/lbs/static/es5.min.js",
                           "http://webapi.amap.com/maps?v=1.3&key=6b4c9a24cdc8f3b738fa3a574602cb9c",
-
                         ]
                     }])
                 }]
@@ -391,15 +390,23 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'DeviceMonitorController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'monitorApp',
+                    return $ocLazyLoad.load([
+                      {
+                        name: 'monitor',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             "../assets/apps/css/widget.css",
-                            "../assets/global/plugins/echarts/echarts.min.js",
                             '../assets/pages/scripts/table-datatables-managed-kuyun.js',
-                            "js/controllers/DeviceMonitorController.js?version=2017082402 "
+                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
+                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js'
                         ]
-                    }])
+                      }, {
+                          name: 'MetronicApp',
+                          files: [
+                              "../assets/global/plugins/echarts/echarts.min.js",
+                              "js/controllers/DeviceMonitorController.js?version=2017082402 "
+                          ]
+                      }])
                 }]
             }
         })

@@ -234,9 +234,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="portlet-body">
-                                                    <div class="margin-top-10 margin-bottom-10 text-center">
-                                                        <div class="btn-group" ng-repeat="vars in linevarstab">
-                                                          <input type="button" class="btn blue btn-outline" style="margin-left:5px" ng-click="checktab(vars)" value={{vars.name}} />
+                                                    <div class="margin-top-10 margin-bottom-10 text-center row">
+                                                        <!-- <select class="selectAnalogTab" ng-model="selectedlinetab"  ng-options="var.name for var in linevarstab" ng-change="checktab()"></select> -->
+                                                        <div class="col-md-3">
+                                                          <ui-select ng-model="selectedlinetab" theme="bootstrap">
+                                                              <ui-select-match>{{selectedlinetab.name}}</ui-select-match>
+                                                              <ui-select-choices repeat="var in linevarstab ">
+                                                                  <div ng-bind-html="var.name" ng-click="checktab(var)"></div>
+                                                              </ui-select-choices>
+                                                          </ui-select>
                                                         </div>
                                                     </div>
                                                     <div id="echarts_line" style="height: 500px"></div>

@@ -28,11 +28,17 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         $rootScope.pagetitle = '列表模式';
       }
     }
+
     $scope.checktab = function checktab(selecttab){
       $scope.selectedlinetab = selecttab;
       $scope.lineTab=selecttab.name;
       getHistoryData();
     };
+    // $scope.checktab = function(){
+    //   console.log('selected',$scope.selectedlinetab);
+    //   $scope.lineTab=$scope.selectedlinetab.name;
+    //   getHistoryData();
+    // };
     $scope.setHistoryTime = function setHistoryTime(index){
       $scope.selectedlindex = index;
       getHistoryData();
@@ -662,6 +668,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
               case "/#tab_1_3":
                   {
+
                     if ($("#echarts_line").length > 0) {
                         var mychartContainer = document.getElementById('echarts_line');
                         mychartContainer.style.width=$('#navContainer').width()-20+'px';
@@ -671,7 +678,6 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                             getHistoryData();
                         }
                     }
-
                     window.onresize=function(){
                       mychartContainer.style.width=$('#navContainer').width()-20+'px';
                       linechart.resize();
