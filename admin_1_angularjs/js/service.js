@@ -462,6 +462,20 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
+
+    service.getSensorHistory = function(sId,start,end) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/sensor/data/list/curve/?sensorId='+sId+'&startDate='+start+'&endDate='+end,
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
   //设备接入
     service.accessDevice = function(params) {
         var d = $q.defer();

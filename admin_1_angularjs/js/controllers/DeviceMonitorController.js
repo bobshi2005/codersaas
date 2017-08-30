@@ -210,69 +210,65 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         break;
       }
       $scope.lineLabel=$scope.lineType+$scope.lineTab;
-      starttime = (new Date(starttime)).format('yyyy-MM-dd h:m:s');
-      endtime = (new Date(endtime)).format('yyyy-MM-dd h:m:s');
-
+      starttime = (new Date(starttime)).format('yyyy/MM/dd h:m:s');
+      endtime = (new Date(endtime)).format('yyyy/MM/dd h:m:s');
       //old method
-      // userApi.getHistory(tab.varid,starttime,endtime)
-      //   .then(function(result) {
-      //       if(result.data.errCode == 0) {
-      //           //  console.log(result.data,result.data.data.length);
-      //            var xdata=[];
-      //            var ydata=[];
-      //            for(var i=0;i<result.data.data.length;i++){
-      //              var xstr=result.data.data[i][0];
-      //              var n=xstr.indexOf(".");
-      //              var tempdata=xstr.substr(0,n);
-      //              xdata.push(tempdata);
-      //              ydata.push(result.data.data[i][1].toFixed(2));
-      //            }
-      //           //  console.log('xdata',xdata);
-      //            $scope.linechartoption={
-      //                tooltip: {
-      //                    trigger: 'axis',
-      //                    formatter: "{a} <br/>{b}: {c}"+tab.unit
-      //                },
-      //                grid: {
-      //                    left: '3%',
-      //                    right: '5%',
-      //                    bottom: '3%',
-      //                    containLabel: true
-      //                },
-      //                toolbox: {
-      //                    feature: {
-      //                        saveAsImage: {}
-      //                    }
-      //                },
-      //                xAxis: {
-      //                    type: 'category',
-      //                    boundaryGap: false,
-      //                    data: xdata
-      //                },
-      //                yAxis: {
-      //                   type: 'value',
-      //                   scale: true,
-      //                   axisLabel : {
-      //                       formatter: '{value}'+tab.unit
-      //                   },
-      //                },
-      //                series: [
-      //                    {
-      //                        name: tab.name,
-      //                        type: 'line',
-      //                        smooth: '1',
-      //                        data:  ydata,
-      //                    }
-      //                ]
-      //            };
-      //            linechart.setOption($scope.linechartoption);　
-      //
-      //       }else {
-      //         // alert(result.data.errMsg);
-      //       }
-      //   }, function(err) {
-      //       // alert(err);
-      // });
+      App.startPageLoading({animate: true});
+      deviceApi.getSensorHistory(tab.varid, starttime, endtime)
+        .then(function(result) {
+            if(result.data.value) {
+                 var xdata=result.data.time;
+                 var ydata=result.data.value;
+
+                 for(var i=0; i<xdata.length;i++){
+                   xdata[i]=(new Date(xdata[i])).format('yyyy/MM/dd h:m:s');
+                 }
+                 App.stopPageLoading();
+                 $scope.linechartoption={
+                     tooltip: {
+                         trigger: 'axis',
+                         formatter: "{a} <br/>{b}: {c}"+tab.unit
+                     },
+                     grid: {
+                         left: '3%',
+                         right: '5%',
+                         bottom: '3%',
+                         containLabel: true
+                     },
+                     toolbox: {
+                         feature: {
+                             saveAsImage: {}
+                         }
+                     },
+                     xAxis: {
+                         type: 'category',
+                         boundaryGap: false,
+                         data: xdata
+                     },
+                     yAxis: {
+                        type: 'value',
+                        scale: true,
+                        axisLabel : {
+                            formatter: '{value}'+tab.unit
+                        },
+                     },
+                     series: [
+                         {
+                             name: tab.name,
+                             type: 'line',
+                             smooth: '1',
+                             data:  ydata,
+                         }
+                     ]
+                 };
+                 linechart.setOption($scope.linechartoption);　
+
+            }else {
+              console.log(result.data.errMsg);
+            }
+        }, function(err) {
+            console.log('getHistoryerr', err);
+      });
     }
     function selectNode(){
       getEquipmentInfo($scope.selectedequipid);
@@ -535,7 +531,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
       // userApi.getDataModel(equipid)
       // .then(function(result) {
-      //   if(result.data.errCode == 0) {
+      //   if(result.data.code == 0) {
       //        var dataArr=result.data.data[0].vars;
       //        $scope.linevarstab = [];
       //        for(var i=0;i<dataArr.length;i++){
