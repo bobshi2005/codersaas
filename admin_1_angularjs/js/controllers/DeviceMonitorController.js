@@ -7,11 +7,12 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.latitude=31.35046;
     $scope.longitude=120.35046;
     $scope.linechartoption=[];
-    $scope.lineType='最近10分钟';
-    $scope.lineTab='温度曲线';
-    $scope.linevarstab=[];
-    $scope.selectedlinetab={};
-    $scope.selectedlindex=1;
+    $scope.lineType='最近10分钟';  //历史曲线title 时间部分
+    $scope.lineTab='温度曲线';  //历史曲线title 传感器名称
+    $scope.linevarstab=[];  //历史曲线tab的传感器数组
+    $scope.selectedlinetab={}; //选择展示曲线的传感器对象
+    $scope.selectedlindex=1; //默认选择最近10分钟的历史曲线
+    $scope.curve={startTime:0,endTime:0,setTime:'自定义时间'};  //历史曲线选择的开始和结束时间 $scope.curve.startTime $scope.curve.endTime
     $scope.showAnalogTab = false; //控制模拟量tab的显示
     $scope.showDigitalTab = false; //控制开关量tab的显示
     $scope.lineLabel=$scope.lineType+$scope.lineTab;
@@ -77,6 +78,22 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         getDataModelAndValues($scope.selectedequipid);
       }
     };
+    $scope.setCurvetime = function() {
+      var startDate = new Date($scope.curve.startTime);
+      var endDate = new Date($scope.curve.endTime);
+      if(Date.parse(endDate)-Date.parse(startDate)<=0){
+        alert('开始时间必须早于结束时间');
+      }else{
+        $scope.curve.setTime=$scope.curve.startTime+'-'+$scope.curve.endTime;
+      }
+    };
+    $scope.setFreeTime = function(){
+      if($scope.curve.setTime =='自定义时间'){
+        alert('请先选择要查询的时间段')
+      }else{
+        $scope.setHistoryTime(4);
+      }
+    }
     var linechart;
     var mapheight= document.body.clientHeight-180;
     $("#mapContainer").css("height",mapheight);
@@ -205,19 +222,31 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         case 1:
           $scope.lineType ='最近10分钟';
           starttime = endtime-10*60*1000;
+          starttime = (new Date(starttime)).format('yyyy/MM/dd h:m:s');
+          endtime = (new Date(endtime)).format('yyyy/MM/dd h:m:s');
         break;
         case 2:
           $scope.lineType ='最近24小时';
           starttime = endtime-24*60*60*1000;
+          starttime = (new Date(starttime)).format('yyyy/MM/dd h:m:s');
+          endtime = (new Date(endtime)).format('yyyy/MM/dd h:m:s');
         break;
         case 3:
           $scope.lineType ='最近7天';
           starttime = endtime-7*24*60*60*1000;
+          starttime = (new Date(starttime)).format('yyyy/MM/dd h:m:s');
+          endtime = (new Date(endtime)).format('yyyy/MM/dd h:m:s');
+        break;
+        case 4:
+          $scope.lineType =$scope.curve.startTime+'~'+$scope.curve.endTime+' ';
+          starttime = $scope.curve.startTime;
+          endtime = $scope.curve.endTime;
+        break;
+        default:
         break;
       }
       $scope.lineLabel=$scope.lineType+$scope.lineTab;
-      starttime = (new Date(starttime)).format('yyyy/MM/dd h:m:s');
-      endtime = (new Date(endtime)).format('yyyy/MM/dd h:m:s');
+
       //old method
       App.startPageLoading({animate: true});
       deviceApi.getSensorHistory(tab.varid, starttime, endtime)
@@ -668,6 +697,40 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
               case "/#tab_1_3":
                   {
+                    $('.start_date').datetimepicker({
+                        language: 'zh-CN',
+                        weekStart: 1,
+                        todayBtn: 1,
+                        autoclose: 1,
+                        startView: 2,
+                        forceParse: 0,
+                        minView:'day',
+                        format: 'yyyy/mm/dd hh:ii',
+                        todayHighlight: true,
+                        }).on('hide', function (e) {
+                          var $this = $(this);
+                          var _this = this;
+                          $scope.$apply(function(){
+                              $scope.curve.startTime = _this.value;
+                          });
+                      });
+                      $('.end_date').datetimepicker({
+                          language: 'zh-CN',
+                          weekStart: 1,
+                          todayBtn: 1,
+                          autoclose: 1,
+                          startView: 2,
+                          forceParse: 0,
+                          minView:'day',
+                          format: 'yyyy/mm/dd hh:ii',
+                          todayHighlight: true,
+                          }).on('hide', function (e) {
+                            var $this = $(this);
+                            var _this = this;
+                            $scope.$apply(function(){
+                                $scope.curve.endTime = _this.value;
+                            });
+                        });
 
                     if ($("#echarts_line").length > 0) {
                         var mychartContainer = document.getElementById('echarts_line');

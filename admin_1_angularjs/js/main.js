@@ -398,7 +398,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             "../assets/apps/css/widget.css",
                             '../assets/pages/scripts/table-datatables-managed-kuyun.js',
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
-                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js'
+                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js',
+                            "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+                            "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
+                            "../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
                         ]
                       }, {
                           name: 'MetronicApp',

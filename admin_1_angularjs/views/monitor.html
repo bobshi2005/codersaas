@@ -236,7 +236,7 @@
                                                 <div class="portlet-body">
                                                     <div class="margin-top-10 margin-bottom-10 text-center row">
                                                         <!-- <select class="selectAnalogTab" ng-model="selectedlinetab"  ng-options="var.name for var in linevarstab" ng-change="checktab()"></select> -->
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-3 col-md-offset-1 margin-top-10">
                                                           <ui-select ng-model="selectedlinetab" theme="bootstrap">
                                                               <ui-select-match>{{selectedlinetab.name}}</ui-select-match>
                                                               <ui-select-choices repeat="var in linevarstab ">
@@ -244,15 +244,33 @@
                                                               </ui-select-choices>
                                                           </ui-select>
                                                         </div>
+                                                        <div class="col-md-8 margin-top-10">
+                                                            <div class="input-group input-large input-daterange" >
+                                                                <input type="text" class="form-control date start_date col-md-3" style="width: 150px" placeholder="选择开始时间"/>
+                                                                <span class="input-group-addon"> ~ </span>
+                                                                <input type="text" class="form-control date end_date col-md-3" style="width: 150px" placeholder="选择结束时间"/>
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn default" type="button" ng-click="setCurvetime()">
+                                                                        设置
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                          <div class="margin-top-10 margin-bottom-20 text-center">
+                                                              <div class="clearfix">
+                                                                  <input type="button" class="btn blue btn-outline" ng-click="setHistoryTime(1)" value="最近10分钟" />
+                                                                  <input type="button" class="btn red btn-outline" ng-click="setHistoryTime(2)" value="最近24小时" />
+                                                                  <input type="button" class="btn green btn-outline" ng-click="setHistoryTime(3)" value="最近7天" />
+                                                                  <input type="button" class="btn purple btn-outline" ng-click="setFreeTime()" ng-value="curve.setTime"/>
+                                                              </div>
+                                                          </div>
+                                                        </div>
+
                                                     </div>
                                                     <div id="echarts_line" style="height: 500px"></div>
-                                                    <div class="margin-top-10 margin-bottom-20 text-center">
-                                                        <div class="btn-group ">
-                                                            <input type="button" class="btn blue btn-outline" ng-click="setHistoryTime(1)" value="最近10分钟" />
-                                                            <input type="button" class="btn red btn-outline" ng-click="setHistoryTime(2)" value="最近24小时" />
-                                                            <input type="button" class="btn green btn-outline" ng-click="setHistoryTime(3)" value="最近7天" />
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
