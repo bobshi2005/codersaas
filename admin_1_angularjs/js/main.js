@@ -395,6 +395,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         name: 'monitor',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                            "../assets/global/plugins/echarts/echarts.min.js",
+                            "../assets/global/plugins/bootstrap/css/bootstrap.min.css",
                             "../assets/apps/css/widget.css",
                             '../assets/pages/scripts/table-datatables-managed-kuyun.js',
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
@@ -406,9 +410,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                       }, {
                           name: 'MetronicApp',
                           files: [
-                              "../assets/global/plugins/jquery.min.js",
-                              "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                              "../assets/global/plugins/echarts/echarts.min.js",
+
                               "js/controllers/DeviceMonitorController.js?version=2017082402 "
                           ]
                       }])

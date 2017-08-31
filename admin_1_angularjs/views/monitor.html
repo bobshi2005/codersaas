@@ -222,15 +222,13 @@
                                                         <span class="caption-subject font-green bold uppercase">{{lineLabel}}</span>
                                                     </div>
                                                     <div class="actions">
-                                                        <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                                                            <i class="icon-cloud-upload"></i>
-                                                        </a>
-                                                        <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                                                            <i class="icon-wrench"></i>
-                                                        </a>
-                                                        <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                                                            <i class="icon-trash"></i>
-                                                        </a>
+                                                        <button class="btn btn-circle btn-icon-only btn-default"  ng-click="changemode('line')" uib-tooltip="显示曲线">
+                                                            <i class="fa fa-line-chart"></i>
+
+                                                        </button>
+                                                        <button class="btn btn-circle btn-icon-only btn-default"  ng-click="changemode('table')" uib-tooltip="显示表格">
+                                                            <i class="fa fa-table"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 <div class="portlet-body">
@@ -269,8 +267,17 @@
                                                         </div>
 
                                                     </div>
-                                                    <div id="echarts_line" style="height: 500px"></div>
-
+                                                    <div id="echarts_line" style="height: 500px" ng-show="historyType=='line'"></div>
+                                                    <table ng-table="tableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px" ng-show="historyType=='table'">
+                                                        <tbody>
+                                                            <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                                                                <td title="'时间'">{{param.updateTime}}</td>
+                                                                <td title="'值'">{{param.stringValue}}</td>
+                                                                <td title="'单位'">{{selectedlinetab.unit}}</td>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>

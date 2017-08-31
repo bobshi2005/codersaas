@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval','deviceApi', function($scope, $rootScope, $http, userApi, locals, $compile, $interval,deviceApi) {
+angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval','deviceApi','NgTableParams', function($scope, $rootScope, $http, userApi, locals, $compile, $interval,deviceApi,NgTableParams) {
     $rootScope.showHeader = true;
     $rootScope.menueName = 'sidebar-device';
     $scope.menueName = $rootScope.menueName;
@@ -8,6 +8,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.latitude=31.35046;
     $scope.longitude=120.35046;
     $scope.linechartoption=[];
+    $scope.historyType='line'; //历史数据显示方式 line为曲线 table为表格
     $scope.lineType='最近10分钟';  //历史曲线title 时间部分
     $scope.lineTab='温度曲线';  //历史曲线title 传感器名称
     $scope.linevarstab=[];  //历史曲线tab的传感器数组
@@ -97,6 +98,20 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         $scope.setHistoryTime(4);
       }
     };
+    $scope.changemode = function(type){
+      if(type=='line'){
+        if($scope.historyType=='table'){
+          $scope.historyType='line';
+          getHistoryData();
+        }
+      }else if(type=='table'){
+        if($scope.historyType=='line'){
+          $scope.historyType='table';
+          getHistoryData();
+        }
+      }
+    };
+
     $scope.disalert = function(){
       $('#myModal_alert').modal('hide');
     };
@@ -253,65 +268,88 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       }
       $scope.lineLabel=$scope.lineType+$scope.lineTab;
 
-      //old method
-      App.startPageLoading({animate: true});
-      deviceApi.getSensorHistory(tab.varid, starttime, endtime)
-        .then(function(result) {
-            if(result.data.value) {
-                 var xdata=result.data.time;
-                 var ydata=result.data.value;
+      if($scope.historyType =='line'){
+        App.startPageLoading({animate: true});
+        deviceApi.getSensorHistory(tab.varid, starttime, endtime)
+          .then(function(result) {
+              if(result.data.value) {
+                   var xdata=result.data.time;
+                   var ydata=result.data.value;
 
-                 for(var i=0; i<xdata.length;i++){
-                   xdata[i]=(new Date(xdata[i])).format('yyyy/MM/dd h:m:s');
-                 }
-                 App.stopPageLoading();
-                 $scope.linechartoption={
-                     tooltip: {
-                         trigger: 'axis',
-                         formatter: "{a} <br/>{b}: {c}"+tab.unit
-                     },
-                     grid: {
-                         left: '3%',
-                         right: '5%',
-                         bottom: '3%',
-                         containLabel: true
-                     },
-                     toolbox: {
-                         feature: {
-                             saveAsImage: {}
-                         }
-                     },
-                     xAxis: {
-                         type: 'category',
-                         boundaryGap: false,
-                         data: xdata
-                     },
-                     yAxis: {
-                        type: 'value',
-                        scale: true,
-                        axisLabel : {
-                            formatter: '{value}'+tab.unit
-                        },
-                     },
-                     series: [
-                         {
-                             name: tab.name,
-                             type: 'line',
-                             smooth: '1',
-                             data:  ydata,
-                         }
-                     ]
-                 };
-                 linechart.setOption($scope.linechartoption);　
+                   for(var i=0; i<xdata.length;i++){
+                     xdata[i]=(new Date(xdata[i])).format('yyyy/MM/dd h:m:s');
+                   }
+                   App.stopPageLoading();
+                   $scope.linechartoption={
+                       tooltip: {
+                           trigger: 'axis',
+                           formatter: "{a} <br/>{b}: {c}"+tab.unit
+                       },
+                       grid: {
+                           left: '3%',
+                           right: '5%',
+                           bottom: '3%',
+                           containLabel: true
+                       },
+                       toolbox: {
+                           feature: {
+                               saveAsImage: {}
+                           }
+                       },
+                       xAxis: {
+                           type: 'category',
+                           boundaryGap: false,
+                           data: xdata
+                       },
+                       yAxis: {
+                          type: 'value',
+                          scale: true,
+                          axisLabel : {
+                              formatter: '{value}'+tab.unit
+                          },
+                       },
+                       series: [
+                           {
+                               name: tab.name,
+                               type: 'line',
+                               smooth: '1',
+                               data:  ydata,
+                           }
+                       ]
+                   };
+                   linechart.setOption($scope.linechartoption);　
 
-            }else {
-              console.log(result.data.errMsg);
+              }else {
+                console.log(result.data.errMsg);
+                App.stopPageLoading();
+              }
+          }, function(err) {
+              console.log('getHistoryerr', err);
               App.stopPageLoading();
-            }
-        }, function(err) {
-            console.log('getHistoryerr', err);
-            App.stopPageLoading();
-      });
+        });
+      }else if($scope.historyType == 'table'){
+        App.startPageLoading({animate: true});
+        //获取表格信息
+        deviceApi.getSensorHistoryDetail(tab.varid, starttime, endtime)
+          .then(function(result) {
+              if(result.data) {
+                  for(var i=0;i<result.data.length;i++){
+                    result.data[i].updateTime = changeTimeFormat2(result.data[i].updateTime);
+                  }
+                  $scope.tableParams = new NgTableParams({}, { dataset: result.data});
+                   App.stopPageLoading();
+              }else {
+                $scope.tableParams = new NgTableParams({}, { dataset: null});
+                console.log(result.data.errMsg);
+                App.stopPageLoading();
+              }
+          }, function(err) {
+              console.log('getHistoryerr', err);
+              $scope.tableParams = new NgTableParams({}, { dataset: null});
+              App.stopPageLoading();
+        });
+      }
+
     }
     function selectNode(){
       getEquipmentInfo($scope.selectedequipid);
@@ -712,7 +750,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                         autoclose: 1,
                         startView: 2,
                         forceParse: 0,
-                        minView:'day',
+                        // minView:'day',
                         format: 'yyyy/mm/dd hh:ii',
                         todayHighlight: true,
                         }).on('hide', function (e) {
@@ -729,7 +767,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                           autoclose: 1,
                           startView: 2,
                           forceParse: 0,
-                          minView:'day',
+                          // minView:'day',
                           format: 'yyyy/mm/dd hh:ii',
                           todayHighlight: true,
                           }).on('hide', function (e) {
@@ -795,6 +833,11 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       var newDate = new Date();
       newDate.setTime(timestamp);
       return newDate.format('yyyy-MM-dd');
+    }
+    function changeTimeFormat2(timestamp) {
+      var newDate = new Date();
+      newDate.setTime(timestamp);
+      return newDate.format('yyyy-MM-dd hh:mm:ss');
     }
 
 }]);
