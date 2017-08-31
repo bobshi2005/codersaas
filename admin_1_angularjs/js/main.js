@@ -406,6 +406,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                       }, {
                           name: 'MetronicApp',
                           files: [
+                              "../assets/global/plugins/jquery.min.js",
+                              "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                               "../assets/global/plugins/echarts/echarts.min.js",
                               "js/controllers/DeviceMonitorController.js?version=2017082402 "
                           ]

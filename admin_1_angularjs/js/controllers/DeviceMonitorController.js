@@ -3,6 +3,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $rootScope.menueName = 'sidebar-device';
     $scope.menueName = $rootScope.menueName;
 
+    $scope.message ='';
     $scope.equipname = '';
     $scope.latitude=31.35046;
     $scope.longitude=120.35046;
@@ -82,18 +83,23 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       var startDate = new Date($scope.curve.startTime);
       var endDate = new Date($scope.curve.endTime);
       if(Date.parse(endDate)-Date.parse(startDate)<=0){
-        alert('开始时间必须早于结束时间');
+        $scope.message = '开始时间必须早于结束时间';
+        $('#myModal_alert').modal();
       }else{
         $scope.curve.setTime=$scope.curve.startTime+'-'+$scope.curve.endTime;
       }
     };
     $scope.setFreeTime = function(){
       if($scope.curve.setTime =='自定义时间'){
-        alert('请先选择要查询的时间段')
+        $scope.message = '请先选择要查询的时间段';
+        $('#myModal_alert').modal();
       }else{
         $scope.setHistoryTime(4);
       }
-    }
+    };
+    $scope.disalert = function(){
+      $('#myModal_alert').modal('hide');
+    };
     var linechart;
     var mapheight= document.body.clientHeight-180;
     $("#mapContainer").css("height",mapheight);
@@ -301,7 +307,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
             }else {
               console.log(result.data.errMsg);
               App.stopPageLoading();
-            }    
+            }
         }, function(err) {
             console.log('getHistoryerr', err);
             App.stopPageLoading();
