@@ -300,9 +300,11 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
             }else {
               console.log(result.data.errMsg);
-            }
+              App.stopPageLoading();
+            }    
         }, function(err) {
             console.log('getHistoryerr', err);
+            App.stopPageLoading();
       });
     }
     function selectNode(){
