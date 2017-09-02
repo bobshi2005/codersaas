@@ -1,0 +1,196 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <!-- <a href="index.html">系统配置</a> -->
+            <span>系统配置</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>个人配置</span>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <!-- <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown">Actions
+                <i class="fa fa-angle-down"></i>
+            </button> -->
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li>
+                    <a href="#">
+                        <i class="icon-bell"></i> Action</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="icon-shield"></i> Another action</a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="icon-user"></i> Something else here</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="#">
+                        <i class="icon-bag"></i> Separated link</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END PAGE BAR -->
+<!-- BEGIN PAGE TITLE-->
+
+<h3 class="page-title"> 个人信息
+        <!-- <small>编辑</small> -->
+</h3>
+
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+
+<div class="profile">
+    <div class="tabbable-line tabbable-full-width">
+        <div class="row profile-account">
+            <div class="col-md-3">
+                <ul class="ver-inline-menu tabbable margin-bottom-10" style="max-width: 300px; margin: 0 auto;">
+                    <li>
+                        <img src="../assets/pages/media/profile/people19.png" style="max-height: 200px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
+                    </li>
+
+                    <li class="active">
+                        <a data-toggle="tab" href="/#tab_1-1">
+                            <i class="fa fa-cog"></i> 个人信息 </a>
+                        <span class="after"> </span>
+                    </li>
+
+                    <li>
+                        <a data-toggle="tab" href="/#tab_2-2">
+                            <i class="fa fa-picture-o"></i> 修改头像 </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="/#tab_3-3">
+                            <i class="fa fa-lock"></i> 修改密码 </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="/#tab_4-4">
+                            <i class="fa fa-eye"></i> 隐私设置 </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <div class="tab-content">
+                    <div id="tab_1-1" class="tab-pane active">
+                        <form role="form" action="#">
+                            <div class="form-group">
+                                <label class="control-label">用户名</label>
+                                <input type="text" placeholder="John" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">登录账号</label>
+                                <input type="text" placeholder="Doe" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">手机号码</label>
+                                <input type="text" placeholder="18099998888" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">邮箱</label>
+                                <input type="text" placeholder="" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">描述信息</label>
+                                <textarea class="form-control" rows="3" placeholder=""></textarea>
+                            </div>
+                            <div class="margiv-top-10">
+                                <a href="javascript:;" class="btn green" ng-click='saveModalMsg()'> 更新信息 </a>
+                                <a href="javascript:;" class="btn default"> 取消 </a>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="tab_2-2" class="tab-pane">
+                        <p>修改头像</p>
+                        <form action="#" role="form">
+                            <div class="form-group">
+                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
+                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
+                                    <div>
+                                        <span class="btn default btn-file">
+                                              <!-- <span class="fileinput-new"> Select image </span>
+                                        <span class="fileinput-exists"> Change </span> -->
+                                        <input type="file" name="..."> </span>
+                                        <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> 移除 </a>
+                                    </div>
+                                </div>
+                                <div class="clearfix margin-top-10">
+                                    <span class="label label-danger"> 提醒! </span>
+                                    <span>建议图片大小：360*360 </span>
+                                </div>
+                            </div>
+                            <div class="margin-top-10">
+                                <a href="javascript:;" class="btn green" ng-click='saveModalMsg()'> 更新 </a>
+                                <a href="javascript:;" class="btn default"> 取消 </a>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="tab_3-3" class="tab-pane">
+                        <form action="#">
+                            <div class="form-group">
+                                <label class="control-label">密码 </label>
+                                <input type="password" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">新密码 </label>
+                                <input type="password" class="form-control" /> </div>
+                            <div class="form-group">
+                                <label class="control-label">确认新密码</label>
+                                <input type="password" class="form-control" /> </div>
+                            <div class="margin-top-10">
+                                <a href="javascript:;" class="btn green" ng-click='saveModalMsg()'>确认修改 </a>
+                                <a href="javascript:;" class="btn default"> 取消 </a>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="tab_4-4" class="tab-pane">
+                        <form action="#">
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <td> 是否接受短信通知 </td>
+                                    <td>
+                                        <div class="mt-radio-inline">
+                                            <label class="mt-radio">
+                                                  <input type="radio" name="optionsRadios1" value="option1" /> 是
+                                                  <span></span>
+                                              </label>
+                                            <label class="mt-radio">
+                                                  <input type="radio" name="optionsRadios1" value="option2" checked/> 否
+                                                  <span></span>
+                                              </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> 是否接受邮件通知 </td>
+                                    <td>
+                                        <div class="mt-radio-inline">
+                                            <label class="mt-radio">
+                                                  <input type="radio" name="optionsRadios21" value="option1" /> 是
+                                                  <span></span>
+                                              </label>
+                                            <label class="mt-radio">
+                                                  <input type="radio" name="optionsRadios21" value="option2" checked/> 否
+                                                  <span></span>
+                                              </label>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <!--end profile-settings-->
+                            <div class="margin-top-10">
+                                <a href="javascript:;" class="btn green" ng-click='saveModalMsg()'> 确认修改 </a>
+                                <a href="javascript:;" class="btn default"> 取消 </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--end col-md-9-->
+        </div>
+    </div>
+</div>

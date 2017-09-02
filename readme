@@ -1,0 +1,28 @@
+git使用
+
+个人开发：
+从develop检出分支feature-XX ，切换到feature-XX分支
+
+提交个人修改
+1 在feature-XX分支上做需要的修改
+2 commit 并push feature-XX分支
+3 切换到develop分支：
+    建议使用控制台：git checkout develop
+    (注意切换到develop之前一定要push feature分支，否则在下一步pull的时候会有冲突)
+4 拉取develop分支的最新修改：
+  git pull
+  (如果在3中push了，则此时不会出现冲突；否则，可能会出现冲突)
+5 切换到feature-XX分支：git checkout feature-XX
+6 merge develop分支： git merge develop
+    此时可能需要处理冲突，处理冲突完成后，push feature-XX
+7 切换到develop : git checkout develop
+8 merge feature-XX，push develp，提交完成
+
+再次修改时切换到feature-XX上修改
+
+提交完成。
+
+# 提交之前请通知协作人员，避免同时间段内提交
+# git checkout 之前请一定要先push本分支上的修改，若未修改完成，请使用git stash ，否则修改的内容会污染即将切换的分支
+# 以小段代码的迭代优先
+# 不直接在develop上做代码修改，develop是保持代码提交的一致性

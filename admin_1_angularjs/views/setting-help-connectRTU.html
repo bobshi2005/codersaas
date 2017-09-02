@@ -1,0 +1,100 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <!-- <a href="index.html">系统配置</a> -->
+            <span>系统配置</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>帮助</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>设备接入平台</span>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+      <div class="btn-group pull-right" style="margin-right: 100px">
+        <a href="#" role="button" class="btn green btn-sm btn-outline center"  ng-click="gotoHelpConnectRTU()">
+          新窗口查看
+        </a>
+
+      </div>
+
+    </div>
+</div>
+<br class="">
+
+<div class="row">
+  <div class="panel-group accordion scrollable" id="accordion1">
+      <div class="panel panel-default purple">
+          <div class="panel-heading purple">
+              <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="/#collapse_1_1">
+                      <i class="icon-settings font-dark"></i> 设备接入流程
+                  </a>
+              </h4>
+          </div>
+          <div id="collapse_1_1" class="panel-collapse in">
+              <div class="panel-body">
+                  <p>用户可以通过库云平台实现设备的自主接入。设备接入流程如下：</p>
+                  <img src="../assets/pages/img/help/connectflow.jpg" style="height: 400px;margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
+                  <p>设备接入主要分为两大部分：库云平台设备连接配置以及模块本身的配置。
+                    本页面主要介绍库云平台上从设备建模、设备新建到设备连接配置的过程，
+                    模块配置请参考<a href="#/main/setting/helpSetRTU">DTU模块配置</a>。
+                  </p>
+
+              </div>
+          </div>
+      </div>
+      <div class="panel panel-default purple">
+          <div class="panel-heading purple">
+              <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="/#collapse_1_2">
+                      <i class="icon-settings font-dark"></i> 设备模型建模
+                  </a>
+              </h4>
+          </div>
+          <div id="collapse_1_2" class="panel-collapse collapse">
+              <div class="panel-body">
+                <p>在设备模型管理中建立设备模型：设备模型代表同一类设备，拥有同样的模型参数。基于同一个设备模型创建的设备也同样拥有一样的模型参数。设备模型创建和模型参数配置方法如下：</p>
+                <img src="../assets/pages/img/help/createModel.jpg" style="height: 500px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
+                <img src="../assets/pages/img/help/editModel.jpg" style="height: 500px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
+              </div>
+          </div>
+      </div>
+      <div class="panel panel-default purple">
+          <div class="panel-heading purple">
+              <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="/#collapse_1_3">
+                      <i class="icon-settings font-dark"></i> 建立设备
+                  </a>
+              </h4>
+          </div>
+          <div id="collapse_1_3" class="panel-collapse collapse">
+              <div class="panel-body">
+                <p>设备模型创建完毕后，就能够基于该设备模型创建设备实例，如下图所示：在设备信息管理中添加设备信息。
+                  添加完的设备会显示在设备列表中，您可以对任意设备进行编辑或删除。注意：已经设置了设备连接参数的设备，
+                  暂时不能由您进行删除，如需删除请联系客服 0512-86861827
+                </p>
+                <img src="../assets/pages/img/help/createDevice.jpg" style="height: 600px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
+              </div>
+          </div>
+      </div>
+      <div class="panel panel-default purple">
+          <div class="panel-heading purple">
+              <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="/#collapse_1_4">
+                      <i class="icon-settings font-dark"></i> 设备接入-Modbus RTU方式
+                  </a>
+              </h4>
+          </div>
+          <div id="collapse_1_4" class="panel-collapse collapse">
+              <div class="panel-body">
+                <p>选择需要接入的设备，点击设备接入。按照下图的指示，配置RTU连接。（平台会陆续实现其他方式的连接，敬请期待）读写指令配置请根据实际值配置</p>
+                <img src="../assets/pages/img/help/connectRTU.jpg" style="height: 800px; margin: 0 auto; padding: 10px" class="img-responsive pic-bordered" alt="" />
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

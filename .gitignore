@@ -1,14 +1,13 @@
 .idea
 .classpath
 .project
-node_modules
 *.iml
 *.eml
 target
 *.log
 *.log.*
-generatorConfig.xml
+*node_modules
 .DS_Store
-#eclipse 
+#eclipse
 **/.settings
 

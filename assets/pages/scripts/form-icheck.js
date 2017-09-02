@@ -5,7 +5,7 @@ var FormiCheck = function () {
 
             $('.icheck-colors li').click(function() {
               var self = $(this);
-
+alert("xx");
               if (!self.hasClass('active')) {
                   self.siblings().removeClass('active');
 

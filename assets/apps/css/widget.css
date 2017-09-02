@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'ledstyle1';
+    src: url('../fonts/number.otf');
+}
+
+@font-face {
+    font-family: 'ledstyle2';
+    src: url('../fonts/longzhoufeng.ttf');
+}
+
+.led-text {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    justify-content: center;
+    align-items: center;
+    font-size: 5vw;
+    font-family: ledstyle1;
+    color: #4289f4;
+    word-break: break-all;
+    word-wrap:break-word;
+    align-self: center;
+}

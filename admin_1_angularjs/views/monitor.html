@@ -1,0 +1,1163 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <!-- <a href="devopt.html">设备监控</a> -->
+            <span>设备监控</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{pagetitle}}</span>
+        </li>
+        <li>
+              <a ui-sref="#" class="btn red btn-sm btn-outline" style="margin-left: 10px" ng-click='changelistState()'>
+                  <i class="icon-shield"></i> {{listMode}}
+              </a>
+        </li>
+    </ul>
+    <!-- <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <a ui-sref="#" class="btn red btn-sm btn-outline" ng-click='changelistState()'>
+                <i class="icon-shield"></i> {{listMode}}
+            </a>
+        </div>
+    </div> -->
+</div>
+<br class="">
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PROFILE SIDEBAR -->
+        <div class="profile-sidebar" style="width:140px">
+            <!-- PORTLET MAIN -->
+
+            <ul id="treeDemo" class="ztree"></ul>
+
+            <!-- END PORTLET MAIN -->
+        </div>
+        <!-- END BEGIN PROFILE SIDEBAR -->
+        <!-- BEGIN PROFILE CONTENT -->
+        <div class="profile-content row" ng-show='showMap'>
+            <div class="col-md-12" id="mapContainer" style="height: window.document.body.clientHeight">
+            </div>
+        </div>
+        <div class="profile-content" ng-hide='showMap'>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet light bordered ">
+                        <div class="portlet-title tabbable-line tabbable-bordered" id="navContainer" style="margin-top:0px;">
+                            <ul class="nav nav-pills pull-left">
+                                <li class="active">
+                                    <a href="/#tab_1_1" data-toggle="tab">设备概况</a>
+                                </li>
+                                <li>
+                                    <a href="/#tab_1_2" data-toggle="tab">运行监控</a>
+                                </li>
+                                <!--
+                                <li>
+                                    <a href="/#tab_1_4" data-toggle="tab">数据报表
+                                    </a>
+                                </li>
+                                -->
+                                <li>
+                                    <a href="/#tab_1_4" data-toggle="tab">视频监控
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/#tab_1_3" data-toggle="tab">数据曲线
+                                    </a>
+                                </li>
+                                <li ng-show='showAnalogTab'>
+                                    <a href="/#tab_1_7" data-toggle="tab">{{groupname0}}
+                                    </a>
+                                </li>
+                                <li ng-show='showDigitalTab'>
+                                    <a href="/#tab_1_8" data-toggle="tab">{{groupname1}}
+                                    </a>
+                                </li>
+                                 <li>
+                                    <a href="/#tab_1_9" data-toggle="tab">故障快照
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/#tab_1_10" data-toggle="tab">历史数据
+                                    </a>
+                                </li>
+                                <!--
+                                <li>
+                                    <a href="/#tab_1_11" data-toggle="tab">数据趋势
+                                    </a>
+                                </li>
+                                -->
+                                <li>
+                                    <a href="/#tab_1_5" data-toggle="tab">维保记录
+                                      <span class="badge badge-danger"> vip </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/#tab_1_6" data-toggle="tab">历史工单
+                                      <span class="badge badge-danger"> vip </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="tab-content">
+                                <!-- 设备信息 INFO TAB -->
+                                <div class="tab-pane active" id="tab_1_1">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="portlet yellow-crusta box">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class="fa fa-cogs"></i>设备信息</div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">设备序列号:</div>
+                                                        <div class="col-md-7 value">{{gatewaySN}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">设备ID:</div>
+                                                        <div class="col-md-7 value">{{equipmentId}}
+                                                        </div>
+                                                    </div>
+                                                     <div class="row static-info">
+                                                        <div class="col-md-5 name">设备名称:</div>
+                                                        <div class="col-md-7 value">{{equipname}}</div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">设备编号:</div>
+                                                        <div class="col-md-7 value">{{number}}</div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">出厂日期:</div>
+                                                        <div class="col-md-7 value">{{factoryDate}}</div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">投产日期:</div>
+                                                        <div class="col-md-7 value">{{commissioningDate}}</div>
+                                                    </div>
+
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">设备状态:</div>
+                                                        <div class="col-md-7 value">
+                                                            <span class="label label-success"> 正常运行 </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">查看地图:</div>
+                                                        <div class="col-md-7 value">
+                                                          <a href="#"  ng-click="changelistState()">
+                                                          <i class="fa fa-map"></i> </a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="portlet blue-hoki box">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class="fa fa-cogs"></i>设备快照</div>
+                                                    <!-- <div class="actions">
+                                                        <a href="../assets/pages/media/works/img7.jpg" class="btn btn-default btn-sm fancybox-button">
+                                                            <i class="fa fa-pencil"></i> 查看大图 </a>
+                                                    </div> -->
+                                                </div>
+                                                <div class="portlet-body" style="max-height:320px">
+                                                    <!-- <a href="../assets/pages/media/works/img7.jpg" class="fancybox-button" data-rel="fancybox-button"> -->
+                                                        <img class="img-responsive" style="max-height:300px;" src="../assets/pages/media/works/img7.jpg" alt="">
+                                                    <!-- </a> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12"></div>
+                                    </div>
+                                </div>
+                                <!-- END PERSONAL INFO TAB -->
+                                <!-- CHANGE AVATAR TAB -->
+                                <div class="tab-pane" id="tab_1_2">
+                                    <div class="row">
+                                        <div class="col-md-4" ng-repeat=" items in echartValue">
+                                            <div class="portlet light portlet-fit bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class=" icon-layers font-green"></i>
+                                                        <span class="caption-subject font-green bold uppercase">{{items.widgetName}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div  widget e-data="items" e-type="items.widgetType" style="height:300px"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-md-4">
+                                            <div class="portlet light portlet-fit bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class=" icon-layers font-green"></i>
+                                                        <span class="caption-subject font-green bold uppercase">设备温度</span>
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div  e-chart e-data="optionTest2" style="height:300px;"></div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <!-- END CHANGE AVATAR TAB -->
+                                <!-- CHANGE PASSWORD TAB -->
+                                <div class="tab-pane" id="tab_1_3">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="portlet light portlet-fit bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class=" icon-layers font-green"></i>
+                                                        <span class="caption-subject font-green bold uppercase">{{lineLabel}}</span>
+                                                    </div>
+                                                    <div class="actions">
+                                                        <button class="btn btn-circle btn-icon-only btn-default"  ng-click="changemode('line')" uib-tooltip="显示曲线">
+                                                            <i class="fa fa-line-chart"></i>
+
+                                                        </button>
+                                                        <button class="btn btn-circle btn-icon-only btn-default"  ng-click="changemode('table')" uib-tooltip="显示表格">
+                                                            <i class="fa fa-table"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div class="margin-top-10 margin-bottom-10 text-center row">
+                                                        <!-- <select class="selectAnalogTab" ng-model="selectedlinetab"  ng-options="var.name for var in linevarstab" ng-change="checktab()"></select> -->
+                                                        <div class="col-md-3 col-md-offset-1 margin-top-10">
+                                                          <ui-select ng-model="selectedlinetab" theme="bootstrap">
+                                                              <ui-select-match>{{selectedlinetab.name}}</ui-select-match>
+                                                              <ui-select-choices repeat="var in linevarstab ">
+                                                                  <div ng-bind-html="var.name" ng-click="checktab(var)"></div>
+                                                              </ui-select-choices>
+                                                          </ui-select>
+                                                        </div>
+                                                        <div class="col-md-8 margin-top-10">
+                                                            <div class="input-group input-large input-daterange" >
+                                                                <input type="text" class="form-control date start_date col-md-3" style="width: 150px" placeholder="选择开始时间"/>
+                                                                <span class="input-group-addon"> ~ </span>
+                                                                <input type="text" class="form-control date end_date col-md-3" style="width: 150px" placeholder="选择结束时间"/>
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn default" type="button" ng-click="setCurvetime()">
+                                                                        设置
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                          <div class="margin-top-10 margin-bottom-20 text-center">
+                                                              <div class="clearfix">
+                                                                  <input type="button" class="btn blue btn-outline" ng-click="setHistoryTime(1)" value="最近10分钟" />
+                                                                  <input type="button" class="btn red btn-outline" ng-click="setHistoryTime(2)" value="最近24小时" />
+                                                                  <input type="button" class="btn green btn-outline" ng-click="setHistoryTime(3)" value="最近7天" />
+                                                                  <input type="button" class="btn purple btn-outline" ng-click="setFreeTime()" ng-value="curve.setTime"/>
+                                                              </div>
+                                                          </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div id="echarts_line" style="height: 500px" ng-show="historyType=='line'"></div>
+                                                    <table ng-table="tableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px" ng-show="historyType=='table'">
+                                                        <tbody>
+                                                            <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                                                                <td title="'时间'">{{param.updateTime}}</td>
+                                                                <td title="'值'">{{param.stringValue}}</td>
+                                                                <td title="'单位'">{{selectedlinetab.unit}}</td>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END CHANGE PASSWORD TAB -->
+                                <!-- PRIVACY SETTINGS TAB -->
+                                <div class="tab-pane" id="tab_1_5">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                                            <div class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption font-dark">
+                                                        <i class="icon-settings font-dark"></i>
+                                                        <span class="caption-subject bold uppercase">维保记录列表</span>
+                                                    </div>
+                                                    <div class="tools"> </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <table class="table table-striped table-bordered table-hover" id="sample_1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th> 维保日期 </th>
+                                                                <th> 配件编号 </th>
+                                                                <th> 配件名称 </th>
+                                                                <th> 维保原因 </th>
+                                                                <th> 维保内容 </th>
+                                                                <th> 操作人 </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td> 2017-1-27 </td>
+                                                                <td> SN9007</td>
+                                                                <td> 压缩机 </td>
+                                                                <td> 损坏 </td>
+                                                                <td> 维修 </td>
+                                                                <td> 张太平 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 2017-1-18 </td>
+                                                                <td> SVN1008</td>
+                                                                <td> 风扇 </td>
+                                                                <td> 部件老化 </td>
+                                                                <td> 更换 </td>
+                                                                <td> 王山丘 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 2017-1-7 </td>
+                                                                <td> SN9007</td>
+                                                                <td> 压缩机 </td>
+                                                                <td> 损坏 </td>
+                                                                <td> 维修 </td>
+                                                                <td> 张太平 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 2016-12-27 </td>
+                                                                <td> SVN1008</td>
+                                                                <td> 风扇 </td>
+                                                                <td> 部件老化 </td>
+                                                                <td> 更换 </td>
+                                                                <td> 王山丘 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 2016-10-20 </td>
+                                                                <td> XVG0012</td>
+                                                                <td> 压缩机 </td>
+                                                                <td> 损坏 </td>
+                                                                <td> 维修 </td>
+                                                                <td> 王山丘 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 2016-10-7 </td>
+                                                                <td> SVN1008</td>
+                                                                <td> 风扇 </td>
+                                                                <td> 部件老化 </td>
+                                                                <td> 更换 </td>
+                                                                <td> 王山丘 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 2016-9-25 </td>
+                                                                <td> XVG0012</td>
+                                                                <td> 压缩机 </td>
+                                                                <td> 损坏 </td>
+                                                                <td> 维修 </td>
+                                                                <td> 王山丘 </td>
+                                                            </tr>
+
+
+
+
+
+                                                        </tbody>
+                                                    </table>
+                                                    <!-- <div class="btn-toolbar margin-top-20 margin-bottom-20">
+                                <div class="btn-group stackControls">
+                                    <input type="button" class="btn blue btn-outline" value="最近24小时" />
+                                    <input type="button" class="btn red btn-outline" value="最近3天" />
+                                    <input type="button" class="btn green btn-outline" value="最近1周" />
+                                </div>
+                                <div class="space5"></div>
+                                <div class="btn-group graphControls">
+                                    <input type="button" class="btn dark btn-outline" value="参数1" />
+                                    <input type="button" class="btn dark btn-outline" value="参数2" />
+                                    <input type="button" class="btn dark btn-outline" value="参数3" />
+                                </div>
+                            </div> -->
+                                                </div>
+                                            </div>
+                                            <!-- END EXAMPLE TABLE PORTLET-->
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="tab-pane" id="tab_1_7">
+                                     <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption  font-green-sharp">
+                                                        <i class="icon-speech font-green-sharp"></i>{{groupname0}}</div>
+                                                </div>
+
+                                                <div class="portlet-body">
+                                                    <div class="row static-info">
+                                                        <div class="col-md-6"  ng-repeat="vars in varsArr0">
+                                                            <div class="col-md-6 text-right name" style="margin-bottom:15px;"  ng-bind-html="htmlStr2">{{formatStateValue2(vars.name)}}</div>
+                                                            <div class="col-md-6 value" style="margin-bottom:15px;"  ng-bind-html="htmlStr">{{formatStateValue(vars.value,vars.unit)}}</div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <!-- END CHANGE AVATAR TAB -->
+
+
+
+                                <div class="tab-pane" id="tab_1_8">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption  font-green-sharp">
+                                                        <i class="icon-speech font-green-sharp"></i>{{groupname1}}</div>
+                                                </div>
+
+                                                <div class="portlet-body">
+                                                    <div class="row static-info">
+                                                        <div class="col-md-6"  ng-repeat="vars in varsArr1">
+                                                            <div class="col-md-6 text-right name" style="margin-bottom:15px;"  ng-bind-html="htmlStr2">{{formatStateValue2(vars.name)}}</div>
+                                                            <div class="col-md-6 value" style="margin-bottom:15px;"  ng-bind-html="htmlStr">{{formatStateValue(vars.value,vars.unit)}}</div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!--
+
+                                -->
+
+                                </div>
+                                <!-- END CHANGE AVATAR TAB -->
+
+
+                                <div class="tab-pane" id="tab_1_9">
+                                   <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption  font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>故障信息</div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div class="row static-info">
+                                                        <div class="col-md-3 text-right name">机组状态</div>
+                                                        <div class="col-md-3 value"><span class="label label-success">正常</span></div>
+                                                        <div class="col-md-3 text-right name">故障识别码</div>
+                                                        <div class="col-md-3 value">--</div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-3 text-right name">故障内容</div>
+                                                        <div class="col-md-3 value">--</div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption  font-green-sharp">
+                                                        <i class="icon-speech font-green-sharp"></i>警告信息</div>
+                                                    </div>
+                                                    <div class="portlet-body">
+                                                        <div class="row static-info">
+                                                            <div class="col-md-3 text-right name">制冷剂压差</div>
+                                                            <div class="col-md-3 value"><span class="label label-success">正常</span></div>
+                                                            <div class="col-md-3 text-right name">防冻开关</div>
+                                                            <div class="col-md-3 value"><span class="label label-success">正常</span></div>
+                                                        </div>
+                                                        <div class="row static-info">
+                                                            <div class="col-md-3 text-right name">使用侧出水温度传感器</div>
+                                                            <div class="col-md-3 value"><span class="label label-success">正常</span></div>
+                                                            <div class="col-md-3 text-right name">使用侧回水温度传感器</div>
+                                                            <div class="col-md-3 value"><span class="label label-success">正常</span></div>
+                                                        </div>
+                                                        <div class="row static-info">
+                                                            <div class="col-md-3 text-right name">热源测出水温度传感器</div>
+                                                            <div class="col-md-3 value"><span class="label label-success">正常</span></div>
+                                                            <div class="col-md-3 text-right name">热源测回水温度传感器</div>
+                                                            <div class="col-md-3 value"><span class="label label-success">正常</span></div>
+                                                        </div>
+                                                        <div class="row static-info">
+                                                            <div class="col-md-3 text-right name">热回收出水温度传感器</div>
+                                                            <div class="col-md-3 value"><span class="label label-success">正常</span></div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <!-- END CHANGE AVATAR TAB -->
+
+
+
+                                        <div class="tab-pane" id="tab_1_10">
+                                        <div class="row">
+                                        <div class="col-md-2">
+
+                                            <form role="form">
+                                                <div class="form-body">
+                                                   <div class="form-group">
+                                                        <label>起始时间</label>
+                                                        <div class="input-icon">
+                                                        <i class="fa fa-hourglass-start font-green"></i>
+                                                            <input type="text" class="form-control" placeholder="起始时间">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>截止时间</label>
+                                                        <div class="input-icon">
+                                                        <i class="fa fa-hourglass-end font-green"></i>
+                                                            <input type="text" class="form-control" placeholder="截止时间">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-sm btn-outline blue">
+                                                        <i class="fa fa-search"></i> 查询 </button>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-sm btn-outline blue">
+                                                        <i class="fa fa-download"></i> 下载全部数据 </button>
+                                                    </div>
+
+                                                    <div class="form-group table-bordered">
+                                                        <label>选择参数</label>
+                                                        <div class="mt-checkbox-list" style="padding:10px;">
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                采集器室内温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                制冷(热)量
+                                                                <input type="checkbox" value="2" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                实时耗电量
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                一号RLA百分比
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                二号RLA百分比
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                一号压缩机电流
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                二号压缩机电流
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                蒸发压力
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                冷凝压力
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                蒸发温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                冷凝温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                冷凝压力
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                使用侧出水温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                使用侧回水温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                热源侧出水温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                热源侧出水温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                蓄热水箱温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                热回收出水温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                一号排气温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                二号排气温度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                一号排气过热度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                二号排气过热度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                排气过热度目标值
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+                                                            <label class="mt-checkbox mt-checkbox-outline">
+                                                                电子膨胀阀开度
+                                                                <input type="checkbox" value="1" name="test" />
+                                                                <span></span>
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                        </form>
+
+                                        </div>
+
+                                        <div class="col-md-10">
+                                            <div class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption  font-green-sharp">
+                                                        <i class="icon-speech font-green-sharp"></i>查询信息</div>
+                                                    </div>
+                                                    <div class="portlet-body">
+                                                <table class="table table-striped table-bordered table-hover" id="sample_11">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:150px;"> 制冷(热)量 </th>
+                                                            <th style="width:120px;"> 实时能效比 </th>
+                                                            <th style="width:150px;"> 实时耗电量 </th>
+                                                            <th style="width:150px;"> RLA百分比 </th>
+                                                            <th style="width:150px;"> 一号压缩机电流 </th>
+                                                            <th style="width:150px;"> 蒸发压力 </th>
+                                                            <th style="width:150px;"> 蒸发温度 </th>
+                                                            <th style="width:150px;"> 使用侧出水温度 </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                         <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX">
+                                                            <td> 0.00KW </td>
+                                                            <td> 0.00 </td>
+                                                            <td> 0.00kWh </td>
+                                                            <td> 0.2% </td>
+                                                            <td> 0.5A </td>
+                                                            <td> 861kPa </td>
+                                                            <td> 22.1℃ </td>
+                                                            <td> 29.2℃ </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <!-- END CHANGE AVATAR TAB -->
+
+
+
+                                <div class="tab-pane" id="tab_1_6">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                                            <div class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption font-dark">
+                                                        <i class="icon-settings font-dark"></i>
+                                                        <span class="caption-subject bold uppercase">历史工单记录列表</span>
+                                                    </div>
+                                                    <div class="tools"> </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <table class="table table-striped table-bordered table-hover" id="sample_2">
+                                                        <thead>
+                                                            <tr>
+                                                                <th> 工单号 </th>
+                                                                <th> 工单名称 </th>
+                                                                <th> 工单描述 </th>
+                                                                <th> 创建日期 </th>
+                                                                <th> 接收日期 </th>
+                                                                <th> 完成日期 </th>
+                                                                <th> 当前处理人 </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td> 10086 </td>
+                                                                <td> 设备维修 </td>
+                                                                <td> SVN1008 风扇老化 </td>
+                                                                <td> 2017-03-10 </td>
+                                                                <td> 2017-03-10 </td>
+                                                                <td> 2017-03-12 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10085 </td>
+                                                                <td> 设备维修 </td>
+                                                                <td> XVG0012 压缩机损坏 </td>
+                                                                <td> 2017-02-18 </td>
+                                                                <td> 2017-02-19 </td>
+                                                                <td> 2017-02-22 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10084 </td>
+                                                                <td> 设备维修 </td>
+                                                                <td> XS0002 压缩机损坏 </td>
+                                                                <td> 2017-01-9 </td>
+                                                                <td> 2017-01-10 </td>
+                                                                <td> 2017-01-12 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10083 </td>
+                                                                <td> 设备保养 </td>
+                                                                <td> XVG0012 机器清洁 </td>
+                                                                <td> 2016-12-29 </td>
+                                                                <td> 2016-12-29 </td>
+                                                                <td> 2016-12-30 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10082 </td>
+                                                                <td> 设备检查 </td>
+                                                                <td> XVG0012 机器检查 </td>
+                                                                <td> 2016-12-09 </td>
+                                                                <td> 2016-12-10 </td>
+                                                                <td> 2016-12-11 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10081 </td>
+                                                                <td> 设备维修 </td>
+                                                                <td> XVG0012 压缩机损坏 </td>
+                                                                <td> 2016-11-30 </td>
+                                                                <td> 2016-11-30 </td>
+                                                                <td> 2016-12-01 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10080 </td>
+                                                                <td> 设备养护 </td>
+                                                                <td> XVG0012 更换机油 </td>
+                                                                <td> 2016-11-14 </td>
+                                                                <td> 2016-11-14 </td>
+                                                                <td> 2016-11-14 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10079 </td>
+                                                                <td> 设备维修 </td>
+                                                                <td> XVG0012 压缩机损坏 </td>
+                                                                <td> 2016-11-10 </td>
+                                                                <td> 2016-11-10 </td>
+                                                                <td> 2016-11-12 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10078 </td>
+                                                                <td> 设备维修 </td>
+                                                                <td> XVG0012 压缩机损坏 </td>
+                                                                <td> 2016-10-22 </td>
+                                                                <td> 2016-10-22 </td>
+                                                                <td> 2016-10-24 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10077 </td>
+                                                                <td> 设备维修 </td>
+                                                                <td> XVG0012 压缩机损坏 </td>
+                                                                <td> 2016-10-16 </td>
+                                                                <td> 2016-10-19 </td>
+                                                                <td> 2016-10-20 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10076 </td>
+                                                                <td> 设备维修 </td>
+                                                                <td> XVG0012 压缩机损坏 </td>
+                                                                <td> 2016-10-15 </td>
+                                                                <td> 2016-10-17 </td>
+                                                                <td> 2016-10-20 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> 10075 </td>
+                                                                <td> 设备维修 </td>
+                                                                <td> XVG0012 压缩机损坏 </td>
+                                                                <td> 2016-10-10 </td>
+                                                                <td> 2016-10-10 </td>
+                                                                <td> 2016-10-12 </td>
+                                                                <td> 张山丘</td>
+                                                            </tr>
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <!-- END EXAMPLE TABLE PORTLET-->
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="tab-pane" id="tab_1_4">
+
+
+                                   <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="portlet light portlet-fit bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class=" icon-layers font-green"></i>
+                                                        <span class="caption-subject font-green bold uppercase">实时监控</span>
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div class="row" style="text-align: center;">
+                                                     <video style="max-width:1200px;width:95%;height:500px;" id="myPlayer" poster="" controls playsInline webkit-playsinline >
+                                                        <source src="rtmp://rtmp.open.ys7.com/openlive/6e84099c7983453998b2a3c3c5c95ac1" type="" />
+                                                        <source src="http://hls.open.ys7.com/openlive/6e84099c7983453998b2a3c3c5c95ac1.m3u8" type="application/x-mpegURL" />
+
+                                                    </video>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!-- END PRIVACY SETTINGS TAB -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PROFILE CONTENT -->
+    </div>
+</div>
+<div id="myModal_alert" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">提示</h4>
+            </div>
+            <div class="modal-body">{{message}}</div>
+            <div class="modal-footer">
+                <button type="button" class="btn green"  ng-click='disalert()'>
+                    <i class="fa fa-check"></i> 确定 </button>
+            </div>
+        </div>
+    </div>
+</div>

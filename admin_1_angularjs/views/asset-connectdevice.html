@@ -1,0 +1,193 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <!-- <a href="index.html">资产管理</a> -->
+            <span>资产管理</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>设备管理</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>设备模型管理</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>设备模型接入</span>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="portlet light portlet-fit portlet-datatable bordered">
+      <div class="portlet-title">
+          <div class="caption">
+              <i class="icon-settings font-dark"></i>设备接入设置</div>
+      </div>
+      <div class="portlet-body">
+        <div class="row">
+          <div class="col-md-6">
+            <form action="" class="form-horizontal form-row-seperated" name="form">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        设备名称</label>
+                    <div class="col-sm-6">
+                        <input type="text" ng-model="equipmentname" class="form-control"  ng-disabled="true" required/>
+                    </div>
+                </div>
+                <div class="form-group last">
+                    <label class="col-sm-4 control-label">链接协议</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" ng-model="protocolId"  ng-options="o.id as o.name for o in protocolLists"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        心跳包格式（长度<20）</label>
+                    <div class="col-sm-6">
+                        <input type="text" ng-model="heartData" class="form-control"  required/>
+                    </div>
+                </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <form action="" class="form-horizontal form-row-seperated">
+              <div class="form-group">
+                  <label class="col-sm-4 control-label">
+                      Ip</label>
+                  <div class="col-sm-6">
+                      <input type="text" ng-model="accessdev.ip" class="form-control"   ng-disabled="true" required/>
+                  </div>
+                  <label class="col-sm-4 control-label">
+                      端口号</label>
+                  <div class="col-sm-6">
+                      <input type="text" ng-model="accessdev.port" class="form-control"  ng-disabled="true" required/>
+                  </div>
+                  <label class="col-sm-4 control-label">
+                      接入注册包</label>
+                  <div class="col-sm-6">
+                      <input type="text" ng-model="equipmentId" class="form-control"  ng-disabled="true" required/>
+                  </div>
+              </div>
+            </form>
+          <div class="col-md-6 col-md-offset-6">
+            <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='saveConnectInfo()'><i class="fa fa-edit"></i>保存
+            </a>
+            <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='goback()'><i class="fa fa-reply"></i>返回
+            </a>
+          </div>
+        </div>
+        </div>
+      </div>
+  </div>
+  <div class="portlet light portlet-fit portlet-datatable bordered">
+      <div class="portlet-title">
+          <div class="caption">
+              <i class="icon-settings font-dark"></i>传感器设置</div>
+      </div>
+      <div class="portlet-body">
+        <div class="row">
+          <div id="myModal_setSeneor" class="modal fade" role="dialog" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                          <h4 class="modal-title">读写指令设置</h4>
+                      </div>
+                      <div class="modal-body form skin skin-line">
+                          <form action="" class="form-horizontal form-row-seperated" name="sensorform" role="form">
+                              <input type="hidden" name="equipmentId" ng-model="sensor.equipmentId">
+                              <input type="hidden" name="equipmentModelPropertyId" ng-model="sensor.equipmentModelPropertyId">
+                              <div class="form-group">
+                                  <label class="col-sm-4 control-label">
+                                      从站地址</label>
+                                  <div class="col-sm-6">
+                                      <input type="text" ng-model="sensor.salveId" placeholder="地址范围 1 - 247" class="form-control" required/>
+                                  </div>
+                              </div>
+                              <div class="form-group last">
+                                  <label class="col-sm-4 control-label">读取模式</label>
+                                  <div class="col-sm-4">
+                                      <select class="form-control" ng-model="sensor.functionCode"  ng-options="o.id as o.name for o in codeLists" required></select>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="col-sm-4 control-label">
+                                      地址</label>
+                                  <div class="col-sm-6">
+                                      <input type="text" ng-model="sensor.address" class="form-control" required/>
+                                  </div>
+                              </div>
+
+                              <!-- <div class="form-group">
+                                  <label class="col-sm-4 control-label">
+                                      数量</label>
+                                  <div class="col-sm-6">
+                                      <input type="text" ng-model="sensor.quantity" class="form-control" required/>
+                                  </div>
+                              </div> -->
+                              <div class="form-group last">
+                                  <label class="col-sm-4 control-label">数据格式</label>
+                                  <div class="col-sm-4">
+                                      <select class="form-control" ng-model="sensor.dataFormat" ng-change="selectFormat()"  ng-options="o.id as o.name for o in formatLists" required></select>
+                                  </div>
+                              </div>
+                              <div class="form-group last" id="bitcode">
+                                  <label class="col-sm-4 control-label">字节顺序</label>
+                                  <div class="col-sm-4">
+                                      <select class="form-control" ng-model="sensor.bitOrder"  ng-options="o.id as o.name for o in bitorderLists" required></select>
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <label class="col-sm-4 control-label">
+                                      采集周期</label>
+                                  <div class="col-sm-6">
+                                      <input type="text" ng-model="sensor.period" class="form-control" required/>
+                                  </div>s
+                              </div>
+                          </form>
+                      </div>
+                      <div class="modal-footer">
+                          <!-- <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button> -->
+                          <button type="button" class="btn grey-salsa btn-outline " ng-click='setSensorDismiss()' >取消操作</button>
+                          <button type="button" class="btn green"  ng-click='saveSensor()' ng-disabled="sensorform.$invalid">
+                              <i class="fa fa-check"></i> 确定添加 </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <table ng-table="tableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px">
+              <tbody>
+                  <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                      <td header="'headerCheckbox.html'"><input type="checkbox" ng-model="checkboxes.items[param.equipmentModelPropertyId]" /></td>
+                      <!-- <td title="'ID'" class="center">{{param.equipmentModelPropertyId}}</td> -->
+                      <td title="'参数名称'" class="center">{{param.name}}</td>
+                      <!-- <td title="'参数地址'" class="center">{{param.address}}</td> -->
+                      <td title="'数据类型'" class="center">{{param.dataTypename}}</td>
+                      <td title="'数据展示'" class="center">{{param.displayname}}</td>
+                      <td title="'读写指令'">
+                          <div class="margin-bottom-5">
+                            <a href="#" data-toggle="modal" ng-click="showSetSeneor(param)" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>设置
+                            </a>
+                          </div>
+
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+</div>
+
+</div>
+<!-- END CONTENT BODY -->
+</div>
+<!-- END CONTENT -->
