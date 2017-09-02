@@ -8,6 +8,12 @@ var minifyCss = require("gulp-minify-css");
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 var rtlcss = require("gulp-rtlcss");
+var connect = require('gulp-connect');
+
+//*** Localhost server tast
+gulp.task('localhost', function() {
+  connect.server({port:3000});
+});
 
 //*** SASS compiler task
 gulp.task('sass', function () {

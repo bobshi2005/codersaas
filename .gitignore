@@ -1,0 +1,14 @@
+.idea
+.classpath
+.project
+node_modules
+*.iml
+*.eml
+target
+*.log
+*.log.*
+generatorConfig.xml
+.DS_Store
+#eclipse 
+**/.settings
+
