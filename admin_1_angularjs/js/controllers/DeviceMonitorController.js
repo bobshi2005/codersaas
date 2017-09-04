@@ -796,10 +796,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                   break;
               case "/#tab_1_4":
                   　　　　　　break;
-              case "/#tab_1_5":
-                  　　　　　　break;
-              case "/#tab_1_6":
-                  　　　　　　break;　　　　
+              // case "/#tab_1_5":
+              //     　　　　　　break;
+              // case "/#tab_1_6":
+              //     　　　　　　break;　　　　
               default:
                   　　　　　　　　　　　
                   break;　　
