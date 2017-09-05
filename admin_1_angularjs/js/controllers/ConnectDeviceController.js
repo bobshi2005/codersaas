@@ -95,14 +95,39 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
 
     $scope.saveConnectInfo = function(){
       if(($scope.equipmentname==null || $scope.equipmentname=='')){
-        alert('提示','设备名称不能为空');
+        $scope.message = '设备名称不能为空';
+        $('#myModal_alert').modal();
       }else if(($scope.protocolId==null || $scope.protocolId=='')){
-        alert('提示','必须选择一个协议');
+        $scope.message = '必须选择一个协议';
+        $('#myModal_alert').modal();
       }else if(($scope.heartData==null || $scope.heartData=='')){
-        alert('提示','心跳包格式不能为空');
+        $scope.message = '心跳包格式不能为空';
+        $('#myModal_alert').modal();
       }else{
         accessDevice();
       }
+    };
+
+    $scope.addDataConversioin = function(){
+      $scope.sensor.isl = 0;
+      $scope.sensor.ish = 100;
+      $scope.sensor.osl = 0;
+      $scope.sensor.osh = 100;
+      $('.conversion-view').show();
+      $('#addConversionbtn').hide();
+    };
+
+    $scope.removeDataConversioin = function(){
+      $scope.sensor.isl = 0;
+      $scope.sensor.ish = 0;
+      $scope.sensor.osl = 0;
+      $scope.sensor.osh = 0;
+      $('.conversion-view').hide();
+      $('#addConversionbtn').show();
+    };
+
+    $scope.disalert = function(){
+      $('#myModal_alert').modal('hide');
     };
 
     $scope.showSetSeneor = function(param){
@@ -122,12 +147,26 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                 // $scope.sensor.quantity = sensor.quantity;
                 $scope.sensor.bitOrder = sensor.bitOrder;
                 $scope.sensor.dataFormat = sensor.dataFormat;
+                $scope.sensor.isl = sensor.isl;
+                $scope.sensor.ish = sensor.ish;
+                $scope.sensor.osl = sensor.osl;
+                $scope.sensor.osh = sensor.osh;
               }
               if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
                 $scope.sensor.bitOrder = 'noValue';
                 $('#bitcode').hide();
               }else{
                 $('#bitcode').show();
+              }
+              if($scope.sensor.isl == null || $scope.sensor.ish == null || $scope.sensor.osl == null || $scope.sensor.osh == null){
+                $('.conversion-view').hide();
+                $('#addConversionbtn').show();
+              }else if($scope.sensor.isl == 0 && $scope.sensor.ish == 0 && $scope.sensor.osl == 0 && $scope.sensor.osh == 0){
+                $('.conversion-view').hide();
+                $('#addConversionbtn').show();
+              }else{
+                $('.conversion-view').show();
+                $('#addConversionbtn').hide();
               }
               $('#myModal_setSeneor').modal('show');
           }, function(err) {
@@ -142,28 +181,26 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       $scope.sensor = {};
     }
     $scope.saveSensor = function(){
-      deviceApi.createSensor($scope.sensor)
-          .then(function(result){
-              if(result.data.code ==1 ){
-                  alert('读写指令设置成功');
-                  $('#myModal_setSeneor').modal('hide');
-              }
-          }, function(err) {
-              alert(err);
-              $('#myModal_setSeneor').modal('hide');
-          });
-    }
 
-    // function getSensor(){
-    //   deviceApi.getSensor($scope.equipmentId, $scope.protocolId)
-    //       .then(function(result){
-    //           if(result.data.code ==1 ){
-    //             console.log('get success',result);
-    //           }
-    //       }, function(err) {
-    //           alert(err);
-    //       });
-    // }
+      if($('.conversion-view').is(':visible') && $scope.sensor.isl == $scope.sensor.osl && $scope.sensor.ish == $scope.sensor.osh){
+        $scope.message = '参数转换前后数据不能一致';
+        $('#myModal_alert').modal();
+      }else{
+        deviceApi.createSensor($scope.sensor)
+            .then(function(result){
+                if(result.data.code ==1 ){
+                    $scope.message = '读写指令设置成功';
+                    $('#myModal_alert').modal();
+                    $('#myModal_setSeneor').modal('hide');
+                }
+            }, function(err) {
+                console.log('createSensorerr',err);
+                $('#myModal_setSeneor').modal('hide');
+            });
+      }
+
+
+    };
 
     $scope.goback = function(){
       $state.go('main.asset.infomanage');
@@ -179,10 +216,11 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
         deviceApi.accessDevice(params)
             .then(function(result){
                 if(result.data.code ==1 ){
-                    alert('设备接入成功');
+                    $scope.message = '设备接入成功';
+                    $('#myModal_alert').modal();
                 }
             }, function(err) {
-                alert(err);
+                console.log('accessDeviceerr',err);
             });
     };
 
