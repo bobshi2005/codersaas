@@ -14,7 +14,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
 
     $scope.protocolLists =[
       {"id":1,"name":"MB RTU"},
-      {"id":4,"name":"句控"},
+      {"id":4,"name":"巨控"},
       {"id":2,"name":"MB TCP"},
       {"id":3,"name":"MQTT"}
     ];

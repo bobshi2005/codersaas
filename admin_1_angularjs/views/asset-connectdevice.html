@@ -92,7 +92,7 @@
             <form action="" class="form-horizontal form-row-seperated">
               <div class="form-group">
                   <label class="col-sm-4 control-label">
-                      句控设备ID</label>
+                      巨控设备ID</label>
                   <div class="col-sm-6">
                       <input type="text" ng-model="grm" class="form-control"  required/>
                   </div>
@@ -142,10 +142,10 @@
                           <h4 class="modal-title">读写指令设置</h4>
                       </div>
                       <div class="modal-body form skin skin-line">
-                          <form action="" class="form-horizontal form-row-seperated" name="sensorform" role="form">
+                          <form action="" class="form-horizontal form-row-seperated" name="sensorform2" role="form">
                               <input type="hidden" name="equipmentId" ng-model="sensor.equipmentId">
                               <input type="hidden" name="equipmentModelPropertyId" ng-model="sensor.equipmentModelPropertyId">
-                              <input type="hidden" ng-model="sensor.grmAction" value="R"  class="form-control"/>
+                              <input type="hidden" ng-model="sensor.grmAction"  class="form-control"/>
 
                               <!-- <div class="form-group last">
                                   <label class="col-sm-4 control-label">读取模式</label>
@@ -202,7 +202,7 @@
                       <div class="modal-footer">
                           <!-- <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button> -->
                           <button type="button" class="btn grey-salsa btn-outline " ng-click='setSensorJKDismiss()' >取消</button>
-                          <button type="button" class="btn green"  ng-click='saveSensor()' ng-disabled="sensorform.$invalid">
+                          <button type="button" class="btn green"  ng-click='saveSensor()' ng-disabled="sensorform2.$invalid">
                               <i class="fa fa-check"></i> 确定 </button>
                       </div>
                   </div>
