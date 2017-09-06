@@ -1,16 +1,20 @@
 angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '$rootScope', 'deviceApi','$stateParams','NgTableParams','$element','$state',function($scope, $rootScope, deviceApi, $stateParams,NgTableParams,$element,$state) {
     $rootScope.menueName = 'sidebar-asset';
     $scope.menueName = $rootScope.menueName;
-    $scope.equipmentId = $stateParams.equipmentId;
-    $scope.equipmentname = $stateParams.name;
-    $scope.protocolId = $stateParams.protocolId;
-    $scope.heartData = $stateParams.heartData;
+    $scope.equipmentId = $stateParams.equipmentInfo.equipmentId;
+    $scope.equipmentname = $stateParams.equipmentInfo.name;
+    $scope.protocolId = $stateParams.equipmentInfo.protocolId;
+    $scope.heartData = $stateParams.equipmentInfo.heartData;
+    $scope.grm = $stateParams.equipmentInfo.grm;
+    $scope.grmPassword = $stateParams.equipmentInfo.grmPassword;
+    $scope.grmPeriod = $stateParams.equipmentInfo.grmPeriod;
     $scope.propertylist = [];
     $scope.sensor = {};
-    $scope.equipmentModelId = $stateParams.equipmentModelId;
+    $scope.equipmentModelId = $stateParams.equipmentInfo.equipmentModelId;
 
     $scope.protocolLists =[
       {"id":1,"name":"MB RTU"},
+      {"id":4,"name":"句控"},
       {"id":2,"name":"MB TCP"},
       {"id":3,"name":"MQTT"}
     ];
@@ -52,6 +56,23 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       items: {}
     };
 
+    $scope.selectProtocal = function(){
+      changeProtocal();
+    };
+
+    function changeProtocal(){
+      if($scope.protocolId ==1){
+        $('#MB-RTU').show();
+        $('#JK').hide();
+      } else if($scope.protocolId == 4){
+        $('#MB-RTU').hide();
+        $('#JK').show();
+      }else if($scope.protocolId == null){
+        $('#MB-RTU').hide();
+        $('#JK').hide();
+      }
+    }
+
     $scope.selectFormat = function(){
       if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
         $scope.sensor.bitOrder = 'noValue';
@@ -91,6 +112,11 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
      angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
    }, true);
 
+    $scope.$on('$viewContentLoaded', function() {
+      changeProtocal();
+      getmodelPropertylist();
+    });
+
     $scope.accessdev ={ip:'127.0.0.1', port:'8234'};
 
     $scope.saveConnectInfo = function(){
@@ -100,12 +126,38 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       }else if(($scope.protocolId==null || $scope.protocolId=='')){
         $scope.message = '必须选择一个协议';
         $('#myModal_alert').modal();
-      }else if(($scope.heartData==null || $scope.heartData=='')){
-        $scope.message = '心跳包格式不能为空';
-        $('#myModal_alert').modal();
       }else{
-        accessDevice();
+        switch($scope.protocolId){
+          case 1: {
+              if(($scope.heartData==null || $scope.heartData=='')){
+                $scope.message = '心跳包格式不能为空';
+                $('#myModal_alert').modal();
+              }else{
+                accessDevice();
+              }
+            };
+            break;
+          case 4: {
+              if(($scope.grm==null || $scope.grm=='')){
+                $scope.message = '必须填写设备ID';
+                $('#myModal_alert').modal();
+              }else if(($scope.grmPassword==null || $scope.grmPassword=='')){
+                $scope.message = '必须填写设备密码';
+                $('#myModal_alert').modal();
+              }else if(($scope.grmPeriod==null || $scope.grmPeriod=='')){
+                $scope.message = '必须填写采集频率';
+                $('#myModal_alert').modal();
+              }else{
+                accessDevice();
+              }
+            };
+            break;
+          default: break;
+        }
+
       }
+
+
     };
 
     $scope.addDataConversioin = function(){
@@ -205,13 +257,16 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.goback = function(){
       $state.go('main.asset.infomanage');
     }
-    getmodelPropertylist();//获取参数列表
 
     function accessDevice() {
         var params={};
         params.equipmentId = $scope.equipmentId;
         params.protocolId = $scope.protocolId;
         params.heartData = $scope.heartData;
+        params.grm = $scope.grm;
+        params.grmPassword = $scope.grmPassword;
+        params.grmPeriod = $scope.grmPeriod;
+        params.name = $scope.equipmentname;
 
         deviceApi.accessDevice(params)
             .then(function(result){
