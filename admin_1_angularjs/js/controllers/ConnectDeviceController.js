@@ -60,18 +60,6 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       changeProtocal();
     };
 
-    function changeProtocal(){
-      if($scope.protocolId ==1){
-        $('#MB-RTU').show();
-        $('#JK').hide();
-      } else if($scope.protocolId == 4){
-        $('#MB-RTU').hide();
-        $('#JK').show();
-      }else if($scope.protocolId == null){
-        $('#MB-RTU').hide();
-        $('#JK').hide();
-      }
-    }
 
     $scope.selectFormat = function(){
       if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
@@ -203,6 +191,11 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                 $scope.sensor.ish = sensor.ish;
                 $scope.sensor.osl = sensor.osl;
                 $scope.sensor.osh = sensor.osh;
+                $scope.sensor.grmAction = sensor.grmAction;
+                $scope.sensor.grmVariable = sensor.grmVariable;
+                $scope.sensor.grmVariableValue = sensor.grmVariableValue;
+                $scope.sensor.grmVariableOrder = sensor.grmVariableOrder;
+
               }
               if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
                 $scope.sensor.bitOrder = 'noValue';
@@ -220,16 +213,25 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                 $('.conversion-view').show();
                 $('#addConversionbtn').hide();
               }
-              $('#myModal_setSeneor').modal('show');
+              if($scope.protocolId == 1){
+                $('#myModal_setSeneor').modal('show');
+              }else if($scope.protocolId == 4){
+                $('#myModal_setSeneorJK').modal('show');
+              }
+
           }, function(err) {
               if(err.status == 404){
-                $('#myModal_setSeneor').modal('show');
+
               }
           });
     }
 
     $scope.setSensorDismiss = function(){
       $('#myModal_setSeneor').modal('hide');
+      $scope.sensor = {};
+    }
+    $scope.setSensorJKDismiss = function(){
+      $('#myModal_setSeneorJK').modal('hide');
       $scope.sensor = {};
     }
     $scope.saveSensor = function(){
@@ -244,10 +246,12 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                     $scope.message = '读写指令设置成功';
                     $('#myModal_alert').modal();
                     $('#myModal_setSeneor').modal('hide');
+                    $('#myModal_setSeneorJK').modal('hide');
                 }
             }, function(err) {
                 console.log('createSensorerr',err);
                 $('#myModal_setSeneor').modal('hide');
+                $('#myModal_setSeneorJK').modal('hide');
             });
       }
 
@@ -257,6 +261,26 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.goback = function(){
       $state.go('main.asset.infomanage');
     }
+
+
+        function changeProtocal(){
+          switch($scope.protocolId){
+            case 1:
+                $('#MB-RTU').show();
+                $('#JK').hide();
+
+              break;
+            case 4:
+                $('#MB-RTU').hide();
+                $('#JK').show();
+
+              break;
+            default:
+              $('#MB-RTU').hide();
+              $('#JK').hide();
+            break;
+          }
+        }
 
     function accessDevice() {
         var params={};
