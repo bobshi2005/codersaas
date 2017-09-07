@@ -3,7 +3,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.menueName = $rootScope.menueName;
     $scope.equipmentId = $stateParams.equipmentInfo.equipmentId;
     $scope.equipmentname = $stateParams.equipmentInfo.name;
-    $scope.protocolId = $stateParams.equipmentInfo.protocolId;
+    $scope.protocolId = $stateParams.equipmentInfo.eamEquipmentModel.protocolId;
     $scope.heartData = $stateParams.equipmentInfo.heartData;
     $scope.grm = $stateParams.equipmentInfo.grm;
     $scope.grmPassword = $stateParams.equipmentInfo.grmPassword;
