@@ -466,6 +466,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         name: 'modalmanageApp',
                         // insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                             "../assets/global/plugins/slick/slick.css",
                             "../assets/global/plugins/slick/slick-theme.css",
                             "../assets/pages/css/slider.css",
