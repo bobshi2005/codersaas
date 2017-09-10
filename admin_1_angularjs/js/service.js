@@ -180,13 +180,13 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
 
 
   //设备模型管理
-    service.createdeviceModel = function(userId, name, number) {
+    service.createdeviceModel = function(name, number, protocolId) {
         var d = $q.defer();
         $http({
             method: 'post',
             url: deviceUrl+ '/manage/equipment/model/create',
   		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-            data:{userId:userId,name:name,number:number},
+            data:{name:name,number:number,protocolId:protocolId},
             withCredentials: true,
             transformRequest: function(obj) {
               var str = [];
@@ -204,13 +204,13 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
-    service.updatedeviceModel = function(id, userid, name, number) {
+    service.updatedeviceModel = function(id,name, number, protocolId) {
         var d = $q.defer();
         $http({
             method: 'post',
             url: deviceUrl+ '/manage/equipment/model/update/'+id,
   		      headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-            data:{userid: userid, name:name, number:number},
+            data:{name:name,number:number,protocolId:protocolId},
             withCredentials: true,
             transformRequest: function(obj) {
               var str = [];
@@ -331,6 +331,83 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
               return str.join("&");
             }
 
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+    //模型参数传感器读写指令设置  create 和 update 都是 /manage/sensor/create/
+    service.createPropertySensor = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/sensor/create/',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+    
+    //模型参数传感器读写数值转换  create 和 update 都是 /manage/sensor/create/
+    service.createPropertyConversion = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/sensor/update/',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+    service.getSensorModbus = function(mId,pId) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/model/property/sensor/modbus/'+mId+'/'+pId,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+    service.getSensorGrm = function(mId,pId) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/model/property/sensor/grm/'+mId+'/'+pId,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
         }).then(function(response) {
             d.resolve(response);
         }).catch(function(err) {
@@ -515,44 +592,8 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
-    service.createSensor = function(params) {
-        var d = $q.defer();
-        $http({
-            method: 'post',
-            url: deviceUrl+ '/manage/sensor/create/',
-            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-            data:params,
-            withCredentials: true,
-            transformRequest: function(obj) {
-                var str = [];
-                for(var p in obj){
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                }
-                return str.join("&");
-            }
 
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
 
-    service.getSensor = function(eId,pId) {
-        var d = $q.defer();
-        $http({
-            method: 'get',
-            url: deviceUrl+ '/manage/equipment/sensor/modbus/'+eId+'/'+pId,
-            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
-            withCredentials: true,
-        }).then(function(response) {
-            d.resolve(response);
-        }).catch(function(err) {
-            d.reject(err);
-        });
-        return d.promise;
-    };
   //设备启停
     service.startCollect = function(param) {
         var d = $q.defer();

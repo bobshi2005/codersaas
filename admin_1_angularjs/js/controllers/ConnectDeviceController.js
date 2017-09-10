@@ -1,16 +1,20 @@
 angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '$rootScope', 'deviceApi','$stateParams','NgTableParams','$element','$state',function($scope, $rootScope, deviceApi, $stateParams,NgTableParams,$element,$state) {
     $rootScope.menueName = 'sidebar-asset';
     $scope.menueName = $rootScope.menueName;
-    $scope.equipmentId = $stateParams.equipmentId;
-    $scope.equipmentname = $stateParams.name;
-    $scope.protocolId = $stateParams.protocolId;
-    $scope.heartData = $stateParams.heartData;
+    $scope.equipmentId = $stateParams.equipmentInfo.equipmentId;
+    $scope.equipmentname = $stateParams.equipmentInfo.name;
+    $scope.protocolId = $stateParams.equipmentInfo.eamEquipmentModel.protocolId;
+    $scope.heartData = $stateParams.equipmentInfo.heartData;
+    $scope.grm = $stateParams.equipmentInfo.grm;
+    $scope.grmPassword = $stateParams.equipmentInfo.grmPassword;
+    $scope.grmPeriod = $stateParams.equipmentInfo.grmPeriod;
     $scope.propertylist = [];
     $scope.sensor = {};
-    $scope.equipmentModelId = $stateParams.equipmentModelId;
+    $scope.equipmentModelId = $stateParams.equipmentInfo.equipmentModelId;
 
     $scope.protocolLists =[
       {"id":1,"name":"MB RTU"},
+      {"id":4,"name":"巨控"},
       {"id":2,"name":"MB TCP"},
       {"id":3,"name":"MQTT"}
     ];
@@ -52,6 +56,11 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       items: {}
     };
 
+    $scope.selectProtocal = function(){
+      changeProtocal();
+    };
+
+
     $scope.selectFormat = function(){
       if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
         $scope.sensor.bitOrder = 'noValue';
@@ -91,18 +100,74 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
      angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
    }, true);
 
+    $scope.$on('$viewContentLoaded', function() {
+      changeProtocal();
+      getmodelPropertylist();
+    });
+
     $scope.accessdev ={ip:'127.0.0.1', port:'8234'};
 
     $scope.saveConnectInfo = function(){
       if(($scope.equipmentname==null || $scope.equipmentname=='')){
-        alert('提示','设备名称不能为空');
+        $scope.message = '设备名称不能为空';
+        $('#myModal_alert').modal();
       }else if(($scope.protocolId==null || $scope.protocolId=='')){
-        alert('提示','必须选择一个协议');
-      }else if(($scope.heartData==null || $scope.heartData=='')){
-        alert('提示','心跳包格式不能为空');
+        $scope.message = '必须选择一个协议';
+        $('#myModal_alert').modal();
       }else{
-        accessDevice();
+        switch($scope.protocolId){
+          case 1: {
+              if(($scope.heartData==null || $scope.heartData=='')){
+                $scope.message = '心跳包格式不能为空';
+                $('#myModal_alert').modal();
+              }else{
+                accessDevice();
+              }
+            };
+            break;
+          case 4: {
+              if(($scope.grm==null || $scope.grm=='')){
+                $scope.message = '必须填写设备ID';
+                $('#myModal_alert').modal();
+              }else if(($scope.grmPassword==null || $scope.grmPassword=='')){
+                $scope.message = '必须填写设备密码';
+                $('#myModal_alert').modal();
+              }else if(($scope.grmPeriod==null || $scope.grmPeriod=='')){
+                $scope.message = '必须填写采集频率';
+                $('#myModal_alert').modal();
+              }else{
+                accessDevice();
+              }
+            };
+            break;
+          default: break;
+        }
+
       }
+
+
+    };
+
+    $scope.addDataConversioin = function(){
+      $scope.sensor.isl = 0;
+      $scope.sensor.ish = 100;
+      $scope.sensor.osl = 0;
+      $scope.sensor.osh = 100;
+      $('.conversion-view').show();
+      $('#addConversionbtn').hide();
+    };
+
+    $scope.removeDataConversioin = function(){
+      $scope.sensor.isl = 0;
+      $scope.sensor.ish = 0;
+      $scope.sensor.osl = 0;
+      $scope.sensor.osh = 0;
+      $('.conversion-view').hide();
+      $('#addConversionbtn').show();
+    };
+
+    $scope.disalert = function(){
+      $('#myModal_alert').modal('hide');
     };
 
     $scope.showSetSeneor = function(param){
@@ -122,6 +187,15 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                 // $scope.sensor.quantity = sensor.quantity;
                 $scope.sensor.bitOrder = sensor.bitOrder;
                 $scope.sensor.dataFormat = sensor.dataFormat;
+                $scope.sensor.isl = sensor.isl;
+                $scope.sensor.ish = sensor.ish;
+                $scope.sensor.osl = sensor.osl;
+                $scope.sensor.osh = sensor.osh;
+                $scope.sensor.grmAction = sensor.grmAction;
+                $scope.sensor.grmVariable = sensor.grmVariable;
+                $scope.sensor.grmVariableValue = sensor.grmVariableValue;
+                $scope.sensor.grmVariableOrder = sensor.grmVariableOrder;
+
               }
               if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
                 $scope.sensor.bitOrder = 'noValue';
@@ -129,10 +203,25 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
               }else{
                 $('#bitcode').show();
               }
-              $('#myModal_setSeneor').modal('show');
+              if($scope.sensor.isl == null || $scope.sensor.ish == null || $scope.sensor.osl == null || $scope.sensor.osh == null){
+                $('.conversion-view').hide();
+                $('#addConversionbtn').show();
+              }else if($scope.sensor.isl == 0 && $scope.sensor.ish == 0 && $scope.sensor.osl == 0 && $scope.sensor.osh == 0){
+                $('.conversion-view').hide();
+                $('#addConversionbtn').show();
+              }else{
+                $('.conversion-view').show();
+                $('#addConversionbtn').hide();
+              }
+              if($scope.protocolId == 1){
+                $('#myModal_setSeneor').modal('show');
+              }else if($scope.protocolId == 4){
+                $('#myModal_setSeneorJK').modal('show');
+              }
+
           }, function(err) {
               if(err.status == 404){
-                $('#myModal_setSeneor').modal('show');
+
               }
           });
     }
@@ -141,48 +230,76 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       $('#myModal_setSeneor').modal('hide');
       $scope.sensor = {};
     }
-    $scope.saveSensor = function(){
-      deviceApi.createSensor($scope.sensor)
-          .then(function(result){
-              if(result.data.code ==1 ){
-                  alert('读写指令设置成功');
-                  $('#myModal_setSeneor').modal('hide');
-              }
-          }, function(err) {
-              alert(err);
-              $('#myModal_setSeneor').modal('hide');
-          });
+    $scope.setSensorJKDismiss = function(){
+      $('#myModal_setSeneorJK').modal('hide');
+      $scope.sensor = {};
     }
+    $scope.saveSensor = function(){
 
-    // function getSensor(){
-    //   deviceApi.getSensor($scope.equipmentId, $scope.protocolId)
-    //       .then(function(result){
-    //           if(result.data.code ==1 ){
-    //             console.log('get success',result);
-    //           }
-    //       }, function(err) {
-    //           alert(err);
-    //       });
-    // }
+      if($('.conversion-view').is(':visible') && $scope.sensor.isl == $scope.sensor.osl && $scope.sensor.ish == $scope.sensor.osh){
+        $scope.message = '参数转换前后数据不能一致';
+        $('#myModal_alert').modal();
+      }else{
+        deviceApi.createSensor($scope.sensor)
+            .then(function(result){
+                if(result.data.code ==1 ){
+                    $scope.message = '读写指令设置成功';
+                    $('#myModal_alert').modal();
+                    $('#myModal_setSeneor').modal('hide');
+                    $('#myModal_setSeneorJK').modal('hide');
+                }
+            }, function(err) {
+                console.log('createSensorerr',err);
+                $('#myModal_setSeneor').modal('hide');
+                $('#myModal_setSeneorJK').modal('hide');
+            });
+      }
+
+
+    };
 
     $scope.goback = function(){
       $state.go('main.asset.infomanage');
     }
-    getmodelPropertylist();//获取参数列表
+
+
+        function changeProtocal(){
+          switch($scope.protocolId){
+            case 1:
+                $('#MB-RTU').show();
+                $('#JK').hide();
+
+              break;
+            case 4:
+                $('#MB-RTU').hide();
+                $('#JK').show();
+
+              break;
+            default:
+              $('#MB-RTU').hide();
+              $('#JK').hide();
+            break;
+          }
+        }
 
     function accessDevice() {
         var params={};
         params.equipmentId = $scope.equipmentId;
         params.protocolId = $scope.protocolId;
         params.heartData = $scope.heartData;
+        params.grm = $scope.grm;
+        params.grmPassword = $scope.grmPassword;
+        params.grmPeriod = $scope.grmPeriod;
+        params.name = $scope.equipmentname;
 
         deviceApi.accessDevice(params)
             .then(function(result){
                 if(result.data.code ==1 ){
-                    alert('设备接入成功');
+                    $scope.message = '设备接入成功';
+                    $('#myModal_alert').modal();
                 }
             }, function(err) {
-                alert(err);
+                console.log('accessDeviceerr',err);
             });
     };
 
