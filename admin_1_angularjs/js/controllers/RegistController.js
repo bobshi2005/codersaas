@@ -8,24 +8,24 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
     $scope.submitCancel = function() {
       $state.go('login');
     };
-    $scope.checkAccount = function() {
-        if ($scope.formData.account && $scope.formData.account != null && $scope.formData.username != "") {
-            //userApi.checkAccount($scope.formData.account)
-            userApi.checkAccount($scope.formData.account)
-                .then(function(result) {
-
-                    if (result.data.code == 1) {
-                        $scope.btncheckAccount = '用户名可用';
-                    } else {
-                        $scope.btncheckAccount = '检查用户名';
-                        alert('用户名已存在，请重新输入');
-                    }
-                }, function(err) {
-                    console.log(err);
-                    alert('网络连接问题，请稍后再试！');
-                });
-        }
-    };
+    // $scope.checkAccount = function() {
+    //     if ($scope.formData.account && $scope.formData.account != null && $scope.formData.username != "") {
+    //         //userApi.checkAccount($scope.formData.account)
+    //         userApi.checkAccount($scope.formData.account)
+    //             .then(function(result) {
+    //
+    //                 if (result.data.code == 1) {
+    //                     $scope.btncheckAccount = '用户名可用';
+    //                 } else {
+    //                     $scope.btncheckAccount = '检查用户名';
+    //                     alert('用户名已存在，请重新输入');
+    //                 }
+    //             }, function(err) {
+    //                 console.log(err);
+    //                 alert('网络连接问题，请稍后再试！');
+    //             });
+    //     }
+    // };
     $scope.hideShowPassword = function() {
         if ($scope.inputType == 'password') {
             $scope.inputType = 'text';
@@ -36,7 +36,7 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
         }
     };
     $scope.submitForm = function() {
-        userApi.createUser($scope.formData.account, $scope.formData.password,$scope.formData.name, $scope.formData.company,$scope.formData.email, $scope.formData.phone,$scope.formData.code)
+        userApi.createUser($scope.formData.phone, $scope.formData.password,$scope.formData.name, $scope.formData.company,$scope.formData.email, $scope.formData.phone,$scope.formData.code)
             .then(function(result) {
                 if (result.data.code == 1) {
                     alert("用户创建成功，请登录");

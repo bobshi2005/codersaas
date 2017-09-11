@@ -28,7 +28,7 @@
                                     <div class="form-group form-md-line-input has-success">
                                         <div class="input-icon left">
                                            <i class="icon-user"></i>
-                                           <input type="text" class="form-control" placeholder="用户名" name="userId"  ng-model="loginForm.userId" required/>
+                                           <input type="text" class="form-control" placeholder="手机号" name="userId"  ng-model="loginForm.userId" required/>
                                        </div>
                                    </div>
                                </div>
@@ -37,7 +37,7 @@
                                     <div class="form-group form-md-line-input has-success">
                                         <div class="input-icon left">
                                            <i class="icon-key"></i>
-                                           <input type="password" class="form-control" placeholder="密码" name="password"  ng-model="loginForm.password" required/>
+                                           <input type="password" class="form-control" placeholder="密码" name="password"  ng-model="loginForm.password" ng-keyup="$event.keyCode == 13 && login()" required/>
                                        </div>
                                    </div>
                                </div>

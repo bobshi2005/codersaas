@@ -93,7 +93,7 @@
 
                         <form action="#" class="form-horizontal form-bordered" name="form" ng-submit="false">
                             <div class="form-body">
-                                <div class="form-group ">
+                                <!-- <div class="form-group ">
                                     <label class="control-label col-md-3">用户名</label>
                                     <div class="col-md-8">
                                         <div class="input-group" style="text-align:left">
@@ -105,6 +105,26 @@
                                         </div>
                                         <span style="color:#ffc940" ng-show="form.account.$dirty && form.account.$invalid">用户名为4-20位字母组成</span>
 
+                                    </div>
+                                </div> -->
+                                <div class="form-group ">
+                                    <label class="control-label col-md-3">手机</label>
+                                    <div class="col-md-8">
+                                        <div class="input-group" style="text-align:left">
+                                            <input type="text" class="form-control" name="phone" ng-model="formData.phone" required ng-pattern="/^1[34578]\d{9}$/">
+                                            <span class="input-group-btn">
+                                                  <a href="javascript:;" class="btn green" ng-bind="btndescription" ng-click="send.ToSend()" ng-disabled="send.canClick">
+                                                  </a>
+                                              </span>
+                                        </div>
+                                        <span style="color:#ffc940" ng-show="form.phone.$dirty && form.phone.$invalid">请填写11位有效手机号码</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">姓名</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" name="name" ng-model="formData.name" required>
+                                        <span style="color:#ffc940" ng-show="form.name.$dirty && form.name.$invalid">姓名不能为空</span>
                                     </div>
                                 </div>
                                 <div class="form-group ">
@@ -119,13 +139,6 @@
                                             </span>
                                         </div>
                                         <span style="color:#ffc940" ng-show="form.password.$dirty && form.password.$invalid">密码为6-20位字母与数字组合组成</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">姓名</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" name="name" ng-model="formData.name" required>
-                                        <span style="color:#ffc940" ng-show="form.name.$dirty && form.name.$invalid">姓名不能为空</span>
                                     </div>
                                 </div>
                                 <div class="form-group ">
@@ -143,19 +156,7 @@
                                         <span style="color:#ffc940" ng-show="form.email.$dirty && form.email.$invalid">请填写有效的邮箱</span>
                                     </div>
                                 </div>
-                                <div class="form-group ">
-                                    <label class="control-label col-md-3">电话</label>
-                                    <div class="col-md-8">
-                                        <div class="input-group" style="text-align:left">
-                                            <input type="text" class="form-control" name="phone" ng-model="formData.phone" required ng-pattern="/^1[34578]\d{9}$/">
-                                            <span class="input-group-btn">
-                                                  <a href="javascript:;" class="btn green" ng-bind="btndescription" ng-click="send.ToSend()" ng-disabled="send.canClick">
-                                                  </a>
-                                              </span>
-                                        </div>
-                                        <span style="color:#ffc940" ng-show="form.phone.$dirty && form.phone.$invalid">请填写11位有效手机号码</span>
-                                    </div>
-                                </div>
+
                                 <div class="form-group ">
                                     <label class="control-label col-md-3">验证码</label>
                                     <div class="col-md-8">
