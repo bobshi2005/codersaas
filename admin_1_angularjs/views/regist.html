@@ -61,13 +61,13 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn green" data-dismiss="modal">
+                    <button type="button" class="btn blue" data-dismiss="modal">
                           <i class="fa fa-check"></i> 我已经阅读完毕 </button>
                 </div>
             </div>
         </div>
     </div>
-    <div id="loginContainer">
+    <div id="loginContainer" class="bg-white">
         <div id="ie6-warning">您正在使用 Internet Explorer，在本页面的显示效果可能有差异。建议您下载
             <a href="http://w.x.baidu.com/alading/anquan_soft_down_ub/14744">Chrome</a>浏览器
         </div>
@@ -80,126 +80,126 @@
                 </div>
             </div>
         </div>
-        <div ng-controller="RegistController" style="background-color:#efefef;">
 
-            <div style="min-width: 400px;max-width:800px; width: 30%; margin: 10px auto; ">
+        <div style="min-width: 400px;max-width:800px; width: 30%; margin: 10px auto; ">
 
-                <div class="portlet box green">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-gift"></i>用户注册 </div>
-                    </div>
-                    <div class="portlet-body form">
-
-                        <form action="#" class="form-horizontal form-bordered" name="form" ng-submit="false">
-                            <div class="form-body">
-                                <!-- <div class="form-group ">
-                                    <label class="control-label col-md-3">用户名</label>
-                                    <div class="col-md-8">
-                                        <div class="input-group" style="text-align:left">
-                                            <input type="text" class="form-control" name="account" ng-model="formData.account" required ng-pattern="/[A-Za-z]{4,20}$/">
-                                            <span class="input-group-btn">
-                                                  <a href="javascript:;" class="btn green"  ng-bind="btncheckAccount" ng-click="checkAccount()">
-                                                  </a>
-                                              </span>
-                                        </div>
-                                        <span style="color:#ffc940" ng-show="form.account.$dirty && form.account.$invalid">用户名为4-20位字母组成</span>
-
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>用户注册 </div>
+                </div>
+                <div class="portlet-body form">
+                    <form action="#" class="form-horizontal form-bordered" name="form" ng-submit="false">
+                        <div class="form-body">
+                            <!-- <div class="form-group ">
+                                <label class="control-label col-md-3">用户名</label>
+                                <div class="col-md-8">
+                                    <div class="input-group" style="text-align:left">
+                                        <input type="text" class="form-control" name="account" ng-model="formData.account" required ng-pattern="/[A-Za-z]{4,20}$/">
+                                        <span class="input-group-btn">
+                                              <a href="javascript:;" class="btn blue"  ng-bind="btncheckAccount" ng-click="checkAccount()">
+                                              </a>
+                                          </span>
                                     </div>
-                                </div> -->
-                                <div class="form-group ">
-                                    <label class="control-label col-md-3">手机</label>
-                                    <div class="col-md-8">
-                                        <div class="input-group" style="text-align:left">
-                                            <input type="text" class="form-control" name="phone" ng-model="formData.phone" required ng-pattern="/^1[34578]\d{9}$/">
-                                            <span class="input-group-btn">
-                                                  <a href="javascript:;" class="btn green" ng-bind="btndescription" ng-click="send.ToSend()" ng-disabled="send.canClick">
-                                                  </a>
-                                              </span>
-                                        </div>
-                                        <span style="color:#ffc940" ng-show="form.phone.$dirty && form.phone.$invalid">请填写11位有效手机号码</span>
-                                    </div>
+                                    <span style="color:#ffc940" ng-show="form.account.$dirty && form.account.$invalid">用户名为4-20位字母组成</span>
+
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">姓名</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" name="name" ng-model="formData.name" required>
-                                        <span style="color:#ffc940" ng-show="form.name.$dirty && form.name.$invalid">姓名不能为空</span>
-                                    </div>
-                                </div>
-                                <div class="form-group ">
-                                    <label class="control-label col-md-3">密码</label>
-                                    <div class="col-md-8">
-                                        <div class="input-group" style="text-align:left">
-                                            <input type="{{inputType}}" class="form-control" name="password" ng-model="formData.password" required ng-pattern="/(?=.*\d)(?=.*[a-zA-Z]).{6,20}/">
-                                            <span class="input-group-btn">
-                                                  <a href="javascript:;" >
-                                                      <i class="{{eyeIcon}} btn btn-link" ng-click="hideShowPassword()"></i>
-                                                  </a>
-                                            </span>
-                                        </div>
-                                        <span style="color:#ffc940" ng-show="form.password.$dirty && form.password.$invalid">密码为6-20位字母与数字组合组成</span>
-                                    </div>
-                                </div>
-                                <div class="form-group ">
-                                    <label class="control-label col-md-3">公司名称</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" name="company" ng-model="formData.company" required>
-                                        <span style="color:#ffc940" ng-show="form.company.$dirty && form.company.$invalid">公司名称不能为空 </span>
-                                    </div>
-                                </div>
+                            </div> -->
 
-                                <div class="form-group ">
-                                    <label class="control-label col-md-3">邮箱</label>
-                                    <div class="col-md-8">
-                                        <input type="email" class="form-control" name="email" ng-model="formData.email" required>
-                                        <span style="color:#ffc940" ng-show="form.email.$dirty && form.email.$invalid">请填写有效的邮箱</span>
-                                    </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">姓名</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="name" ng-model="formData.name" required>
+                                    <span style="color:#ffc940" ng-show="form.name.$dirty && form.name.$invalid">姓名不能为空</span>
                                 </div>
-
-                                <div class="form-group ">
-                                    <label class="control-label col-md-3">验证码</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" name="code" ng-model="formData.code" required>
-                                        <span style="color:#ffc940" ng-show="form.code.$dirty && form.code.$invalid">验证码不能为空</span>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-3">密码</label>
+                                <div class="col-md-8">
+                                    <div class="input-group" style="text-align:left">
+                                        <input type="{{inputType}}" class="form-control" name="password" ng-model="formData.password" required ng-pattern="/(?=.*\d)(?=.*[a-zA-Z]).{6,20}/">
+                                        <span class="input-group-btn">
+                                              <a href="javascript:;" >
+                                                  <i class="{{eyeIcon}} btn btn-link" ng-click="hideShowPassword()"></i>
+                                              </a>
+                                        </span>
                                     </div>
+                                    <span style="color:#ffc940" ng-show="form.password.$dirty && form.password.$invalid">密码为6-20位字母与数字组合组成</span>
                                 </div>
-                                <input type="hidden" class="form-control" name="code" ng-model="formData.industry">
-                                <!-- <div class="form-group">
-                                    <label class="control-label col-md-3">行业</label>
-                                    <div class="col-md-8">
-                                        <select class="form-control select2" name="industry"  ng-model="formData.industry" required data-style="btn-info">
-                                              <option value="1">制冷行业</option>
-                                              <option value="2">净水行业</option>
-                                              <option value="1">其他</option>
-                                        </select>
-                                        <span style="color:#ffc940" ng-show="form.industry.$dirty && form.industry.$invalid">请选择行业</span>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-3">公司名称</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="company" ng-model="formData.company" required>
+                                    <span style="color:#ffc940" ng-show="form.company.$dirty && form.company.$invalid">公司名称不能为空 </span>
+                                </div>
+                            </div>
 
+                            <div class="form-group ">
+                                <label class="control-label col-md-3">邮箱</label>
+                                <div class="col-md-8">
+                                    <input type="email" class="form-control" name="email" ng-model="formData.email" required>
+                                    <span style="color:#ffc940" ng-show="form.email.$dirty && form.email.$invalid">请填写有效的邮箱</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="control-label col-md-3">手机</label>
+                                <div class="col-md-8">
+                                    <div class="input-group" style="text-align:left">
+                                        <input type="text" class="form-control" name="phone" ng-model="formData.phone" required ng-pattern="/^1[34578]\d{9}$/">
+                                        <span class="input-group-btn">
+                                              <a href="javascript:;" class="btn blue" ng-bind="btndescription" ng-click="send.ToSend()" ng-disabled="send.canClick">
+                                              </a>
+                                          </span>
                                     </div>
-                                </div> -->
-                                <div class="form-group" style="padding-top: 10px;height:40px">
-                                    <label class=" col-md-offset-3  mt-checkbox mt-checkbox-outline">
-                                        <input type="checkbox" name="agree" ng-model="formData.agree" value="1" />同意
-                                        <a href="/#myModal_autocomplete"  data-toggle="modal">用户协议
-                                            </a>
-                                        <span></span>
-                                    </label>
+                                    <span style="color:#ffc940" ng-show="form.phone.$dirty && form.phone.$invalid">请填写11位有效手机号码</span>
                                 </div>
+                            </div>
 
-                                <div class="form-actions">
-                                    <div class="row">
-                                        <div class="col-md-offset-4 col-md-9">
-                                            <button type="button" ng-click="submitForm()" class="btn green" ng-disabled="!formData.agree ||  form.$invalid">
-                                            <i class="fa fa-check"></i> 注册</button>
-                                            <button type="button" ng-click="submitCancel()" class="btn default">取消</button>
-                                        </div>
+                            <div class="form-group ">
+                                <label class="control-label col-md-3">验证码</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="code" ng-model="formData.code" required>
+                                    <span style="color:#ffc940" ng-show="form.code.$dirty && form.code.$invalid">验证码不能为空</span>
+                                </div>
+                            </div>
+                            <input type="hidden" class="form-control" name="code" ng-model="formData.industry">
+                            <!-- <div class="form-group">
+                                <label class="control-label col-md-3">行业</label>
+                                <div class="col-md-8">
+                                    <select class="form-control select2" name="industry"  ng-model="formData.industry" required data-style="btn-info">
+                                          <option value="1">制冷行业</option>
+                                          <option value="2">净水行业</option>
+                                          <option value="1">其他</option>
+                                    </select>
+                                    <span style="color:#ffc940" ng-show="form.industry.$dirty && form.industry.$invalid">请选择行业</span>
+
+                                </div>
+                            </div> -->
+                            <div class="form-group" style="padding-top: 10px;height:40px">
+                                <label class=" col-md-offset-3  mt-checkbox mt-checkbox-outline">
+                                    <input type="checkbox" name="agree" ng-model="formData.agree" value="1" />同意
+                                    <a href="/#myModal_autocomplete"  data-toggle="modal">用户协议
+                                        </a>
+                                    <span></span>
+                                </label>
+                            </div>
+
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-9">
+                                        <button type="button" ng-click="submitForm()" class="btn blue" ng-disabled="!formData.agree ||  form.$invalid">
+                                        <i class="fa fa-check"></i> 注册</button>
+                                        <button type="button" ng-click="submitCancel()" class="btn default">取消</button>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+
     </div>
 <!-- </body> -->
