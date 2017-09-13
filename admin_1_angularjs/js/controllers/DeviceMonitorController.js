@@ -118,10 +118,13 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     var linechart;
     var mapheight= document.body.clientHeight-180;
     $("#mapContainer").css("height",mapheight);
-    var player = new EZUIPlayer('myPlayer');
-    player.on('error', function(){});
-    player.on('play', function(){});
-    player.on('pause', function(){});
+    $scope.player = new EZUIPlayer('myPlayer');
+    $scope.player.on('play', function(){
+      console.log('startPlayVedio');
+    });
+    $scope.player.on('pause', function(){
+      console.log('pausePlayVedio');
+    });
 
     if (location.href.indexOf('&guide=1') !== -1) {
         $scope.map.setStatus({
@@ -729,8 +732,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
           　
           switch (_id) {　　　　
               case "/#tab_1_1":
+                $scope.player.pause();
                 break;　　　　
               case "/#tab_1_2":
+                $scope.player.pause();
                 $scope.refreshData();
                 $interval.cancel(timer);
                 timer = $interval($scope.refreshData,10000);
@@ -743,6 +748,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
               case "/#tab_1_3":
                   {
+                    $scope.player.pause();
                     $('.start_date').datetimepicker({
                         language: 'zh-CN',
                         weekStart: 1,

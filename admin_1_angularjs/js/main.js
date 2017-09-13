@@ -379,7 +379,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                           "../assets/pages/scripts/components-knob-dials.min.js",
                           "../assets/global/plugins/ztree/css/zTreeStyle/zTreeStyle.css",
                           "../assets/global/plugins/ztree/js/jquery.ztree.core.js",
-                          "../assets/global/plugins/ezuikit/ezuikit.js",
                           "http://cache.amap.com/lbs/static/es5.min.js",
                           "http://webapi.amap.com/maps?v=1.3&key=6b4c9a24cdc8f3b738fa3a574602cb9c",
                         ]
@@ -419,6 +418,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             "../assets/global/plugins/bootstrap/css/bootstrap.min.css",
                             "../assets/apps/css/widget.css",
                             '../assets/pages/scripts/table-datatables-managed-kuyun.js',
+                            "../assets/global/plugins/ezuikit/ezuikit.js",
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js',
                             "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
