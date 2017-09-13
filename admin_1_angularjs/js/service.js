@@ -362,7 +362,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-    
+
     //模型参数传感器读写数值转换  create 和 update 都是 /manage/sensor/create/
     service.createPropertyConversion = function(params) {
         var d = $q.defer();
