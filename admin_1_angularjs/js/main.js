@@ -101,9 +101,9 @@ MetronicApp.controller('AppController', ['$scope', '$rootScope','$state', 'Modal
         var islogin=locals.get('islogin');
         // console.log('islogin',islogin);
         // console.log('to', toState.name);
-        if(islogin==1 || toState.name == 'login' || toState.name == 'regist' ) {
+        if(islogin==1 || toState.name == 'login' || toState.name == 'regist' || toState.name == 'passback') {
           if($rootScope.isloginpage == false) {
-             if(toState.name == 'regist' || toState.name == 'login') {
+             if(toState.name == 'regist' || toState.name == 'login' || toState.name == 'passback') {
                $rootScope.showHeader = false;
              }else {
                if(toState.name != 'main.home.dashboard'){
@@ -249,6 +249,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             "../assets/apps/login_files/login.css",
                             "../assets/apps/login_files/jquery-1.8.3.min.js",
                             'js/controllers/RegistController.js?version=2017091101 '
+                        ]
+                    }]);
+                }]
+            }
+        })
+        .state('passback', {
+            url: "/passback",
+            templateUrl: "views/passback.html?version=2017091101",
+            controller: 'PassBackController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'passBack',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            "../assets/apps/login_files/login.css",
+                            "../assets/apps/login_files/jquery-1.8.3.min.js",
+                            'js/controllers/PassBackController.js?version=2017091101 '
                         ]
                     }]);
                 }]

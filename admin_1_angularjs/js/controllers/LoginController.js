@@ -32,4 +32,7 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
     $scope.gotoRegist = function() {
         $state.go('regist');
     };
+    $scope.gotoPassBack = function() {
+        $state.go('passback');
+    };
 }]);
