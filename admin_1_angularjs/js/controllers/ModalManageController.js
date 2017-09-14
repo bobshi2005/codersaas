@@ -4,6 +4,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.modellist;
     $scope.propertylist=[];
     $scope.currentModal={};
+    $scope.editModal={};
     $scope.currentPropertySensor={};
     $scope.allowEdit = false;//允许编辑modal
     $scope.createFormData = {};
@@ -69,6 +70,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     var watch = $scope.$watch('currentModal',function(newValue,oldValue, scope){
         if(newValue.equipmentModelId !=oldValue.equipmentModelId) {
           getmodelPropertylist();
+          console.log('---1---');
         }
     });
     //监听 checkbox
@@ -112,7 +114,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.sensor = {};
     }
     $scope.selectModel = function(index) {
+      $scope.allowEdit = false;
       $scope.currentModal = angular.copy($scope.modellist[index]);
+      $scope.editModal = angular.copy($scope.modellist[index]);
     };
     $scope.allowEditInput = function() {
       $scope.allowEdit = true;
@@ -163,7 +167,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.PropertyItemData = param;
     };
 
-    $scope.cancelpdatePropertyItem = function() {
+    $scope.cancelupdatePropertyItem = function() {
       getmodelPropertylist();
     }
 
@@ -202,7 +206,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.osl = 0;
       $scope.osh = 100;
       $('.conversion-view').show();
-      $('#addConversionbtn').hide();
+      $('.conversion-add').hide();
     };
 
     $scope.removeDataConversioin = function(){
@@ -213,7 +217,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         $scope.osh = 0;
       }
       $('.conversion-view').hide();
-      $('#addConversionbtn').show();
+      $('.conversion-add').show();
     };
 
     $scope.saveSensor = function(){
@@ -268,19 +272,19 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
                 }
                 if($scope.sensor.isl == null || $scope.sensor.ish == null || $scope.sensor.osl == null || $scope.sensor.osh == null){
                   $('.conversion-view').hide();
-                  $('#addConversionbtn').show();
+                  $('.conversion-add').show();
                 }else if($scope.sensor.isl == 0 && $scope.sensor.ish == 0 && $scope.sensor.osl == 0 && $scope.sensor.osh == 0){
                   $('.conversion-view').hide();
-                  $('#addConversionbtn').show();
+                  $('.conversion-add').show();
                 }else{
                   $('.conversion-view').show();
-                  $('#addConversionbtn').hide();
+                  $('.conversion-add').hide();
                 }
                 $('#myModal_setSeneor').modal('show');
               }else if(result.data.sensor==null){
                 $scope.currentPropertySensor = {};
                 $('.conversion-view').hide();
-                $('#addConversionbtn').show();
+                $('.conversion-add').show();
                 $('#myModal_setSeneor').modal('show');
               }
           }, function(err) {
@@ -300,23 +304,23 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
 
               if(sensor.isl == null || sensor.ish == null || sensor.osl == null || sensor.osh == null){
                   $('.conversion-view').hide();
-                  $('#addConversionbtn').show();
+                  $('.conversion-add').show();
                 }else if(sensor.isl == 0 && sensor.ish == 0 && sensor.osl == 0 && sensor.osh == 0){
                   $('.conversion-view').hide();
-                  $('#addConversionbtn').show();
+                  $('.conversion-add').show();
                 }else{
                   $scope.isl = sensor.isl;
                   $scope.ish = sensor.ish;
                   $scope.osl = sensor.osl;
                   $scope.osh = sensor.osh;
                   $('.conversion-view').show();
-                  $('#addConversionbtn').hide();
+                  $('.conversion-add').hide();
                 }
                 $('#myModal_setSeneorJK').modal('show');
             }else if(result.data.sensor==null){
               $scope.currentPropertySensor = {};
               $('.conversion-view').hide();
-              $('#addConversionbtn').show();
+              $('.conversion-add').show();
               $('#myModal_setSeneorJK').modal('show');
             }
 
@@ -335,7 +339,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     }
 
     function updatedeviceModel(){
-      deviceApi.updatedeviceModel($scope.currentModal.equipmentModelId,$scope.currentModal.name,$scope.currentModal.number,$scope.currentModal.protocolId)
+      deviceApi.updatedeviceModel($scope.editModal.equipmentModelId,$scope.editModal.name,$scope.editModal.number,$scope.editModal.protocolId)
         .then(function(result) {
             getdeviceModellist();
             $scope.message = '修改成功！';
