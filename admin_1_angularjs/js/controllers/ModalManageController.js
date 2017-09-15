@@ -11,7 +11,8 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.PropertyItemData;
     $scope.offset = 0;
     $scope.limit = 2;
-
+    $scope.alarm = {};
+    $scope.companyUserLists=[];
     $scope.typeList = [
       {"id":"analog",'name':'模拟量'},
       {"id":"digital",'name':'开关量'}
@@ -49,6 +50,13 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       {"id":'BA DC',"name":"BA DC"},
       {"id":'DC BA',"name":"DC BA"}
     ];
+
+    $scope.alarmTargets =[
+      {"id":'SMS',"name":"短信提醒"},
+      {"id":'EMAIL',"name":"邮件提醒"},
+    ];
+
+
 
     $scope.checkboxes = {
       checked: false,
@@ -108,11 +116,15 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.setSensorDismiss = function(){
       $('#myModal_setSeneor').modal('hide');
       $scope.sensor = {};
-    }
+    };
     $scope.setSensorJKDismiss = function(){
       $('#myModal_setSeneorJK').modal('hide');
       $scope.sensor = {};
-    }
+    };
+    $scope.setAlarmDismiss = function(){
+      $('#myModal_setAlarm').modal('hide');
+      $scope.alarm = {};
+    };
     $scope.selectModel = function(index) {
       $scope.allowEdit = false;
       $scope.currentModal = angular.copy($scope.modellist[index]);
@@ -169,7 +181,42 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
 
     $scope.cancelupdatePropertyItem = function() {
       getmodelPropertylist();
-    }
+    };
+
+    $scope.showSetAlarm = function(param){
+      $scope.alarmTypeLists =[];
+      console.log('PARTAM',param);
+      switch(param.dataType){
+        case 'analog':
+         $scope.alarmTypeLists=[
+           {"id":'val_above',"name":"数值高于X"},
+           {"id":'val_below',"name":"数值低于X"},
+           {"id":'val_above_below',"name":"数值高于X低于Y"},
+           {"id":'val_above_below_ofm',"name":"数值高于X低于Y超过M分钟"},
+           {"id":'val_between',"name":"数值在X和Y之间"},
+           {"id":'val_above_bound',"name":"数值超过M分钟高于X"},
+           {"id":'val_below_bound',"name":"数值超过M分钟低于Y"},
+           {"id":'x_tir_y_rec',"name":"数值高于X报警，低于Y恢复"},
+           {"id":'offline',"name":"传感器断开"},
+         ];
+
+        //  $('#myModal_setAlarm').modal();
+         break;
+        case 'digital':
+         $scope.alarmTypeLists=[
+           {"id":'switch_on',"name":"开关开启"},
+           {"id":'switch_off',"name":"开关关闭"},
+           {"id":'offline',"name":"传感器断开"},
+         ];
+        //  $('#myModal_setAlarm').modal();
+         break;
+        default:
+            // $scope.message = '请设置参数类型！';
+            // $('#myModal_alert').modal();
+         break;
+      }
+
+    };
 
     $scope.showSetSensor = function(param){
       $scope.sensor = {};

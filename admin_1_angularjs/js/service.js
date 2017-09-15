@@ -443,6 +443,46 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
+    //设置参数报警
+    service.createPropertyAlarm = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/alarm/create/',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.getAlarmset = function(mId,pId) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/model/property/sensor/alarm/'+mId+'/'+pId,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
   //设备信息管理
     service.getDevicelist = function(order, offset, limit) {
         var d = $q.defer();
