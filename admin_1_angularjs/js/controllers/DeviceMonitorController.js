@@ -622,7 +622,14 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                       if(analogflag == 0){$scope.showAnalogTab = false;}
                     }
                   );
-                 }
+                }else if(dataArr.length==0){
+                  $scope.groupname0=null;
+                  $scope.varsArr0=[];
+                  $scope.groupname1=null;
+                  $scope.varsArr1=[];
+                  $scope.showDigitalTab = false;
+                  $scope.showAnalogTab = false;
+                }else{}
 
             }else {
               // alert(result.data.errMsg);
