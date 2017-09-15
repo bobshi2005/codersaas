@@ -41,7 +41,9 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
                 if (result.data.code == 1) {
                     alert("用户创建成功，请登录");
                     $state.go('login');
-                } else {
+                } else if(result.data.code == 0) {
+                    alert("手机号已被注册，请更换手机号");
+                }else{
                     console.log(result.data.data);
                 }
             }, function(err) {
