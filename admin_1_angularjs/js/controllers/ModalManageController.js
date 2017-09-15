@@ -310,6 +310,10 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
                 $scope.sensor.address = sensor.address;
                 $scope.sensor.bitOrder = sensor.bitOrder;
                 $scope.sensor.dataFormat = sensor.dataFormat;
+                $scope.sensor.ish = sensor.ish;
+                $scope.sensor.isl = sensor.isl;
+                $scope.sensor.osh = sensor.osh;
+                $scope.sensor.osl = sensor.osl;
 
                 if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
                   $scope.sensor.bitOrder = 'noValue';
@@ -317,6 +321,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
                 }else{
                   $('#bitcode').show();
                 }
+                console.log('sensor',$scope.sensor);
                 if($scope.sensor.isl == null || $scope.sensor.ish == null || $scope.sensor.osl == null || $scope.sensor.osh == null){
                   $('.conversion-view').hide();
                   $('.conversion-add').show();
@@ -324,6 +329,11 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
                   $('.conversion-view').hide();
                   $('.conversion-add').show();
                 }else{
+                  console.log('haha');
+                  $scope.isl = angular.copy($scope.sensor.isl);
+                  $scope.ish = angular.copy($scope.sensor.ish);
+                  $scope.osl = angular.copy($scope.sensor.osl);
+                  $scope.osh = angular.copy($scope.sensor.osh);
                   $('.conversion-view').show();
                   $('.conversion-add').hide();
                 }

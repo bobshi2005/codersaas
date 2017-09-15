@@ -225,7 +225,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         .then(function(result) {
             if(result.data.code == 1) {
               console.log('resulttree',result.data);
-              if(result.data.provices.length == 0){
+              if(result.data.data.provices.length == 0){
 
               }else{
                 $scope.empty = false;

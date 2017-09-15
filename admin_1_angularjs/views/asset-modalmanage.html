@@ -463,7 +463,7 @@
                             <span class="input-group-addon">秒</span>
                           </div>
                       </div>
-                      <a id="addConversionbtn" href="#" ng-click="addDataConversioin()" class="btn btn-sm btn-success sbold blue conversion-add"><i class="fa fa-balance-scale"></i> 添加参数映射
+                      <a href="#" ng-click="addDataConversioin()" class="btn btn-sm btn-success sbold blue conversion-add"><i class="fa fa-balance-scale"></i> 添加参数映射
                       </a>
 
                   </div>
@@ -472,9 +472,9 @@
                       <label class="col-sm-4 control-label">原始值</label>
                       <div class="col-sm-5">
                         <div class="input-group">
-                          <input type="number" ng-model="osl" class="form-control col-sm-2" />
+                          <input type="number" ng-model="isl" class="form-control col-sm-2" />
                           <span class="input-group-addon">~</span>
-                          <input type="number" ng-model="osh" class="form-control col-sm-2" />
+                          <input type="number" ng-model="ish" class="form-control col-sm-2" />
                         </div>
                         <h6>参数读取值的范围 如 0~1000</h6>
                       </div>
@@ -483,9 +483,9 @@
                       <label class="col-sm-4 control-label">工程值</label>
                       <div class="col-sm-5">
                         <div class="input-group">
-                          <input type="number" ng-model="isl" class="form-control col-sm-2" />
+                          <input type="number" ng-model="osl" class="form-control col-sm-2" />
                           <span class="input-group-addon">~</span>
-                          <input type="number" ng-model="ish" class="form-control col-sm-2" />
+                          <input type="number" ng-model="osh" class="form-control col-sm-2" />
                         </div>
                         <h6>参数真实值的范围 如 0~100，表示真实值对应读取值的0.1倍</h6>
                       </div>
@@ -536,7 +536,7 @@
                             <input type="text" ng-model="sensor.grmVariableOrder" class="form-control col-sm-3" required/>
                           </div>
                       </div>
-                      <a id="addConversionbtn" href="#" ng-click="addDataConversioin()" class="btn btn-sm btn-success sbold blue conversion-add"><i class="fa fa-balance-scale"></i> 添加参数映射
+                      <a  href="#" ng-click="addDataConversioin()" class="btn btn-sm btn-success sbold blue conversion-add"><i class="fa fa-balance-scale"></i> 添加参数映射
                       </a>
                   </div>
 
@@ -584,7 +584,7 @@
               <h4 class="modal-title">报警参数设置</h4>
           </div>
           <div class="modal-body form skin skin-line">
-              <form action="" class="form-horizontal form-row-seperated" name="sensorform" role="form">
+              <form action="" class="form-horizontal form-row-seperated" name="alarmform" role="form">
                   <input type="hidden" name="equipmentModelPropertyId" ng-model="alarm.equipmentModelPropertyId">
                   <div class="form-group">
                       <label class="col-sm-4 control-label">
@@ -619,7 +619,7 @@
           <div class="modal-footer">
               <!-- <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button> -->
               <button type="button" class="btn grey-salsa btn-outline " ng-click='setAlarmDismiss()' >取消</button>
-              <button type="button" class="btn green"  ng-click='saveAlarm()' ng-disabled="sensorform.$invalid">
+              <button type="button" class="btn green"  ng-click='saveAlarm()' ng-disabled="alarmform.$invalid">
                   <i class="fa fa-check"></i> 确定 </button>
           </div>
       </div>
