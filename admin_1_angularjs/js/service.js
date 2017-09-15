@@ -86,6 +86,34 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
         return d.promise;
     };
 
+    service.passback = function(phone,code,pass1,pass2) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: userUrl + '/sso/back',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:{
+                phone:phone,
+                code:code,
+                password:pass1,
+                confirmPassword:pass2
+            },
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
     service.login = function(username,password,rememberMe,backurl) {
         var d = $q.defer();
         $http({
@@ -114,6 +142,20 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
         return d.promise;
     };
 
+    service.userInfo = function(phone) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: userUrl + '/manage/user/find/'+phone,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
     service.logout = function() {
         var d = $q.defer();
         $http({
@@ -362,7 +404,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
-    
+
     //模型参数传感器读写数值转换  create 和 update 都是 /manage/sensor/create/
     service.createPropertyConversion = function(params) {
         var d = $q.defer();
@@ -415,6 +457,46 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
+    //设置参数报警
+    service.createPropertyAlarm = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/alarm/create/',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.getAlarmset = function(mId,pId) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/equipment/model/property/sensor/alarm/'+mId+'/'+pId,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
   //设备信息管理
     service.getDevicelist = function(order, offset, limit) {
         var d = $q.defer();

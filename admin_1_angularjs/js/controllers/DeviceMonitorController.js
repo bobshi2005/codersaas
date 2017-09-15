@@ -19,6 +19,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.showDigitalTab = false; //控制开关量tab的显示
     $scope.lineLabel=$scope.lineType+$scope.lineTab;
     $scope.echartValue = [];
+    $scope.empty = true;
     $scope.changelistState = function() {
       $rootScope.showMap = !$rootScope.showMap;
       if($rootScope.showMap){
@@ -63,6 +64,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
      $scope.listMode = '地图模式';
    };
     $scope.formatStateValue = function(state,unit) {
+      if(unit == null){unit =''}
+      if(state == null){state=''}
      if (state == 'OFF' || state == '停止' || state == 'False')
        $scope.htmlStr='<a href="javascritp:;" class="btn btn-warning">'+state+'</a>';
      else
@@ -118,10 +121,13 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     var linechart;
     var mapheight= document.body.clientHeight-180;
     $("#mapContainer").css("height",mapheight);
-    var player = new EZUIPlayer('myPlayer');
-    player.on('error', function(){});
-    player.on('play', function(){});
-    player.on('pause', function(){});
+    $scope.player = new EZUIPlayer('myPlayer');
+    $scope.player.on('play', function(){
+      console.log('startPlayVedio');
+    });
+    $scope.player.on('pause', function(){
+      console.log('pausePlayVedio');
+    });
 
     if (location.href.indexOf('&guide=1') !== -1) {
         $scope.map.setStatus({
@@ -218,13 +224,19 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       deviceApi.getDeviceTree()
         .then(function(result) {
             if(result.data.code == 1) {
-               var zNodes=result.data.data.provices;
-               var treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-               treeObj.expandAll(true);
-               $scope.selectedequipid = zNodes[0].children[0].children[0].id;
-               var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
-         			 treeObj.selectNode(devNodes[0]);
-               selectNode();
+              console.log('resulttree',result.data);
+              if(result.data.data.provices.length == 0){
+
+              }else{
+                $scope.empty = false;
+                var zNodes=result.data.data.provices;
+                var treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                treeObj.expandAll(true);
+                $scope.selectedequipid = zNodes[0].children[0].children[0].id;
+                var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
+          			 treeObj.selectNode(devNodes[0]);
+                selectNode();
+              }
             }else {
               // alert(result.data.errMsg);
             }
@@ -383,6 +395,15 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.echartValue = [];
       if(origindata.length>0){
         for(var i=0; i<origindata.length; i++) {
+          if(origindata[i].value == null){
+            origindata[i].value = '';
+          }else{
+            origindata[i].value = Math.floor(origindata[i].value*100)/100;
+          }
+          if(origindata[i].unit == null){
+            origindata[i].unit = '';
+          }
+
           switch(origindata[i].showtype) {
             case 'pie': {
               var tempoption = {
@@ -601,7 +622,14 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                       if(analogflag == 0){$scope.showAnalogTab = false;}
                     }
                   );
-                 }
+                }else if(dataArr.length==0){
+                  $scope.groupname0=null;
+                  $scope.varsArr0=[];
+                  $scope.groupname1=null;
+                  $scope.varsArr1=[];
+                  $scope.showDigitalTab = false;
+                  $scope.showAnalogTab = false;
+                }else{}
 
             }else {
               // alert(result.data.errMsg);
@@ -716,9 +744,13 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.$on('$viewContentLoaded', function() {
       getEquipmentList();
       getCityTree(function(){
-        if($scope.selectedequipid && $scope.selectedequipid>0){
-          getDataModelAndValues($scope.selectedequipid);
-          getEquipmentInfo($scope.selectedequipid);
+        if($scope.empty==true){
+          if($scope.selectedequipid && $scope.selectedequipid>0){
+            getDataModelAndValues($scope.selectedequipid);
+            getEquipmentInfo($scope.selectedequipid);
+          }
+        }else{
+
         }
       });
 
@@ -729,8 +761,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
           　
           switch (_id) {　　　　
               case "/#tab_1_1":
+                $scope.player.pause();
                 break;　　　　
               case "/#tab_1_2":
+                $scope.player.pause();
                 $scope.refreshData();
                 $interval.cancel(timer);
                 timer = $interval($scope.refreshData,10000);
@@ -743,6 +777,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
               case "/#tab_1_3":
                   {
+                    $scope.player.pause();
                     $('.start_date').datetimepicker({
                         language: 'zh-CN',
                         weekStart: 1,

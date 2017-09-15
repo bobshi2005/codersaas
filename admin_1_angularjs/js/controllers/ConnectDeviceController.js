@@ -14,7 +14,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
 
     $scope.protocolLists =[
       {"id":1,"name":"MB RTU"},
-      {"id":4,"name":"巨控"},
+      {"id":4,"name":"库智网关"},
       {"id":2,"name":"MB TCP"},
       {"id":3,"name":"MQTT"}
     ];
@@ -286,12 +286,15 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
         var params={};
         params.equipmentId = $scope.equipmentId;
         params.protocolId = $scope.protocolId;
-        params.heartData = $scope.heartData;
-        params.grm = $scope.grm;
-        params.grmPassword = $scope.grmPassword;
-        params.grmPeriod = $scope.grmPeriod;
         params.name = $scope.equipmentname;
-
+        if($scope.protocolId == 1){
+           params.heartData = $scope.heartData;
+        }else if($scope.protocolId == 4){
+          params.grm = $scope.grm;
+          params.grmPassword = $scope.grmPassword;
+          params.grmPeriod = $scope.grmPeriod;
+        }
+        
         deviceApi.accessDevice(params)
             .then(function(result){
                 if(result.data.code ==1 ){

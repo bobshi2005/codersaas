@@ -41,7 +41,9 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
                 if (result.data.code == 1) {
                     alert("用户创建成功，请登录");
                     $state.go('login');
-                } else {
+                } else if(result.data.code == 0) {
+                    alert("手机号已被注册，请更换手机号");
+                }else{
                     console.log(result.data.data);
                 }
             }, function(err) {
@@ -110,8 +112,10 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
 
                         if (result.data.code == 200) {
                             alert('验证码已发送到 ' + $scope.formData.phone);
-                        } else {
-                            console.log(result.data.msg);
+                        } else if(result.data.code == 416){
+                            alert('您发送的验证码太频繁了 请10分钟后再试！');
+                        } else{
+                           alert('验证码获取失败');
                         }
                     }, function(err) {
                         console.log(err);
