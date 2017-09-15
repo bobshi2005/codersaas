@@ -142,6 +142,20 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
         return d.promise;
     };
 
+    service.userInfo = function(phone) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: userUrl + '/manage/user/find/'+phone,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
     service.logout = function() {
         var d = $q.defer();
         $http({

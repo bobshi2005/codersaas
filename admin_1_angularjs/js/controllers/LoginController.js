@@ -9,6 +9,7 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
           .then(function(result) {
               if(result.data.code == 1) {
                 $rootScope.isloginpage = false;
+                getuserInfo($scope.loginForm.userId);
                 locals.set("islogin", 1);
                 //locals.set("userrole", result.data.role);
                 locals.set("username", $scope.loginForm.userId);
@@ -29,6 +30,18 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
     $scope.$on('$viewContentLoaded', function() {
       userApi.logout().then(function(result){},function(err){});
     });
+    function getuserInfo(phone){
+      userApi.userInfo(phone)
+      .then(function(result) {
+          if(result.data.code == 1) {
+            console.log('loginInfo',result.data);
+          }else {
+            alert(result.data.data);
+          }
+      }, function(err) {
+          console.log('getUserInfoerr',err);
+      });
+    }
     $scope.gotoRegist = function() {
         $state.go('regist');
     };
