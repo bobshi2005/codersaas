@@ -397,6 +397,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         for(var i=0; i<origindata.length; i++) {
           if(origindata[i].value == null){
             origindata[i].value = '';
+          }else{
+            origindata[i].value = Math.floor(origindata[i].value*100)/100;
           }
           if(origindata[i].unit == null){
             origindata[i].unit = '';

@@ -71,7 +71,12 @@ MetronicApp.directive('widget', function($http, $window) {
 
       if(showtype =='led'){
         var option = $scope.$eval(attrs.eData);
-        element[0].innerHTML = "<div class='led-text'>"+option.value+option.unit+"</div>";
+        element[0].innerHTML =
+        "<div class='led-text'> "+
+         "<div class='led-text-value'>"+option.value+"</div>"+
+         "<div class='led-text-unit'>( "+option.unit+" )</div>"+
+         "</div>";
+
       }else{
         var myChart = echarts.init(element[0]);
         $scope.$watch(attrs['eData'], function() {
