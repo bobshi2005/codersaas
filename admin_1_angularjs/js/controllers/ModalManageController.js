@@ -138,7 +138,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       updatedeviceModel();
     };
     $scope.saveCreateModel = function() {
-      deviceApi.createdeviceModel($scope.createFormData.name,$scope.createFormData.number,$scope.currentModal.protocolId)
+      deviceApi.createdeviceModel($scope.createFormData.name,$scope.createFormData.number,$scope.protocolId)
         .then(function(result) {
             getdeviceModellist();
             $scope.message = '模型创建成功！';
