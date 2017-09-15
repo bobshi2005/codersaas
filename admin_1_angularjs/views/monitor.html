@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="profile-content" ng-hide='showMap'>
-            <div class="row">
+            <div class="row" ng-show="!empty">
                 <div class="col-md-12">
                     <div class="portlet light bordered ">
                         <div class="portlet-title tabbable-line tabbable-bordered" id="navContainer" style="margin-top:0px;">
@@ -103,7 +103,7 @@
                             <div class="tab-content">
                                 <!-- 设备信息 INFO TAB -->
                                 <div class="tab-pane active" id="tab_1_1">
-                                    <div class="row">
+                                    <div class="row" >
                                         <div class="col-md-12 col-sm-12">
                                             <div class="portlet yellow-crusta box">
                                                 <div class="portlet-title">
@@ -167,10 +167,6 @@
                                                 </div>
                                             </div>
                                         </div> -->
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12 col-sm-12"></div>
                                     </div>
                                 </div>
                                 <!-- END PERSONAL INFO TAB -->
@@ -1135,6 +1131,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div  ng-show="empty">
+              <h4>请添加设备：资产管理 -> 设备管理</h4>
             </div>
         </div>
         <!-- END PROFILE CONTENT -->
