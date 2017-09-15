@@ -38,7 +38,7 @@
           <div class="form-body">
               <div class="form-group ">
                   <label class="control-label col-sm-4 col-xs-2 col-sm-offset-0 col-xs-offset-2" >手机</label>
-                  <div class="col-sm-6 col-xs-8">
+                  <div class="col-lg-4 col-md-6 col-sm-6 col-xs-8">
                       <div class="input-group" style="text-align:left">
                           <input type="text" class="form-control" name="phone" ng-model="formData.phone" required ng-pattern="/^1[34578]\d{9}$/">
                           <span class="input-group-btn">
@@ -52,14 +52,14 @@
 
               <div class="form-group">
                   <label class="control-label col-sm-4 col-xs-2 col-sm-offset-0 col-xs-offset-2">验证码</label>
-                  <div class="col-sm-6 col-xs-8">
+                  <div class="col-lg-4 col-md-6 col-sm-6 col-xs-8">
                       <input type="text" class="form-control" name="code" ng-model="formData.code" required>
                       <span style="color:#ffc940" ng-show="form.code.$dirty && form.code.$invalid">验证码不能为空</span>
                   </div>
               </div>
 
               <div class="form-actions">
-                  <div class="col-sm-offset-4 col-sm-4 text-center row">
+                  <div class="col-sm-offset-4 col-lg-3 col-md-4 col-sm-4 text-center row">
                       <button type="button"  ng-click="nextStep()" class="btn blue col-sm-12" ng-disabled="form.$invalid">
                         下一步  <i class="icon-arrow-right"></i>
                       </button>
@@ -75,14 +75,14 @@
       <form action="#" class="form-horizontal form-bordered col-sm-offset-2 col-sm-8 col-xs-offset-1 col-xs-10" name="form2" ng-submit="false">
         <div class="form-group ">
             <label class="control-label col-sm-4 col-xs-2 col-sm-offset-0 col-xs-offset-2">请输入密码</label>
-            <div class="col-sm-6 col-xs-8">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-8">
                 <input type="password" class="form-control" name="password" ng-model="formData.password" required ng-pattern="/(?=.*\d)(?=.*[a-zA-Z]).{6,20}/">
                 <span style="color:#ffc940" ng-show="form2.password.$dirty && form2.password.$invalid">密码为6-20位字母与数字组合组成</span>
             </div>
         </div>
         <div class="form-group ">
             <label class="control-label col-sm-4 col-xs-2 col-sm-offset-0 col-xs-offset-2">请确认密码</label>
-            <div class="col-sm-6 col-xs-8">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-8">
                 <input type="password" class="form-control" name="confirmPassword" ng-model="formData.confirmPassword" required ng-pattern="/(?=.*\d)(?=.*[a-zA-Z]).{6,20}/">
                 <span style="color:#ffc940" ng-show="form2.password.$dirty && formData.password!=formData.confirmPassword">两次输入密码不一致</span>
             </div>
@@ -91,7 +91,7 @@
 
         <div class="form-actions">
             <div class="row">
-                <div class="col-sm-offset-3 col-sm-6 col-sm-offset-3 col-sm-6 text-center row">
+                <div class="col-sm-offset-3 col-lg-4 col-md-6 col-sm-6 col-sm-offset-3 col-sm-6 text-center row">
                     <button type="button" ng-click="backToStep1()" class="btn green col-sm-4 col-sm-offset-1" >
                      <i class="icon-arrow-left"></i>上一步</button>
                     <button type="button" ng-click="submit()" class="btn blue col-sm-4 col-sm-offset-2" ng-disabled="form2.$invalid">
