@@ -625,6 +625,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 }else if(dataArr.length==0){
                   $scope.groupname0=null;
                   $scope.varsArr0=[];
+                  formatEchartValue($scope.varsArr0);
+                  $scope.linevarstab = [];
                   $scope.groupname1=null;
                   $scope.varsArr1=[];
                   $scope.showDigitalTab = false;
