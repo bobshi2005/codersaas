@@ -78,7 +78,6 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     var watch = $scope.$watch('currentModal',function(newValue,oldValue, scope){
         if(newValue.equipmentModelId !=oldValue.equipmentModelId) {
           getmodelPropertylist();
-          console.log('---1---');
         }
     });
     //监听 checkbox
@@ -140,10 +139,17 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.saveCreateModel = function() {
       deviceApi.createdeviceModel($scope.createFormData.name,$scope.createFormData.number,$scope.protocolId)
         .then(function(result) {
+          if(result.data.code == 1){
             getdeviceModellist();
             $scope.message = '模型创建成功！';
             $('#myModal_alert').modal();
             $scope.createFormData = {};
+          }else{
+            $scope.message = '模型创建失败！';
+            $('#myModal_alert').modal();
+            $scope.createFormData = {};
+          }
+
         }, function(err) {
             console.log('createModelErr',err);
             $scope.createFormData = {};
@@ -288,6 +294,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
                     $('#myModal_alert').modal();
                     $('#myModal_setSeneor').modal('hide');
                     $('#myModal_setSeneorJK').modal('hide');
+                }else{
+                  $scope.message = '读写指令设置失败';
+                  $('#myModal_alert').modal();
                 }
             }, function(err) {
                 console.log('createSensorerr',err);
@@ -387,9 +396,14 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     function deletedeviceModel(){
       deviceApi.deletedeviceModel($scope.currentModal.equipmentModelId)
         .then(function(result) {
-            getdeviceModellist();
-            $scope.message = '删除成功！';
-            $('#myModal_alert').modal();
+            if(result.data.code == 1){
+              getdeviceModellist();
+              $scope.message = '删除成功！';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.message = '删除失败！';
+              $('#myModal_alert').modal();
+            }
         }, function(err) {
             console.log('modelDeleteErr',err);
         });
@@ -398,9 +412,15 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     function updatedeviceModel(){
       deviceApi.updatedeviceModel($scope.editModal.equipmentModelId,$scope.editModal.name,$scope.editModal.number,$scope.editModal.protocolId)
         .then(function(result) {
-            getdeviceModellist();
-            $scope.message = '修改成功！';
-            $('#myModal_alert').modal();
+            if(result.data.code ==1){
+              getdeviceModellist();
+              $scope.message = '修改成功！';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.message = '修改失败！';
+              $('#myModal_alert').modal();
+            }
+
         }, function(err) {
             console.log('updateModelerr',err);
         });
@@ -473,10 +493,17 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     function createPropertyItem(){
       deviceApi.createPropertyItem($scope.PropertyItemData)
         .then(function(result) {
-            getmodelPropertylist();
-            $scope.message = '参数创建成功！';
-            $('#myModal_alert').modal();
-            $scope.PropertyItemData = {};
+            if(result.data.code ==1){
+              getmodelPropertylist();
+              $scope.message = '参数创建成功！';
+              $('#myModal_alert').modal();
+              $scope.PropertyItemData = {};
+            }else{
+              $scope.message = '参数创建失败！';
+              $('#myModal_alert').modal();
+              $scope.PropertyItemData = {};
+            }
+
         }, function(err) {
             console.log('createPropertyErr',err);
             $scope.PropertyItemData = {};
@@ -498,9 +525,15 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       var id = $scope.PropertyItemData.equipmentModelPropertyId;
       deviceApi.updatePropertyItem(id,params)
         .then(function(result) {
-            getmodelPropertylist();
-            $scope.message = '修改参数成功！';
-            $('#myModal_alert').modal();
+            if(result.data.code ==1){
+              getmodelPropertylist();
+              $scope.message = '修改参数成功！';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.message = '修改参数失败！';
+              $('#myModal_alert').modal();
+            }
+
         }, function(err) {
             console.log('updatePropertyErr',err);
         });
@@ -508,9 +541,15 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     function deletePropertyItem(){
       deviceApi.deletePropertyItem($scope.PropertyItemData.equipmentModelPropertyId)
         .then(function(result) {
-            getmodelPropertylist();
-            $scope.message = '删除参数成功！';
-            $('#myModal_alert').modal();
+            if(result.data.code ==1){
+              getmodelPropertylist();
+              $scope.message = '删除参数成功！';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.message = '删除参数失败！';
+              $('#myModal_alert').modal();
+            }
+
         }, function(err) {
             console.log('deletePropertyErr',err);
         });
