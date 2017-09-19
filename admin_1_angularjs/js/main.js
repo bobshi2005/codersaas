@@ -334,13 +334,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             // '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
                             // '../assets/global/plugins/datatables/datatables.all.min.js',
                             // "../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
-                            // 'js/scripts/world.js?version=2017091801',
+                            'js/scripts/world.js?version=2017091801',
 
                             'js/controllers/GeneralPageController.js?version=2017091801',
                             'js/controllers/HomeController2.js?version=2017091801 '
 
                         ]
-                    }])
+                    },{
+                      name: 'MetronicApp',
+                      files: [
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/echarts/echarts.min.js",
+                          '../assets/global/plugins/datatables/datatables.min.css',
+                          '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                          '../assets/global/plugins/datatables/datatables.all.min.js',
+                          "../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+                          // 'js/scripts/world.js?version=2017091801',
+                      ]
+                  }])
                 }]
             }
         })
