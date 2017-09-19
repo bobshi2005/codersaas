@@ -364,9 +364,12 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
     }
     function selectNode(){
+      $('#firstTab').addClass('active').siblings().removeClass('active');
+      $('.tab-content').find('#tab_1_1').addClass('active').siblings().removeClass('active');
       getEquipmentInfo($scope.selectedequipid);
       // getDataModelAndValues($scope.selectedequipid);
       getDataModel($scope.selectedequipid);
+
     };
     function setInfoWindow(infodata){
       // var content1=`
@@ -625,6 +628,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 }else if(dataArr.length==0){
                   $scope.groupname0=null;
                   $scope.varsArr0=[];
+                  formatEchartValue($scope.varsArr0);
+                  $scope.linevarstab = [];
                   $scope.groupname1=null;
                   $scope.varsArr1=[];
                   $scope.showDigitalTab = false;
@@ -756,14 +761,14 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
       $('.nav-pills li a').click(function() {　
           $(this).addClass('active').siblings().removeClass('active');　
-          var _id = $(this).attr('href');　　
-          $('.tabs-contents').find('#' + _id).addClass('active').siblings().removeClass('active');
+          var _id = $(this).attr('href').slice(2);　　
+          $('.tab-content').find('#' + _id).addClass('active').siblings().removeClass('active');
           　
           switch (_id) {　　　　
-              case "/#tab_1_1":
+              case "tab_1_1":
                 $scope.player.pause();
                 break;　　　　
-              case "/#tab_1_2":
+              case "tab_1_2":
                 $scope.player.pause();
                 $scope.refreshData();
                 $interval.cancel(timer);
@@ -775,7 +780,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 };
                 break;
 
-              case "/#tab_1_3":
+              case "tab_1_3":
                   {
                     $scope.player.pause();
                     $('.start_date').datetimepicker({
@@ -829,11 +834,11 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                   }
                   　　　　　
                   break;
-              case "/#tab_1_4":
+              case "tab_1_4":
                   　　　　　　break;
-              // case "/#tab_1_5":
+              // case "tab_1_5":
               //     　　　　　　break;
-              // case "/#tab_1_6":
+              // case "tab_1_6":
               //     　　　　　　break;　　　　
               default:
                   　　　　　　　　　　　

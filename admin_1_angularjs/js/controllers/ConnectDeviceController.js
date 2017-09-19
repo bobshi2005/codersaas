@@ -294,12 +294,15 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
           params.grmPassword = $scope.grmPassword;
           params.grmPeriod = $scope.grmPeriod;
         }
-        
+
         deviceApi.accessDevice(params)
             .then(function(result){
                 if(result.data.code ==1 ){
                     $scope.message = '设备接入成功';
                     $('#myModal_alert').modal();
+                }else{
+                  $scope.message = '设备接入失败';
+                  $('#myModal_alert').modal();
                 }
             }, function(err) {
                 console.log('accessDeviceerr',err);
