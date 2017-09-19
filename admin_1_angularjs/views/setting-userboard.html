@@ -80,26 +80,23 @@
                     <div id="tab_1-1" class="tab-pane active">
                         <form role="form" action="#">
                             <div class="form-group">
-                                <label class="control-label">用户名</label>
-                                <input type="text" placeholder="John" class="form-control" /> </div>
-                            <div class="form-group">
-                                <label class="control-label">登录账号</label>
-                                <input type="text" placeholder="Doe" class="form-control" /> </div>
+                                <label class="control-label">姓名</label>
+                                <input type="text"  ng-model="info.realname" class="form-control" disabled="true"/> </div>
                             <div class="form-group">
                                 <label class="control-label">手机号码</label>
-                                <input type="text" placeholder="18099998888" class="form-control" />
+                                <input type="text" ng-model="info.phone" class="form-control" disabled="true"/>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">邮箱</label>
-                                <input type="text" placeholder="" class="form-control" /> </div>
-                            <div class="form-group">
-                                <label class="control-label">描述信息</label>
-                                <textarea class="form-control" rows="3" placeholder=""></textarea>
-                            </div>
-                            <div class="margiv-top-10">
+                                <input type="text" ng-model="info.email" class="form-control" disabled="true" /> </div>
+                            <!-- <div class="form-group">
+                                <label class="control-label">公司</label>
+                                <input class="form-control" ng-model="info.company" disabled="true"/>
+                            </div> -->
+                            <!-- <div class="margiv-top-10">
                                 <a href="javascript:;" class="btn green" ng-click='saveModalMsg()'> 更新信息 </a>
                                 <a href="javascript:;" class="btn default"> 取消 </a>
-                            </div>
+                            </div> -->
                         </form>
                     </div>
                     <div id="tab_2-2" class="tab-pane">
