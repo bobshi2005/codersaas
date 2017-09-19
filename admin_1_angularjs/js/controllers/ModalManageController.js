@@ -574,12 +574,11 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         // `;
         var divStr=
             '<div class="slickitem widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 bordered" ng-click="selectModel('+i+')">'
-          + '<h4 class="widget-thumb-heading">'+modellist[i].number+'</h4>'
           + '<div class="widget-thumb-wrap">'
           + '<i class="widget-thumb-icon bg-green icon-layers"></i>'
           + '<div class="widget-thumb-body">'
           + '<span class="widget-thumb-subtitle">'+modellist[i].name+'</span>'
-          + '<span class="widget-thumb-body-stat">'+modellist[i].equipmentModelId+'</span>'
+          + '<span class="widget-thumb-body-stat" style="font-size: 15px">'+modellist[i].number+'</span>'
           + '</div></div></div>';
 
 
