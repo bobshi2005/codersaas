@@ -14,7 +14,11 @@ angular.module('MetronicApp').controller('UserboardController', ['$scope', '$roo
     .then(function(result) {
         if(result.data.code == 1) {
           console.log('loginInfo',result.data);
-          $scope.info = result.data.data;
+          $scope.info.realname = result.data.data.user.realname;
+          $scope.info.phone = result.data.data.user.phone;
+          $scope.info.email = result.data.data.user.email;
+          $scope.info.company = result.data.data.organization.name;
+
         }else {
           $scope.info =[];
           console.log(result.data.data);
