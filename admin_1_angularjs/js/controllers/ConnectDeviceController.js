@@ -13,7 +13,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.equipmentModelId = $stateParams.equipmentInfo.equipmentModelId;
 
     $scope.protocolLists =[
-      {"id":1,"name":"MB RTU"},
+      {"id":1,"name":"Modbus RTU"},
       {"id":4,"name":"库智网关"},
       {"id":2,"name":"MB TCP"},
       {"id":3,"name":"MQTT"}
@@ -105,7 +105,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       getmodelPropertylist();
     });
 
-    $scope.accessdev ={ip:'127.0.0.1', port:'8234'};
+    $scope.accessdev ={ip:'mbrtu.coderise.cn', port:'8234'};
 
     $scope.saveConnectInfo = function(){
       if(($scope.equipmentname==null || $scope.equipmentname=='')){
