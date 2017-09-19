@@ -23,7 +23,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       {"id":"guage","name":"仪表盘"}
     ];
     $scope.protocolLists =[
-      {"id":1,"name":"MB RTU"},
+      {"id":1,"name":"Modbus RTU"},
       {"id":4,"name":"库智网关"}
       //{"id":2,"name":"MB TCP"},
       //{"id":3,"name":"MQTT"}
