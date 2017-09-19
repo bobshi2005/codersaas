@@ -35,6 +35,7 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
       .then(function(result) {
           if(result.data.code == 1) {
             console.log('loginInfo',result.data);
+            locals.set("realname", result.data.data.realname);
           }else {
             alert(result.data.data);
           }

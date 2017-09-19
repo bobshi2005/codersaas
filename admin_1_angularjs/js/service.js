@@ -145,7 +145,7 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
     service.userInfo = function(phone) {
         var d = $q.defer();
         $http({
-            method: 'post',
+            method: 'get',
             url: userUrl + '/manage/user/find/'+phone,
             headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
             withCredentials: true,

@@ -162,8 +162,8 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
         $state.transitionTo("login",{},{reload: true});
     }
     $scope.useraccount = locals.get("username");
-    $scope.getusername = function(){
-      return locals.get("username");
+    $scope.getrealname = function(){
+      return locals.get("realname");
     }
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
