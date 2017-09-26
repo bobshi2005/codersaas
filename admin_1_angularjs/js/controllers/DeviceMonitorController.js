@@ -735,6 +735,9 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 $scope.latitude=data.latitude;
                 $scope.longitude=data.longitude;
                 $scope.isOnline= data.isOnline;
+                if(data.isOnline==null){
+                  $scope.isOnline = data.collectStatus=='Working'?true:false;
+                }
                 setInfoWindow(data);
             }else {
               console.log('getEquipmentInfobyIderr',result.message);
