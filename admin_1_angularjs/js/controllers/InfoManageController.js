@@ -214,6 +214,11 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       }
     };
 
+    $scope.updateModel=function(){
+      $scope.currentData.equipmentModelId = $scope.currentData.model.equipmentModelId;
+
+    };
+
     $scope.openStatusModal = function(param){
       //设备启停
         $scope.currentData = param;
@@ -511,7 +516,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       params.name = $scope.currentData.name;
       params.number = $scope.currentData.number;
       params.serialNumber = $scope.currentData.serialNumber;
-      params.equipmentModelId = $scope.selectedmodel.equipmentModelId;
+      params.equipmentModelId = $scope.currentData.equipmentModelId;
       params.imagePath = '';
       params.longitude = Math.round(document.getElementById("formlongitude2").value);
       params.latitude = Math.round(document.getElementById("formlatitude2").value);
