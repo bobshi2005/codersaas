@@ -20,6 +20,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.lineLabel=$scope.lineType+$scope.lineTab;
     $scope.echartValue = [];
     $scope.empty = true;
+    $scope.collectStatus = true;
     $scope.changelistState = function() {
       $rootScope.showMap = !$rootScope.showMap;
       if($rootScope.showMap){
@@ -733,6 +734,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 $scope.commissioningDate=changeTimeFormat(data.commissioningDate);
                 $scope.latitude=data.latitude;
                 $scope.longitude=data.longitude;
+                $scope.collectStatus= data.collectStatus=="Working"? true:false;
                 setInfoWindow(data);
             }else {
               console.log('getEquipmentInfobyIderr',result.message);
@@ -770,14 +772,16 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 break;　　　　
               case "tab_1_2":
                 $scope.player.pause();
-                $scope.refreshData();
                 $interval.cancel(timer);
-                timer = $interval($scope.refreshData,10000);
-                window.onresize=function(){
+                if($scope.collectStatus==true){
                   $scope.refreshData();
-                  $interval.cancel(timer);
                   timer = $interval($scope.refreshData,10000);
-                };
+                  window.onresize=function(){
+                    $interval.cancel(timer);
+                    timer = $interval($scope.refreshData,10000);
+                  };
+                }
+
                 break;
 
               case "tab_1_3":
