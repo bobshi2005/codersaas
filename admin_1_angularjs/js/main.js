@@ -221,18 +221,17 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'LoginController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'loginApp',
-                        files: [
+                    return $ocLazyLoad.load([
+                            "../assets/global/plugins/jquery.min.js",
                             "../assets/pages/css/login-5.css",
                             "../assets/global/plugins/jquery-validation/js/jquery.validate.min.js",
                             "../assets/global/plugins/jquery-validation/js/additional-methods.min.js",
                             "../assets/global/plugins/backstretch/jquery.backstretch.min.js",
                             "../assets/pages/scripts/login-5.js",
-                            "js/controllers/LoginController.js?version=2017092601 ",
-
-                        ]
-                    }])
+                            "js/controllers/LoginController.js?version=2017092601",
+                            "../assets/global/plugins/echarts/echarts.min.js",
+                            "http://cache.amap.com/lbs/static/es5.min.js"
+                      ])
                 }]
             }
         })
@@ -242,15 +241,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'RegistController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'registApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
+                    return $ocLazyLoad.load([
                             "../assets/apps/login_files/login.css",
-                            "../assets/apps/login_files/jquery-1.8.3.min.js",
-                            'js/controllers/RegistController.js?version=2017092601 '
-                        ]
-                    }]);
+                            "../assets/global/plugins/jquery.min.js",
+                            'js/controllers/RegistController.js?version=2017092601'
+                    ]);
                 }]
             }
         })
@@ -260,15 +255,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'PassBackController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'passBack',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
+                    return $ocLazyLoad.load([
                             "../assets/apps/login_files/login.css",
-                            "../assets/apps/login_files/jquery-1.8.3.min.js",
-                            'js/controllers/PassBackController.js?version=2017092601 '
-                        ]
-                    }]);
+                            "../assets/apps/login_files/jquery.min.js",
+                            'js/controllers/PassBackController.js?version=2017092601'
+                    ]);
                 }]
             }
         })
@@ -278,10 +269,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'AppController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'homeApp',
-                        cache: true,
-                        files: [
+                    return $ocLazyLoad.load([
                           "../assets/global/plugins/jquery.min.js",
                           "../assets/global/plugins/echarts/echarts.min.js",
                           '../assets/global/plugins/datatables/datatables.min.css',
@@ -289,31 +277,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                           '../assets/global/plugins/datatables/datatables.all.min.js',
                           "../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
                           'js/scripts/world.js?version=2017092601',
-                        ]
-                    }])
+                    ])
                 }]
             }
-
-
         })
         .state('main.home', {
             url: "/home",
             templateUrl: "views/home.html?version=2017092601",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'homeApp',
-                        cache: true,
-                        files: [
-                            "../assets/pages/css/profile.min.css",
-                            "../assets/pages/scripts/profile.min.js",
-                            // '../assets/global/plugins/datatables/datatables.min.css',
-                            // '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            // '../assets/global/plugins/datatables/datatables.all.min.js',
-                            // "../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
-                            // 'js/scripts/world.js?version=2017092601',
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                      "../assets/global/plugins/jquery.min.js",
+                      "../assets/global/plugins/echarts/echarts.min.js",
+                      "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                      "../assets/pages/css/profile.min.css",
+                      "../assets/pages/scripts/profile.min.js",
+                      "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+                      '../assets/global/plugins/datatables/datatables.all.min.js',
+                    ])
                 }]
             }
         })
@@ -324,34 +305,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
-                      {
-                        name: 'dashboardApp',
-                        cache: false,
-                        files: [
-                            // "../assets/global/plugins/jquery.min.js",
-                            // "../assets/global/plugins/echarts/echarts.min.js",
-                            // '../assets/global/plugins/datatables/datatables.min.css',
-                            // '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            // '../assets/global/plugins/datatables/datatables.all.min.js',
-                            // "../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+                            '../assets/global/plugins/datatables/datatables.min.css',
+                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            "../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
                             'js/scripts/world.js?version=2017092601',
-
                             'js/controllers/GeneralPageController.js?version=2017092601',
-                            'js/controllers/HomeController2.js?version=2017092601 '
-
-                        ]
-                    },{
-                      name: 'MetronicApp',
-                      files: [
-                          "../assets/global/plugins/jquery.min.js",
-                          "../assets/global/plugins/echarts/echarts.min.js",
-                          '../assets/global/plugins/datatables/datatables.min.css',
-                          '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                          '../assets/global/plugins/datatables/datatables.all.min.js',
-                          "../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
-                          // 'js/scripts/world.js?version=2017092601',
-                      ]
-                  }])
+                            'js/controllers/HomeController2.js?version=2017092601'
+                    ])
                 }]
             }
         })
@@ -361,54 +321,31 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'HomeController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'dashboard2App',
-                        files: [
-                            'js/controllers/GeneralPageController.js?version=2017092601 ',
-                            'js/controllers/HomeController.js?version=2017092601 '
-
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/GeneralPageController.js?version=2017092601',
+                            'js/controllers/HomeController.js?version=2017092601'
+                      ])
                 }]
             }
         })
-
         .state('main.device', {
             url: "/device",
             templateUrl: "views/device.html?version=2017092601",
-            cache: false,
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'deviceApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        cache: false,
-                        files: [
+                    return $ocLazyLoad.load([
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/echarts/echarts.min.js",
+                          "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                           "../assets/pages/css/profile.min.css",
                           "../assets/pages/scripts/profile.min.js",
-                          "../assets/global/plugins/jquery-knob/js/jquery.knob.js",
-                          "../assets/pages/scripts/components-knob-dials.min.js",
-                          "../assets/global/plugins/ztree/css/zTreeStyle/zTreeStyle.css",
-                          "../assets/global/plugins/ztree/js/jquery.ztree.core.js",
-                          "http://cache.amap.com/lbs/static/es5.min.js",
-                          "http://webapi.amap.com/maps?v=1.3&key=6b4c9a24cdc8f3b738fa3a574602cb9c",
-                        ]
-                    }])
-                }]
-            }
-        })
-        .state('main.device.devicemap', {
-            url: "/devicemap",
-            templateUrl: "views/devicemap.html?version=2017092601",
-            controller: 'MapController',
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'devicemapApp',
-                        files: [
-                            "js/controllers/MapController.js?version=2017092601 "
-                        ]
-                    }])
+                          "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+                          "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
+                          "../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
+
+                          // "../assets/global/plugins/jquery-knob/js/jquery.knob.js",
+                          // "../assets/pages/scripts/components-knob-dials.min.js",
+                    ])
                 }]
             }
         })
@@ -419,69 +356,53 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
-                      {
-                        name: 'monitor',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                             "../assets/global/plugins/echarts/echarts.min.js",
-                            "../assets/global/plugins/bootstrap/css/bootstrap.min.css",
+                            // "../assets/global/plugins/bootstrap/css/bootstrap.min.css",
                             "../assets/apps/css/widget.css",
-                            '../assets/pages/scripts/table-datatables-managed-kuyun.js',
+                            // '../assets/pages/scripts/table-datatables-managed-kuyun.js',
                             "../assets/global/plugins/ezuikit/ezuikit.js",
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
                             '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js',
-                            "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
-                            "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
-                            "../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
-                        ]
-                      }, {
-                          name: 'MetronicApp',
-                          files: [
+                            // "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+                            // "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
+                            // "../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
+                            // "../assets/global/plugins/jquery-knob/js/jquery.knob.js",
+                            // "../assets/pages/scripts/components-knob-dials.min.js",
+                            "../assets/global/plugins/ztree/css/zTreeStyle/zTreeStyle.css",
+                            "../assets/global/plugins/ztree/js/jquery.ztree.core.js",
+                            "js/controllers/DeviceMonitorController.js?version=2017092601 "
 
-                              "js/controllers/DeviceMonitorController.js?version=2017092601 "
-                          ]
-                      }])
+                      ])
                 }]
             }
         })
+
         .state('main.device.alarm', {
             url: "/alarm",
             templateUrl: "views/alarm.html?version=2017092601",
             controller: 'AlarmController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'alarmApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            'js/controllers/AlarmController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/AlarmController.js?version=2017092601'
+                    ])
                 }]
             }
-
         })
         .state('main.asset', {
             url: "/asset",
             templateUrl: "views/asset.html?version=2017092601",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'assetApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        cache: false,
-                        files: [
-                            "../assets/pages/css/profile.min.css",
-                            "../assets/pages/scripts/profile.min.js",
-                            "../assets/global/plugins/slick/slick.css",
-                            "../assets/global/plugins/slick/slick-theme.css",
-                            "../assets/pages/css/slider.css",
-                            "../assets/global/plugins/slick/slick.min.js",
-                            "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                        "../assets/global/plugins/jquery.min.js",
+                        "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                        "../assets/pages/css/profile.min.css",
+                        "../assets/pages/scripts/profile.min.js",
+                        "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+                    ])
                 }]
             }
         })
@@ -491,10 +412,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'ModalManageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'modalmanageApp',
-                        // insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
+                    return $ocLazyLoad.load([
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                             "../assets/global/plugins/slick/slick.css",
@@ -502,9 +420,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             "../assets/pages/css/slider.css",
                             "../assets/global/plugins/slick/slick.min.js",
                             // "../assets/pages/scripts/slider.js?version=2017092601 ",
-                            'js/controllers/ModalManageController.js?version=2017092601 '
-                        ]
-                    }])
+                            'js/controllers/ModalManageController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -514,17 +432,14 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'InfoManageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'infomanageApp',
-                        files: [
+                    return $ocLazyLoad.load([
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                             "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
-                            "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
                             "../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
-                            'js/controllers/InfoManageController.js?version=2017092601 '
-                        ]
-                    }])
+                            "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
+                            'js/controllers/InfoManageController.js?version=2017092601'
+                    ])
                 }]
             }
         })
@@ -535,12 +450,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'ConnectDeviceController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'connectdeviceApp',
-                        files: [
-                          'js/controllers/ConnectDeviceController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                          'js/controllers/ConnectDeviceController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -550,14 +463,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'WarehouseController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'WarehouseApp',
-                        files: [
+                    return $ocLazyLoad.load([
                           "../assets/global/plugins/jquery.min.js",
                           "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                          'js/controllers/WarehouseController.js?version=2017092601 '
-                        ]
-                    }])
+                          'js/controllers/WarehouseController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -568,14 +479,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'WarelocationController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'WarelocationApp',
-                        files: [
+                    return $ocLazyLoad.load([
                           "../assets/global/plugins/jquery.min.js",
                           "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                          'js/controllers/WarelocationController.js?version=2017092601 '
-                        ]
-                    }])
+                          'js/controllers/WarelocationController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -585,14 +494,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'StocksmanageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'stocksmanageApp',
-                        files: [
+                    return $ocLazyLoad.load([
                           "../assets/global/plugins/jquery.min.js",
                           "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                          'js/controllers/StocksmanageController.js?version=2017092601 '
-                        ]
-                    }])
+                          'js/controllers/StocksmanageController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -602,12 +509,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'MtcManageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'mtcmanageApp',
-                        files: [
-                            'js/controllers/MtcManageController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/MtcManageController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -617,14 +522,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'PartCategoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'partcategoryApp',
-                        files: [
+                    return $ocLazyLoad.load([
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                            'js/controllers/PartCategoryController.js?version=2017092601 '
-                        ]
-                    }])
+                            'js/controllers/PartCategoryController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -634,14 +537,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'PartController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'partApp',
-                        files: [
+                    return $ocLazyLoad.load([
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                            'js/controllers/PartController.js?version=2017092601 '
-                        ]
-                    }])
+                            'js/controllers/PartController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -651,12 +552,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'WorkSheetController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'worksheetApp',
-                        files: [
-                            'js/controllers/WorkSheetController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/WorkSheetController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -666,18 +565,26 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'WorksheetdetailController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'worksheetdetailApp',
-                        files: [
-                            'js/controllers/WorksheetdetailController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/WorksheetdetailController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
         .state('main.setting', {
             url: "/setting",
             templateUrl: "views/setting.html?version=2017092601",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        "../assets/global/plugins/jquery.min.js",
+                        "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                        "../assets/pages/css/profile.min.css",
+                        "../assets/pages/scripts/profile.min.js",
+                    ])
+                }]
+            }
         })
         .state('main.setting.userboard', {
             url: "/userboard",
@@ -685,12 +592,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'UserboardController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'userboardApp',
-                        files: [
-                            'js/controllers/UserboardController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/UserboardController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -700,12 +605,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'UsermanageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'usermanageApp',
-                        files: [
-                            'js/controllers/UsermanageController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/UsermanageController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -715,12 +618,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'NetgateController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'netgateApp',
-                        files: [
-                            'js/controllers/NetgateController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/NetgateController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -730,12 +631,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'CustomerController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'customerApp',
-                        files: [
-                            'js/controllers/CustomerController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/CustomerController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -745,12 +644,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'NotifyController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'notifyApp',
-                        files: [
-                            'js/controllers/NotifyController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/NotifyController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -760,12 +657,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'HelpController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'helpApp',
-                        files: [
-                            'js/controllers/HelpController.js?version=2017092601 '
-                        ]
-                    }])
+                    return $ocLazyLoad.load([
+                            'js/controllers/HelpController.js?version=2017092601'
+
+                    ])
                 }]
             }
         })
@@ -775,13 +670,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             controller: 'HelpController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'helpApp',
-                        files: [
+                    return $ocLazyLoad.load([
+                            'js/controllers/HelpController.js?version=2017092601'
 
-                            'js/controllers/HelpController.js?version=2017092601 '
-                        ]
-                    }])
+                    ])
                 }]
             }
         })
