@@ -293,45 +293,46 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                      xdata[i]=(new Date(xdata[i])).format('yyyy/MM/dd h:m:s');
                    }
                    App.stopPageLoading();
-                   $scope.linechartoption={
-                       tooltip: {
-                           trigger: 'axis',
-                           formatter: "{a} <br/>{b}: {c}"+tab.unit
-                       },
-                       grid: {
-                           left: '3%',
-                           right: '5%',
-                           bottom: '3%',
-                           containLabel: true
-                       },
-                      //  toolbox: {
-                      //      feature: {
-                      //          saveAsImage: {}
-                      //      }
-                      //  },
-                       xAxis: {
-                           type: 'category',
-                           boundaryGap: false,
-                           data: xdata
-                       },
-                       yAxis: {
-                          type: 'value',
-                          scale: true,
-                          axisLabel : {
-                              formatter: '{value}'+tab.unit
-                          },
-                       },
-                       series: [
-                           {
-                               name: tab.name,
-                               type: 'line',
-                               smooth: '1',
-                               data:  ydata,
-                           }
-                       ]
-                   };
-                   linechart.setOption($scope.linechartoption);　
-
+                   if(ydata.length>0){
+                     $scope.linechartoption={
+                         tooltip: {
+                             trigger: 'axis',
+                             formatter: "{a} <br/>{b}: {c}"+tab.unit
+                         },
+                         grid: {
+                             left: '3%',
+                             right: '5%',
+                             bottom: '3%',
+                             containLabel: true
+                         },
+                        //  toolbox: {
+                        //      feature: {
+                        //          saveAsImage: {}
+                        //      }
+                        //  },
+                         xAxis: {
+                             type: 'category',
+                             boundaryGap: false,
+                             data: xdata
+                         },
+                         yAxis: {
+                            type: 'value',
+                            scale: true,
+                            axisLabel : {
+                                formatter: '{value}'+tab.unit
+                            },
+                         },
+                         series: [
+                             {
+                                 name: tab.name,
+                                 type: 'line',
+                                 smooth: '1',
+                                 data:  ydata,
+                             }
+                         ]
+                     };
+                     linechart.setOption($scope.linechartoption);　
+                   }
               }else {
                 console.log(result.data.errMsg);
                 App.stopPageLoading();
@@ -610,11 +611,11 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                             $scope.lineTab=$scope.selectedlinetab.name;
                             $scope.lineLabel=$scope.lineType+$scope.lineTab;
                         }
-                        if($scope.selectedlinetab.name){
-                            getHistoryData();
-                        }else{
-                           resetlineoption();
-                        }
+                        // if($scope.selectedlinetab.name){
+                        //     getHistoryData();
+                        // }else{
+                        //    resetlineoption();
+                        // }
                       }
                       if(val.type == 'digital'){
                         digitalflag = digitalflag+1;
@@ -830,6 +831,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                         mychartContainer.style.width=$('#navContainer').width()-20+'px';
                         linechart = echarts.init(mychartContainer);
                         // linechart.setOption($scope.linechartoption);　
+                        resetlineoption();
                         if($scope.selectedlinetab.name){
                             getHistoryData();
                         }
