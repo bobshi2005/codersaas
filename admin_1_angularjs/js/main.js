@@ -257,7 +257,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
                             "../assets/apps/login_files/login.css",
-                            "../assets/apps/login_files/jquery.min.js",
+                            "../assets/global/plugins/jquery.min.js",
                             'js/controllers/PassBackController.js?version=2017092601'
                     ]);
                 }]
