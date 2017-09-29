@@ -332,6 +332,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                          ]
                      };
                      linechart.setOption($scope.linechartoption);　
+                   }else{
+                     resetlineoption();
                    }
               }else {
                 console.log(result.data.errMsg);
