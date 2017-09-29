@@ -424,7 +424,11 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         $('#myModal_alert').modal();
       }else{
         if($('.conversion-view').is(':hidden') && $scope.isl == null){
-          //如果是空值就不用update了
+          //如果是空值就不用update了$scope.isl = 0; //这里应该是null
+          $scope.sensor.isl = 0;
+          $scope.sensor.ish = 0;
+          $scope.sensor.osl = 0;
+          $scope.sensor.osh = 0;
         }else{
           $scope.sensor.isl = $scope.isl;
           $scope.sensor.ish = $scope.ish;

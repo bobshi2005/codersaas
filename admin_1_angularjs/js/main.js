@@ -218,7 +218,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         // home
         .state('login', {
             url: "/login",
-            templateUrl: "views/login5.html?version=2017092601",
+            templateUrl: "views/login5.html?version=2017092901",
             controller: 'LoginController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -238,7 +238,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('regist', {
             url: "/regist",
-            templateUrl: "views/regist.html?version=2017092601",
+            templateUrl: "views/regist.html?version=2017092901",
             controller: 'RegistController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -252,7 +252,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('passback', {
             url: "/passback",
-            templateUrl: "views/passback.html?version=2017092601",
+            templateUrl: "views/passback.html?version=2017092901",
             controller: 'PassBackController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -266,7 +266,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main', {
             url: "/main",
-            templateUrl: "views/main.html?version=2017092601",
+            templateUrl: "views/main.html?version=2017092901",
             controller: 'AppController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -284,7 +284,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.home', {
             url: "/home",
-            templateUrl: "views/home.html?version=2017092601",
+            templateUrl: "views/home.html?version=2017092901",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
@@ -301,7 +301,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.home.dashboard', {
             url: "/dashboard",
-            templateUrl: "views/dashboard2.html?version=2017092601",
+            templateUrl: "views/dashboard2.html?version=2017092901",
             controller: 'HomeController2',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -318,7 +318,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.home.dashboard2', {
             url: "/dashboard2",
-            templateUrl: "views/dashboard.html?version=2017092601",
+            templateUrl: "views/dashboard.html?version=2017092901",
             controller: 'HomeController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -352,7 +352,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.device.monitor', {
             url: "/monitor",
-            templateUrl: "views/monitor.html?version=2017092601",
+            templateUrl: "views/monitor.html?version=2017092901",
             controller: 'DeviceMonitorController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -382,7 +382,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
 
         .state('main.device.alarm', {
             url: "/alarm",
-            templateUrl: "views/alarm.html?version=2017092601",
+            templateUrl: "views/alarm.html?version=2017092901",
             controller: 'AlarmController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -394,7 +394,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset', {
             url: "/asset",
-            templateUrl: "views/asset.html?version=2017092601",
+            templateUrl: "views/asset.html?version=2017092901",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
@@ -409,7 +409,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.modalmanage', {
             url: "/modalmanage",
-            templateUrl: "views/asset-modalmanage.html?version=2017092601",
+            templateUrl: "views/asset-modalmanage.html?version=2017092901",
             controller: 'ModalManageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -429,7 +429,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.infomanage', {
             url: "/infomanage",
-            templateUrl: "views/asset-infomanage.html?version=2017092601",
+            templateUrl: "views/asset-infomanage.html?version=2017092901",
             controller: 'InfoManageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -447,7 +447,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         .state('main.asset.connectdevice', {
             url: "/connectdevice",
             params:{"equipmentInfo":null},
-            templateUrl: "views/asset-connectdevice.html?version=2017092601",
+            templateUrl: "views/asset-connectdevice.html?version=2017092901",
             controller: 'ConnectDeviceController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -460,7 +460,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.warehousemanage', {
             url: "/warehousemanage",
-            templateUrl: "views/asset-warehousemanage.html?version=2017092601",
+            templateUrl: "views/asset-warehousemanage.html?version=2017092901",
             controller: 'WarehouseController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -476,7 +476,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         .state('main.asset.warelocation', {
             url: "/warelocation",
             params:{"warehouseId":null, "name": null},
-            templateUrl: "views/asset-warelocation.html?version=2017092601",
+            templateUrl: "views/asset-warelocation.html?version=2017092901",
             controller: 'WarelocationController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -491,7 +491,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.stocksmanage', {
             url: "/stocksmanage",
-            templateUrl: "views/asset-stocksmanage.html?version=2017092601",
+            templateUrl: "views/asset-stocksmanage.html?version=2017092901",
             controller: 'StocksmanageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -506,7 +506,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.mtcmanage', {
             url: "/mtcmanage",
-            templateUrl: "views/asset-mtcmanage.html?version=2017092601",
+            templateUrl: "views/asset-mtcmanage.html?version=2017092901",
             controller: 'MtcManageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -519,7 +519,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.partcategory', {
             url: "/partcategory",
-            templateUrl: "views/asset-partcategory.html?version=2017092601",
+            templateUrl: "views/asset-partcategory.html?version=2017092901",
             controller: 'PartCategoryController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -534,7 +534,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.partmanage', {
             url: "/partmanage",
-            templateUrl: "views/asset-partmanage.html?version=2017092601",
+            templateUrl: "views/asset-partmanage.html?version=2017092901",
             controller: 'PartController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -549,7 +549,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.worksheet', {
             url: "/worksheet",
-            templateUrl: "views/asset-worksheet.html?version=2017092601",
+            templateUrl: "views/asset-worksheet.html?version=2017092901",
             controller: 'WorkSheetController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -562,7 +562,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.worksheetdetail', {
             url: "/worksheetdetail",
-            templateUrl: "views/asset-worksheetdetail.html?version=2017092601",
+            templateUrl: "views/asset-worksheetdetail.html?version=2017092901",
             controller: 'WorksheetdetailController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -589,7 +589,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.setting.userboard', {
             url: "/userboard",
-            templateUrl: "views/setting-userboard.html?version=2017092601",
+            templateUrl: "views/setting-userboard.html?version=2017092901",
             controller: 'UserboardController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -602,7 +602,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.setting.usermanage', {
             url: "/usermanage",
-            templateUrl: "views/setting-usermanage.html?version=2017092601",
+            templateUrl: "views/setting-usermanage.html?version=2017092901",
             controller: 'UsermanageController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -615,7 +615,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.asset.netgate', {
             url: "/netgate",
-            templateUrl: "views/setting-netgate.html?version=2017092601",
+            templateUrl: "views/setting-netgate.html?version=2017092901",
             controller: 'NetgateController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -628,7 +628,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.setting.customer', {
             url: "/customer",
-            templateUrl: "views/setting-customer.html?version=2017092601",
+            templateUrl: "views/setting-customer.html?version=2017092901",
             controller: 'CustomerController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -641,7 +641,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.setting.notify', {
             url: "/notify",
-            templateUrl: "views/setting-notify.html?version=2017092601",
+            templateUrl: "views/setting-notify.html?version=2017092901",
             controller: 'NotifyController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -654,7 +654,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.setting.helpConnectRTU', {
             url: "/helpConnectRTU",
-            templateUrl: "views/setting-help-connectRTU.html?version=2017092601",
+            templateUrl: "views/setting-help-connectRTU.html?version=2017092901",
             controller: 'HelpController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -667,7 +667,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         })
         .state('main.setting.helpSetRTU', {
             url: "/helpSetRTU",
-            templateUrl: "views/setting-help-setRTU.html?version=2017092601",
+            templateUrl: "views/setting-help-setRTU.html?version=2017092901",
             controller: 'HelpController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -695,7 +695,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                     }, {
                         name: 'MetronicApp',
                         files: [
-                            'js/controllers/GeneralPageController.js?version=2017092601 '
+                            'js/controllers/GeneralPageController.js?version=2017092901 '
                         ]
                     }]);
                 }]
@@ -722,7 +722,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                     }, {
                         name: 'MetronicApp',
                         files: [
-                            'js/controllers/UISelectController.js?version=2017092601 '
+                            'js/controllers/UISelectController.js?version=2017092901 '
                         ]
                     }]);
                 }]
@@ -742,7 +742,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                     return $ocLazyLoad.load([{
                         name: 'MetronicApp',
                         files: [
-                            'js/controllers/GeneralPageController.js?version=2017092601 '
+                            'js/controllers/GeneralPageController.js?version=2017092901 '
                         ]
                     }]);
                 }]
@@ -767,7 +767,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
 
                             '../assets/global/plugins/jstree/dist/jstree.min.js',
                             '../assets/pages/scripts/ui-tree.min.js',
-                            'js/controllers/GeneralPageController.js?version=2017092601 '
+                            'js/controllers/GeneralPageController.js?version=2017092901 '
                         ]
                     }]);
                 }]
@@ -805,7 +805,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                             '../assets/global/plugins/typeahead/typeahead.bundle.min.js',
                             '../assets/pages/scripts/components-form-tools-2.min.js',
 
-                            'js/controllers/GeneralPageController.js?version=2017092601 '
+                            'js/controllers/GeneralPageController.js?version=2017092901 '
                         ]
                     }]);
                 }]
@@ -840,7 +840,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
 
                             '../assets/pages/scripts/components-date-time-pickers.min.js',
 
-                            'js/controllers/GeneralPageController.js?version=2017092601 '
+                            'js/controllers/GeneralPageController.js?version=2017092901 '
                         ]
                     }]);
                 }]
@@ -871,7 +871,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                             '../assets/pages/scripts/components-bootstrap-select.min.js',
                             '../assets/pages/scripts/components-select2.min.js',
 
-                            'js/controllers/GeneralPageController.js?version=2017092601 '
+                            'js/controllers/GeneralPageController.js?version=2017092901 '
                         ]
                     }]);
                 }]
@@ -899,7 +899,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
 
                             '../assets/pages/scripts/table-datatables-managed.min.js',
 
-                            'js/controllers/GeneralPageController.js?version=2017092601 '
+                            'js/controllers/GeneralPageController.js?version=2017092901 '
                         ]
                     });
                 }]
@@ -929,7 +929,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                             '../assets/global/scripts/datatable.js',
 
                             'js/scripts/table-ajax.js',
-                            'js/controllers/GeneralPageController.js?version=2017092601 '
+                            'js/controllers/GeneralPageController.js?version=2017092901 '
                         ]
                     });
                 }]
@@ -958,7 +958,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
 
                             '../assets/pages/scripts/profile.min.js',
 
-                            'js/controllers/UserProfileController.js?version=2017092601 '
+                            'js/controllers/UserProfileController.js?version=2017092901 '
                         ]
                     });
                 }]
@@ -1017,7 +1017,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
 
                             '../assets/apps/scripts/todo-2.min.js',
 
-                            'js/controllers/TodoController.js?version=2017092601 '
+                            'js/controllers/TodoController.js?version=2017092901 '
                         ]
                     });
                 }]
