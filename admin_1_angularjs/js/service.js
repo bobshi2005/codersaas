@@ -1170,3 +1170,30 @@ AppService.factory('sharedataApi',function() {
     }
     return service;
 });
+
+AppService.factory('sessionTimeout', ['$q', function($q){
+  var sessiontimeout = {
+    request: function(config){
+      // console.log('request:' + config);
+      return config;
+    },
+    requestError: function(err){
+      // console.log('requestError:' + err);
+      return $q.reject(err);
+    },
+    response: function(res){
+      console.log('response:' + res.status);
+      return res;
+    },
+    responseError: function(err){
+      if (err.status === -1) {
+        console.log('resperr','服务器无响应');
+      }else if(err.status === 302){
+        console.log('resperr','连接超时，请重新登录');
+
+      }
+      return $q.reject(err);
+    }
+  };
+  return sessiontimeout;
+}]);

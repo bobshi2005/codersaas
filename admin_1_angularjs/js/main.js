@@ -157,8 +157,8 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
     $scope.logout = function() {
         userApi.logout().then(function(result){},function(err){});
         locals.set("islogin", 0);
-        locals.set("username", '');
-        locals.set("password", '');
+        // locals.set("username", '');
+        // locals.set("password", '');
         $state.transitionTo("login",{},{reload: true});
     }
     $scope.useraccount = locals.get("username");
@@ -208,8 +208,9 @@ MetronicApp.controller('sidemenuController', ['$scope', '$rootScope', function($
 }]);
 
 /* Setup Rounting For All Pages */
-MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',function($stateProvider, $urlRouterProvider,$httpProvider) {
     // Redirect any unmatched url
+    $httpProvider.interceptors.push('sessionTimeout');
     $urlRouterProvider.when('', '/login');
     $urlRouterProvider.otherwise('/login');
     $stateProvider
@@ -1021,7 +1022,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     });
                 }]
             }
-        })
+        });
 
 }]);
 
