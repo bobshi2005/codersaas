@@ -189,24 +189,148 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       getmodelPropertylist();
     };
 
+    $scope.selectAlarmtype = function(){
+      var alarmtype = $scope.alarm.alarmType;
+      if(alarmtype.hasOwnProperty('type')){
+        switch (alarmtype.type){
+          case 2:
+            $('#upperBound').show();
+            $('#lowerBound').hide();
+            $('#duration').hide();
+            break;
+          case 3:
+            $('#upperBound').hide();
+            $('#lowerBound').show();
+            $('#duration').hide();
+            break;
+          case 4:
+            $('#upperBound').hide();
+            $('#lowerBound').hide();
+            $('#duration').show();
+            break;
+          case 6:
+            $('#upperBound').show();
+            $('#lowerBound').show();
+            $('#duration').hide();
+            break;
+          case 8:
+            $('#upperBound').show();
+            $('#lowerBound').hide();
+            $('#duration').show();
+            break;
+          case 12:
+            $('#upperBound').hide();
+            $('#lowerBound').show();
+            $('#duration').show();
+            break;
+          case 24:
+            $('#upperBound').show();
+            $('#lowerBound').show();
+            $('#duration').show();
+            break;
+          default:
+            $('#upperBound').hide();
+            $('#lowerBound').hide();
+            $('#duration').hide();
+            break;
+        }
+      }
+    };
+    $scope.saveAlarm = function(){
+      //模拟量
+      if($scope.alarm.alarmType.hasOwnProperty('type')){
+        // console.log('X',$('#upperBoundNum').val());
+        // console.log('Y',$('#lowerBoundNum').val());
+        // console.log('M',$('#duration').val());
+        switch($scope.alarm.alarmType.type){
+          case 2:
+            if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()==''){
+              $scope.message ='请填写 X 的值';
+              $('#myModal_alert').modal();
+            }
+            $scope.alarm.lowerBound = 0;
+            $scope.alarm.duration = 0;
+            break;
+          case 3:
+            if($('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()==''){
+              $scope.message ='请填写 Y 的值';
+              $('#myModal_alert').modal();
+            }
+            $scope.alarm.upperBound = 0;
+            $scope.alarm.duration = 0;
+            break;
+          case 4:
+            if($('#durationNum').val()==null || $('#durationNum').val()==''){
+              $scope.message ='请填写 M 的值';
+              $('#myModal_alert').modal();
+            }
+            $scope.alarm.lowerBound = 0;
+            $scope.alarm.upperBound = 0;
+            break;
+          case 6:
+            if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()=='' || $('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()==''){
+              $scope.message ='请填写 X 与 Y 的值';
+              $('#myModal_alert').modal();
+            }else if($('#upperBoundNum').val()>=$('#lowerBoundNum').val()){
+              $scope.message ='X 必须小于 Y';
+              $('#myModal_alert').modal();
+            }
+            $scope.alarm.duration = 0;
+            break;
+          case 8:
+              if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()=='' || $('#durationNum').val()==null || $('#durationNum').val()==''){
+                $scope.message ='请填写 X 与 M 的值';
+                $('#myModal_alert').modal();
+              }
+              $scope.alarm.lowerBound = 0;
+            break;
+          case 12:
+              if($('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()=='' || $('#durationNum').val()==null || $('#durationNum').val()==''){
+                $scope.message ='请填写 Y 与 M 的值';
+                $('#myModal_alert').modal();
+              }
+              $scope.alarm.upperBound = 0;
+            break;
+          case 24:
+              if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()=='' || $('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()=='' || $('#durationNum').val()==null || $('#durationNum').val()==''){
+                $scope.message ='请填写 X Y M 的值';
+                $('#myModal_alert').modal();
+              }else if($('#upperBoundNum').val()>=$('#lowerBoundNum').val()){
+                $scope.message ='X 必须小于 Y';
+                $('#myModal_alert').modal();
+              }
+            break;
+          default:
+              $scope.alarm.lowerBound = 0;
+              $scope.alarm.upperBound = 0;
+              $scope.alarm.duration = 0;
+            break;
+        }
+      }
+      saveAlarmImpl();
+    };
     $scope.showSetAlarm = function(param){
       $scope.alarmTypeLists =[];
+      $scope.alarmType='';
+      $scope.alarm.dataType = param.dataType;
+      $scope.alarm.equipmentModelPropertyId = param.equipmentModelPropertyId;
       console.log('PARTAM',param);
       switch(param.dataType){
         case 'analog':
          $scope.alarmTypeLists=[
-           {"id":'val_above',"name":"数值高于X"},
-           {"id":'val_below',"name":"数值低于X"},
-           {"id":'val_above_below',"name":"数值高于X低于Y"},
-           {"id":'val_above_below_ofm',"name":"数值高于X低于Y超过M分钟"},
-           {"id":'val_between',"name":"数值在X和Y之间"},
-           {"id":'val_above_bound',"name":"数值超过M分钟高于X"},
-           {"id":'val_below_bound',"name":"数值超过M分钟低于Y"},
-           {"id":'x_tir_y_rec',"name":"数值高于X报警，低于Y恢复"},
-           {"id":'offline',"name":"传感器断开"},
+           {"id":'val_above',"name":"数值高于X",'type':2},//设置X:2 Y:3 Z:4,type为乘积，区分XYZ的组合。
+           {"id":'val_below',"name":"数值低于Y",'type':3},
+           {"id":'val_above_below',"name":"数值高于X低于Y",'type':6},
+           {"id":'val_above_below_ofm',"name":"数值高于X低于Y超过M分钟",'type':24},
+           {"id":'val_above_bound',"name":"数值超过M分钟高于X",'type':8},
+           {"id":'val_below_bound',"name":"数值超过M分钟低于Y",'type':12},
+           {"id":'x_tir_y_rec',"name":"数值高于X报警，低于Y恢复",'type':6},
+           {"id":'offline',"name":"传感器断开",'type':0},
          ];
-
-        //  $('#myModal_setAlarm').modal();
+         $('#upperBound').hide();
+         $('#lowerBound').hide();
+         $('#duration').hide();
+         $('#myModal_setAlarm').modal();
          break;
         case 'digital':
          $scope.alarmTypeLists=[
@@ -214,13 +338,17 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
            {"id":'switch_off',"name":"开关关闭"},
            {"id":'offline',"name":"传感器断开"},
          ];
-        //  $('#myModal_setAlarm').modal();
+         $('#upperBound').hide();
+         $('#lowerBound').hide();
+         $('#duration').hide();
+         $('#myModal_setAlarm').modal();
          break;
         default:
-            // $scope.message = '请设置参数类型！';
-            // $('#myModal_alert').modal();
+            $scope.message = '请设置参数类型！';
+            $('#myModal_alert').modal();
          break;
       }
+      getAlarmset(param.equipmentModelId,param.equipmentModelPropertyId);
 
     };
 
@@ -440,6 +568,63 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             console.log('getdeviceModellisterr',err);
             // console.log(err);
         });
+    }
+
+    function getAlarmset(mid,pid){
+      $scope.companyUserLists=[];
+      deviceApi.getAlarmset(mid,pid)
+        .then(function(result) {
+            console.log('getalarmsset',result.data);
+            if(result.data.users){
+              $scope.companyUserLists = result.data.users;
+            }
+            if(result.data.alarm.alarmId){
+              var alarm = result.data.alarm;
+              // $scope.alarm.alarmType = findAlarmTypeItemById(alarm.alarmType);
+              // $scope.alarm.upperBound = alarm.upperBound;
+              // $scope.alarm.lowerBound = alarm.lowerBound;
+              // $scope.alarm.duration = alarm.duration;
+              // $scope.alarm.alarmTarget = alarm.alarmTarget;
+              // $scope.alarm.targetUser=findTargetUserById(alarm.alarmType);
+            }
+
+        }, function(err) {
+            console.log('getalarmsseterr',err);
+            // console.log(err);
+        });
+    }
+
+    function saveAlarmImpl(){
+      var params={}
+      if($scope.alarm.dataType =='analog'){
+        params.equipmentModelPropertyId = $scope.alarm.equipmentModelPropertyId;
+        params.alarmType = $scope.alarm.alarmType.id;
+        params.upperBound = $scope.alarm.upperBound;
+        params.lowerBound = $scope.alarm.lowerBound;
+        params.duration = $scope.alarm.duration;
+        params.alarmTarget = $scope.alarm.alarmTarget;
+        params.targetUser = $scope.alarm.targetUser;
+      }else{
+        params.equipmentModelPropertyId = $scope.alarm.equipmentModelPropertyId;
+        params.alarmType = $scope.alarm.alarmType.id;
+        params.alarmTarget = $scope.alarm.alarmTarget;
+        params.targetUser = $scope.alarm.targetUser;
+      }
+
+      deviceApi.createPropertyAlarm(params)
+          .then(function(result){
+              if(result.data.code ==1 ){
+                  $scope.message = '报警设置成功';
+                  $('#myModal_alert').modal();
+                  $('#myModal_setAlarm').modal('hide');
+              }else{
+                $scope.message = '报警设置失败';
+                $('#myModal_alert').modal();
+              }
+          }, function(err) {
+              console.log('createAlarmerr',err);
+                $('#myModal_setAlarm').modal('hide');
+          });
     }
 
     function getdataTypeNameByID(id){

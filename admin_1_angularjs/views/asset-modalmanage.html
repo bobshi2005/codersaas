@@ -586,18 +586,30 @@
           <div class="modal-body form skin skin-line">
               <form action="" class="form-horizontal form-row-seperated" name="alarmform" role="form">
                   <input type="hidden" name="equipmentModelPropertyId" ng-model="alarm.equipmentModelPropertyId">
+                  <input type="hidden" name="dataType" ng-model="alarm.dataType">
                   <div class="form-group">
                       <label class="col-sm-4 control-label">
                           报警选择</label>
                       <div class="col-sm-6">
-                        <select class="form-control" ng-model="alarm.alarmType"  ng-options="o.id as o.name for o in alarmTypeLists" required></select>
+                        <select class="form-control" ng-model="alarm.alarmType" ng-change="selectAlarmtype()"  ng-options="o as o.name for o in alarmTypeLists" required></select>
                       </div>
                   </div>
-                  <div class="form-group">
-                      <label class="col-sm-1 control-label">
-                          X</label>
-                      <div class="col-sm-2">
-                        <input class="form-control" ng-model="alarm.upperBound" required></select>
+                  <div class="form-group"  id='upperBound'>
+                      <label class="col-sm-4 control-label">X</label>
+                      <div class="col-sm-6">
+                        <input id='upperBoundNum' class="form-control" type="number" ng-model="alarm.upperBound"  placeholder="请填写数字" ></select>
+                      </div>
+                  </div>
+                  <div class="form-group" id='lowerBound'>
+                      <label class="col-sm-4 control-label">Y</label>
+                      <div class="col-sm-6">
+                        <input id='lowerBoundNum' class="form-control"  type="number" ng-model="alarm.lowerBound" placeholder="请填写数字" ></select>
+                      </div>
+                  </div>
+                  <div class="form-group" id='duration'>
+                      <label class="col-sm-4 control-label">M</label>
+                      <div class="col-sm-6">
+                        <input id='durationNum' class="form-control"  type="number" ng-model="alarm.duration"  placeholder="请填写数字" ></select>
                       </div>
                   </div>
                   <div class="form-group last">
@@ -609,7 +621,7 @@
                   <div class="form-group last">
                       <label class="col-sm-4 control-label">提醒对象</label>
                       <div class="col-sm-4">
-                          <select class="form-control" ng-model="alarm.targetUser"  ng-options="o.id as o.name for o in companyUserLists" required></select>
+                          <select class="form-control" ng-model="alarm.targetUser"  ng-options="o.userId as o.realname for o in companyUserLists" required></select>
                       </div>
                   </div>
 
