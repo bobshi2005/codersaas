@@ -247,25 +247,34 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()==''){
               $scope.message ='请填写 X 的值';
               $('#myModal_alert').modal();
+            }else{
+              $scope.alarm.lowerBound = 0;
+              $scope.alarm.duration = 0;
+              saveAlarmImpl();
             }
-            $scope.alarm.lowerBound = 0;
-            $scope.alarm.duration = 0;
+
             break;
           case 3:
             if($('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()==''){
               $scope.message ='请填写 Y 的值';
               $('#myModal_alert').modal();
+            }else{
+              $scope.alarm.upperBound = 0;
+              $scope.alarm.duration = 0;
+                saveAlarmImpl();
             }
-            $scope.alarm.upperBound = 0;
-            $scope.alarm.duration = 0;
+
             break;
           case 4:
             if($('#durationNum').val()==null || $('#durationNum').val()==''){
               $scope.message ='请填写 M 的值';
               $('#myModal_alert').modal();
+            }else{
+              $scope.alarm.lowerBound = 0;
+              $scope.alarm.upperBound = 0;
+              saveAlarmImpl();
             }
-            $scope.alarm.lowerBound = 0;
-            $scope.alarm.upperBound = 0;
+
             break;
           case 6:
             if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()=='' || $('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()==''){
@@ -274,22 +283,29 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             }else if($('#upperBoundNum').val()>=$('#lowerBoundNum').val()){
               $scope.message ='X 必须小于 Y';
               $('#myModal_alert').modal();
+            }else{
+              $scope.alarm.duration = 0;
+              saveAlarmImpl();
             }
-            $scope.alarm.duration = 0;
             break;
           case 8:
               if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()=='' || $('#durationNum').val()==null || $('#durationNum').val()==''){
                 $scope.message ='请填写 X 与 M 的值';
                 $('#myModal_alert').modal();
+              }else{
+                $scope.alarm.lowerBound = 0;
+                saveAlarmImpl();
               }
-              $scope.alarm.lowerBound = 0;
             break;
           case 12:
               if($('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()=='' || $('#durationNum').val()==null || $('#durationNum').val()==''){
                 $scope.message ='请填写 Y 与 M 的值';
                 $('#myModal_alert').modal();
+              }else{
+                $scope.alarm.upperBound = 0;
+                saveAlarmImpl();
               }
-              $scope.alarm.upperBound = 0;
+
             break;
           case 24:
               if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()=='' || $('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()=='' || $('#durationNum').val()==null || $('#durationNum').val()==''){
@@ -298,6 +314,8 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
               }else if($('#upperBoundNum').val()>=$('#lowerBoundNum').val()){
                 $scope.message ='X 必须小于 Y';
                 $('#myModal_alert').modal();
+              }else{
+                saveAlarmImpl();
               }
             break;
           default:
@@ -307,7 +325,6 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             break;
         }
       }
-      saveAlarmImpl();
     };
     $scope.showSetAlarm = function(param){
       $scope.alarmTypeLists =[];
@@ -458,7 +475,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
                 }else{
                   $('#bitcode').show();
                 }
-                console.log('sensor',$scope.sensor);
+                // console.log('sensor',$scope.sensor);
                 if($scope.sensor.isl == null || $scope.sensor.ish == null || $scope.sensor.osl == null || $scope.sensor.osh == null){
                   $('.conversion-view').hide();
                   $('.conversion-add').show();
@@ -466,7 +483,6 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
                   $('.conversion-view').hide();
                   $('.conversion-add').show();
                 }else{
-                  console.log('haha');
                   $scope.isl = angular.copy($scope.sensor.isl);
                   $scope.ish = angular.copy($scope.sensor.ish);
                   $scope.osl = angular.copy($scope.sensor.osl);
@@ -570,22 +586,48 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         });
     }
 
+    function findAlarmTypeItemById(id){
+      for(var i=0;i<$scope.alarmTypeLists.length;i++){
+        if($scope.alarmTypeLists[i].id == id){
+          return $scope.alarmTypeLists[i];
+          break;
+        }
+      }
+    }
+
+    function findTargetUserById(id){
+      console.log('userlists',id,$scope.companyUserLists);
+      for(var i=0;i<$scope.companyUserLists.length;i++){
+        if($scope.companyUserLists[i].userId == id){
+          return $scope.companyUserLists[i].userId;
+          break;
+        }
+      }
+    }
+
     function getAlarmset(mid,pid){
       $scope.companyUserLists=[];
       deviceApi.getAlarmset(mid,pid)
         .then(function(result) {
-            console.log('getalarmsset',result.data);
             if(result.data.users){
               $scope.companyUserLists = result.data.users;
             }
             if(result.data.alarm.alarmId){
               var alarm = result.data.alarm;
-              // $scope.alarm.alarmType = findAlarmTypeItemById(alarm.alarmType);
-              // $scope.alarm.upperBound = alarm.upperBound;
-              // $scope.alarm.lowerBound = alarm.lowerBound;
-              // $scope.alarm.duration = alarm.duration;
-              // $scope.alarm.alarmTarget = alarm.alarmTarget;
-              // $scope.alarm.targetUser=findTargetUserById(alarm.alarmType);
+              $scope.alarm.alarmType = findAlarmTypeItemById(alarm.alarmType);
+              $scope.alarm.upperBound = alarm.upperBound;
+              $scope.alarm.alarmId = alarm.alarmId;
+              $scope.alarm.lowerBound = alarm.lowerBound;
+              $scope.alarm.duration = alarm.duration;
+              $scope.alarm.alarmTarget = alarm.alarmTarget;
+              $scope.selectAlarmtype();
+            }else{
+              $scope.alarm = {};
+            }
+            if(result.data.targetUsers.length>0){
+              $scope.alarm.targetUser=findTargetUserById(result.data.targetUsers[0].userId);
+            }else{
+              $scope.alarm.targetUser=angular.copy($scope.companyUserLists[0]);
             }
 
         }, function(err) {
@@ -609,6 +651,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         params.alarmType = $scope.alarm.alarmType.id;
         params.alarmTarget = $scope.alarm.alarmTarget;
         params.targetUser = $scope.alarm.targetUser;
+      }
+      if($scope.alarm.alarmId){
+        params.alarmId = $scope.alarm.alarmId;
       }
 
       deviceApi.createPropertyAlarm(params)
