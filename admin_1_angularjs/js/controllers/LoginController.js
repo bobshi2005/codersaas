@@ -14,13 +14,13 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
                 //locals.set("userrole", result.data.role);
                 locals.set("username", $scope.loginForm.userId);
                 locals.set("password", $scope.loginForm.password);
-                // $state.go('main.home.dashboard');
+                $state.go('main.home.dashboard');
                 // $state.transitionTo("main.home.dashboard", {}, {
                 //   reload: true, inherit: true, notify: true
                 // });
-                $state.transitionTo("main.home.dashboard", {}, {
-                  reload: false, inherit: true, notify: true
-                });
+                // $state.transitionTo("main.home.dashboard", {}, {
+                //   reload: false, inherit: true, notify: true
+                // });
               }else {
                 alert(result.data.data);
               }

@@ -293,7 +293,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                           '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
                           '../assets/global/plugins/datatables/datatables.all.min.js',
                           "../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
-                          'js/scripts/world.js?version=2017093001',
+                          // 'js/scripts/world.js?version=2017093001',
                     ])
                 }]
             }
@@ -322,6 +322,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
+                            "../assets/global/plugins/echarts/echarts.min.js",
                             '../assets/global/plugins/datatables/datatables.min.css',
                             '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
                             "../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
