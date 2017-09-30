@@ -14,9 +14,12 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
                 //locals.set("userrole", result.data.role);
                 locals.set("username", $scope.loginForm.userId);
                 locals.set("password", $scope.loginForm.password);
-                // $state.go('home.dashboard');
+                // $state.go('main.home.dashboard');
+                // $state.transitionTo("main.home.dashboard", {}, {
+                //   reload: true, inherit: true, notify: true
+                // });
                 $state.transitionTo("main.home.dashboard", {}, {
-                  reload: true, inherit: true, notify: true
+                  reload: false, inherit: true, notify: true
                 });
               }else {
                 alert(result.data.data);
@@ -28,7 +31,12 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
 
     }
     $scope.$on('$viewContentLoaded', function() {
-      userApi.logout().then(function(result){},function(err){});
+
+      if($rootScope.showtimeoutflag>=1){
+        alert('超时，请重新登录');
+        $rootScope.showtimeoutflag = 0;
+      }
+      // userApi.logout().then(function(result){},function(err){});
     });
     function getuserInfo(phone){
       userApi.userInfo(phone)

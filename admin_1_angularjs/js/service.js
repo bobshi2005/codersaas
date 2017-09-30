@@ -1,8 +1,5 @@
 var AppService = angular.module("AppService", []);
 var url = "http://118.89.140.11/main/system/webdev/Saas/api";
-// var url = "http://192.168.1.103:3000/api";
-//var url = "http://localhost/codersaas/admin_1_angularjs/demo/api.php";   //jerryshen test api
-// var url = "http://192.168.1.104/admin_1_angularjs/demo/api.php";   //ljp test api
 var deviceUrl = "http://118.89.140.11:9999"; //saas manager api
 var userUrl = "http://118.89.140.11:1111";  //user manager api
 
@@ -1171,10 +1168,9 @@ AppService.factory('sharedataApi',function() {
     return service;
 });
 
-AppService.factory('sessionTimeout', ['$q', function($q){
+AppService.factory('sessionTimeout', ['$q','$rootScope', function($q,$rootScope){
   var sessiontimeout = {
     request: function(config){
-      // console.log('request:' + config);
       return config;
     },
     requestError: function(err){
@@ -1182,15 +1178,23 @@ AppService.factory('sessionTimeout', ['$q', function($q){
       return $q.reject(err);
     },
     response: function(res){
-      console.log('response:' + res.status);
+      // console.log('sdfsd',$rootScope.showtimeoutflag);
+      // console.log('res:' + res.data.code);
+      if(res.status === 200){
+        if(res.data.code && res.data.code === 403){
+          console.log('连接超时，请重新登录',$rootScope.showtimeoutflag);
+          $rootScope.showtimeoutflag +=1;
+          $rootScope.$broadcast('to-login','true');
+        }else{
+
+        }
+      }
       return res;
+
     },
     responseError: function(err){
       if (err.status === -1) {
         console.log('resperr','服务器无响应');
-      }else if(err.status === 302){
-        console.log('resperr','连接超时，请重新登录');
-
       }
       return $q.reject(err);
     }
