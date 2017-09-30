@@ -5,6 +5,7 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
     $rootScope.loginForm.userId = locals.get("username");
     $rootScope.loginForm.password = locals.get("password");
     $scope.login = function(){
+      console.log('sss',$rootScope.loginForm);
         userApi.login($scope.loginForm.userId, $scope.loginForm.password,'false','')
           .then(function(result) {
               if(result.data.code == 1) {
@@ -12,8 +13,16 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
                 getuserInfo($scope.loginForm.userId);
                 locals.set("islogin", 1);
                 //locals.set("userrole", result.data.role);
-                locals.set("username", $scope.loginForm.userId);
-                locals.set("password", $scope.loginForm.password);
+                if($rootScope.loginForm.remember && $rootScope.loginForm.remember==true){
+                  locals.set("username", $scope.loginForm.userId);
+                  locals.set("password", $scope.loginForm.password);
+                  locals.set("remember", 'true');
+                }else{
+                  locals.set("username", '');
+                  locals.set("password", '');
+                  locals.set("remember", 'false');
+                }
+
                 $state.go('main.home.dashboard');
                 // $state.transitionTo("main.home.dashboard", {}, {
                 //   reload: true, inherit: true, notify: true
@@ -31,14 +40,16 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
 
     }
     $scope.$on('$viewContentLoaded', function() {
-
       if($rootScope.showtimeoutflag>=1){
         alert('超时，请重新登录');
         $rootScope.showtimeoutflag = 0;
       }
+      if(locals.get("remember")==='true'){
+        $rootScope.loginForm.remember=true;
+      }
       // userApi.logout().then(function(result){},function(err){});
       window.onresize=function(){
-        console.log('width',$('.login-content').width());
+
         if($('.login-content').width()<550){
           if($('.login-content').height()+$('.login-footer').height()+120>$('.login-container').height()){
             $('.login-footer').hide();
