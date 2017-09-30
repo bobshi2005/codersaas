@@ -37,6 +37,35 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
         $rootScope.showtimeoutflag = 0;
       }
       // userApi.logout().then(function(result){},function(err){});
+      window.onresize=function(){
+        console.log('width',$('.login-content').width());
+        if($('.login-content').width()<550){
+          if($('.login-content').height()+$('.login-footer').height()+120>$('.login-container').height()){
+            $('.login-footer').hide();
+          }else{
+            $('.login-footer').show();
+          }
+        }else if($('.login-content').width()<590){
+          if($('.login-content').height()+$('.login-footer').height()+150>$('.login-container').height()){
+            $('.login-footer').hide();
+          }else{
+            $('.login-footer').show();
+          }
+        }else if($('.login-content').width()<630){
+          if($('.login-content').height()+$('.login-footer').height()+170>$('.login-container').height()){
+            $('.login-footer').hide();
+          }else{
+            $('.login-footer').show();
+          }
+        }else{
+          if($('.login-content').height()+$('.login-footer').height()+180>$('.login-container').height()){
+            $('.login-footer').hide();
+          }else{
+            $('.login-footer').show();
+          }
+        }
+
+      };
     });
     function getuserInfo(phone){
       userApi.userInfo(phone)
