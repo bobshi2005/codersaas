@@ -3,7 +3,7 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
     $rootScope.showHeader = false;
     $rootScope.loginForm = {};
     $rootScope.loginForm.userId = locals.get("username");
-    $rootScope.loginForm.password = locals.get("password");
+
     $scope.login = function(){
       console.log('sss',$rootScope.loginForm);
         userApi.login($scope.loginForm.userId, $scope.loginForm.password,'false','')
@@ -47,6 +47,9 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
       if(locals.get("remember")==='true'){
         $rootScope.loginForm.remember=true;
       }
+      var pwd = document.getElementById('password');
+      pwd.type = "password";
+      $rootScope.loginForm.password = locals.get("password");
       // userApi.logout().then(function(result){},function(err){});
       window.onresize=function(){
 
