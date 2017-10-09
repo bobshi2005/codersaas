@@ -39,7 +39,7 @@
                     <label class="col-sm-4 control-label">
                         设备名称</label>
                     <div class="col-sm-6">
-                        <input type="text" ng-model="equipmentname" class="form-control"  ng-disabled="true" required/>
+                        <label class="form-control">{{equipmentname}}</label>
                     </div>
                 </div>
                 <div class="form-group last">
@@ -56,21 +56,24 @@
                   <label class="col-sm-4 control-label">
                       Ip</label>
                   <div class="col-sm-6">
-                      <input type="text" ng-model="accessdev.ip" class="form-control"   ng-disabled="true" required/>
+                      <label class="form-control">{{accessdev.ip}}</label>
+                      <!-- <input type="text" ng-model="accessdev.ip" class="form-control"   ng-disabled="true" required/> -->
                   </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label">
                     接入注册包</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="equipmentId" class="form-control"  ng-disabled="true" required/>
+                    <label class="form-control">{{equipmentId}}</label>
+                    <!-- <input type="text" ng-model="equipmentId" class="form-control"  ng-disabled="true" required/> -->
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label">
                     端口号</label>
                 <div class="col-sm-6">
-                    <input type="text" ng-model="accessdev.port" class="form-control"  ng-disabled="true" required/>
+                    <label class="form-control">{{accessdev.port}}</label>
+                    <!-- <input type="text" ng-model="accessdev.port" class="form-control"  ng-disabled="true" required/> -->
                 </div>
               </div>
               <div class="form-group">
