@@ -1,7 +1,7 @@
 var AppService = angular.module("AppService", []);
-var url = "http://118.89.140.11/main/system/webdev/Saas/api";
-var deviceUrl = "http://118.89.140.11:9999"; //saas manager api
-var userUrl = "http://118.89.140.11:1111";  //user manager api
+// var url = "http://118.89.140.11/main/system/webdev/Saas/api";
+var deviceUrl = "http://139.196.141.29:9999"; //saas manager api  old 118.89.140.11
+var userUrl = "http://139.196.141.29:1111";  //user manager api  http://139.196.141.29/
 
 //用户相关api
 AppService.factory('userApi', ['$http', '$q', function($http, $q) {
@@ -1194,7 +1194,7 @@ AppService.factory('sessionTimeout', ['$q','$rootScope', function($q,$rootScope)
     },
     responseError: function(err){
       if (err.status === -1) {
-        console.log('resperr','服务器无响应');
+        console.log('resperr',err);
       }
       return $q.reject(err);
     }
