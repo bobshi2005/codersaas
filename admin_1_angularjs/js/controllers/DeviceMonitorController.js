@@ -283,7 +283,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
       if($scope.historyType =='line'){
         App.startPageLoading({animate: true});
-        deviceApi.getSensorHistory(tab.varid, starttime, endtime)
+        deviceApi.getSensorHistory($scope.equipmentId,tab.varid, starttime, endtime)
           .then(function(result) {
               if(result.data.value) {
                    var xdata=result.data.time;
@@ -346,7 +346,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       }else if($scope.historyType == 'table'){
         App.startPageLoading({animate: true});
         //获取表格信息
-        deviceApi.getSensorHistoryDetail(tab.varid, starttime, endtime)
+        deviceApi.getSensorHistoryDetail($scope.equipmentId,tab.varid, starttime, endtime)
           .then(function(result) {
               if(result.data) {
                   for(var i=0;i<result.data.length;i++){

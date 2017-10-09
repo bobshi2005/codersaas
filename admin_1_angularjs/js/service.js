@@ -619,11 +619,11 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
-    service.getSensorHistory = function(sId,start,end) {
+    service.getSensorHistory = function(eId,sId,start,end) {
         var d = $q.defer();
         $http({
             method: 'get',
-            url: deviceUrl+ '/manage/sensor/data/list/curve/?sensorId='+sId+'&startDate='+start+'&endDate='+end,
+            url: deviceUrl+ '/manage/sensor/data/list/curve/?eId='+eId+'&sensorId='+sId+'&startDate='+start+'&endDate='+end,
             withCredentials: true,
         }).then(function(response) {
             d.resolve(response);
@@ -633,11 +633,11 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
-    service.getSensorHistoryDetail = function(sId,start,end) {
+    service.getSensorHistoryDetail = function(eId,sId,start,end) {
         var d = $q.defer();
         $http({
             method: 'get',
-            url: deviceUrl+ '/manage/sensor/data/list/?sensorId='+sId+'&startDate='+start+'&endDate='+end,
+            url: deviceUrl+ '/manage/sensor/data/list/?eId='+eId+'&sensorId='+sId+'&startDate='+start+'&endDate='+end,
             withCredentials: true,
         }).then(function(response) {
             d.resolve(response);
