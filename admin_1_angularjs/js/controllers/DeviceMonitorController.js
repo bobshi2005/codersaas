@@ -286,6 +286,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         deviceApi.getSensorHistory($scope.equipmentId,tab.varid, starttime, endtime)
           .then(function(result) {
               if(result.data.value) {
+                console.log('gethistorydata',result.data);
                    var xdata=result.data.time;
                    var ydata=result.data.value;
 
@@ -585,11 +586,13 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       linechart.setOption($scope.linechartoption);　
     };
     function getDataModel(equipid){
+      console.log('getDataModel--start---');
       $scope.selectedlinetab=[];
       $scope.lineTab='';
       $scope.lineLabel='';
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
+          console.log('getDataModel',result.data.data);
             if(result.data.code == 1) {
               var analogflag=0,digitalflag=0;
                  var dataArr=result.data.data;
@@ -680,6 +683,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
             if(result.data.code == 1) {
+              console.log('getDataModelAndValues',result.data.data);
                  var dataArr=result.data.data;
                  if(dataArr.length>0){
                    $.each(dataArr,
@@ -741,6 +745,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 if(data.isOnline==null){
                   $scope.isOnline = data.collectStatus=='Working'?true:false;
                 }
+                console.log('getEquipmentInfo',data);
                 setInfoWindow(data);
             }else {
               console.log('getEquipmentInfobyIderr',result.message);
@@ -759,7 +764,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       getCityTree(function(){
         if($scope.empty==true){
           if($scope.selectedequipid && $scope.selectedequipid>0){
-            getDataModelAndValues($scope.selectedequipid);
+            getDataModel($scope.selectedequipid);
             getEquipmentInfo($scope.selectedequipid);
           }
         }else{
