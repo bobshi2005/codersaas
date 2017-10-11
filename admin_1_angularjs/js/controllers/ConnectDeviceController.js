@@ -8,6 +8,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.grm = $stateParams.equipmentInfo.grm;
     $scope.grmPassword = $stateParams.equipmentInfo.grmPassword;
     $scope.grmPeriod = $stateParams.equipmentInfo.grmPeriod;
+    $scope.modbusRtuPeriod = $stateParams.equipmentInfo.modbusRtuPeriod;
     $scope.propertylist = [];
     $scope.sensor = {};
     $scope.equipmentModelId = $stateParams.equipmentInfo.equipmentModelId;
@@ -102,7 +103,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
 
     $scope.$on('$viewContentLoaded', function() {
       changeProtocal();
-      getmodelPropertylist();
+      // getmodelPropertylist();
     });
 
     $scope.accessdev ={ip:'mbrtu.coderise.cn', port:'8234'};
@@ -285,10 +286,11 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     function accessDevice() {
         var params={};
         params.equipmentId = $scope.equipmentId;
-        params.protocolId = $scope.protocolId;
-        params.name = $scope.equipmentname;
+        // params.protocolId = $scope.protocolId;
+        // params.name = $scope.equipmentname;
         if($scope.protocolId == 1){
            params.heartData = $scope.heartData;
+           params.modbusRtuPeriod = $scope.modbusRtuPeriod;
         }else if($scope.protocolId == 4){
           params.grm = $scope.grm;
           params.grmPassword = $scope.grmPassword;

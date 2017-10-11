@@ -83,6 +83,17 @@
                       <input type="text" ng-model="heartData" class="form-control"  required/>
                   </div>
               </div>
+              <div class="form-group">
+                  <label class="col-sm-4 control-label">
+                    采集频率
+                  </label>
+                  <div class="col-sm-6">
+                      <div class="input-group">
+                          <input type="number" ng-model="modbusRtuPeriod" class="form-control col-sm-5"  required/>
+                          <span class="input-group-addon">秒</span>
+                      </div>
+                  </div>
+              </div>
             </form>
             <div class="col-md-6 col-md-offset-6">
               <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='saveConnectInfo()'><i class="fa fa-edit"></i>保存
@@ -114,7 +125,7 @@
                   </label>
                   <div class="col-sm-6">
                       <div class="input-group">
-                          <input type="text" ng-model="grmPeriod" class="form-control col-sm-5"  required/>
+                          <input type="number" ng-model="grmPeriod" class="form-control col-sm-5"  required/>
                           <span class="input-group-addon">秒</span>
                       </div>
                   </div>
