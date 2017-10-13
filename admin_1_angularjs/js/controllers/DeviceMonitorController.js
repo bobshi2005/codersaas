@@ -5,8 +5,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
     $scope.message ='';
     $scope.equipname = '';
-    $scope.latitude=31.35046;
-    $scope.longitude=120.35046;
+    $scope.latitude;
+    $scope.longitude;
     $scope.linechartoption=[];
     $scope.historyType='line'; //历史数据显示方式 line为曲线 table为表格
     $scope.lineType='最近10分钟';  //历史曲线title 时间部分
@@ -369,6 +369,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
     }
     function selectNode(){
+      $interval.cancel(timer);
       $('#firstTab').addClass('active').siblings().removeClass('active');
       $('.tab-content').find('#tab_1_1').addClass('active').siblings().removeClass('active');
       getEquipmentInfo($scope.selectedequipid);
@@ -586,7 +587,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       linechart.setOption($scope.linechartoption);　
     };
     function getDataModel(equipid){
-      console.log('getDataModel--start---');
+      console.log('getDataModel--start---',equipid);
       $scope.selectedlinetab=[];
       $scope.lineTab='';
       $scope.lineLabel='';
@@ -639,7 +640,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                       if(analogflag == 0){$scope.showAnalogTab = false;}
                     }
                   );
-                }else if(dataArr.length==0){
+                }else if(dataArr!=null && dataArr.length==0){
                   $scope.groupname0=null;
                   $scope.varsArr0=[];
                   formatEchartValue($scope.varsArr0);
@@ -657,40 +658,12 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
             // alert(err);
       });
 
-      // userApi.getDataModel(equipid)
-      // .then(function(result) {
-      //   if(result.data.code == 0) {
-      //        var dataArr=result.data.data[0].vars;
-      //        $scope.linevarstab = [];
-      //        for(var i=0;i<dataArr.length;i++){
-      //          if(dataArr[i].showchart == true){
-      //            $scope.linevarstab.push(dataArr[i]);
-      //          }
-      //        }
-      //        if($scope.linevarstab.length>0){
-      //          $scope.selectedlinetab = $scope.linevarstab[0];
-      //          $scope.lineTab=$scope.selectedlinetab.name;
-      //          $scope.lineLabel=$scope.lineType+$scope.lineTab;
-      //        }
-      //        if($scope.selectedlinetab.name){
-      //            getHistoryData();
-      //        }else{
-      //          resetlineoption();
-      //        }
-      //
-      //   }else {
-      //     // alert(result.data.errMsg);
-      //   }
-      // },function(err){
-      //   // alert(err);
-      // });
-
     };
     function getDataModelAndValues(equipid) {
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
+            console.log('getDataModelAndValues',result.data);
             if(result.data.code == 1) {
-              console.log('getDataModelAndValues',result.data.data);
                  var dataArr=result.data.data;
                  if(dataArr!=null && dataArr.length>0){
                    $.each(dataArr,
@@ -716,25 +689,15 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     };
     function getEquipmentInfo(equipid){
       var data ={};
-      // for(var i=0;i<$scope.markers.length;i++){
-      //   var obj = $scope.markers[i].getExtData();
-      //   if(obj.equipmentId == equipid){
-      //     data = obj;
-      //     console.log('getEquipmentInfo哈哈哈',obj);
-      //     break;
-      //   }
-      // }
-      // if(data.equipmentId){
-      //   $scope.gatewaySN=data.serialNumber;
-      //   $scope.equipmentId=data.equipmentId;
-      //   $scope.equipname=data.name;
-      //   $scope.number=data.number;
-      //   $scope.factoryDate=changeTimeFormat(data.factoryDate);
-      //   $scope.commissioningDate=changeTimeFormat(data.commissioningDate);
-      //   $scope.latitude=data.latitude;
-      //   $scope.longitude=data.longitude;
-      //   setInfoWindow(data);
-      // }
+      $scope.gatewaySN='';
+      $scope.equipmentId='';
+      $scope.equipname='';
+      $scope.number='';
+      $scope.factoryDate='';
+      $scope.commissioningDate='';
+      $scope.latitude=null;
+      $scope.longitude=null;
+      $scope.isOnline=false;
 
       deviceApi.getDeviceInfoById(equipid)
         .then(function(result) {
@@ -792,7 +755,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 $scope.player.pause();
                 $interval.cancel(timer);
                 if($scope.isOnline==true){
-                  $scope.refreshData();
+                  // $scope.refreshData();
                   timer = $interval($scope.refreshData,10000);
                   window.onresize=function(){
                     $interval.cancel(timer);
@@ -859,10 +822,28 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                   break;
               case "tab_1_4":
                   　　　　　　break;
-              // case "tab_1_5":
-              //     　　　　　　break;
-              // case "tab_1_6":
-              //     　　　　　　break;　　　　
+              case "tab_1_7":
+                    $interval.cancel(timer);
+                    if($scope.isOnline==true){
+                      // $scope.refreshData();
+                      timer = $interval($scope.refreshData,10000);
+                      window.onresize=function(){
+                        $interval.cancel(timer);
+                        timer = $interval($scope.refreshData,10000);
+                      };
+                    }
+                  　　　　　　break;
+              case "tab_1_8":
+                    $interval.cancel(timer);
+                    if($scope.isOnline==true){
+                      // $scope.refreshData();
+                      timer = $interval($scope.refreshData,10000);
+                      window.onresize=function(){
+                        $interval.cancel(timer);
+                        timer = $interval($scope.refreshData,10000);
+                      };
+                    }
+                  　　　　　　break;　　　　
               default:
                   　　　　　　　　　　　
                   break;　　
