@@ -196,7 +196,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       deviceApi.getDevicelist('asc',0,10000)
         .then(function(result) {
             if(result.data.total > 0) {
-              if(result.data.rows.length>0){
+              if(result.data.rows && result.data.rows.length>0){
                 for(var i=0;i<result.data.rows.length;i++){
                   var item = result.data.rows[i];
                   var marker = new AMap.Marker({
@@ -226,7 +226,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         .then(function(result) {
             if(result.data.code == 1) {
               console.log('resulttree',result.data);
-              if(result.data.data.provices.length == 0){
+              if(result.data.data && result.data.data.provices && result.data.data.provices.length == 0){
 
               }else{
                 $scope.empty = false;
@@ -590,13 +590,20 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.selectedlinetab=[];
       $scope.lineTab='';
       $scope.lineLabel='';
+      $scope.groupname0='';
+      $scope.varsArr0=[];
+      $scope.showDigitalTab = false;
+      $scope.showAnalogTab = false;
+      $scope.groupname1='';
+      $scope.varsArr1=[];
+      $scope.echartValue = [];
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
           console.log('getDataModel',result.data.data);
             if(result.data.code == 1) {
               var analogflag=0,digitalflag=0;
                  var dataArr=result.data.data;
-                 if(dataArr.length>0){
+                 if(dataArr!=null && dataArr.length>0){
                   $.each(dataArr,
                     function(i, val) {
                       if(val.type == 'analog'){
@@ -685,7 +692,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
             if(result.data.code == 1) {
               console.log('getDataModelAndValues',result.data.data);
                  var dataArr=result.data.data;
-                 if(dataArr.length>0){
+                 if(dataArr!=null && dataArr.length>0){
                    $.each(dataArr,
                      function(i, val) {
                        if(val.type == 'analog'){
