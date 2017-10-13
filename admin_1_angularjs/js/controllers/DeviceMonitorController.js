@@ -401,6 +401,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.infowindow.open($scope.map,[infodata.longitude,infodata.latitude]);
     }
     function formatEchartValue(origindata) {
+      console.log('formatValee',origindata);
       $scope.echartValue = [];
       if(origindata.length>0){
         for(var i=0; i<origindata.length; i++) {
@@ -756,6 +757,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 $interval.cancel(timer);
                 if($scope.isOnline==true){
                   // $scope.refreshData();
+                  formatEchartValue($scope.varsArr0);
                   timer = $interval($scope.refreshData,10000);
                   window.onresize=function(){
                     $interval.cancel(timer);
