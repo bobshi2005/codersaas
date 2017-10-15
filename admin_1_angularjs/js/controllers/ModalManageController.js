@@ -509,7 +509,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
               $scope.sensor.grmAction = sensor.grmAction;
               $scope.sensor.grmVariable = sensor.grmVariable;
               $scope.sensor.grmVariableValue = sensor.grmVariableValue;
-              $scope.sensor.grmVariableOrder = sensor.grmVariableOrder;
+              // $scope.sensor.grmVariableOrder = sensor.grmVariableOrder;
 
               if(sensor.isl == null || sensor.ish == null || sensor.osl == null || sensor.osh == null){
                   $('.conversion-view').hide();
