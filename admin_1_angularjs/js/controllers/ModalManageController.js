@@ -425,10 +425,18 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
           $scope.message = '同一组转换参数的两个数值不能一样';
           $('#myModal_alert').modal();
       }else{
-          $scope.sensor.isl = $scope.isl;
-          $scope.sensor.ish = $scope.ish;
-          $scope.sensor.osl = $scope.osl;
-          $scope.sensor.osh = $scope.osh;
+          if($scope.isl){
+            $scope.sensor.isl = $scope.isl;
+            $scope.sensor.ish = $scope.ish;
+            $scope.sensor.osl = $scope.osl;
+            $scope.sensor.osh = $scope.osh;
+          }else{
+            $scope.sensor.isl = '';
+            $scope.sensor.ish = '';
+            $scope.sensor.osl = '';
+            $scope.sensor.osh = '';
+          }
+
 
         $scope.sensor.grmAction ='R'; //默认读取模式
         deviceApi.createPropertySensor($scope.sensor)
