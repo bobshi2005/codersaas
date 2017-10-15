@@ -479,6 +479,20 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
+    service.deleteAlarmset = function(alarmId) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/alarm/delete/'+alarmId,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
     service.getAlarmset = function(mId,pId) {
         var d = $q.defer();
         $http({

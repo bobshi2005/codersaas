@@ -12,6 +12,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.offset = 0;
     $scope.limit = 2;
     $scope.alarm = {};
+    $scope.hasAlarmset = false;
     $scope.companyUserLists=[];
     $scope.typeList = [
       {"id":"analog",'name':'模拟量'},
@@ -238,6 +239,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
     $scope.saveAlarm = function(){
       //模拟量
+      console.log('savealarm',$scope.alarm);
       if($scope.alarm.alarmType.hasOwnProperty('type')){
         // console.log('X',$('#upperBoundNum').val());
         // console.log('Y',$('#lowerBoundNum').val());
@@ -327,6 +329,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       }
     };
     $scope.showSetAlarm = function(param){
+      $scope.alarm ={};
       $scope.alarmTypeLists =[];
       $scope.alarmType='';
       $scope.alarm.dataType = param.dataType;
@@ -367,6 +370,21 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       }
       getAlarmset(param.equipmentModelId,param.equipmentModelPropertyId);
 
+    };
+    $scope.clearAlarmset = function(){
+      deviceApi.deleteAlarmset($scope.alarm.alarmId)
+          .then(function(result){
+            if(result.data.code ==1){
+              console.log('deleteAlarmset',result.data);
+              $scope.message = '报警设置移除成功！';
+              $('#myModal_alert').modal();
+              $scope.alarm = {};
+              $('#myModal_setAlarm').modal('hide');
+              $scope.hasAlarmset = false;
+            }
+          }, function(err) {
+            console.log('deleteAlarmsetErr',err);
+          });
     };
 
     $scope.showSetSensor = function(param){
@@ -619,7 +637,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             if(result.data.users){
               $scope.companyUserLists = result.data.users;
             }
-            if(result.data.alarm.alarmId){
+            if(result.data.alarm && result.data.alarm.alarmId){
               var alarm = result.data.alarm;
               $scope.alarm.alarmType = findAlarmTypeItemById(alarm.alarmType);
               $scope.alarm.upperBound = alarm.upperBound;
@@ -627,9 +645,10 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
               $scope.alarm.lowerBound = alarm.lowerBound;
               $scope.alarm.duration = alarm.duration;
               $scope.alarm.alarmTarget = alarm.alarmTarget;
+              $scope.hasAlarmset = true;
               $scope.selectAlarmtype();
             }else{
-              $scope.alarm = {};
+              $scope.hasAlarmset = false;
             }
             if(result.data.targetUsers.length>0){
               $scope.alarm.targetUser=findTargetUserById(result.data.targetUsers[0].userId);

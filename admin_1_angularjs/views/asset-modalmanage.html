@@ -626,6 +626,7 @@
           </div>
           <div class="modal-footer">
               <!-- <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button> -->
+              <button type="button" ng-show="hasAlarmset" class="btn blue" ng-click='clearAlarmset()' >移除报警</button>
               <button type="button" class="btn grey-salsa btn-outline " ng-click='setAlarmDismiss()' >取消</button>
               <button type="button" class="btn green"  ng-click='saveAlarm()' ng-disabled="alarmform.$invalid">
                   <i class="fa fa-check"></i> 确定 </button>
