@@ -106,7 +106,8 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       // getmodelPropertylist();
     });
 
-    $scope.accessdev ={ip:'mbrtu.coderise.cn', port:'8234'};
+    // $scope.accessdev ={ip:'mbrtu.coderise.cn', port:'8234'};
+    $scope.accessdev ={ip:'101.132.131.144', port:'8234'};
 
     $scope.saveConnectInfo = function(){
       if(($scope.equipmentname==null || $scope.equipmentname=='')){
