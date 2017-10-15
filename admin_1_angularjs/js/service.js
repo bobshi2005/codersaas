@@ -403,7 +403,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
     };
 
     //模型参数传感器读写数值转换  create 和 update 都是 /manage/sensor/create/
-    service.createPropertyConversion = function(params) {
+    service.updatePropertySensor = function(params) {
         var d = $q.defer();
         $http({
             method: 'post',

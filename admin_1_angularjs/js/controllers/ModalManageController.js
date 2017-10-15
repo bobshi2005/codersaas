@@ -408,12 +408,10 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
 
     $scope.removeDataConversioin = function(){
-      if($scope.currentPropertySensor.isl!=null){
-        $scope.isl = 0; //这里应该是null
-        $scope.ish = 0;
-        $scope.osl = 0;
-        $scope.osh = 0;
-      }
+      $scope.isl = '';
+      $scope.ish = '';
+      $scope.osl = '';
+      $scope.osh = '';
       $('.conversion-view').hide();
       $('.conversion-add').show();
     };
@@ -422,19 +420,16 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       if($('.conversion-view').is(':visible') && $scope.isl == $scope.osl && $scope.ish == $scope.osh){
         $scope.message = '参数转换前后数据不能一致';
         $('#myModal_alert').modal();
+      }else if($scope.isl-$scope.ish == 0 && $scope.isl!=null && $scope.isl!=''){
+
+          $scope.message = '同一组转换参数的两个数值不能一样';
+          $('#myModal_alert').modal();
       }else{
-        if($('.conversion-view').is(':hidden') && $scope.isl == null){
-          //如果是空值就不用update了$scope.isl = 0; //这里应该是null
-          $scope.sensor.isl = 0;
-          $scope.sensor.ish = 0;
-          $scope.sensor.osl = 0;
-          $scope.sensor.osh = 0;
-        }else{
           $scope.sensor.isl = $scope.isl;
           $scope.sensor.ish = $scope.ish;
           $scope.sensor.osl = $scope.osl;
           $scope.sensor.osh = $scope.osh;
-        }
+
         $scope.sensor.grmAction ='R'; //默认读取模式
         deviceApi.createPropertySensor($scope.sensor)
             .then(function(result){
