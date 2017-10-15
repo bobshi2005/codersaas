@@ -337,7 +337,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
          $scope.alarmTypeLists=[
            {"id":'val_above',"name":"数值高于X",'type':2},//设置X:2 Y:3 Z:4,type为乘积，区分XYZ的组合。
            {"id":'val_below',"name":"数值低于Y",'type':3},
-           {"id":'val_above_below',"name":"数值高于X低于Y",'type':6},
+           {"id":'val_between',"name":"数值高于X低于Y",'type':6},
            {"id":'val_above_below_ofm',"name":"数值高于X低于Y超过M分钟",'type':24},
            {"id":'val_above_bound',"name":"数值超过M分钟高于X",'type':8},
            {"id":'val_below_bound',"name":"数值超过M分钟低于Y",'type':12},
