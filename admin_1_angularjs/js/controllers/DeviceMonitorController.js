@@ -80,6 +80,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     };
 
     $scope.refreshData = function(){
+      console.log('I am refreshing');
       if($scope.selectedequipid && $scope.selectedequipid!=null){
         getDataModelAndValues($scope.selectedequipid);
       }
@@ -144,7 +145,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       asDestination :false
      });
     })
-    var timer;
+    $scope.timer;
     var setting = {
       data : {
         key : { title : "name"}
@@ -369,7 +370,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
     }
     function selectNode(){
-      $interval.cancel(timer);
+      $interval.cancel($scope.timer);
       $('#firstTab').addClass('active').siblings().removeClass('active');
       $('.tab-content').find('#tab_1_1').addClass('active').siblings().removeClass('active');
       getEquipmentInfo($scope.selectedequipid);
@@ -728,7 +729,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     }
 
     $scope.$on('$destroy',function(){
-       $interval.cancel(timer);
+       $interval.cancel($scope.timer);
     });
     $scope.$on('$viewContentLoaded', function() {
       getEquipmentList();
@@ -751,17 +752,23 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
           switch (_id) {　　　　
               case "tab_1_1":
                 $scope.player.pause();
+                $interval.cancel($scope.timer);
                 break;　　　　
               case "tab_1_2":
                 $scope.player.pause();
-                $interval.cancel(timer);
+                $interval.cancel($scope.timer);
                 if($scope.isOnline==true){
-                  // $scope.refreshData();
-                  formatEchartValue($scope.varsArr0);
-                  timer = $interval($scope.refreshData,10000);
+                  $scope.refreshData();
+                  $scope.timer = $interval($scope.refreshData,10000);
+                  var resizeTimeout;
                   window.onresize=function(){
-                    $interval.cancel(timer);
-                    timer = $interval($scope.refreshData,10000);
+                    clearTimeout(resizeTimeout); //防止onresize连续调用两次
+                    resizeTimeout = setTimeout(function(){
+                        console.log('I AM ON RESIZE');
+                        $scope.refreshData();
+                        $interval.cancel($scope.timer);
+                        $scope.timer = $interval($scope.refreshData,10000);
+                    },500)
                   };
                 }
 
@@ -769,6 +776,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
               case "tab_1_3":
                   {
+                    $interval.cancel($scope.timer);
                     $scope.player.pause();
                     $('.start_date').datetimepicker({
                         language: 'zh-CN',
@@ -823,31 +831,24 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                   　　　　　
                   break;
               case "tab_1_4":
+                    $interval.cancel($scope.timer);
                   　　　　　　break;
               case "tab_1_7":
-                    $interval.cancel(timer);
+                    $interval.cancel($scope.timer);
                     if($scope.isOnline==true){
-                      // $scope.refreshData();
-                      timer = $interval($scope.refreshData,10000);
-                      window.onresize=function(){
-                        $interval.cancel(timer);
-                        timer = $interval($scope.refreshData,10000);
-                      };
+                      $scope.refreshData();
+                      $scope.timer = $interval($scope.refreshData,10000);
                     }
                   　　　　　　break;
               case "tab_1_8":
-                    $interval.cancel(timer);
+                    $interval.cancel($scope.timer);
                     if($scope.isOnline==true){
-                      // $scope.refreshData();
-                      timer = $interval($scope.refreshData,10000);
-                      window.onresize=function(){
-                        $interval.cancel(timer);
-                        timer = $interval($scope.refreshData,10000);
-                      };
+                      $scope.refreshData();
+                      $scope.timer = $interval($scope.refreshData,10000);
                     }
                   　　　　　　break;　　　　
               default:
-                  　　　　　　　　　　　
+                  　$interval.cancel($scope.timer);　　　　　　　　　
                   break;　　
           }
       });
