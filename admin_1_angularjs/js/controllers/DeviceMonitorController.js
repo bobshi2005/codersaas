@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval','deviceApi','NgTableParams', function($scope, $rootScope, $http, userApi, locals, $compile, $interval,deviceApi,NgTableParams) {
+angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval','deviceApi','NgTableParams','$state', function($scope, $rootScope, $http, userApi, locals, $compile, $interval,deviceApi,NgTableParams,$state) {
     $rootScope.showHeader = true;
     $rootScope.menueName = 'sidebar-device';
     $scope.menueName = $rootScope.menueName;
@@ -80,8 +80,11 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     };
 
     $scope.refreshData = function(){
-      console.log('I am refreshing');
-      if($scope.selectedequipid && $scope.selectedequipid!=null){
+      // console.log('I am refreshing',$state.current.name);
+      if($state.current.name !='main.device.monitor'){
+        $interval.cancel($scope.timer);
+        console.log('stop refreshing');
+      }else if($scope.selectedequipid && $scope.selectedequipid!=null){
         getDataModelAndValues($scope.selectedequipid);
       }
     };
