@@ -1,7 +1,8 @@
 var AppService = angular.module("AppService", []);
 // var url = "http://118.89.140.11/main/system/webdev/Saas/api";
-var deviceUrl = "http://139.196.141.29:9999"; //saas manager api  old 118.89.140.11
-var userUrl = "http://139.196.141.29:1111";  //user manager api  http://139.196.141.29/
+var deviceUrl = "http://118.89.140.11:9999"; //saas manager api  old 118.89.140.11
+var userUrl = "http://118.89.140.11:1111";  //user manager api  http://139.196.141.29/
+
 
 //用户相关api
 AppService.factory('userApi', ['$http', '$q', function($http, $q) {
