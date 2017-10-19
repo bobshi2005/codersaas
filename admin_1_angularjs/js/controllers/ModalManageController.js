@@ -435,6 +435,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
 
     $scope.saveSensor = function(){
+
       if($('.conversion-view').is(':visible') && $scope.isl == $scope.osl && $scope.ish == $scope.osh){
         $scope.message = '参数转换前后数据不能一致';
         $('#myModal_alert').modal();
@@ -443,11 +444,12 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
           $scope.message = '同一组转换参数的两个数值不能一样';
           $('#myModal_alert').modal();
       }else{
-          if($scope.isl){
+          if($scope.isl!=undefined){
             $scope.sensor.isl = $scope.isl;
             $scope.sensor.ish = $scope.ish;
             $scope.sensor.osl = $scope.osl;
             $scope.sensor.osh = $scope.osh;
+            console.log('sensor',$scope.sensor);
           }else{
             $scope.sensor.isl = '';
             $scope.sensor.ish = '';
