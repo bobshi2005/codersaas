@@ -41,7 +41,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       {"id":'UNSIGNED_16',"name":"16位 无符号数"},
       {"id":'SIGNED_16',"name":"16位 有符号数"},
       {"id":'UNSIGNED_32',"name":"32位 无符号数"},
-      {"id":'UNSIGNED_32',"name":"32位 无符号数"},
+      {"id":'SIGNED_32',"name":"32位 有符号数"},
       {"id":'FLOAT_32',"name":"32位 浮点数"}
     ];
 
