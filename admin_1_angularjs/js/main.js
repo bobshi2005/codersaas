@@ -92,6 +92,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     $rootScope.pagetitle = '列表模式';
     $rootScope.listMode = '切换地图';
     $rootScope.showtimeoutflag = 0;
+    $rootScope.alarmlist =[]; //全局active 报警列表
     return settings;
 }]);
 
@@ -137,6 +138,7 @@ MetronicApp.controller('AppController', ['$scope', '$rootScope','$state', 'Modal
     $rootScope.$on('to-login',function(value){
       $state.transitionTo('login');
     });
+
     $rootScope.saveModalMsg = function() {
         //弹出提示popup
         ModalService.showModal({
@@ -200,11 +202,15 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
         if(result.data.total && result.data.total>0){
           $scope.alarmnum = result.data.total;
           $scope.alarmlist = result.data.rows;
+          $rootScope.alarmlist = $scope.alarmlist;
           $scope.hasalarm = true;
+          $rootScope.$broadcast('alarm_active','true');
         }else{
           $scope.alarmnum = 0;
           $scope.alarmlist = [];
           $scope.hasalarm = false;
+          $rootScope.alarmlist = $scope.alarmlist;
+          $rootScope.$broadcast('alarm_active','false');
         }
       },function(err){
         $scope.alarmnum = 0;

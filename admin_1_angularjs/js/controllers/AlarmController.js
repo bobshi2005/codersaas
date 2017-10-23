@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootScope', function($scope, $rootScope) {
+angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootScope','NgTableParams', function($scope, $rootScope, NgTableParams) {
     $rootScope.menueName = 'sidebar-device';
     var alarmlistitems = [
       ['1211','2017-03-23 13:30:48','NH108982','双螺旋杆压缩机','设备远程开启','低','已确认',`<a class="btn red btn-outline sbold uppercase showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
@@ -6,6 +6,12 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
       ['1213','2017-03-21 18:23:39','NH800133','空压机','温度超限','中','已确认',`<a class="btn red btn-outline sbold uppercase showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
 
     ];
+    $scope.currentalarm = $rootScope.alarmlist;
+    $rootScope.$on('alarm_active',function(value){
+      console.log('----+++++Sdaiwudbhih',value);
+      $scope.alarmlist = $rootScope.alarmlist;
+      console.log('alarmlist',$scope.alarmlist.length);
+    });
 
     $('#sample_2').on('click', '.showdetail', function (e) {
         e.preventDefault();
