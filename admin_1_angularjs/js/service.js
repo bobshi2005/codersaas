@@ -1,7 +1,7 @@
 var AppService = angular.module("AppService", []);
 // var url = "http://118.89.140.11/main/system/webdev/Saas/api";
-var deviceUrl = "http://139.196.141.29:9999"; //saas manager api  old 118.89.140.11
-var userUrl = "http://139.196.141.29:1111";  //user manager api  http://139.196.141.29/
+var deviceUrl = "http://118.89.140.11:9999"; //saas manager api  old 118.89.140.11
+var userUrl = "http://118.89.140.11:1111";  //user manager api  http://139.196.141.29/
 
 
 //用户相关api
@@ -499,6 +499,20 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         $http({
             method: 'get',
             url: deviceUrl+ '/manage/equipment/model/property/sensor/alarm/'+mId+'/'+pId,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+    service.getCurrentAlarms = function() {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/alarm/record/list/',
             headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
             withCredentials: true,
         }).then(function(response) {

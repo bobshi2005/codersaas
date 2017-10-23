@@ -169,21 +169,49 @@ initialization can be disabled and Layout.init() should be called on page load c
 ***/
 
 /* Setup Layout Part - Header */
-MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','locals','userApi', function($rootScope, $scope, $state, locals,userApi) {
+MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','locals','userApi','deviceApi','$interval', function($rootScope, $scope, $state, locals, userApi, deviceApi, $interval) {
     $scope.logout = function() {
+        $interval.cancel($scope.alarmtimer);
         userApi.logout().then(function(result){},function(err){});
         locals.set("islogin", 0);
-        // locals.set("username", '');
-        // locals.set("password", '');
         $state.transitionTo("login",{},{reload: true});
-    }
+    };
     $scope.useraccount = locals.get("username");
+    $scope.alarmnum = 0;
+    $scope.alarmlist = [];
+    $scope.hasalarm = false;
+    $scope.alarmtimer;
     $scope.getrealname = function(){
       return locals.get("realname");
-    }
+    };
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
+        // $interval.cancel($scope.timer);
+        $scope.alarmtimer = $interval($scope.getcurrentalarms,10000);
     });
+    $scope.$on('$destroy',function(){
+       $interval.cancel($scope.alarmtimer);
+    });
+    $scope.getcurrentalarms = function(){
+      console.log('see----',$state.current);
+      deviceApi.getCurrentAlarms()
+      .then(function(result){
+        console.log('currentalarms',result.data);
+        if(result.data.total && result.data.total>0){
+          $scope.alarmnum = result.data.total;
+          $scope.alarmlist = result.data.rows;
+          $scope.hasalarm = true;
+        }else{
+          $scope.alarmnum = 0;
+          $scope.alarmlist = [];
+          $scope.hasalarm = false;
+        }
+      },function(err){
+        $scope.alarmnum = 0;
+        $scope.alarmlist = [];
+        $scope.hasalarm = false;
+      });
+    }
 }]);
 
 /* Setup Layout Part - Sidebar */
