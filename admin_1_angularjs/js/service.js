@@ -527,7 +527,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         var d = $q.defer();
         $http({
             method: 'get',
-            url: deviceUrl+ '/manage/alarm/record/history/list',
+            url: deviceUrl+ '/manage/alarm/record/history/list/',
             headers: {"Accept":"application/json"},
             withCredentials: true,
             params: {order:order, offset:offset, limit:limit}
