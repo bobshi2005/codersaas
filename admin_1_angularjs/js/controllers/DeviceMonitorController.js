@@ -83,7 +83,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       // console.log('I am refreshing',$state.current.name);
       if($state.current.name !='main.device.monitor'){
         $interval.cancel($scope.timer);
-        console.log('stop refreshing');
+        // console.log('stop refreshing');
       }else if($scope.selectedequipid && $scope.selectedequipid!=null){
         getDataModelAndValues($scope.selectedequipid);
       }
@@ -229,7 +229,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       deviceApi.getDeviceTree()
         .then(function(result) {
             if(result.data.code == 1) {
-              console.log('resulttree',result.data);
+              // console.log('resulttree',result.data);
               if(result.data.data && result.data.data.provices && result.data.data.provices.length == 0){
 
               }else{
@@ -293,7 +293,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         deviceApi.getSensorHistory($scope.equipmentId,tab.varid, starttime, endtime)
           .then(function(result) {
               if(result.data.value) {
-                console.log('gethistorydata',result.data);
+                // console.log('gethistorydata',result.data);
                    var xdata=result.data.time;
                    var ydata=result.data.value;
 
@@ -608,7 +608,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.echartValue = [];
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
-          console.log('getDataModel',result.data.data);
+          // console.log('getDataModel',result.data.data);
             if(result.data.code == 1) {
               var analogflag=0,digitalflag=0;
                  var dataArr=result.data.data;
@@ -670,7 +670,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     function getDataModelAndValues(equipid) {
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
-            console.log('getDataModelAndValues',result.data);
+            // console.log('getDataModelAndValues',result.data);
             if(result.data.code == 1) {
                  var dataArr=result.data.data;
                  if(dataArr!=null && dataArr.length>0){
@@ -770,7 +770,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                   window.onresize=function(){
                     clearTimeout(resizeTimeout); //防止onresize连续调用两次
                     resizeTimeout = setTimeout(function(){
-                        console.log('I AM ON RESIZE');
+                        // console.log('I AM ON RESIZE');
                         $scope.refreshData();
                         $interval.cancel($scope.timer);
                         $scope.timer = $interval($scope.refreshData,10000);
