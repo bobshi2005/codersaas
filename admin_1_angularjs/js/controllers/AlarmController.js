@@ -3,6 +3,7 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
 
     $scope.alarmlist = $rootScope.alarmlist;
     $scope.historylist = [];
+    $scope.table_historyalarm;
 
 
     $scope.table_alarm = new NgTableParams({
@@ -13,7 +14,7 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
       dataset: $scope.alarmlist
     });
 
-    $scope.table_historyalarm;
+
 
     $scope.$on('$viewContentLoaded', function() {
       getCurrentalarms(function(){
@@ -21,6 +22,18 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
         $rootScope.$broadcast('alarm_active_2','true');
         reloadalarmtable();
       });
+
+      getHistortyalarms(function(){
+        console.log('=====',$scope.historylist);
+        $scope.table_historyalarm = new NgTableParams({
+          page: 1,
+          count:10
+        }, {
+          counts:[2,10,50],
+          dataset:$scope.historylist
+        });
+      });
+
       $('.nav-tabs li a').click(function() {
         var _id = $(this).attr('href').slice(2);　
         console.log('id',_id);
@@ -29,35 +42,43 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
 
           break;
           case "tab_2":
-            $scope.table_historyalarm = new NgTableParams({
-              page: 1,
-              count:10
-            }, {
-              counts:[2,10,50],
-              dataset: $scope.alarmlist
-              //  function(params) {
-              //   return deviceApi.getHistoryAlarms('asc', (params.page()-1)*params.count(), params.count())
-              //     .then(function(result) {
-              //       console.log('gethistory',result);
-              //         if(result.data.total && result.data.total > 0) {
-              //              $scope.historylist=result.data.data;
-              //              for(var i=0;i<result.data.length;i++) {
-              //                $scope.historylist[i].alarmTime = changeTimeFormat($scope.historylist[i].alarmTime);
-              //                $scope.historylist[i].createTime = changeTimeFormat($scope.historylist[i].createTime);
-              //              }
-              //         }else {
-              //           $scope.historylist=[];
-              //         }
-              //         params.total(result.data.total);
-              //         return $scope.historylist;
-              //
-              //     }, function(err) {
-              //         $scope.historylist=[];
-              //         return $scope.historylist;
-              //
-              //     });
-              // }
-            });
+          console.log('=====',$scope.historylist);
+          $scope.table_historyalarm = new NgTableParams({
+            page: 1,
+            count:10
+          }, {
+            counts:[2,10,50],
+            dataset:$scope.historylist
+          });
+            // $scope.table_historyalarm = new NgTableParams({
+            //   page: 1,
+            //   count:10
+            // }, {
+            //   counts:[2,10,50],
+            //   dataset: $scope.alarmlist
+            //   //  function(params) {
+            //   //   return deviceApi.getHistoryAlarms('asc', (params.page()-1)*params.count(), params.count())
+            //   //     .then(function(result) {
+            //   //       console.log('gethistory',result);
+            //   //         if(result.data.total && result.data.total > 0) {
+            //   //              $scope.historylist=result.data.data;
+            //   //              for(var i=0;i<result.data.length;i++) {
+            //   //                $scope.historylist[i].alarmTime = changeTimeFormat($scope.historylist[i].alarmTime);
+            //   //                $scope.historylist[i].createTime = changeTimeFormat($scope.historylist[i].createTime);
+            //   //              }
+            //   //         }else {
+            //   //           $scope.historylist=[];
+            //   //         }
+            //   //         params.total(result.data.total);
+            //   //         return $scope.historylist;
+            //   //
+            //   //     }, function(err) {
+            //   //         $scope.historylist=[];
+            //   //         return $scope.historylist;
+            //   //
+            //   //     });
+            //   // }
+            // });
           break;
           default:
           break;
@@ -97,6 +118,26 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
       });
     }
 
+    function getHistortyalarms(){
+      deviceApi.getHistoryAlarms('asc', 0, 100)
+        .then(function(result) {
+          console.log('gethistory',result);
+            if(result.data && result.data.length > 0) {
+                 $scope.historylist=result.data;
+                 for(var i=0;i<result.data.length;i++) {
+                   $scope.historylist[i].alarmTime = changeTimeFormat($scope.historylist[i].alarmTime);
+                   $scope.historylist[i].createTime = changeTimeFormat($scope.historylist[i].createTime);
+                 }
+            }else {
+              $scope.historylist=[];
+            }
+            callback();
+        }, function(err) {
+            $scope.historylist=[];
+            callback();
+        });
+    }
+
     Date.prototype.format = function(format) {
       var date = {
             "M+": this.getMonth() + 1,
@@ -122,6 +163,6 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
     function changeTimeFormat(timestamp) {
       var newDate = new Date();
       newDate.setTime(timestamp);
-      return newDate.format('yyyy-MM-dd HH:mm:ss');
+      return newDate.format('yyyy-MM-dd hh:mm:ss');
     }
 }]);
