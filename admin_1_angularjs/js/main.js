@@ -194,28 +194,39 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
     $scope.$on('$destroy',function(){
        $interval.cancel($scope.alarmtimer);
     });
+    $scope.$on('alarm_active_2',function(value){
+      // console.log('haha我是active2');
+      $scope.alarmlist = $rootScope.alarmlist;
+      $scope.alarmnum = $rootScope.alarmlist.length;
+      if($scope.alarmnum == 0){
+        $scope.hasalarm = false;
+      }else{
+        $scope.hasalarm = true;
+      }
+      // console.log('hasalarm',$scope.hasalarm);
+    });
     $scope.getcurrentalarms = function(){
-      console.log('see----',$state.current);
       deviceApi.getCurrentAlarms()
       .then(function(result){
-        console.log('currentalarms',result.data);
         if(result.data.total && result.data.total>0){
           $scope.alarmnum = result.data.total;
           $scope.alarmlist = result.data.rows;
           $rootScope.alarmlist = $scope.alarmlist;
           $scope.hasalarm = true;
-          $rootScope.$broadcast('alarm_active','true');
+          $rootScope.$broadcast('alarm_active_1','true');
         }else{
           $scope.alarmnum = 0;
           $scope.alarmlist = [];
           $scope.hasalarm = false;
           $rootScope.alarmlist = $scope.alarmlist;
-          $rootScope.$broadcast('alarm_active','false');
+          $rootScope.$broadcast('alarm_active_1','true');
         }
       },function(err){
         $scope.alarmnum = 0;
         $scope.alarmlist = [];
         $scope.hasalarm = false;
+        $rootScope.alarmlist = $scope.alarmlist;
+        $rootScope.$broadcast('alarm_active_1','true');
       });
     }
 }]);

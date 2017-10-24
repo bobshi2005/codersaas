@@ -1,18 +1,66 @@
-angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootScope','NgTableParams', function($scope, $rootScope, NgTableParams) {
+angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootScope','NgTableParams','deviceApi', function($scope, $rootScope, NgTableParams, deviceApi) {
     $rootScope.menueName = 'sidebar-device';
+
+    $scope.alarmlist = $rootScope.alarmlist;
+    $scope.currentalarm = $rootScope.alarmlist;
+
+
+    $scope.table_alarm = new NgTableParams({
+      page: 1,
+      count:10
+    }, {
+      counts:[2,10,50],
+      dataset: $scope.alarmlist
+    });
+
+    $scope.$on('$viewContentLoaded', function() {
+      getCurrentalarms(function(){
+        $rootScope.alarmlist = $scope.alarmlist;
+        $rootScope.$broadcast('alarm_active_2','true');
+        reloadalarmtable();
+      })
+    });
+
+    $scope.$on('alarm_active_1',function(value){
+      $scope.alarmlist = $rootScope.alarmlist;
+      // console.log('haha我是active1',$scope.alarmlist.length);
+      reloadalarmtable();
+    });
+
+    function reloadalarmtable(){
+      $scope.table_alarm = new NgTableParams({
+        page: 1,
+        count:10
+      }, {
+        counts:[2,10,50],
+        dataset: $scope.alarmlist
+      });
+    }
+
+    function getCurrentalarms(callback){
+      deviceApi.getCurrentAlarms()
+      .then(function(result){
+        if(result.data.total && result.data.total>0){
+          $scope.alarmlist = result.data.rows;
+          callback();
+        }else{
+          $scope.alarmlist = [];
+          callback();
+        }
+      },function(err){
+        $scope.alarmlist = [];
+        callback();
+      });
+    }
+
+
+
     var alarmlistitems = [
       ['1211','2017-03-23 13:30:48','NH108982','双螺旋杆压缩机','设备远程开启','低','已确认',`<a class="btn red btn-outline sbold uppercase showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
       ['1212','2017-03-22 06:23:39','NH108045','空压机','设备通讯故障','高','已确认',`<a class="btn red btn-outline sbold uppercasec showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
       ['1213','2017-03-21 18:23:39','NH800133','空压机','温度超限','中','已确认',`<a class="btn red btn-outline sbold uppercase showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
 
     ];
-    $scope.currentalarm = $rootScope.alarmlist;
-    $rootScope.$on('alarm_active',function(value){
-      console.log('----+++++Sdaiwudbhih',value);
-      $scope.alarmlist = $rootScope.alarmlist;
-      console.log('alarmlist',$scope.alarmlist.length);
-    });
-
     $('#sample_2').on('click', '.showdetail', function (e) {
         e.preventDefault();
         $rootScope.saveModalMsg();
