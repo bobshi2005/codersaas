@@ -2,7 +2,7 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
     $rootScope.menueName = 'sidebar-device';
 
     $scope.alarmlist = $rootScope.alarmlist;
-    $scope.currentalarm = $rootScope.alarmlist;
+    $scope.historylist = [];
 
 
     $scope.table_alarm = new NgTableParams({
@@ -13,12 +13,56 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
       dataset: $scope.alarmlist
     });
 
+    $scope.table_historyalarm;
+
     $scope.$on('$viewContentLoaded', function() {
       getCurrentalarms(function(){
         $rootScope.alarmlist = $scope.alarmlist;
         $rootScope.$broadcast('alarm_active_2','true');
         reloadalarmtable();
-      })
+      });
+      $('.nav-tabs li a').click(function() {
+        var _id = $(this).attr('href').slice(2);　
+        console.log('id',_id);
+        switch(_id) {
+          case "tab_1":
+
+          break;
+          case "tab_2":
+            $scope.table_historyalarm = new NgTableParams({
+              page: 1,
+              count:10
+            }, {
+              counts:[2,10,50],
+              dataset: $scope.alarmlist
+              //  function(params) {
+              //   return deviceApi.getHistoryAlarms('asc', (params.page()-1)*params.count(), params.count())
+              //     .then(function(result) {
+              //       console.log('gethistory',result);
+              //         if(result.data.total && result.data.total > 0) {
+              //              $scope.historylist=result.data.data;
+              //              for(var i=0;i<result.data.length;i++) {
+              //                $scope.historylist[i].alarmTime = changeTimeFormat($scope.historylist[i].alarmTime);
+              //                $scope.historylist[i].createTime = changeTimeFormat($scope.historylist[i].createTime);
+              //              }
+              //         }else {
+              //           $scope.historylist=[];
+              //         }
+              //         params.total(result.data.total);
+              //         return $scope.historylist;
+              //
+              //     }, function(err) {
+              //         $scope.historylist=[];
+              //         return $scope.historylist;
+              //
+              //     });
+              // }
+            });
+          break;
+          default:
+          break;
+        }
+      });
     });
 
     $scope.$on('alarm_active_1',function(value){
@@ -33,7 +77,7 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
         count:10
       }, {
         counts:[2,10,50],
-        dataset: $scope.alarmlist
+        dataset:  $scope.alarmlist
       });
     }
 
@@ -53,95 +97,31 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
       });
     }
 
-
-
-    var alarmlistitems = [
-      ['1211','2017-03-23 13:30:48','NH108982','双螺旋杆压缩机','设备远程开启','低','已确认',`<a class="btn red btn-outline sbold uppercase showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
-      ['1212','2017-03-22 06:23:39','NH108045','空压机','设备通讯故障','高','已确认',`<a class="btn red btn-outline sbold uppercasec showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
-      ['1213','2017-03-21 18:23:39','NH800133','空压机','温度超限','中','已确认',`<a class="btn red btn-outline sbold uppercase showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
-
-    ];
-    $('#sample_2').on('click', '.showdetail', function (e) {
-        e.preventDefault();
-        $rootScope.saveModalMsg();
-    });
-
-    $('#sample_2').dataTable({
-
-        // Internationalisation. For more info refer to http://datatables.net/manual/i18n
-        "language": {
-            "aria": {
-                "sortAscending": ": activate to sort column ascending",
-                "sortDescending": ": activate to sort column descending"
-            },
-            "emptyTable": "没有数据",
-            "info": "显示 _START_ 到 _END_    共 _TOTAL_ 条",
-            "infoEmpty": "没有记录",
-            "infoFiltered": "(filtered1 from _MAX_ total entries)",
-            "lengthMenu": "_MENU_ 条记录/页",
-            "search": "搜索:",
-            "zeroRecords": "没有符合条件的查询记录"
-        },
-
-        // Or you can use remote translation file
-        //"language": {
-        //   url: '//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Portuguese.json'
-        //},
-
-
-        buttons: [
-            { extend: 'print', className: 'btn dark btn-outline',text:'打印' },
-            { extend: 'copy', className: 'btn red btn-outline' ,text:'复制'},
-            { extend: 'pdf', className: 'btn green btn-outline' },
-            { extend: 'excel', className: 'btn yellow btn-outline ' },
-            { extend: 'csv', className: 'btn purple btn-outline ' },
-            { extend: 'colvis', className: 'btn dark btn-outline', text: '列表项'}
-        ],
-
-        // setup responsive extension: http://datatables.net/extensions/responsive/
-        responsive: true,
-
-        //"ordering": false, disable column ordering
-        //"paging": false, disable pagination
-
-        "order": [
-            [0, 'asc']
-        ],
-
-        "lengthMenu": [
-            [5, 10, 15, 20, -1],
-            [5, 10, 15, 20, "All"] // change per page values here
-        ],
-        data: alarmlistitems,
-        columns: [{
-                title: "序号"
-            },
-            {
-                title: "报警时间"
-            },
-            {
-                title: "设备编号"
-            },
-            {
-                title: "设备名称"
-            },
-            {
-                title: "报警内容"
-            },
-            {
-                title: "报警等级"
-            },
-            {
-                title: "报警状态"
-            },
-            {
-                title: "操作"
+    Date.prototype.format = function(format) {
+      var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S+": this.getMilliseconds()
+      };
+      if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+      }
+      for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                   format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                          ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
             }
-        ],
-        "pageLength": 10,
-        "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>", // horizobtal scrollable datatable
-    });
+      }
+      return format;
+    }
 
-
-
+    function changeTimeFormat(timestamp) {
+      var newDate = new Date();
+      newDate.setTime(timestamp);
+      return newDate.format('yyyy-MM-dd HH:mm:ss');
+    }
 }]);

@@ -18,106 +18,88 @@
             <div class="portlet-title tabbable-line tabbable-bordered" style="margin-top:-20px;">
                 <ul class="nav nav-tabs pull-left">
                     <li class="active">
-                        <a href="/#tab_1_4" data-toggle="tab">活跃报警</a>
+                        <a href="/#tab_1" data-toggle="tab">活跃报警</a>
                     </li>
                     <li>
-                        <a href="/#tab_1_5" data-toggle="tab">历史报警</a>
+                        <a href="/#tab_2" data-toggle="tab">历史报警</a>
                     </li>
                 </ul>
             </div>
             <div class="portlet-body">
                 <div class="tab-content">
                     <!-- PRIVACY SETTINGS TAB -->
-                    <div class="tab-pane active open" id="tab_1_4">
+                    <div class="tab-pane active open" id="tab_1">
                         <div class="row">
-                            <div class="col-md-12">
-                                <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                                <!-- Begin: life time stats -->
-                                <div class="portlet light portlet-fit portlet-datatable bordered">
-                                    <div class="portlet-body">
-                                        <div class="table-container">
-                                          <script type="text/ng-template" id="headerCheckbox.html">
+                              <script type="text/ng-template" id="headerCheckbox.html">
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" /><span></span>
+                                </label>
+                              </script>
+                              <table ng-table="table_alarm"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px">
+                                  <tbody>
+                                      <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                                          <td header="'headerCheckbox.html'">
                                             <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" /><span></span>
+                                            <input type="checkbox" ng-model="checkboxes.items[param.alarmId]" /><span></span>
                                             </label>
-                                          </script>
-                                          <table ng-table="table_alarm"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px;margin-bottom: 20px">
-                                              <tbody>
-                                                  <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
-                                                      <td header="'headerCheckbox.html'">
-                                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                        <input type="checkbox" ng-model="checkboxes.items[param.alarmId]" /><span></span>
-                                                        </label>
-                                                      </td>
-                                                      <td title="'报警设备'">{{param.equipmentName}}</td>
-                                                      <td title="'报警时间'" class="center">{{param.alarmTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                                                      <td title="'报警参数'">{{param.equipmentModelPropertyName}}</td>
-                                                      <td title="'报警值'">{{param.alarmValue}}</td>
-                                                      <td title="'内容'">{{param.alarmContent}}</td>
-                                                  </tr>
-                                              </tbody>
-                                          </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                          </td>
+                                          <td title="'报警设备'">{{param.equipmentName}}</td>
+                                          <td title="'报警时间'" class="center">{{param.alarmTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                          <td title="'报警参数'">{{param.equipmentModelPropertyName}}</td>
+                                          <td title="'报警值'">{{param.alarmValue}}</td>
+                                          <td title="'内容'">{{param.alarmContent}}</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
                         </div>
 
 
                     </div>
-                    <div class="tab-pane" id="tab_1_5">
+                    <div class="tab-pane" id="tab_2">
 
                         <div class="row">
-                            <div class="col-md-12">
-                                <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                                <div class="portlet light bordered">
-                                    <div class="portlet-title">
-                                        <div class="caption font-dark">
-                                            <i class="icon-settings font-dark"></i>
-                                            <span class="caption-subject bold uppercase">历史报警记录列表</span>
-                                        </div>
-                                        <div class="tools"></div>
+                          <div class=" margin-bottom-20">
+                              <!-- <div class="table-actions-wrapper pull-right">
+                                  <span> </span>
+                                  <select class="table-group-action-input form-control input-inline input-small input-sm">
+                                      <option value="">设备编号</option>
+                                      <option value="1">NH10892</option>
+                                      <option value="2">NH80093</option>
+                                      <option value="3">NJ29388</option>
+                                      <option value="4">NB70012</option>
+                                  </select>
+                                  <select class="table-group-action-input form-control input-inline input-small input-sm">
+                                        <option value="">设备名称</option>
+                                        <option value="1">空压机</option>
+                                        <option value="2">净水机</option>
+                                        <option value="3">双螺旋杆压缩机</option>
+                                        <option value="4">压缩机</option>
+                                    </select>
+                                    <select class="table-group-action-input form-control input-inline input-small input-sm">
+                                        <option value="">报警等级</option>
+                                        <option value="Cancel">低</option>
+                                        <option value="Cancel">中</option>
+                                        <option value="Cancel">高</option>
+                                    </select>
+                                    <button class="btn btn-sm green table-group-action-submit" ng-click='saveModalMsg()'>
+                                        <i class="fa fa-check"></i> 查询
+                                    </button>
+                              </div> -->
+                          </div>
 
-                                    </div>
-                                    <div class="portlet-body">
-                                      <button class="btn btn-sm green table-group-action-submit" ng-click='saveModalMsg()'>
-                                          <i class="fa fa-check"></i> 查询
-                                      </button>
-                                        <table class="table table-striped table-bordered table-hover" id="sample_2">
-                                        </table>
-
-                                        <div class=" margin-bottom-20">
-                                            <div class="table-actions-wrapper pull-right">
-                                                <span> </span>
-                                                <select class="table-group-action-input form-control input-inline input-small input-sm">
-                                                    <option value="">设备编号</option>
-                                                    <option value="1">NH10892</option>
-                                                    <option value="2">NH80093</option>
-                                                    <option value="3">NJ29388</option>
-                                                    <option value="4">NB70012</option>
-                                                </select>
-                                                <select class="table-group-action-input form-control input-inline input-small input-sm">
-                                                      <option value="">设备名称</option>
-                                                      <option value="1">空压机</option>
-                                                      <option value="2">净水机</option>
-                                                      <option value="3">双螺旋杆压缩机</option>
-                                                      <option value="4">压缩机</option>
-                                                  </select>
-                                                  <select class="table-group-action-input form-control input-inline input-small input-sm">
-                                                      <option value="">报警等级</option>
-                                                      <option value="Cancel">低</option>
-                                                      <option value="Cancel">中</option>
-                                                      <option value="Cancel">高</option>
-                                                  </select>
-
-                                            </div>
-                                        </div>
+                          <table ng-table="table_historyalarm"  show-filter="true"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px">
+                              <tbody>
+                                  <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                                      <td title="'设备'" filter="{ equipmentName: 'text'}" sortable="'equipmentName'">{{param.equipmentName}}</td>
+                                      <td title="'报警时间'" filter="{ alarmTime: 'number'}" sortable="'alarmTime'" class="center">{{param.alarmTime}}</td>
+                                      <td title="'报警参数'" filter="{ equipmentModelPropertyName: 'text'}" sortable="'equipmentModelPropertyName'">{{param.equipmentModelPropertyName}}</td>
+                                      <td title="'报警值'" filter="{ alarmValue: 'text'}" sortable="'alarmValue'">{{param.alarmValue}}</td>
+                                      <td title="'内容'" filter="{ alarmContent: 'text'}" sortable="'alarmContent'">{{param.alarmContent}}</td>
+                                  </tr>
+                              </tbody>
+                          </table>
 
 
-                                    </div>
-                                </div>
-                                <!-- END EXAMPLE TABLE PORTLET-->
-                            </div>
                         </div>
                     </div>
                 </div>

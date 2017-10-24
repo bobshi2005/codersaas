@@ -523,6 +523,22 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
+    service.getHistoryAlarms = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/alarm/history/list/',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
   //设备信息管理
     service.getDevicelist = function(order, offset, limit) {
         var d = $q.defer();
