@@ -41,7 +41,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       {"id":'UNSIGNED_16',"name":"16位 无符号数"},
       {"id":'SIGNED_16',"name":"16位 有符号数"},
       {"id":'UNSIGNED_32',"name":"32位 无符号数"},
-      {"id":'UNSIGNED_32',"name":"32位 无符号数"},
+      {"id":'SIGNED_32',"name":"32位 有符号数"},
       {"id":'FLOAT_32',"name":"32位 浮点数"}
     ];
 
@@ -445,11 +445,12 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
           $scope.message = '同一组转换参数的两个数值不能一样';
           $('#myModal_alert').modal();
       }else{
-          if($scope.isl){
+          if($scope.isl!=undefined){
             $scope.sensor.isl = $scope.isl;
             $scope.sensor.ish = $scope.ish;
             $scope.sensor.osl = $scope.osl;
             $scope.sensor.osh = $scope.osh;
+            // console.log('sensor',$scope.sensor);
           }else{
             $scope.sensor.isl = '';
             $scope.sensor.ish = '';
