@@ -527,10 +527,10 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         var d = $q.defer();
         $http({
             method: 'get',
-            url: deviceUrl+ '/manage/alarm/record/history/list/',
-            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            url: deviceUrl+ '/manage/alarm/record/history/list',
+            headers: {"Accept":"application/json"},
             withCredentials: true,
-            params: {order:'asc', offset:offset, limit:limit}
+            params: {order:order, offset:offset, limit:limit}
         }).then(function(response) {
             d.resolve(response);
         }).catch(function(err) {

@@ -10,7 +10,7 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
       page: 1,
       count:10
     }, {
-      counts:[2,10,50],
+      counts:[5,10,20],
       dataset: $scope.alarmlist
     });
 
@@ -21,17 +21,7 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
         $rootScope.alarmlist = $scope.alarmlist;
         $rootScope.$broadcast('alarm_active_2','true');
         reloadalarmtable();
-      });
-
-      getHistortyalarms(function(){
-        console.log('=====',$scope.historylist);
-        $scope.table_historyalarm = new NgTableParams({
-          page: 1,
-          count:10
-        }, {
-          counts:[2,10,50],
-          dataset:$scope.historylist
-        });
+        getHistoryalarms();
       });
 
       $('.nav-tabs li a').click(function() {
@@ -42,43 +32,7 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
 
           break;
           case "tab_2":
-          console.log('=====',$scope.historylist);
-          $scope.table_historyalarm = new NgTableParams({
-            page: 1,
-            count:10
-          }, {
-            counts:[2,10,50],
-            dataset:$scope.historylist
-          });
-            // $scope.table_historyalarm = new NgTableParams({
-            //   page: 1,
-            //   count:10
-            // }, {
-            //   counts:[2,10,50],
-            //   dataset: $scope.alarmlist
-            //   //  function(params) {
-            //   //   return deviceApi.getHistoryAlarms('asc', (params.page()-1)*params.count(), params.count())
-            //   //     .then(function(result) {
-            //   //       console.log('gethistory',result);
-            //   //         if(result.data.total && result.data.total > 0) {
-            //   //              $scope.historylist=result.data.data;
-            //   //              for(var i=0;i<result.data.length;i++) {
-            //   //                $scope.historylist[i].alarmTime = changeTimeFormat($scope.historylist[i].alarmTime);
-            //   //                $scope.historylist[i].createTime = changeTimeFormat($scope.historylist[i].createTime);
-            //   //              }
-            //   //         }else {
-            //   //           $scope.historylist=[];
-            //   //         }
-            //   //         params.total(result.data.total);
-            //   //         return $scope.historylist;
-            //   //
-            //   //     }, function(err) {
-            //   //         $scope.historylist=[];
-            //   //         return $scope.historylist;
-            //   //
-            //   //     });
-            //   // }
-            // });
+            getHistoryalarms();
           break;
           default:
           break;
@@ -118,25 +72,44 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
       });
     }
 
-    function getHistortyalarms(){
-      deviceApi.getHistoryAlarms('asc', 0, 100)
-        .then(function(result) {
-          console.log('gethistory',result);
-            if(result.data && result.data.length > 0) {
-                 $scope.historylist=result.data;
-                 for(var i=0;i<result.data.length;i++) {
-                   $scope.historylist[i].alarmTime = changeTimeFormat($scope.historylist[i].alarmTime);
-                   $scope.historylist[i].createTime = changeTimeFormat($scope.historylist[i].createTime);
-                 }
-            }else {
-              $scope.historylist=[];
-            }
-            callback();
-        }, function(err) {
-            $scope.historylist=[];
-            callback();
-        });
+    function getHistoryalarms(){
+      $scope.table_historyalarm = new NgTableParams({
+        page: 1,
+        count:5
+      }, {
+        counts:[5,10,20],
+        getData:
+         function(params) {
+          return deviceApi.getHistoryAlarms('asc', (params.page()-1)*params.count(), params.count())
+            .then(function(result) {
+              console.log('gethistory',result);
+                if(result.data.total && result.data.total > 0) {
+                     $scope.historylist=result.data.rows;
+                     for(var i=0;i<result.data.rows.length;i++) {
+                       $scope.historylist[i].alarmTime = changeTimeFormat($scope.historylist[i].alarmTime);
+                       $scope.historylist[i].createTime = changeTimeFormat($scope.historylist[i].createTime);
+
+                       if($scope.historylist[i].alarmStatus=='CNU'){
+                         $scope.historylist[i].alarmStatus ='已消除';
+                       }
+                       if($scope.historylist[i].alarmStatus=='ANU'){
+                         $scope.historylist[i].alarmStatus ='活跃';
+                       }
+                     }
+                }else {
+                  $scope.historylist=[];
+                }
+                params.total(result.data.total);
+                return $scope.historylist;
+
+            }, function(err) {
+                $scope.historylist=[];
+                return $scope.historylist;
+            });
+        }
+      });
     }
+
 
     Date.prototype.format = function(format) {
       var date = {
