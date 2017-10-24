@@ -3,8 +3,8 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.menueName = $rootScope.menueName;
     $scope.modellist;
     $scope.propertylist=[];
-    $scope.currentModal={};
-    $scope.editModal={};
+    $scope.currentModel={};
+    $scope.editModel={};
     $scope.currentPropertySensor={};
     $scope.allowEdit = false;//允许编辑modal
     $scope.createFormData = {};
@@ -71,12 +71,12 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
 				speed: 300,
 				slidesToShow: 2,
 				slidesToScroll: 1,
-				variableWidth: true
+				variableWidth: true,
 			});
       getdeviceModellist();
     });
     // 重新选择模型，重新获取模型参数
-    var watch = $scope.$watch('currentModal',function(newValue,oldValue, scope){
+    var watch = $scope.$watch('currentModel',function(newValue,oldValue, scope){
         if(newValue.equipmentModelId !=oldValue.equipmentModelId) {
           getmodelPropertylist();
         }
@@ -127,8 +127,10 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
     $scope.selectModel = function(index) {
       $scope.allowEdit = false;
-      $scope.currentModal = angular.copy($scope.modellist[index]);
-      $scope.editModal = angular.copy($scope.modellist[index]);
+      $scope.currentModel = angular.copy($scope.modellist[index]);
+      $scope.editModel = angular.copy($scope.modellist[index]);
+      console.log('editmodel',$scope.editModel);
+
     };
     $scope.allowEditInput = function() {
       $scope.allowEdit = true;
@@ -162,7 +164,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
 
     $scope.deleteModel = function() {
-      if($scope.currentModal.equipmentModelId !=null){
+      if($scope.currentModel.equipmentModelId !=null){
         deletedeviceModel();
       }
     };
@@ -174,7 +176,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       updatePropertyItem();
     };
     $scope.createPropertyItem = function() {
-      $scope.PropertyItemData.equipmentModelId = $scope.currentModal.equipmentModelId;
+      $scope.PropertyItemData.equipmentModelId = $scope.currentModel.equipmentModelId;
       createPropertyItem();
     };
 
@@ -391,7 +393,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.sensor = {};
       $scope.sensor.equipmentModelPropertyId = param.equipmentModelPropertyId;
       $scope.sensor.equipmentModelId = param.equipmentModelId;
-      switch($scope.currentModal.protocolId){
+      switch($scope.currentModel.protocolId){
         case 1:
          getSensorModbus();
          break;
@@ -563,7 +565,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
           });
     }
     function deletedeviceModel(){
-      deviceApi.deletedeviceModel($scope.currentModal.equipmentModelId)
+      deviceApi.deletedeviceModel($scope.currentModel.equipmentModelId)
         .then(function(result) {
             if(result.data.code == 1){
               getdeviceModellist();
@@ -579,7 +581,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     }
 
     function updatedeviceModel(){
-      deviceApi.updatedeviceModel($scope.editModal.equipmentModelId,$scope.editModal.name,$scope.editModal.number,$scope.editModal.protocolId)
+      deviceApi.updatedeviceModel($scope.editModel.equipmentModelId,$scope.editModel.name,$scope.editModel.number,$scope.editModel.protocolId)
         .then(function(result) {
             if(result.data.code ==1){
               getdeviceModellist();
@@ -717,6 +719,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     }
 
     function getmodelPropertylist(){
+      console.log('获取模型参数');
       $scope.propertylist=[];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
@@ -726,7 +729,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       }, {
         counts:[2,10,20],
         getData: function(params) {
-          return deviceApi.getmodelPropertylist($scope.currentModal.equipmentModelId,'asc', (params.page()-1)*params.count(), params.count())
+          return deviceApi.getmodelPropertylist($scope.currentModel.equipmentModelId,'asc', (params.page()-1)*params.count(), params.count())
             .then(function(result) {
                 if(result.data.total > 0) {
                      $scope.propertylist=result.data.rows;
@@ -842,7 +845,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         $('.multiple-items').slick('slickAdd',content[0]);
         $('.multiple-items').slick('refresh');
       }
-      $scope.currentModal = angular.copy($scope.modellist[0]);
+      $scope.currentModel = angular.copy($scope.modellist[0]);
+      $scope.editModel = angular.copy($scope.modellist[0]);
+      // console.log('editmodel',$scope.editModel);
       getmodelPropertylist();
     };
 }]);

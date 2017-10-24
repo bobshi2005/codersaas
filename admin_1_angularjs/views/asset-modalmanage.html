@@ -89,19 +89,19 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">模型名称</label>
                                     <div class="col-md-3">
-                                        <input type="text" ng-disabled="!allowEdit" class="form-control modalinput" ng-model="editModal.name">
+                                        <input type="text" ng-disabled="!allowEdit" class="form-control modalinput" ng-model="editModel.name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">模型编号</label>
                                     <div class="col-md-3">
-                                        <input type="text" ng-disabled="!allowEdit" class="form-control modalinput" ng-model="editModal.number">
+                                        <input type="text" ng-disabled="!allowEdit" class="form-control modalinput" ng-model="editModel.number">
                                     </div>
                                 </div>
                                 <div class="form-group last">
                                     <label class="col-sm-3 control-label">链接协议</label>
                                     <div class="col-sm-3">
-                                        <select class="form-control" ng-disabled="!allowEdit" ng-model="editModal.protocolId" ng-options="o.id as o.name for o in protocolLists"></select>
+                                        <select class="form-control" ng-disabled="!allowEdit" ng-model="editModel.protocolId" ng-options="o.id as o.name for o in protocolLists"></select>
                                     </div>
                                 </div>
                                 <br/>
@@ -236,7 +236,7 @@
                 <h4 class="modal-title">删除模型</h4>
             </div>
             <div class="modal-body">
-                    您确定要删除 模型： {{currentModal.name}}  吗？
+                    您确定要删除 模型： {{currentModel.name}}  吗？
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button>
