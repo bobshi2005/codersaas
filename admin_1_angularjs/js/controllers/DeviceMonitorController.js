@@ -242,11 +242,14 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
           			 treeObj.selectNode(devNodes[0]);
                 selectNode();
               }
+              callback();
             }else {
               // alert(result.data.errMsg);
+              callback();
             }
         }, function(err) {
             // alert(err);
+            callback();
         });
     }
     function getHistoryData(){
