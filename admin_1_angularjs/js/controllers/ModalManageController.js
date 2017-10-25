@@ -208,40 +208,41 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       var alarmtype = $scope.alarm.alarmType;
       if(alarmtype.hasOwnProperty('type')){
         switch (alarmtype.type){
-          case 2:
+          case 1:
             $('#upperBound').show();
             $('#lowerBound').hide();
             $('#duration').hide();
             break;
-          case 3:
+          case 2:
             $('#upperBound').hide();
+            $('#lowerBound').show();
+            $('#duration').hide();
+            break;
+          case 3:
+            $('#upperBound').show();
             $('#lowerBound').show();
             $('#duration').hide();
             break;
           case 4:
-            $('#upperBound').hide();
+            $('#upperBound').show();
+            $('#lowerBound').show();
+            $('#duration').show();
+            break;
+          case 5:
+            $('#upperBound').show();
             $('#lowerBound').hide();
             $('#duration').show();
             break;
           case 6:
-            $('#upperBound').show();
-            $('#lowerBound').show();
-            $('#duration').hide();
-            break;
-          case 8:
-            $('#upperBound').show();
-            $('#lowerBound').hide();
-            $('#duration').show();
-            break;
-          case 12:
             $('#upperBound').hide();
             $('#lowerBound').show();
             $('#duration').show();
             break;
-          case 24:
+
+          case 7:
             $('#upperBound').show();
             $('#lowerBound').show();
-            $('#duration').show();
+            $('#duration').hide();
             break;
           default:
             $('#upperBound').hide();
@@ -255,12 +256,15 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       //模拟量
       // console.log('savealarm',$scope.alarm);
       if($scope.alarm.alarmType.hasOwnProperty('type')){
-        // console.log('X',$('#upperBoundNum').val());
-        // console.log('Y',$('#lowerBoundNum').val());
-        // console.log('M',$('#duration').val());
+        console.log('X',$('#upperBoundNum').val());
+        console.log('Y',$('#lowerBoundNum').val());
+        console.log('M',$('#durationNum').val());
+        var x = $('#upperBoundNum').val();
+        var y = $('#lowerBoundNum').val();
+        var m = $('#durationNum').val();
         switch($scope.alarm.alarmType.type){
-          case 2:
-            if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()==''){
+          case 1:
+            if(x==null || x==''){
               $scope.message ='请填写 X 的值';
               $('#myModal_alert').modal();
             }else{
@@ -270,8 +274,8 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             }
 
             break;
-          case 3:
-            if($('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()==''){
+          case 2:
+            if( y==null || y==''){
               $scope.message ='请填写 Y 的值';
               $('#myModal_alert').modal();
             }else{
@@ -279,24 +283,13 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
               $scope.alarm.duration = 0;
                 saveAlarmImpl();
             }
-
             break;
-          case 4:
-            if($('#durationNum').val()==null || $('#durationNum').val()==''){
-              $scope.message ='请填写 M 的值';
-              $('#myModal_alert').modal();
-            }else{
-              $scope.alarm.lowerBound = 0;
-              $scope.alarm.upperBound = 0;
-              saveAlarmImpl();
-            }
 
-            break;
-          case 6:
-            if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()=='' || $('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()==''){
+          case 3:
+            if(x==null || x=='' || y==null || y==''){
               $scope.message ='请填写 X 与 Y 的值';
               $('#myModal_alert').modal();
-            }else if($('#upperBoundNum').val()>=$('#lowerBoundNum').val()){
+            }else if(x-y>=0){
               $scope.message ='X 必须小于 Y';
               $('#myModal_alert').modal();
             }else{
@@ -304,36 +297,58 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
               saveAlarmImpl();
             }
             break;
-          case 8:
-              if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()=='' || $('#durationNum').val()==null || $('#durationNum').val()==''){
+          case 4:
+              if(x==null || x=='' || y==null || y=='' || m==null || m==''){
+                $scope.message ='请填写 X Y M 的值';
+                $('#myModal_alert').modal();
+              }else if(x-y>=0 || m<=0){
+                $scope.message ='X 必须小于 Y, M必须大于 0';
+                $('#myModal_alert').modal();
+              }else{
+                saveAlarmImpl();
+              }
+            break;
+          case 5:
+              if(x==null || x=='' || m==null || m==''){
                 $scope.message ='请填写 X 与 M 的值';
+                $('#myModal_alert').modal();
+              }else if(m<=0){
+                $scope.message ='M必须大于 0';
                 $('#myModal_alert').modal();
               }else{
                 $scope.alarm.lowerBound = 0;
                 saveAlarmImpl();
               }
             break;
-          case 12:
-              if($('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()=='' || $('#durationNum').val()==null || $('#durationNum').val()==''){
+          case 6:
+              if(y==null || y=='' || m==null || m==''){
                 $scope.message ='请填写 Y 与 M 的值';
+                $('#myModal_alert').modal();
+              }else if(m<=0){
+                $scope.message ='M必须大于 0';
                 $('#myModal_alert').modal();
               }else{
                 $scope.alarm.upperBound = 0;
                 saveAlarmImpl();
               }
-
             break;
-          case 24:
-              if($('#upperBoundNum').val()==null || $('#upperBoundNum').val()=='' || $('#lowerBoundNum').val()==null || $('#lowerBoundNum').val()=='' || $('#durationNum').val()==null || $('#durationNum').val()==''){
-                $scope.message ='请填写 X Y M 的值';
-                $('#myModal_alert').modal();
-              }else if($('#upperBoundNum').val()>=$('#lowerBoundNum').val()){
-                $scope.message ='X 必须小于 Y';
-                $('#myModal_alert').modal();
-              }else{
-                saveAlarmImpl();
-              }
+          case 7:
+            if(x==null || x=='' || y==null || y==''){
+              $scope.message ='请填写 X 与 Y 的值';
+              $('#myModal_alert').modal();
+            }else if(x-y<0){
+              $scope.message ='X 不能小于 Y';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.alarm.duration = 0;
+              saveAlarmImpl();
+            }
             break;
+          case 0:
+              $scope.alarm.lowerBound = 0;
+              $scope.alarm.upperBound = 0;
+              $scope.alarm.duration = 0;
+              saveAlarmImpl();
           default:
               $scope.alarm.lowerBound = 0;
               $scope.alarm.upperBound = 0;
@@ -352,13 +367,13 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       switch(param.dataType){
         case 'analog':
          $scope.alarmTypeLists=[
-           {"id":'val_above',"name":"数值高于X",'type':2},//设置X:2 Y:3 Z:4,type为乘积，区分XYZ的组合。
-           {"id":'val_below',"name":"数值低于Y",'type':3},
-           {"id":'val_between',"name":"数值高于X低于Y",'type':6},
-           {"id":'val_above_below_ofm',"name":"数值高于X低于Y超过M分钟",'type':24},
-           {"id":'val_above_bound',"name":"数值超过M分钟高于X",'type':8},
-           {"id":'val_below_bound',"name":"数值超过M分钟低于Y",'type':12},
-           {"id":'x_tir_y_rec',"name":"数值高于X报警，低于Y恢复",'type':6},
+           {"id":'val_above',"name":"数值高于X",'type':1},//
+           {"id":'val_below',"name":"数值低于Y",'type':2},
+           {"id":'val_between',"name":"数值高于X低于Y",'type':3},
+           {"id":'val_above_below_ofm',"name":"数值高于X低于Y超过M分钟",'type':4},
+           {"id":'val_above_bound',"name":"数值超过M分钟高于X",'type':5},
+           {"id":'val_below_bound',"name":"数值超过M分钟低于Y",'type':6},
+           {"id":'x_tir_y_rec',"name":"数值高于X报警，低于Y恢复",'type':7},
            {"id":'offline',"name":"传感器断开",'type':0},
          ];
          $('#upperBound').hide();
