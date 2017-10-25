@@ -170,7 +170,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
 
     $scope.canceleditPropertyItem = function() {
-      $scope.PropertyItemData = [];
+      $scope.PropertyItemData = {};
     }
     $scope.updatePropertyItem = function() {
       updatePropertyItem();
@@ -188,7 +188,12 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.PropertyItemData = param;
     };
 
+    $scope.resetPropertyItem = function() {
+      $scope.PropertyItemData = {};
+    };
+
     $scope.cancelupdatePropertyItem = function() {
+      $scope.PropertyItemData = {};
       getmodelPropertylist();
     };
 
