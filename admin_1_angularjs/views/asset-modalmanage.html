@@ -302,10 +302,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">参数类型</label>
                         <div class="col-sm-3">
-                            <select class="form-control" ng-model="PropertyItemData.dataType"  ng-options="o.id as o.name for o in typeList"></select>
+                            <select class="form-control" ng-model="PropertyItemData.dataType" ng-change="selectDataType()"  ng-options="o.id as o.name for o in typeList"></select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-show="isAnalogProperty">
                         <label class="col-sm-3 control-label">展示类型</label>
                         <div class="col-sm-3">
                           <select class="form-control" ng-model="PropertyItemData.displayType"  ng-options="o.id as o.name for o in displayTypeList"></select>
@@ -370,10 +370,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">参数类型</label>
                         <div class="col-sm-3">
-                            <select class="form-control" ng-model="PropertyItemData.dataType"  ng-options="o.id as o.name for o in typeList"></select>
+                            <select class="form-control" ng-model="PropertyItemData.dataType" ng-change="selectDataType()"   ng-options="o.id as o.name for o in typeList"></select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-show="isAnalogProperty">
                         <label class="col-sm-3 control-label">展示类型</label>
                         <div class="col-sm-3">
                           <select class="form-control" ng-model="PropertyItemData.displayType"  ng-options="o.id as o.name for o in displayTypeList"></select>

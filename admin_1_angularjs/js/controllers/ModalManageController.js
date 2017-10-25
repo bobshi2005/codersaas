@@ -14,6 +14,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.alarm = {};
     $scope.hasAlarmset = false;
     $scope.companyUserLists=[];
+    $scope.isAnalogProperty = false;
     $scope.typeList = [
       {"id":"analog",'name':'模拟量'},
       {"id":"digital",'name':'开关量'}
@@ -129,7 +130,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.allowEdit = false;
       $scope.currentModel = angular.copy($scope.modellist[index]);
       $scope.editModel = angular.copy($scope.modellist[index]);
-      console.log('editmodel',$scope.editModel);
+      // console.log('editmodel',$scope.editModel);
 
     };
     $scope.allowEditInput = function() {
@@ -186,10 +187,16 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
     $scope.setPropertyItem = function(param) {
       $scope.PropertyItemData = param;
+      if(param.dataType =='analog'){
+        $scope.isAnalogProperty = true;
+      }else{
+        $scope.isAnalogProperty = false;
+      }
     };
 
     $scope.resetPropertyItem = function() {
       $scope.PropertyItemData = {};
+      $scope.isAnalogProperty = false;
     };
 
     $scope.cancelupdatePropertyItem = function() {
@@ -246,7 +253,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
     $scope.saveAlarm = function(){
       //模拟量
-      console.log('savealarm',$scope.alarm);
+      // console.log('savealarm',$scope.alarm);
       if($scope.alarm.alarmType.hasOwnProperty('type')){
         // console.log('X',$('#upperBoundNum').val());
         // console.log('Y',$('#lowerBoundNum').val());
@@ -341,7 +348,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.alarmType='';
       $scope.alarm.dataType = param.dataType;
       $scope.alarm.equipmentModelPropertyId = param.equipmentModelPropertyId;
-      console.log('PARTAM',param);
+      // console.log('PARTAM',param);
       switch(param.dataType){
         case 'analog':
          $scope.alarmTypeLists=[
@@ -382,7 +389,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       deviceApi.deleteAlarmset($scope.alarm.alarmId)
           .then(function(result){
             if(result.data.code ==1){
-              console.log('deleteAlarmset',result.data);
+              // console.log('deleteAlarmset',result.data);
               $scope.message = '报警设置移除成功！';
               $('#myModal_alert').modal();
               $scope.alarm = {};
@@ -420,6 +427,14 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
 
       }else{
         $('#bitcode').show();
+      }
+    };
+    $scope.selectDataType = function(){
+      if($scope.PropertyItemData.dataType =='analog' ){
+        $scope.isAnalogProperty = true;
+      }else{
+        $scope.isAnalogProperty = false;
+        $scope.PropertyItemData.displayType ='';
       }
     };
 
@@ -629,7 +644,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     }
 
     function findTargetUserById(id){
-      console.log('userlists',id,$scope.companyUserLists);
+      // console.log('userlists',id,$scope.companyUserLists);
       for(var i=0;i<$scope.companyUserLists.length;i++){
         if($scope.companyUserLists[i].userId == id){
           return $scope.companyUserLists[i].userId;
@@ -725,7 +740,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     }
 
     function getmodelPropertylist(){
-      console.log('获取模型参数');
+      // console.log('获取模型参数');
       $scope.propertylist=[];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
