@@ -298,10 +298,10 @@
                                 <form action="" class="form-horizontal form-row-seperated">
                                     <div class="form-group">
                                         <label class="col-sm-4 control-label">
-                                            {{status}}</label>
+                                            设备{{status}}</label>
                                         <div class="col-sm-6">
                                           <button type="button" class="btn green"  ng-click='changeStatus()'>
-                                               {{statusAction}} </button>
+                                               点我{{statusAction}} </button>
                                         </div>
                                     </div>
                                 </form>
@@ -371,14 +371,17 @@
                                       <td title="'投产日期'" class="center">{{param.createTime}}</td>
                                       <td title="'质保开始日期'" class="center">{{param.warrantyStartDate}}</td>
                                       <td title="'质保结束日期'" class="center">{{param.warrantyEndDate}}</td>
-                                      <td title="'操作'">
+                                      <td title="'接入'">
                                           <div class="margin-bottom-5">
                                             <a ui-sref="main.asset.connectdevice({equipmentInfo:param})" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>设备接入
                                             </a>
-                                            <a  href="#" class="btn btn-sm btn-success sbold green " ng-click="openStatusModal(param)"><i class="fa fa-times"></i>设备启停
-                                            </a>
                                           </div>
-
+                                      </td>
+                                        <!-- "../assets/pages/img/turn-on2.png" -->
+                                      <td title="'启停'">
+                                            <a  href="#" class="btn" style="width:64px;height:34px" ng-click="openStatusModal(param)">
+                                              <img src={{param.turnpic}} style="width:32px;height:17px" />
+                                            </a>
                                       </td>
                                   </tr>
                               </tbody>

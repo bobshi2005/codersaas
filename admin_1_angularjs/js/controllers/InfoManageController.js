@@ -465,7 +465,13 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                        $scope.devicelist[i].createTime = changeTimeFormat($scope.devicelist[i].createTime);
                        $scope.devicelist[i].warrantyStartDate = changeTimeFormat($scope.devicelist[i].warrantyStartDate);
                        $scope.devicelist[i].warrantyEndDate = changeTimeFormat($scope.devicelist[i].warrantyEndDate);
+                       if($scope.devicelist[i].collectStatus == "Working"){
+                         $scope.devicelist[i].turnpic="../assets/pages/img/turn-on2.png"
+                       }else{
+                         $scope.devicelist[i].turnpic="../assets/pages/img/turn-off2.png"
+                       }
                      }
+                     console.log('convertparam',$scope.devicelist);
                 }else {
                   $scope.devicelist=[];
                 }
