@@ -526,11 +526,18 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
     service.getHistoryAlarms = function(order, offset, limit) {
         var d = $q.defer();
         $http({
-            method: 'get',
+            method: 'post',
             url: deviceUrl+ '/manage/alarm/record/history/list/',
             headers: {"Accept":"application/json"},
             withCredentials: true,
-            params: {order:order, offset:offset, limit:limit}
+            data: {order:order, offset:offset, limit:limit},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
         }).then(function(response) {
             d.resolve(response);
         }).catch(function(err) {
