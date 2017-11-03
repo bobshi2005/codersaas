@@ -211,6 +211,9 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
         if(result.data.total && result.data.total>0){
           $scope.alarmnum = result.data.total;
           $scope.alarmlist = result.data.rows;
+          for(var i=0;i<result.data.rows.length;i++) {
+            $scope.alarmlist[i].alarmContent = $scope.alarmlist[i].alarmContent.split(' ')[4];//拆分原始的alarmContent
+          }
           $rootScope.alarmlist = $scope.alarmlist;
           $scope.hasalarm = true;
           $rootScope.$broadcast('alarm_active_1','true');

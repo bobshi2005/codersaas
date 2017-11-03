@@ -10,7 +10,7 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
     $scope.equipmentlist=[];
     $scope.alartypelist=[
       {'id':'','name':'所有'},
-      {'id':'ANU','name':'发生未消除'},
+      {'id':'ANU','name':'活跃'},
       {'id':'CNU','name':'已消除'},
 
     ];
@@ -165,6 +165,10 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
       .then(function(result){
         if(result.data.total && result.data.total>0){
           $scope.alarmlist = result.data.rows;
+          for(var i=0;i<result.data.rows.length;i++) {
+            $scope.alarmlist[i].alarmContent = $scope.alarmlist[i].alarmContent.split(' ')[4];//拆分原始的alarmContent
+          }
+
           callback();
         }else{
           $scope.alarmlist = [];
