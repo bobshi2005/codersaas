@@ -1,7 +1,7 @@
 var AppService = angular.module("AppService", []);
 // var url = "http://118.89.140.11/main/system/webdev/Saas/api";
-var deviceUrl = "http://118.89.140.11:9999"; //saas manager api  old 118.89.140.11
-var userUrl = "http://118.89.140.11:1111";  //user manager api  http://139.196.141.29/
+var deviceUrl = "http://139.196.141.29:9999"; //saas manager api  old 118.89.140.11
+var userUrl = "http://139.196.141.29:1111";  //user manager api  http://139.196.141.29/
 
 
 //用户相关api
@@ -168,50 +168,6 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
         });
         return d.promise;
     };
-    //  service.getAlarms = function(role) {
-    //     var d = $q.defer();
-    //     $http({
-    //         method: 'post',
-    //         url: url,
-    //         headers: {
-    //             "accept": "application/json",
-    //             "Content-Type":"text/plain;charset=utf-8"
-    //         },
-    //         processData: false,
-    //         data: {
-    //             "cmd": "getAlarms",
-    //             "role": role
-    //         }
-    //     }).then(function(response) {
-    //         d.resolve(response);
-    //     }).catch(function(err) {
-    //         d.reject(err);
-    //     });
-    //     return d.promise;
-    // };
-    // service.getSnapshot = function(equipid,datetime) {
-    //     var d = $q.defer();
-    //     $http({
-    //         method: 'post',
-    //         url: url,
-    //         headers: {
-    //             "accept": "application/json",
-    //             "Content-Type":"text/plain;charset=utf-8"
-    //         },
-    //         processData: false,
-    //         data: {
-    //             "cmd"     : "getSnapshot",
-    //             "equipid" : equipid,
-    //             "datetime": datetime
-    //         }
-    //     }).then(function(response) {
-    //         d.resolve(response);
-    //     }).catch(function(err) {
-    //         d.reject(err);
-    //     });
-    //     return d.promise;
-    // };
-
     return service;
 }]);
 
@@ -523,14 +479,14 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
-    service.getHistoryAlarms = function(order, offset, limit) {
+    service.searchHistoryAlarms = function(params) {
         var d = $q.defer();
         $http({
             method: 'post',
             url: deviceUrl+ '/manage/alarm/record/history/list/',
-            headers: {"Accept":"application/json"},
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
             withCredentials: true,
-            data: {order:order, offset:offset, limit:limit},
+            data: params,
             transformRequest: function(obj) {
                 var str = [];
                 for(var p in obj){
@@ -538,6 +494,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
                 }
                 return str.join("&");
             }
+
         }).then(function(response) {
             d.resolve(response);
         }).catch(function(err) {
