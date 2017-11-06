@@ -136,6 +136,8 @@ MetronicApp.controller('AppController', ['$scope', '$rootScope','$state', 'Modal
         }
     });
     $rootScope.$on('to-login',function(value){
+      $rootScope.$broadcast('alarm_stop','true');
+      locals.set("islogin", 0);
       $state.transitionTo('login');
     });
 
@@ -189,9 +191,20 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
         // $interval.cancel($scope.timer);
-        $scope.alarmtimer = $interval($scope.getcurrentalarms,10000);
+        if(locals.get("islogin")==0){
+           $interval.cancel($scope.timer);
+        }else{
+          $scope.alarmtimer = $interval($scope.getcurrentalarms,10000);
+        }
     });
     $scope.$on('$destroy',function(){
+       $interval.cancel($scope.alarmtimer);
+    });
+    $scope.$on('alarm_start',function(){
+      //  $interval.cancel($scope.alarmtimer);
+       $scope.alarmtimer = $interval($scope.getcurrentalarms,10000);
+    });
+    $scope.$on('alarm_stop',function(){
        $interval.cancel($scope.alarmtimer);
     });
     $scope.$on('alarm_active_2',function(value){

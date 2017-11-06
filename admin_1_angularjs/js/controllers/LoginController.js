@@ -23,6 +23,7 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
                   locals.set("remember", 'false');
                 }
 
+                $rootScope.$broadcast('alarm_start','true');
                 $state.go('main.home.dashboard');
                 // $state.transitionTo("main.home.dashboard", {}, {
                 //   reload: true, inherit: true, notify: true
