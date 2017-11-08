@@ -159,9 +159,10 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
         var d = $q.defer();
         $http({
             method: 'post',
-            url: userUrl + '/manage/permission/user/'+userId,
+            url: userUrl + '/manage/permission/user/'+userId+'?type=1',
             headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
             withCredentials: true,
+            data:{},
         }).then(function(response) {
             d.resolve(response);
         }).catch(function(err) {
@@ -169,6 +170,7 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
         });
         return d.promise;
     };
+
     service.logout = function() {
         var d = $q.defer();
         $http({
