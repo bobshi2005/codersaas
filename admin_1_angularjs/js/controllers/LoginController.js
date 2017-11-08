@@ -1,20 +1,20 @@
 angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootScope', '$state', '$http', 'userApi', 'locals','deviceApi',function($scope, $rootScope, $state, $http, userApi,locals,deviceApi) {
     $rootScope.isloginpage = true;
     $rootScope.showHeader = false;
-    $rootScope.loginForm = {};
-    $rootScope.loginForm.userId = locals.get("username");
+    $scope.loginForm = {};
+    $scope.loginForm.userName = locals.get("username");
 
     $scope.login = function(){
-      console.log('sss',$rootScope.loginForm);
-        userApi.login($scope.loginForm.userId, $scope.loginForm.password,'false','')
+      console.log('sss',$scope.loginForm);
+        userApi.login($scope.loginForm.userName, $scope.loginForm.password,'false','')
           .then(function(result) {
               if(result.data.code == 1) {
                 $rootScope.isloginpage = false;
-                getuserInfo($scope.loginForm.userId);
+                getuserInfo($scope.loginForm.userName);
                 locals.set("islogin", 1);
                 //locals.set("userrole", result.data.role);
-                if($rootScope.loginForm.remember && $rootScope.loginForm.remember==true){
-                  locals.set("username", $scope.loginForm.userId);
+                if($scope.loginForm.remember && $scope.loginForm.remember==true){
+                  locals.set("username", $scope.loginForm.userName);
                   locals.set("password", $scope.loginForm.password);
                   locals.set("remember", 'true');
                 }else{
@@ -46,11 +46,11 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
         $rootScope.showtimeoutflag = 0;
       }
       if(locals.get("remember")==='true'){
-        $rootScope.loginForm.remember=true;
+        $scope.loginForm.remember=true;
       }
       var pwd = document.getElementById('password');
       pwd.type = "password";
-      $rootScope.loginForm.password = locals.get("password");
+      $scope.loginForm.password = locals.get("password");
       // userApi.logout().then(function(result){},function(err){});
       window.onresize=function(){
 
@@ -86,8 +86,15 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
       userApi.userInfo(phone)
       .then(function(result) {
           if(result.data.code == 1) {
-            console.log('loginInfo',result.data);
+            // console.log('loginInfo',result.data);
             locals.set("realname", result.data.data.user.realname);
+            locals.set("userId", result.data.data.user.userId);
+            userApi.userPermission(locals.get("userId"))
+            .then(function(result){
+              console.log('用户的权限:',result.data);
+            },function(err){
+
+            });
           }else {
             console.log('getUserresulterr',result.data.message);
           }
