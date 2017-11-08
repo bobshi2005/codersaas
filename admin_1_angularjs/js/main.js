@@ -185,9 +185,7 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
     $scope.alarmlist = [];
     $scope.hasalarm = false;
     $scope.alarmtimer;
-    $scope.getrealname = function(){
-      return locals.get("realname");
-    };
+    $scope.realname = locals.get("realname");
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
         // $interval.cancel($scope.timer);
@@ -196,6 +194,9 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
         }else{
           $scope.alarmtimer = $interval($scope.getcurrentalarms,10000);
         }
+    });
+    $scope.$on('realname_set',function(){
+      $scope.realname = locals.get("realname");
     });
     $scope.$on('$destroy',function(){
        $interval.cancel($scope.alarmtimer);

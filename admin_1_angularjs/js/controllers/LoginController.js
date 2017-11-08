@@ -89,6 +89,8 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
             // console.log('loginInfo',result.data);
             locals.set("realname", result.data.data.user.realname);
             locals.set("userId", result.data.data.user.userId);
+            $rootScope.$broadcast('alarm_stop','true');
+
             userApi.userPermission(locals.get("userId"))
             .then(function(result){
               console.log('用户的权限:',result.data);
