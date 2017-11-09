@@ -696,6 +696,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                 }]
             }
         })
+        .state('main.setting.companymanage', {
+            url: "/companymanage",
+            templateUrl: "views/setting-companymanage.html?version=2017110601",
+            controller: 'CompanymanageController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                            'js/controllers/CompanymanageController.js?version=2017110601'
+
+                    ])
+                }]
+            }
+        })
         .state('main.asset.netgate', {
             url: "/netgate",
             templateUrl: "views/setting-netgate.html?version=2017110601",
