@@ -697,7 +697,23 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
-
+  //子公司管理
+    service.getCompanyList = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/company/list',
+            headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            sharedataApi.setModeldata(response.data.rows);
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
   //设备启停
     service.startCollect = function(param) {
