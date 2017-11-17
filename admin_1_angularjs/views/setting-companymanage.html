@@ -31,27 +31,39 @@
                                 <div class="modal-body form">
                                     <form action="" class="form-horizontal form-row-seperated">
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label">子公司名称</label>
+                                            <label class="col-sm-4 control-label">公司名称</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="name" ng-model="currentData.name" class="form-control" />
+                                                <input type="text"  ng-model="currentData.name" class="form-control" required/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label">联系电话</label>
                                             <div class="col-sm-8">
-                                                <select class="form-control" ng-model="currentData.partCategory" ng-options="x.name for x in partCategoryList" required />
+                                               <input type="number"  ng-model="currentData.phone" class="form-control" required/>
                                             </div>
                                         </div>
                                         <div class="form-group last">
                                             <label class="col-sm-4 control-label">地址</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="spec" ng-model="currentData.spec" class="form-control" />
+                                                <input type="text"  ng-model="currentData.address" class="form-control" required/>
                                             </div>
                                         </div>
                                         <div class="form-group last">
-                                            <label class="col-sm-4 control-label">型号</label>
+                                            <label class="col-sm-4 control-label">邮编</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="model" ng-model="currentData.model" class="form-control" />
+                                                <input type="number"  ng-model="currentData.zip" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group last">
+                                            <label class="col-sm-4 control-label">传真</label>
+                                            <div class="col-sm-8">
+                                                <input type="number"  ng-model="currentData.fax" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group last">
+                                            <label class="col-sm-4 control-label">网址</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" ng-model="currentData.www" class="form-control" />
                                             </div>
                                         </div>
                                     </form>
@@ -63,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="myModal_updatePart" class="modal fade" role="dialog" aria-hidden="true">
+                    <div id="myModal_updateCompany" class="modal fade" role="dialog" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -73,39 +85,39 @@
                                 <div class="modal-body form">
                                     <form action="" class="form-horizontal form-row-seperated">
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label">*配件名称</label>
+                                            <label class="col-sm-4 control-label">公司名称</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="name" ng-model="currentData.name" class="form-control" />
+                                                <input type="text"  ng-model="currentData.name" class="form-control" />
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label">*配件类别</label>
+                                            <label class="col-sm-4 control-label">联系电话</label>
                                             <div class="col-sm-8">
-                                                <select class="form-control" ng-model="currentData.partCategory" ng-options="x.name for x in partCategoryList" required />
+                                               <input type="number"  ng-model="currentData.phone" class="form-control" />
                                             </div>
                                         </div>
                                         <div class="form-group last">
-                                            <label class="col-sm-4 control-label">规格</label>
+                                            <label class="col-sm-4 control-label">地址</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="spec" ng-model="currentData.spec" class="form-control" />
+                                                <input type="text"  ng-model="currentData.address" class="form-control" />
                                             </div>
                                         </div>
                                         <div class="form-group last">
-                                            <label class="col-sm-4 control-label">型号</label>
+                                            <label class="col-sm-4 control-label">邮编</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="model" ng-model="currentData.model" class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label">*单位</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" id="unit" ng-model="currentData.unit" class="form-control" />
+                                                <input type="number"  ng-model="currentData.zip" class="form-control" />
                                             </div>
                                         </div>
                                         <div class="form-group last">
-                                            <label class="col-sm-4 control-label">品牌</label>
+                                            <label class="col-sm-4 control-label">传真</label>
                                             <div class="col-sm-8">
-                                                <input type="text" id="brand" ng-model="currentData.brand" class="form-control" />
+                                                <input type="number"  ng-model="currentData.fax" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group last">
+                                            <label class="col-sm-4 control-label">网址</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" ng-model="currentData.www" class="form-control" />
                                             </div>
                                         </div>
                                     </form>
@@ -117,17 +129,17 @@
                             </div>
                         </div>
                     </div>
-                    <div id="myModal_deletePart" class="modal fade" role="dialog" aria-hidden="true">
+                    <div id="myModal_deleteCompany" class="modal fade" role="dialog" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                    <h4 class="modal-title">删除配件</h4>
+                                    <h4 class="modal-title">删除子公司</h4>
                                 </div>
                                 <div class="modal-body form skin skin-line">
                                     <form action="" class="form-horizontal form-row-seperated" name="form">
                                         <div class="form-group">
-                                                您确定要删除配件 {{deletestr}} 吗?
+                                                您确定要删除子公司 {{deletestr}} 吗?
                                         </div>
 
                                     </form>
@@ -161,13 +173,13 @@
                         <div class="col-md-6">
 
                             <div class="btn-group">
-                                <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="addPart()">新建
+                                <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="addCompany()">新建
                                     <i class="fa fa-plus"></i>
                                 </a>
-                                <a href="#" role="button" class="btn sbold blue" data-toggle="modal" ng-click="updatePart()">编辑
+                                <a href="#" role="button" class="btn sbold blue" data-toggle="modal" ng-click="updateCompany()">编辑
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="#" role="button" class="btn sbold red" data-toggle="modal" ng-click="deletePart()">删除
+                                <a href="#" role="button" class="btn sbold red" data-toggle="modal" ng-click="deleteCompany()">删除
                                     <i class="fa fa-times"></i>
                                 </a>
                             </div>

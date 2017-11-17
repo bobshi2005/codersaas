@@ -11,8 +11,19 @@ angular.module('MetronicApp').controller('CompanymanageController', ['$scope', '
     items: {}
   };
 
-  $scope.createCompany = function(){
+  $scope.createDismiss = function(){
+    $('#myModal_createCompany').modal('hide');
+  };
 
+  $scope.disalert = function(){
+    $('#myModal_alert').modal('hide');
+  };
+
+  $scope.addCompany = function(){
+    $('#myModal_createCompany').modal();
+  };
+  $scope.saveCreateCompany = function(){
+    createCompanyImp();
   };
   $scope.deleteCompany = function(){
 
@@ -79,6 +90,33 @@ angular.module('MetronicApp').controller('CompanymanageController', ['$scope', '
         }
       });
       $scope.tableCompany.reload();
+  }
+
+  function createCompanyImp(){
+    var params={};
+    params.name = $scope.currentData.name;
+    params.address = $scope.currentData.address;
+    params.phone = $scope.currentData.phone;
+    params.fax = $scope.currentData.fax;
+    params.zip = $scope.currentData.zip;
+    params.www = $scope.currentData.www;
+
+    deviceApi.createCompany(params)
+    .then(function(result){
+      if(result.data.code==1){
+        $scope.message = '子公司创建成功';
+        $('#myModal_alert').modal();
+        $('#myModal_createCompany').modal('hide');
+        getCompanyList();
+      }else{
+        $scope.message = '子公司创建失败';
+        $('#myModal_alert').modal();
+      }
+    },function(err){
+      $scope.message = '子公司创建失败';
+      $('#myModal_alert').modal();
+      console.log('创建子公司err',err);
+    })
   }
 
   Date.prototype.format = function(format) {
