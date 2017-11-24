@@ -152,6 +152,29 @@
                             </div>
                         </div>
                     </div>
+                    <div id="myModal_setCompanyDevice" class="modal fade" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">子公司分配设备</h4>
+                                </div>
+                                <div class="modal-body form skin skin-line">
+                                    <form action="" class="form-horizontal form-row-seperated" name="form">
+                                        <div class="form-group">
+                                                您确定要删除子公司 {{deletestr}} 吗?
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn grey-salsa btn-outline " ng-click='setDeviceDismiss()' >取消</button>
+                                    <button type="button" class="btn green"  ng-click='setDevice()'>
+                                        <i class="fa fa-check"></i> 保存 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="myModal_alert" class="modal fade" role="dialog" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -202,12 +225,11 @@
                                 </td>
                                 <td title="'公司名称'">{{param.name}}</td>
                                 <td title="'联系电话'">{{param.phone}}</td>
-                                <!-- <td  title="'操作'">
+                                <td  title="'操作'">
                                     <div class="btn-group btn-group-devided" data-toggle="buttons">
-                                        <a href="#" role="button" class="btn btn-transparent green btn-outline btn-circle btn-sm" ng-click='saveModalMsg()'>入库</a>
-                                        <a href="#" role="button" class="btn btn-transparent yellow btn-outline btn-circle btn-sm" ng-click='saveModalMsg()'>出库</a>
+                                        <a href="#" role="button" class="btn btn-transparent green" ng-click='setDevice()'>分配设备</a>
                                     </div>
-                                </td> -->
+                                </td>
                             </tr>
                         </tbody>
                     </table>
