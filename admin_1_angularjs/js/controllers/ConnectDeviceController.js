@@ -12,7 +12,10 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.propertylist = [];
     $scope.sensor = {};
     $scope.equipmentModelId = $stateParams.equipmentInfo.equipmentModelId;
-
+    $scope.currentDTU = {};
+    $scope.dtudevices = []; //当前dtu名下的设备
+    $scope.DTUlist = [];
+    $scope.salveId = $stateParams.equipmentInfo.salveId;
     $scope.protocolLists =[
       {"id":1,"name":"Modbus RTU"},
       {"id":4,"name":"库智网关"},
@@ -51,6 +54,12 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       {"id":"pie",'name':'饼图'},
       {"id":"guage","name":"仪表盘"}
     ];
+
+    $scope.selectDtu = function(){
+      console.log('dtu',$scope.currentDTU);
+      getDTUdevices();
+      $('.showDTUDetail').show();
+    }
 
     $scope.checkboxes = {
       checked: false,
@@ -102,28 +111,24 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
    }, true);
 
     $scope.$on('$viewContentLoaded', function() {
+      console.log('prop',$stateParams.equipmentInfo);
+      $('.showDTUDetail').hide();
       changeProtocal();
       // getmodelPropertylist();
+      getDTUlist();
     });
 
     $scope.accessdev ={ip:'mbrtu.coderise.cn', port:'8234'};
     // $scope.accessdev ={ip:'101.132.131.144', port:'8234'};
 
     $scope.saveConnectInfo = function(){
-      if(($scope.equipmentname==null || $scope.equipmentname=='')){
-        $scope.message = '设备名称不能为空';
-        $('#myModal_alert').modal();
-      }else if(($scope.protocolId==null || $scope.protocolId=='')){
-        $scope.message = '必须选择一个协议';
-        $('#myModal_alert').modal();
-      }else{
         switch($scope.protocolId){
           case 1: {
-              if(($scope.heartData==null || $scope.heartData=='')){
-                $scope.message = '心跳包格式不能为空';
+              if(($scope.currentDTU==null || $scope.currentDTU.dtuId==null)){
+                $scope.message = '必须选择有效的dtu';
                 $('#myModal_alert').modal();
               }else{
-                accessDevice();
+                connectDTU();
               }
             };
             break;
@@ -144,10 +149,6 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
             break;
           default: break;
         }
-
-      }
-
-
     };
 
     $scope.addDataConversioin = function(){
@@ -328,6 +329,71 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
           break;
         }
       }
+    }
+
+    function getDTUlist(){
+      deviceApi.getDtulist('asc', 0, 999)
+        .then(function(result) {
+            if(result.data.total > 0) {
+                 $scope.DTUlist=result.data.rows;
+                 for(var i=0;i<result.data.total;i++){
+                   if(result.data.rows[i].dtuId==$stateParams.equipmentInfo.dtuId){
+                     $scope.currentDTU = result.data.rows[i];
+                   }
+                 }
+            }else {
+              $scope.DTUlist=[];
+            }
+        }, function(err) {
+        });
+    }
+
+    function getDTUdevices(){
+      deviceApi.getDtueEuipmentlist($scope.currentDTU.dtuId,'asc', 0, 999)
+        .then(function(result) {
+            if(result.data.total > 0) {
+                 $scope.dtudevices=[];
+                 for(var i=0;i<result.data.total;i++){
+                   if(result.data.rows[i].checked){
+                     $scope.dtudevices.push(result.data.rows[i]);
+                   }
+                 }
+            }else {
+              $scope.dtudevices=[];
+            }
+        }, function(err) {
+        });
+    }
+
+    function connectDTU(){
+      var dtuid=$scope.currentDTU.dtuId;
+      var ids = $scope.equipmentId;
+      deviceApi.dtuConnect(dtuid,ids)
+        .then(function(result) {
+            if(result.data.code == 1) {
+              dtuWriteEquipment();
+              $scope.message = 'dtu设置成功，正在写入数据，请稍后……';
+              $('#myModal_alert').modal();
+            }else {
+              $scope.DTUlist=[];
+            }
+        }, function(err) {
+        });
+    }
+
+    function dtuWriteEquipment(){
+      var equipmentInfo = $stateParams.equipmentInfo;
+      equipmentInfo.salveId = 0;
+      equipmentInfo.dtuId = $scope.currentDTU.dtuId;
+      deviceApi.dtuWriteEquipment(equipmentInfo)
+        .then(function(result) {
+            if(result.data.code == 1) {
+              $scope.message = '数据写入成功';
+            }else {
+              $scope.message = '数据写入失败';
+            }
+        }, function(err) {
+        });
     }
 
     function getmodelPropertylist(){

@@ -614,6 +614,95 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
+  // dtu接入
+  service.getDtulist = function(order, offset, limit) {
+      var d = $q.defer();
+      $http({
+          method: 'get',
+          url: deviceUrl+ '/manage/dtu/list',
+          headers: {"Accept":"application/json"},
+          withCredentials: true,
+          params: {order:'asc', offset:offset, limit:limit}
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  //获取dtu下面关联的设备
+  service.getDtueEuipmentlist = function(dtuId,order, offset, limit) {
+      var d = $q.defer();
+      $http({
+          method: 'get',
+          url: deviceUrl+ '/manage/dtu/equipment/list',
+          headers: {"Accept":"application/json"},
+          withCredentials: true,
+          params: {dtuId:dtuId,order:'asc', offset:offset, limit:limit}
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  //设备关联dtu
+  service.dtuConnect = function(dtuid, ids) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/dtu/connect/',
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          data: {dtuId:dtuid,eIds:ids},
+          withCredentials: true,
+          transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj){
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+            return str.join("&");
+          }
+
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  // 写入equipment在dtu中的信息 saveId 和dtuId
+  service.dtuWriteEquipment = function(equipmentInfo) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/dtu/equipment/write',
+          headers: {"Content-Type":"application/json;charset=UTF-8"},
+          data: equipmentInfo,
+          withCredentials: true,
+
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  //设置设备在dtu中的从站地址
+  service.dtuSetAddress = function(params) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/dtu/equipment/write',
+          headers: {"Content-Type":"application/json; charset=UTF-8"},
+          data: params,
+          withCredentials: true,
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
   //设备展示
     service.getDeviceTree = function() {
         var d = $q.defer();
