@@ -614,6 +614,69 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
+  //新建dtu
+  service.createDTU = function(params) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/dtu/create',
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          data:params,
+          withCredentials: true,
+          transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj){
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+            return str.join("&");
+          }
+
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  //delete dtu
+  service.deleteDtu = function(id) {
+      var d = $q.defer();
+      $http({
+          method: 'get',
+          url: deviceUrl+ '/manage/dtu/delete/'+id,
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          withCredentials: true,
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  //update DTU
+  service.updateDTU = function(dtuId,params) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/dtu/update/'+dtuId,
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          data:params,
+          withCredentials: true,
+          transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj){
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+            return str.join("&");
+          }
+
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
   // dtu接入
   service.getDtulist = function(order, offset, limit) {
       var d = $q.defer();

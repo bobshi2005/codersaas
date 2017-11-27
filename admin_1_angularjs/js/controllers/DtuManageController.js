@@ -14,6 +14,7 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
   };
   //操作按钮事件
   $scope.addDTU = function() {
+    $scope.currentData = {};
     $('#myModal_createDTU').modal();
   };
   $scope.updateDTU = function() {
@@ -33,13 +34,8 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
       $('#myModal_alert').modal();
     }else{
       for(var i=0; i< $scope.dtuList.length; i++){
-        if($scope.dtuList[i].inventoryId == index){
-          getWarelocationlistWithcallback($scope.dtuList[i].warehouseId, function(){
-            $scope.currentData.warelocation=getlocationById($scope.currentData.locationId);
-          });
+        if($scope.dtuList[i].dtuId == index){
           $scope.currentData = $scope.dtuList[i];
-          $scope.currentData.part = getPartById($scope.currentData.partId);
-          $scope.currentData.warehouse = getWarehouseById($scope.currentData.warehouseId);
           break;
         }
       }
@@ -55,7 +51,7 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
         checked += 1;
         let tempdata={};
         for(var i=0; i< $scope.dtuList.length; i++){
-          if($scope.dtuList[i].inventoryId == key){
+          if($scope.dtuList[i].dtuId == key){
             tempdata = $scope.dtuList[i];
             $scope.deletelist.push(tempdata);
             break;
@@ -69,8 +65,8 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
     }else{
       let tempstr = '';
       for(var i=0; i< $scope.deletelist.length; i++){
-        tempstr =tempstr+ $scope.deletelist[i].inventoryId +'号';
-        tempstr =tempstr+ ' ';
+        tempstr =tempstr+'  '+ $scope.deletelist[i].dtuId;
+        tempstr =tempstr+ '  ';
       }
       tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个dtu';
       $scope.deletestr = tempstr;
@@ -97,36 +93,12 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
   }
   //modal确定事件
   $scope.saveCreateDTU = function(){
-      // if(!$scope.currentData.hasOwnProperty("warehouse") || $scope.currentData.warehouse == ''){
-      //     alert('必须选择一个仓库');
-      // }else if(!$scope.currentData.hasOwnProperty("warelocation")  || $scope.currentData.warelocation == ''){
-      //     alert('必须选择一个仓位');
-      // }else if(!$scope.currentData.hasOwnProperty("part")  || $scope.currentData.part == ''){
-      //     alert('必须选择一个配件');
-      // }else if(!$scope.currentData.hasOwnProperty("quantity")  || $scope.currentData.quantity == ''){
-      //     alert('必须填写数量');
-      // }else if(!$scope.currentData.hasOwnProperty("inTaskDate")  || $scope.currentData.inTaskDate == '') {
-      //     alert('必须选择时间');
-      // }else{
-      //     $('#myModal_createDTU').modal('hide');
-      //     createDTUImpl();
-      // }
+      $('#myModal_createDTU').modal('hide');
+      createDTUImpl();
   };
   $scope.saveUpdateDTU = function(){
-    // if(!$scope.currentData.hasOwnProperty("warehouse") || $scope.currentData.warehouse == ''){
-    //     alert('必须选择一个仓库');
-    // }else if(!$scope.currentData.hasOwnProperty("warelocation")  || $scope.currentData.warelocation == ''){
-    //     alert('必须选择一个仓位');
-    // }else if(!$scope.currentData.hasOwnProperty("part")  || $scope.currentData.part == ''){
-    //     alert('必须选择一个配件');
-    // }else if(!$scope.currentData.hasOwnProperty("quantity")  || $scope.currentData.quantity == ''){
-    //     alert('必须填写数量');
-    // }else if(!$scope.currentData.hasOwnProperty("inTaskDate")  || $scope.currentData.inTaskDate == '') {
-    //     alert('必须选择时间');
-    // }else{
-    //     $('#myModal_updateDTU').modal('hide');
-    //     updateDTUImpl();
-    // }
+      $('#myModal_updateDTU').modal('hide');
+      updateDTUImpl();
   };
 
   $scope.saveDeleteDTU = function(){
@@ -194,15 +166,58 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
   }
 
   function createDTUImpl() {
+    var params={};
+    // params.name = $scope.currentData.name;
+    params.heartData = $scope.currentData.heartData;
+    params.modbusRtuPeriod = $scope.currentData.modbusRtuPeriod;
+
+    deviceApi.createDTU(params)
+      .then(function(result){
+        if(result.data.code == 1){
+          getDtulist();
+          $scope.message = '创建dtu成功';
+          $('#myModal_alert').modal();
+        }
+      },function(err){
+        console.log('createdtuerr',err);
+      });
 
   }
 
   function updateDTUImpl(){
+    var params={};
+    // params.name = $scope.currentData.name;
+    params.heartData = $scope.currentData.heartData;
+    params.modbusRtuPeriod = $scope.currentData.modbusRtuPeriod;
 
+    deviceApi.updateDTU($scope.currentData.dtuId,params)
+      .then(function(result){
+        if(result.data.code ==1){
+          getDtulist();
+          $scope.message = '修改dtu成功';
+          $('#myModal_alert').modal();
+        }
+      },function(err){
+        console.log('updatedtuerr',err);
+      });
   }
 
   function deleteDTUImpl(){
-
+    var ids='';
+    for(var i=0; i< $scope.deletelist.length; i++){
+      ids =ids+ $scope.deletelist[i].dtuId;
+      ids =ids+ '-';
+    }
+    deviceApi.deleteDtu(ids)
+      .then(function(result){
+        if(result.data.code ==1){
+          getDtulist();
+          $scope.message = '删除dtu成功';
+          $('#myModal_alert').modal();
+        }
+      },function(err){
+        console.log('deletedtuerr',err);
+      });
   }
 
   Date.prototype.format = function(format) {
