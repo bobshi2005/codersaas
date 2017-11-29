@@ -167,7 +167,7 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
 
   function createDTUImpl() {
     var params={};
-    // params.name = $scope.currentData.name;
+    params.name = $scope.currentData.name;
     params.heartData = $scope.currentData.heartData;
     params.modbusRtuPeriod = $scope.currentData.modbusRtuPeriod;
 
@@ -186,7 +186,7 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
 
   function updateDTUImpl(){
     var params={};
-    // params.name = $scope.currentData.name;
+    params.name = $scope.currentData.name;
     params.heartData = $scope.currentData.heartData;
     params.modbusRtuPeriod = $scope.currentData.modbusRtuPeriod;
 
