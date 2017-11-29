@@ -339,6 +339,8 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                  for(var i=0;i<result.data.total;i++){
                    if(result.data.rows[i].dtuId==$stateParams.equipmentInfo.dtuId){
                      $scope.currentDTU = result.data.rows[i];
+                     $('.showDTUDetail').show();
+                     getDTUdevices();
                    }
                  }
             }else {
@@ -349,6 +351,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     }
 
     function getDTUdevices(){
+      console.log('getdtudevices');
       deviceApi.getDtueEuipmentlist($scope.currentDTU.dtuId,'asc', 0, 999)
         .then(function(result) {
             if(result.data.total > 0) {
@@ -368,7 +371,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     function connectDTU(){
       var dtuid=$scope.currentDTU.dtuId;
       var ids = $scope.equipmentId;
-      deviceApi.dtuConnect(dtuid,ids)
+      deviceApi.addServiceToDtu(dtuid,ids)
         .then(function(result) {
             if(result.data.code == 1) {
               dtuWriteEquipment();
@@ -384,11 +387,12 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     function dtuWriteEquipment(){
       var equipmentInfo = $stateParams.equipmentInfo;
       equipmentInfo.salveId = 0;
-      equipmentInfo.dtuId = $scope.currentDTU.dtuId;
+      // equipmentInfo.dtuId = $scope.currentDTU.dtuId;
       deviceApi.dtuWriteEquipment(equipmentInfo)
         .then(function(result) {
             if(result.data.code == 1) {
               $scope.message = '数据写入成功';
+              getDTUdevices();
             }else {
               $scope.message = '数据写入失败';
             }

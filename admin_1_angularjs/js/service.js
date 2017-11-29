@@ -733,6 +733,30 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
       });
       return d.promise;
   };
+  //添加一个设备到dtu
+  service.addServiceToDtu = function(dtuid, eid) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/dtu/connect/one',
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          data: {dtuId:dtuid,eId:eid},
+          withCredentials: true,
+          transformRequest: function(obj) {
+            var str = [];
+            for(var p in obj){
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+            return str.join("&");
+          }
+
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
   // 写入equipment在dtu中的信息 saveId 和dtuId
   service.dtuWriteEquipment = function(equipmentInfo) {
       var d = $q.defer();
