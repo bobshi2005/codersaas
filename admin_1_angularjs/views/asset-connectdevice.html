@@ -36,6 +36,34 @@
           </div>
       </div>
       <div class="portlet-body">
+        <div id="myModal_selectDTU" class="modal fade" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">选择DTU</h4>
+                    </div>
+                    <div class="modal-body form">
+                        <form action="" class="form-horizontal form-row-seperated">
+                          <div class="form-group last">
+                            <label class="col-sm-4 control-label">选择DTU</label>
+                              <div class="col-sm-6">
+                                  <select class="form-control" ng-model="currentselectDTU" ng-change="selectDtu()"  ng-options="o.name for o in DTUlist"></select>
+                              </div>
+                          </div>
+                          <div class="col-sm-8 control-label">
+                            <a href="#">没有合适的dtu?点我新建</a>
+                          </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn grey-salsa btn-outline" ng-click='updateDTUDismiss()'>取消操作</button>
+                        <button type="button" class="btn green"  ng-click='updateDTU()'><i class="fa fa-check"/> 确定 </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
           <div class="col-md-6">
             <form action="" class="form-horizontal form-row-seperated" name="form">
@@ -49,7 +77,7 @@
                 <div class="form-group last">
                     <label class="col-sm-4 control-label">链接协议</label>
                     <div class="col-sm-6">
-                        <select class="form-control" ng-model="protocolId" ng-disabled="true" ng-change="selectProtocal()"  ng-options="o.id as o.name for o in protocolLists"></select>
+                      <label class="form-control">{{protocolName}}</label>
                     </div>
                 </div>
 
@@ -57,17 +85,32 @@
           </div>
           <div class="col-md-6" id="MB-RTU">
             <form action="" class="form-horizontal form-row-seperated">
-              <div class="form-group last">
-                  <label class="col-sm-4 control-label">连接DTU</label>
+              <div class="form-group">
+                  <label class="col-sm-4 control-label">
+                    采集频率
+                  </label>
                   <div class="col-sm-6">
-                      <select class="form-control" ng-model="currentDTU" ng-change="selectDtu()"  ng-options="o as o.dtuId for o in DTUlist"></select>
+                      <div class="input-group">
+                          <input type="number" ng-model="modbusRtuPeriod" class="form-control col-sm-5"  required/>
+                          <span class="input-group-addon">秒</span>
+                      </div>
                   </div>
               </div>
-              <div class="col-sm-6 col-sm-offset-4">
-                <a href="#">没有合适的dtu?点我新建</a>
+              <div class="form-group last">
+                  <label class="col-sm-4 control-label">连接DTU</label>
+                  <div class="col-sm-6 ">
+                      <label class="form-control ">{{currentDTUname}}</label>
+                  </div>
+                  <div class="col-sm-2 ">
+                    <a href="#" class='pull-left' style="padding-top:10px" ng-click='showSelectDTU()'>修改</a>
+                  </div>
               </div>
+
+              <!-- <div class="col-sm-6 col-sm-offset-4">
+                <a href="#/main/asset/dtumanage">没有合适的dtu?点我新建</a>
+              </div> -->
             </form>
-            <div class="col-md-6 col-md-offset-6">
+            <div class="col-md-2 col-md-offset-10">
               <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='saveConnectInfo()'><i class="fa fa-edit"></i>保存
               </a>
 
@@ -102,7 +145,7 @@
                   </div>
               </div>
             </form>
-            <div class="col-md-6 col-md-offset-6">
+            <div class="col-md-2 col-md-offset-10">
               <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='saveConnectInfo()'><i class="fa fa-edit"></i>保存
               </a>
               <!-- <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='goback()'><i class="fa fa-reply"></i>返回

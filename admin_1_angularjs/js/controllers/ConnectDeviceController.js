@@ -12,9 +12,12 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.propertylist = [];
     $scope.sensor = {};
     $scope.equipmentModelId = $stateParams.equipmentInfo.equipmentModelId;
-    $scope.currentDTU = {};
+    $scope.currentDTU = {};   //当前设备的dtu
+    $scope.currentDTUname = '';  //当前设备的dtu的名称
+    $scope.currentselectDTU = {};   //设备选择dtu时选择的dtu
     $scope.dtudevices = []; //当前dtu名下的设备
     $scope.DTUlist = [];
+    $scope.protocolName = '';
     $scope.salveId = $stateParams.equipmentInfo.salveId;
     $scope.protocolLists =[
       {"id":1,"name":"Modbus RTU"},
@@ -56,10 +59,13 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     ];
 
     $scope.selectDtu = function(){
-      console.log('dtu',$scope.currentDTU);
-      getDTUdevices();
-      $('.showDTUDetail').show();
-    }
+      console.log('select',$scope.currentselectDTU);
+    };
+
+    $scope.updateDTU = function(){
+      updateDTUImpl();
+    };
+
 
     $scope.checkboxes = {
       checked: false,
@@ -111,7 +117,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
    }, true);
 
     $scope.$on('$viewContentLoaded', function() {
-      console.log('prop',$stateParams.equipmentInfo);
+      // console.log('prop',$stateParams.equipmentInfo);
       $('.showDTUDetail').hide();
       changeProtocal();
       // getmodelPropertylist();
@@ -121,15 +127,24 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.accessdev ={ip:'mbrtu.coderise.cn', port:'8234'};
     // $scope.accessdev ={ip:'101.132.131.144', port:'8234'};
 
+    $scope.showSelectDTU = function(){
+      // $scope.currentselectDTU = angular.copy($scope.currentDTU);
+      for(var i=0;i<$scope.DTUlist.length; i++){
+        if($scope.currentDTU.dtuId == $scope.DTUlist[i].dtuId){
+          $scope.currentselectDTU = $scope.DTUlist[i];
+        }
+      }
+      $('#myModal_selectDTU').modal();
+    };
     $scope.saveConnectInfo = function(){
         switch($scope.protocolId){
           case 1: {
-              if(($scope.currentDTU==null || $scope.currentDTU.dtuId==null)){
-                $scope.message = '必须选择有效的dtu';
-                $('#myModal_alert').modal();
-              }else{
-                connectDTU();
-              }
+              // if(($scope.currentDTU==null || $scope.currentDTU.dtuId==null)){
+              //   $scope.message = '必须选择有效的dtu';
+              //   $('#myModal_alert').modal();
+              // }else{
+              //   connectDTU();
+              // }
             };
             break;
           case 4: {
@@ -173,92 +188,8 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       $('#myModal_alert').modal('hide');
     };
 
-    $scope.showSetSeneor = function(param){
-      $scope.sensor = {};
-      $scope.sensor.equipmentModelPropertyId = param.equipmentModelPropertyId;
-      $scope.sensor.equipmentId = $scope.equipmentId;
-      deviceApi.getSensor($scope.equipmentId, $scope.sensor.equipmentModelPropertyId)
-          .then(function(result){
-
-              if(result.data.sensor && result.data.sensor!=null){
-                let sensor = result.data.sensor;
-                $scope.sensor.salveId = sensor.salveId;
-                $scope.sensor.sensorId = sensor.sensorId;
-                $scope.sensor.period = sensor.period;
-                $scope.sensor.functionCode = sensor.functionCode;
-                $scope.sensor.address = sensor.address;
-                // $scope.sensor.quantity = sensor.quantity;
-                $scope.sensor.bitOrder = sensor.bitOrder;
-                $scope.sensor.dataFormat = sensor.dataFormat;
-                $scope.sensor.isl = sensor.isl;
-                $scope.sensor.ish = sensor.ish;
-                $scope.sensor.osl = sensor.osl;
-                $scope.sensor.osh = sensor.osh;
-                $scope.sensor.grmAction = sensor.grmAction;
-                $scope.sensor.grmVariable = sensor.grmVariable;
-                $scope.sensor.grmVariableValue = sensor.grmVariableValue;
-                $scope.sensor.grmVariableOrder = sensor.grmVariableOrder;
-
-              }
-              if($scope.sensor.dataFormat =='UNSIGNED_16' || $scope.sensor.dataFormat =='SIGNED_16' ){
-                $scope.sensor.bitOrder = 'noValue';
-                $('#bitcode').hide();
-              }else{
-                $('#bitcode').show();
-              }
-              if($scope.sensor.isl == null || $scope.sensor.ish == null || $scope.sensor.osl == null || $scope.sensor.osh == null){
-                $('.conversion-view').hide();
-                $('#addConversionbtn').show();
-              }else if($scope.sensor.isl == 0 && $scope.sensor.ish == 0 && $scope.sensor.osl == 0 && $scope.sensor.osh == 0){
-                $('.conversion-view').hide();
-                $('#addConversionbtn').show();
-              }else{
-                $('.conversion-view').show();
-                $('#addConversionbtn').hide();
-              }
-              if($scope.protocolId == 1){
-                $('#myModal_setSeneor').modal('show');
-              }else if($scope.protocolId == 4){
-                $('#myModal_setSeneorJK').modal('show');
-              }
-
-          }, function(err) {
-              if(err.status == 404){
-
-              }
-          });
-    }
-
-    $scope.setSensorDismiss = function(){
-      $('#myModal_setSeneor').modal('hide');
-      $scope.sensor = {};
-    }
-    $scope.setSensorJKDismiss = function(){
-      $('#myModal_setSeneorJK').modal('hide');
-      $scope.sensor = {};
-    }
-    $scope.saveSensor = function(){
-
-      if($('.conversion-view').is(':visible') && $scope.sensor.isl == $scope.sensor.osl && $scope.sensor.ish == $scope.sensor.osh){
-        $scope.message = '参数转换前后数据不能一致';
-        $('#myModal_alert').modal();
-      }else{
-        deviceApi.createSensor($scope.sensor)
-            .then(function(result){
-                if(result.data.code ==1 ){
-                    $scope.message = '读写指令设置成功';
-                    $('#myModal_alert').modal();
-                    $('#myModal_setSeneor').modal('hide');
-                    $('#myModal_setSeneorJK').modal('hide');
-                }
-            }, function(err) {
-                console.log('createSensorerr',err);
-                $('#myModal_setSeneor').modal('hide');
-                $('#myModal_setSeneorJK').modal('hide');
-            });
-      }
-
-
+    $scope.updateDTUDismiss = function(){
+      $('#myModal_selectDTU').modal('hide');
     };
 
     $scope.goback = function(){
@@ -266,24 +197,27 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     }
 
 
-        function changeProtocal(){
-          switch($scope.protocolId){
-            case 1:
-                $('#MB-RTU').show();
-                $('#JK').hide();
+    function changeProtocal(){
+      switch($scope.protocolId){
+        case 1:
+            $('#MB-RTU').show();
+            $('#JK').hide();
+            $scope.protocolName ='Modbus RTU';
 
-              break;
-            case 4:
-                $('#MB-RTU').hide();
-                $('#JK').show();
+          break;
+        case 4:
+            $('#MB-RTU').hide();
+            $('#JK').show();
+            $scope.protocolName ='库智网关';
 
-              break;
-            default:
-              $('#MB-RTU').hide();
-              $('#JK').hide();
-            break;
-          }
-        }
+          break;
+        default:
+          $('#MB-RTU').hide();
+          $('#JK').hide();
+          $scope.protocolName ='无';
+        break;
+      }
+    }
 
     function accessDevice() {
         var params={};
@@ -339,6 +273,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                  for(var i=0;i<result.data.total;i++){
                    if(result.data.rows[i].dtuId==$stateParams.equipmentInfo.dtuId){
                      $scope.currentDTU = result.data.rows[i];
+                     $scope.currentDTUname =  $scope.currentDTU.name;
                      $('.showDTUDetail').show();
                      getDTUdevices();
                    }
@@ -351,7 +286,6 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     }
 
     function getDTUdevices(){
-      console.log('getdtudevices');
       deviceApi.getDtueEuipmentlist($scope.currentDTU.dtuId,'asc', 0, 999)
         .then(function(result) {
             if(result.data.total > 0) {
@@ -368,30 +302,84 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
         });
     }
 
-    function connectDTU(){
-      var dtuid=$scope.currentDTU.dtuId;
-      var ids = $scope.equipmentId;
-      deviceApi.addServiceToDtu(dtuid,ids)
+    function updateDTUImpl(){
+      var eid = $scope.equipmentId;
+      console.log('currentConnectDtu',$scope.currentselectDTU);
+      if($scope.currentDTU.dtuId && $scope.currentDTU.dtuId == $scope.currentselectDTU.dtuId){
+         //无操作
+         console.log('无操作');
+      }else if($scope.currentDTU.dtuId && $scope.currentDTU.dtuId != $scope.currentselectDTU.dtuId){
+        console.log('先unconnect再connect');
+        $scope.message = '正在删除当前设置，请稍后……';
+        $('#myModal_alert').modal();
+        deviceApi.deleteEquipmentFromDtu($scope.currentDTU.dtuId,eid)
+          .then(function(result) {
+              if(result.data.code == 1) {
+                $scope.message = '正在配置新的dtu设置，请稍后……';
+                deviceApi.addEquipmentToDtu($scope.currentselectDTU.dtuId,eid)
+                  .then(function(result) {
+                      if(result.data.code == 1) {
+                        $('#myModal_selectDTU').modal('hide');
+                        $scope.currentDTU = angular.copy($scope.currentselectDTU);
+                        $scope.currentDTUname = $scope.currentDTU.name;
+                        dtuWriteEquipment($stateParams.equipmentInfo,0);
+                        $scope.message = 'dtu设置成功，正在写入数据，请稍后……';
+
+                      }else {
+                      }
+                  }, function(err) {
+                    $scope.message = '操作失败';
+                  });
+
+              }else {
+                $scope.message = '操作失败';
+              }
+          }, function(err) {
+            $scope.message = '操作失败';
+          });
+      }else{
+        //connect
+        console.log('connect');
+        addEquipmentToDtu($scope.currentselectDTU.dtuId,eid);
+      }
+
+
+    }
+
+    function addEquipmentToDtu(dtuid,eid){
+      deviceApi.addEquipmentToDtu(dtuid,eid)
         .then(function(result) {
             if(result.data.code == 1) {
-              dtuWriteEquipment();
+              $('#myModal_selectDTU').modal('hide');
+              $scope.currentDTU = angular.copy($scope.currentselectDTU);
+              $scope.currentDTUname = $scope.currentDTU.name;
+              dtuWriteEquipment($stateParams.equipmentInfo,0);
               $scope.message = 'dtu设置成功，正在写入数据，请稍后……';
-              $('#myModal_alert').modal();
             }else {
-              $scope.DTUlist=[];
+              $scope.message = '操作失败';
+            }
+        }, function(err) {
+          $scope.message = '操作失败';
+        });
+    }
+    function deleteEquipmentFromDtu(dtuid,eid){
+      deviceApi.deleteEquipmentFromDtu(dtuid,eid)
+        .then(function(result) {
+            if(result.data.code == 1) {
+            }else {
             }
         }, function(err) {
         });
     }
 
-    function dtuWriteEquipment(){
-      var equipmentInfo = $stateParams.equipmentInfo;
-      equipmentInfo.salveId = 0;
-      // equipmentInfo.dtuId = $scope.currentDTU.dtuId;
+    function dtuWriteEquipment(equipmentInfo,salveId){
+      var equipmentInfo = equipmentInfo;
+      equipmentInfo.salveId = salveId;
       deviceApi.dtuWriteEquipment(equipmentInfo)
         .then(function(result) {
             if(result.data.code == 1) {
               $scope.message = '数据写入成功';
+              // $scope.currentDTU = angular.copy($scope.currentselectDTU);
               getDTUdevices();
             }else {
               $scope.message = '数据写入失败';
