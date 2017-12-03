@@ -66,7 +66,19 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.updateselectDTU = function(){
       updateselectDTUImpl();
     };
-
+    $scope.salveIdplus = function(equipment){
+      equipment.salveId+= 1;
+      console.log('salveIdplus',equipment.salveId)
+    };
+    $scope.salveIdminus = function(equipment){
+      equipment.salveId-= 1;
+      console.log('salveIdplus',equipment.salveId)
+    };
+    $scope.saveUpdateSalveId = function(equipment){
+      $scope.message ='正在写入更新……';
+      $('#myModal_alert').modal();
+      dtuWriteEquipment(equipment,equipment.salveId);
+    };
 
     $scope.checkboxes = {
       checked: false,
@@ -401,6 +413,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
               getDTUdevices();
             }else {
               $scope.message = '数据写入失败';
+              getDTUdevices();
             }
         }, function(err) {
         });

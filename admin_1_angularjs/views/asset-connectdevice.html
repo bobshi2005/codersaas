@@ -226,13 +226,13 @@
                       <label class="form-control">{{currentDTU.heartData}}</label>
                   </div>
               </div>
-              <div class="form-group col-md-6">
+              <!-- <div class="form-group col-md-6">
                 <label class="col-sm-4 control-label">
                     采集频率</label>
                 <div class="col-sm-8">
                     <label class="form-control">{{currentDTU.modbusRtuPeriod}}</label>
                 </div>
-              </div>
+              </div> -->
               <div class="form-group col-md-12">
                 <label class="col-sm-2 control-label">
                     设备和地址</label>
@@ -242,11 +242,11 @@
                       <div ng-if="item.checked">
                         <label class="pull-left text-center" style="width: 80px;height:30px;line-height:30px">从站地址:</label>
                         <div class="pull-left text-center" style="width: 80px;height:30px;line-height:30px;">
-                          <a href="javascript:;" class="pull-left btn btn-icon-only solid" style="width:20px;height:20px">
+                          <a href="javascript:;" ng-click="salveIdminus(item)" class="pull-left btn btn-icon-only solid" style="width:20px;height:20px">
                               <i class="fa fa-minus"></i>
                           </a>
                           <Input type="number" class="pull-left" style="width: 40px;height:30px;line-height:30px" ng-model="item.salveId"/>
-                          <a href="javascript:;" class="pull-left btn btn-icon-only solid" style="width:20px;height:20px">
+                          <a href="javascript:;" ng-click="salveIdplus(item)" class="pull-left btn btn-icon-only solid" style="width:20px;height:20px">
                               <i class="fa fa-plus"></i>
                           </a>
                         </div>
@@ -255,7 +255,7 @@
                             <label >{{item.name}}</label>
                         </div>
                         <div class="pull-left text-center" ng-show="item.checked" style="width:40px;height:30px;line-height:30px">
-                          <a href="javascript:;" class="pull-left" style="width:80px;height:20px">保存修改
+                          <a href="javascript:;" class="pull-left" ng-click="saveUpdateSalveId(item)" style="width:80px;height:20px">保存修改
                           </a>
                         </div>
                       </div>
