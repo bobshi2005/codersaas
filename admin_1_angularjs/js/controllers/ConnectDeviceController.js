@@ -17,6 +17,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.currentselectDTU = {};   //设备选择dtu时选择的dtu
     $scope.dtudevices = []; //当前dtu名下的设备
     $scope.DTUlist = [];
+    $scope.newDTU ={name:'',heartData:''};
     $scope.protocolName = '';
     $scope.salveId = $stateParams.equipmentInfo.salveId;
     $scope.protocolLists =[
@@ -62,8 +63,8 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       console.log('select',$scope.currentselectDTU);
     };
 
-    $scope.updateDTU = function(){
-      updateDTUImpl();
+    $scope.updateselectDTU = function(){
+      updateselectDTUImpl();
     };
 
 
@@ -136,6 +137,23 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       }
       $('#myModal_selectDTU').modal();
     };
+
+    $scope.showCreateDTU = function(){
+      $('#myModal_createDTU').modal();
+    };
+    $scope.createDTU = function(){
+      if(!$scope.newDTU.name || $scope.newDTU.name==''){
+        $scope.message='请输入名称';
+        $('#myModal_alert').modal();
+      }else if(!$scope.newDTU.heartData || $scope.newDTU.heartData==''){
+        $scope.message='请输入心跳包';
+        $('#myModal_alert').modal();
+      }else{
+        $('#myModal_createDTU').modal('hide');
+        createDTUImpl();
+      }
+
+    };
     $scope.saveConnectInfo = function(){
         switch($scope.protocolId){
           case 1: {
@@ -188,7 +206,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
       $('#myModal_alert').modal('hide');
     };
 
-    $scope.updateDTUDismiss = function(){
+    $scope.updateselectDTUDismiss = function(){
       $('#myModal_selectDTU').modal('hide');
     };
 
@@ -302,7 +320,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
         });
     }
 
-    function updateDTUImpl(){
+    function updateselectDTUImpl(){
       var eid = $scope.equipmentId;
       console.log('currentConnectDtu',$scope.currentselectDTU);
       if($scope.currentDTU.dtuId && $scope.currentDTU.dtuId == $scope.currentselectDTU.dtuId){
@@ -386,6 +404,24 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
             }
         }, function(err) {
         });
+    }
+
+    function createDTUImpl() {
+      var params={};
+      params.name = $scope.newDTU.name;
+      params.heartData = $scope.newDTU.heartData;
+
+      deviceApi.createDTU(params)
+        .then(function(result){
+          if(result.data.code == 1){
+            getDTUlist();
+            $scope.message = '创建dtu成功';
+            $('#myModal_alert').modal();
+          }
+        },function(err){
+          console.log('createdtuerr',err);
+        });
+
     }
 
     function getmodelPropertylist(){

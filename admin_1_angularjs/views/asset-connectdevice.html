@@ -52,14 +52,47 @@
                               </div>
                           </div>
                           <div class="col-sm-8 control-label">
-                            <a href="#">没有合适的dtu?点我新建</a>
+                            <a href="#" ng-click='showCreateDTU()'>没有合适的dtu?点我新建</a>
                           </div>
 
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn grey-salsa btn-outline" ng-click='updateDTUDismiss()'>取消操作</button>
-                        <button type="button" class="btn green"  ng-click='updateDTU()'><i class="fa fa-check"/> 确定 </button>
+                        <button type="button" class="btn grey-salsa btn-outline" ng-click='updateselectDTUDismiss()'>取消操作</button>
+                        <button type="button" class="btn green"  ng-click='updateselectDTU()'><i class="fa fa-check"/> 确定 </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myModal_createDTU" class="modal fade" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">新建DTU</h4>
+                    </div>
+                    <div class="modal-body form">
+                        <form action="" class="form-horizontal form-row-seperated">
+                          <div class="form-group">
+                              <label class="col-sm-4 control-label">
+                                  名称</label>
+                              <div class="col-sm-6">
+                                  <input type="text" ng-model="newDTU.name" class="form-control" required/>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-4 control-label">
+                                  心跳包</label>
+                              <div class="col-sm-6">
+                                  <input type="text" ng-model="newDTU.heartData" class="form-control" required/>
+                              </div>
+                          </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn grey-salsa btn-outline" ng-click='createDTUDismiss()'>取消操作</button>
+                        <button type="button" class="btn green"  ng-click='createDTU()'><i class="fa fa-check"/> 确定 </button>
                     </div>
                 </div>
             </div>
