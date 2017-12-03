@@ -169,7 +169,7 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
     var params={};
     params.name = $scope.currentData.name;
     params.heartData = $scope.currentData.heartData;
-    params.modbusRtuPeriod = $scope.currentData.modbusRtuPeriod;
+    // params.modbusRtuPeriod = $scope.currentData.modbusRtuPeriod;
 
     deviceApi.createDTU(params)
       .then(function(result){
@@ -188,7 +188,7 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
     var params={};
     params.name = $scope.currentData.name;
     params.heartData = $scope.currentData.heartData;
-    params.modbusRtuPeriod = $scope.currentData.modbusRtuPeriod;
+    // params.modbusRtuPeriod = $scope.currentData.modbusRtuPeriod;
 
     deviceApi.updateDTU($scope.currentData.dtuId,params)
       .then(function(result){

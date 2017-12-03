@@ -157,12 +157,12 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.saveConnectInfo = function(){
         switch($scope.protocolId){
           case 1: {
-              // if(($scope.currentDTU==null || $scope.currentDTU.dtuId==null)){
-              //   $scope.message = '必须选择有效的dtu';
-              //   $('#myModal_alert').modal();
-              // }else{
-              //   connectDTU();
-              // }
+              if(($scope.modbusRtuPeriod==null || $scope.modbusRtuPeriod=='')){
+                $scope.message = '必须填写采集频率';
+                $('#myModal_alert').modal();
+              }else{
+                accessDevice();
+              }
             };
             break;
           case 4: {
@@ -243,7 +243,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
         // params.protocolId = $scope.protocolId;
         // params.name = $scope.equipmentname;
         if($scope.protocolId == 1){
-           params.heartData = $scope.heartData;
+          //  params.heartData = $scope.heartData;
            params.modbusRtuPeriod = $scope.modbusRtuPeriod;
         }else if($scope.protocolId == 4){
           params.grm = $scope.grm;
