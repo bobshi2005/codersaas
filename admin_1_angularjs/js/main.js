@@ -556,6 +556,22 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                 }]
             }
         })
+        .state('main.asset.dtuConnectEquip', {
+            url: "/dtuConnectEquip",
+            params:{"dtuInfo":null},
+            templateUrl: "views/asset-dtuConnectEquip.html?version=2017110601",
+            controller: 'DtuEquipmentManageController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                          'js/controllers/DtuEquipmentManageController.js?version=2017110601'
+
+                    ])
+                }]
+            }
+        })
         .state('main.asset.warehousemanage', {
             url: "/warehousemanage",
             templateUrl: "views/asset-warehousemanage.html?version=2017110601",
