@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('DtuEquipmentManageController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','$stateParams','$element', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,$stateParams,$element) {
+angular.module('MetronicApp').controller('DtuEquipmentManageController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','$stateParams','$element', '$state',function($scope, $rootScope, deviceApi, NgTableParams,$timeout,$stateParams,$element,$state) {
   $rootScope.menueName = 'sidebar-asset';
   $scope.menueName = $rootScope.menueName;
 
@@ -76,7 +76,6 @@ angular.module('MetronicApp').controller('DtuEquipmentManageController', ['$scop
   $scope.removeEquipment = function(){
     $('#myModal_removeEquipment').modal('hide');
     var equipmentlist = $scope.deleteArr.concat($scope.equipUnCheckList);
-    console.log('newlist',equipmentlist);
     setDTUEquipments(equipmentlist);
 
   }
@@ -91,11 +90,18 @@ angular.module('MetronicApp').controller('DtuEquipmentManageController', ['$scop
   };
   $scope.salveIdplus = function(equipment){
     equipment.salveId+= 1;
-    console.log('salveIdplus',equipment.salveId)
   };
   $scope.salveIdminus = function(equipment){
     equipment.salveId-= 1;
-    console.log('salveIdplus',equipment.salveId)
+  };
+
+  $scope.updateSalveId = function(equipment){
+    $scope.message ='正在写入更新……';
+    $('#myModal_alert').modal();
+    dtuWriteEquipment(equipment,equipment.salveId);
+  };
+  $scope.goback = function(){
+    $state.go('main.asset.dtumanage');
   };
 
   $scope.$on('$viewContentLoaded', function() {
@@ -165,7 +171,6 @@ angular.module('MetronicApp').controller('DtuEquipmentManageController', ['$scop
     deviceApi.getDtueEuipmentlist($scope.dtuInfo.dtuId,'asc', 0, 999)
       .then(function(result) {
           if(result.data.total > 0) {
-              console.log('getDtuEquipmentlist',result.data);
                for(var i=0;i<result.data.total;i++){
                  if(result.data.rows[i].checked){
                    $scope.equipCheckList.push(result.data.rows[i]);
@@ -211,6 +216,22 @@ angular.module('MetronicApp').controller('DtuEquipmentManageController', ['$scop
       },function(err){
         console.log('setDtuEquipmentsErr');
       })
+  }
+
+  function dtuWriteEquipment(equipmentInfo,salveId){
+    var equipmentInfo = equipmentInfo;
+    equipmentInfo.salveId = salveId;
+    deviceApi.dtuWriteEquipment(equipmentInfo)
+      .then(function(result) {
+          if(result.data.code == 1) {
+            $scope.message = '数据写入成功';
+            getEquipList();
+          }else {
+            $scope.message = '数据写入失败';
+            getEquipList();
+          }
+      }, function(err) {
+      });
   }
 
 

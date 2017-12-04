@@ -21,7 +21,11 @@
             <div class="portlet-title">
                 <div class="caption font-dark">
                     <i class="icon-settings font-dark"></i>
-                    <span class="caption-subject bold uppercase">DTU设备列表</span>
+                    <span class="caption-subject bold uppercase">{{dtuInfo.name}}   设备列表</span>
+                </div>
+                <div class="btn-group pull-right">
+                  <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='goback()'><i class="fa fa-reply"></i>返回
+                  </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -140,7 +144,7 @@
                                 </td>
                                 </td>
                                 <td title="'操作'">
-                                  <a  class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>保存修改</a>
+                                  <a  class="btn btn-sm btn-success sbold blue " ng-click="updateSalveId(param)"><i class="fa fa-plus"></i>保存修改</a>
                                 </td>
 
                             </tr>

@@ -334,7 +334,6 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
 
     function updateselectDTUImpl(){
       var eid = $scope.equipmentId;
-      console.log('currentConnectDtu',$scope.currentselectDTU);
       if($scope.currentDTU.dtuId && $scope.currentDTU.dtuId == $scope.currentselectDTU.dtuId){
          //无操作
          console.log('无操作');
