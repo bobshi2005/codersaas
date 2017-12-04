@@ -65,7 +65,7 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
     }else{
       let tempstr = '';
       for(var i=0; i< $scope.deletelist.length; i++){
-        tempstr =tempstr+'  '+ $scope.deletelist[i].dtuId;
+        tempstr =tempstr+'  '+ $scope.deletelist[i].name;
         tempstr =tempstr+ '  ';
       }
       tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个dtu';
