@@ -14,22 +14,92 @@ angular.module('MetronicApp').controller('CompanymanageController', ['$scope', '
   $scope.createDismiss = function(){
     $('#myModal_createCompany').modal('hide');
   };
+  $scope.updateDismiss = function(){
+    $('#myModal_updateCompany').modal('hide');
+  };
+  $scope.deleteDismiss = function(){
+    $('#myModal_deleteCompany').modal('hide');
+  };
 
   $scope.disalert = function(){
     $('#myModal_alert').modal('hide');
   };
 
-  $scope.addCompany = function(){
+  $scope.showCreateCompany = function(){
+    $scope.currentData = {};
     $('#myModal_createCompany').modal();
   };
-  $scope.saveCreateCompany = function(){
+  $scope.createCompany = function(){
     createCompanyImp();
   };
-  $scope.deleteCompany = function(){
 
+  $scope.showUpdateCompany = function(){
+    $scope.currentData = {};
+    var checked = 0, index = 0;
+    angular.forEach($scope.checkboxes.items, function(value,key) {
+      if(value){
+        index = key;
+        checked += 1;
+      }
+    });
+    if(checked == 0){
+      $scope.message = '请选择一个子公司';
+      $('#myModal_alert').modal();
+    }else if(checked > 1){
+      $scope.message = '只能选择一个子公司进行编辑';
+      $('#myModal_alert').modal();
+    }else{
+      for(var i=0; i< $scope.companylist.length; i++){
+        if($scope.companylist[i].companyId == index){
+          $scope.currentData = $scope.companylist[i];
+          console.log('currentcompany',$scope.currentData)
+          break;
+        }
+      }
+      $('#myModal_updateCompany').modal();
+    }
   };
   $scope.updateCompany = function(){
+    $('#myModal_updateCompany').modal('hide');
+    updateCompanyImpl();
+  };
 
+  $scope.showDeleteCompany = function(){
+    var checked = 0;
+    $scope.deletelist = [];
+    angular.forEach($scope.checkboxes.items, function(value,key) {
+      if(value){
+        checked += 1;
+        let tempdata={};
+        for(var i=0; i< $scope.companylist.length; i++){
+          if($scope.companylist[i].companyId == key){
+            tempdata = $scope.companylist[i];
+            $scope.deletelist.push(tempdata);
+            break;
+          }
+        }
+      }
+    });
+    if(checked == 0){
+      $scope.message = '请至少选择一个子公司';
+      $('#myModal_alert').modal();
+    }else{
+      console.log('deletelist',$scope.deletelist);
+      let tempstr = '';
+      for(var i=0; i< $scope.deletelist.length; i++){
+        tempstr =tempstr+'  '+ $scope.deletelist[i].name;
+        tempstr =tempstr+ '  ';
+      }
+      tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个子公司';
+      $scope.deletestr = tempstr;
+      $('#myModal_deleteCompany').modal();
+    }
+  };
+
+
+  $scope.deleteCompany = function(){
+    $('#myModal_deleteCompany').modal('hide');
+    deleteCompanyImpl();
   };
   $scope.$on('$viewContentLoaded', function() {
       getCompanyList();
@@ -120,6 +190,59 @@ angular.module('MetronicApp').controller('CompanymanageController', ['$scope', '
       $('#myModal_alert').modal();
       console.log('创建子公司err',err);
     })
+  }
+
+  function deleteCompanyImpl(){
+    var ids='';
+    for(var i=0;i<$scope.deletelist.length;i++){
+      ids+= $scope.deletelist[i].companyId;
+      ids+= '-';
+    }
+    console.log('ids',ids);
+    deviceApi.deleteCompany(ids)
+    .then(function(result){
+      if(result.data.code==1){
+        $scope.message = '子公司删除成功';
+        $('#myModal_alert').modal();
+        $('#myModal_updaCompany').modal('hide');
+        getCompanyList();
+      }else{
+        $scope.message = '子公司删除失败';
+        $('#myModal_alert').modal();
+      }
+    },function(err){
+      $scope.message = '子公司删除失败';
+      $('#myModal_alert').modal();
+      console.log('编辑子公司err',err);
+    })
+  }
+
+  function updateCompanyImpl(){
+
+      var params={};
+      params.name = $scope.currentData.name;
+      params.address = $scope.currentData.address;
+      params.phone = $scope.currentData.phone;
+      params.fax = $scope.currentData.fax;
+      params.zip = $scope.currentData.zip;
+      params.www = $scope.currentData.www;
+
+      deviceApi.updateCompany(params,$scope.currentData.companyId)
+      .then(function(result){
+        if(result.data.code==1){
+          $scope.message = '子公司编辑成功';
+          $('#myModal_alert').modal();
+          $('#myModal_updaCompany').modal('hide');
+          getCompanyList();
+        }else{
+          $scope.message = '子公司编辑失败';
+          $('#myModal_alert').modal();
+        }
+      },function(err){
+        $scope.message = '子公司编辑失败';
+        $('#myModal_alert').modal();
+        console.log('编辑子公司err',err);
+      })
   }
 
   Date.prototype.format = function(format) {

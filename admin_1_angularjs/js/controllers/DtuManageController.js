@@ -30,7 +30,7 @@ angular.module('MetronicApp').controller('DtuManageController', ['$scope', '$roo
       $scope.message = '请选择一个dtu';
       $('#myModal_alert').modal();
     }else if(checked > 1){
-      $scope.message = '只能选择一个dtu类行编辑';
+      $scope.message = '只能选择一个dtu进行编辑';
       $('#myModal_alert').modal();
     }else{
       for(var i=0; i< $scope.dtuList.length; i++){
