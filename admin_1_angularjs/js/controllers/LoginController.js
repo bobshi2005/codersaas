@@ -5,7 +5,7 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
     $scope.loginForm.userName = locals.get("username");
 
     $scope.login = function(){
-      console.log('sss',$scope.loginForm);
+      // console.log('sss',$scope.loginForm);
         userApi.login($scope.loginForm.userName, $scope.loginForm.password,'false','')
           .then(function(result) {
               if(result.data.code == 1) {
@@ -90,13 +90,13 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
             locals.set("realname", result.data.data.user.realname);
             locals.set("userId", result.data.data.user.userId);
             $rootScope.$broadcast('alarm_stop','true');
-
+            $rootScope.$broadcast('realname_set','true');
             userApi.userPermission(locals.get("userId"))
-            .then(function(result){
-              console.log('用户的权限:',result.data);
-            },function(err){
+              .then(function(result){
+                // console.log('用户的权限:',result.data);
+              },function(err){
 
-            });
+              });
           }else {
             console.log('getUserresulterr',result.data.message);
           }
