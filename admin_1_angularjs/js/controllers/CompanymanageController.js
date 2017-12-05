@@ -104,9 +104,7 @@ angular.module('MetronicApp').controller('CompanymanageController', ['$scope', '
   $scope.$on('$viewContentLoaded', function() {
       getCompanyList();
   });
-  $scope.setDevice = function(){
-    $('#myModal_setCompanyDevice').modal();
-  }
+
   $scope.$watch(function() {
     return $scope.checkboxes.checked;
   }, function(value) {

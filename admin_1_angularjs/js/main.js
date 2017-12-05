@@ -740,6 +740,22 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                 }]
             }
         })
+        .state('main.setting.companyequip', {
+            url: "/companyequip",
+            params:{"companyInfo":null},
+            templateUrl: "views/setting-companyEquip.html?version=2017110601",
+            controller: 'CompanyEquipmentManageController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                          'js/controllers/companyEquipmentManageController.js?version=2017110601'
+
+                    ])
+                }]
+            }
+        })
         .state('main.asset.netgate', {
             url: "/netgate",
             templateUrl: "views/setting-netgate.html?version=2017110601",

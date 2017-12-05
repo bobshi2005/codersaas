@@ -976,6 +976,47 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         });
         return d.promise;
     };
+    //获取子公司名下的设备
+    service.getCompanyEuipmentlist = function(companyId, order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/company/equipment/list',
+            headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {companyId:companyId,order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+    //set 子公司名下设备
+    //设备关联dtu  ids 以 :: 相连
+    service.setCompanyEquipments = function(companyId, eIds) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/company/auth/',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data: {companyId:companyId,eIds:eIds},
+            withCredentials: true,
+            transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
   //设备启停
     service.startCollect = function(param) {
