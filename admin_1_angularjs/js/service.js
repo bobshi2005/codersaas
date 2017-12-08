@@ -185,12 +185,28 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
         });
         return d.promise;
     };
-
+    //获取用户的权限 tree
     service.userPermission = function(userId) {
         var d = $q.defer();
         $http({
             method: 'post',
             url: userUrl + '/manage/permission/user/'+userId+'?type=1',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+            data:{},
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+    //获取用户的权限id数组
+    service.userPermissionCode = function(userId) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: userUrl + '/manage/permission/ids/user/'+userId+'?type=1',
             headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
             withCredentials: true,
             data:{},
@@ -1523,6 +1539,7 @@ AppService.factory('sharedataApi',function() {
     var modeldata = {}; // 共享的设备模型list数据
     var partCategorydata ={}; // 共享的备件类别数据
     var wareHousedata = {};// 共享的仓库数据
+    var userpermissiondata = {};//用户权限数据
     service.setModeldata = function(data){
       modeldata = data;
     }
