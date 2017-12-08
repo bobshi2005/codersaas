@@ -83,6 +83,37 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
         });
         return d.promise;
     };
+    //修改用户
+    service.updateUser = function(userId,username,realname,avatar,phone,email,sex,locked) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: userUrl + '/manage/user/update/'+userId,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:{
+                username:username,
+                realname:realname,
+                avatar:avatar,
+                phone:phone,
+                email:email,
+                sex:sex,
+                locked:locked,
+            },
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
 
     service.passback = function(phone,code,pass1,pass2) {
         var d = $q.defer();
