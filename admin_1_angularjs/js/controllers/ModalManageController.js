@@ -520,7 +520,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             if(result.data.sensor && result.data.sensor!=null){
                 var sensor = result.data.sensor;
                 $scope.currentPropertySensor = angular.copy(sensor);
-                $scope.sensor.salveId = sensor.salveId;
+                // $scope.sensor.salveId = sensor.salveId;
                 $scope.sensor.sensorId = sensor.sensorId;
                 // $scope.sensor.period = sensor.period;
                 $scope.sensor.functionCode = sensor.functionCode;
