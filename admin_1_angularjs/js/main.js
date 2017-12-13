@@ -522,6 +522,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                             "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
                             "../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
                             "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
+                            "../assets/global/plugins/fine-uploader/fine-uploader-gallery.min.css",
+                            "../assets/global/plugins/fine-uploader/fine-uploader.min.js",
                             'js/controllers/InfoManageController.js?version=2017110601'
                     ])
                 }]
