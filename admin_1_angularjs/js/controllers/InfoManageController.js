@@ -421,7 +421,6 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                   enabled : true,
                   forceConfirm : true,
                   endpoint : 'http://139.196.141.29:9498/fd/delete',
-                  method:'POST',
                   confirmMessage:'确定要删除文件{filename}吗？',
                   deletingFailedText:'删除失败！'
               },
@@ -499,7 +498,6 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                   enabled : true,
                   forceConfirm : true,
                   endpoint : 'http://139.196.141.29:9498/fd/delete',
-                  method:'POST',
                   confirmMessage:'确定要删除文件{filename}吗？',
                   deletingFailedText:'删除失败！'
               },
