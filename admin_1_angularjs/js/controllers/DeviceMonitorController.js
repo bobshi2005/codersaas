@@ -400,7 +400,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         '<div style="color: white;font-size: 14px;background-color: rgba(0,155,255,0.8);line-height: 26px; padding: 0px 0 0 6px; font-weight: lighter; varter-spacing: 1px">'+
         '设备概况</div>'+
         '<div style="padding: 4px;color: #666666;line-height: 35px; width: 300px">'+
-        '<img style=" float: left; margin: 3px; width: 60px" src="../assets/pages/media/works/img7.jpg">'+
+        '<img style=" float: left; margin: 3px; width: 60px" src='+$scope.imagesrc+'>'+
         '<a href="javascritp:void(0);" ng-click="selectNodefromMap()">'+ infodata.name +'</a><br/>'+infodata.equipmentId+'<br/>'+
         '</div></div>';
       var content=$compile(content1)($scope);
@@ -408,7 +408,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.infowindow.open($scope.map,[infodata.longitude,infodata.latitude]);
     }
     function formatEchartValue(origindata) {
-      console.log('formatValee',origindata);
+      // console.log('formatValee',origindata);
       $scope.echartValue = [];
       if(origindata.length>0){
         for(var i=0; i<origindata.length; i++) {
@@ -595,7 +595,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       linechart.setOption($scope.linechartoption);　
     };
     function getDataModel(equipid){
-      console.log('getDataModel--start---',equipid);
+      // console.log('getDataModel--start---',equipid);
       $scope.selectedlinetab=[];
       $scope.lineTab='';
       $scope.lineLabel='';
@@ -732,7 +732,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 }else{
                   $scope.imagesrc ='http://139.196.141.29:9498/files/'+data.imagePath;
                 }
-                console.log('getEquipmentInfo',data);
+                // console.log('getEquipmentInfo',data);
                 setInfoWindow(data);
             }else {
               console.log('getEquipmentInfobyIderr',result.message);
