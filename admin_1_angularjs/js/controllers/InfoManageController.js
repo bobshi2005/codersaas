@@ -157,10 +157,12 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       var uploads = galleryUploader.getUploads({
           status: qq.status.UPLOAD_SUCCESSFUL
       });
-      var fileUuids = '';
+      // var fileUuids = '';
       for (var i = 0; i < uploads.length; i++) {
-          fileUuids = fileUuids + uploads[i].uuid + ",";
+         console.log('uploads','i',uploads[i]);
+          // fileUuids = fileUuids + uploads[i].uuid + ",";
       }
+      var fileUuids = uploads[0].uuid;
       console.log("fileUuids = " + fileUuids);
       $('#imagePath').val(fileUuids);
 
@@ -539,10 +541,12 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                      for(var i=0;i<result.data.rows.length;i++) {
                        var tempname = getModelnameById($scope.devicelist[i].equipmentModelId);
                        $scope.devicelist[i].equipmentModelname = tempname;
+                       $scope.devicelist[i].imagesrc = 'http://139.196.141.29:9498/files/'+$scope.devicelist[i].imagePath;
                        $scope.devicelist[i].factoryDate = changeTimeFormat($scope.devicelist[i].factoryDate);
                        $scope.devicelist[i].createTime = changeTimeFormat($scope.devicelist[i].createTime);
                        $scope.devicelist[i].warrantyStartDate = changeTimeFormat($scope.devicelist[i].warrantyStartDate);
                        $scope.devicelist[i].warrantyEndDate = changeTimeFormat($scope.devicelist[i].warrantyEndDate);
+                       console.log('imgsrc',$scope.devicelist[i].imagesrc);
                        if($scope.devicelist[i].collectStatus == "Working"){
                          $scope.devicelist[i].turnpic="../assets/pages/img/turn-on2.png"
                        }else{

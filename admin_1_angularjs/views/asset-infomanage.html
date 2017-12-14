@@ -368,13 +368,16 @@
                                       <td title="'模型'">
                                           <span class="label label-sm label-success"> {{param.equipmentModelname}} </span>
                                       </td>
+                                      <td title="'图片'">
+                                          <img ng-src="{{param.imagesrc}}" style="width: 36px;height:36px"/>
+                                      </td>
                                       <!-- <td title="'位置'">{{param.longitude}},{{param.latitude}}</td> -->
                                       <!-- <td title="'用户'">{{param.createUserId}}</td> -->
                                       <td title="'维保周期'" class="center">{{param.maintenancePeriod}}</td>
-                                      <td title="'出厂日期'" class="center">{{param.factoryDate}}</td>
+                                      <!-- <td title="'出厂日期'" class="center">{{param.factoryDate}}</td>
                                       <td title="'投产日期'" class="center">{{param.createTime}}</td>
                                       <td title="'质保开始日期'" class="center">{{param.warrantyStartDate}}</td>
-                                      <td title="'质保结束日期'" class="center">{{param.warrantyEndDate}}</td>
+                                      <td title="'质保结束日期'" class="center">{{param.warrantyEndDate}}</td> -->
                                       <td title="'接入'">
                                           <div class="margin-bottom-5">
                                             <a ui-sref="main.asset.connectdevice({equipmentInfo:param})" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>设备接入
