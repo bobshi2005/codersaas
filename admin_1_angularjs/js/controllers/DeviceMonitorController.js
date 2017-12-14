@@ -703,6 +703,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.number='';
       $scope.factoryDate='';
       $scope.commissioningDate='';
+      $scope.warrantyStartDate='';
+      $scope.warrantyEndDate='';
       $scope.latitude=null;
       $scope.longitude=null;
       $scope.isOnline=false;
@@ -717,11 +719,18 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 $scope.number=data.number;
                 $scope.factoryDate=changeTimeFormat(data.factoryDate);
                 $scope.commissioningDate=changeTimeFormat(data.commissioningDate);
+                $scope.warrantyStartDate=changeTimeFormat(data.warrantyStartDate);
+                $scope.warrantyEndDate=changeTimeFormat(data.warrantyEndDate);
                 $scope.latitude=data.latitude;
                 $scope.longitude=data.longitude;
                 $scope.isOnline= data.isOnline;
                 if(data.isOnline==null){
                   $scope.isOnline = false;
+                }
+                if(data.imagePath ==''|| data.imagePath ==null){
+                   $scope.imagesrc = "../assets/pages/media/works/img7.jpg";
+                }else{
+                  $scope.imagesrc ='http://139.196.141.29:9498/files/'+data.imagePath;
                 }
                 console.log('getEquipmentInfo',data);
                 setInfoWindow(data);

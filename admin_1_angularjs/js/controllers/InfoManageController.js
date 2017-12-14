@@ -637,6 +637,9 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                        $scope.devicelist[i].warrantyStartDate = changeTimeFormat($scope.devicelist[i].warrantyStartDate);
                        $scope.devicelist[i].warrantyEndDate = changeTimeFormat($scope.devicelist[i].warrantyEndDate);
                        console.log('imgsrc',$scope.devicelist[i].imagesrc);
+                       if($scope.devicelist[i].imagePath ==''|| $scope.devicelist[i].imagePath ==null){
+                          $scope.devicelist[i].imagesrc = "../assets/pages/media/works/img7.jpg";
+                       }
                        if($scope.devicelist[i].collectStatus == "Working"){
                          $scope.devicelist[i].turnpic="../assets/pages/img/turn-on2.png"
                        }else{

@@ -104,7 +104,7 @@
                                 <!-- 设备信息 INFO TAB -->
                                 <div class="tab-pane active" id="tab_1_1">
                                     <div class="row" >
-                                        <div class="col-md-12 col-sm-12">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="portlet yellow-crusta box">
                                                 <div class="portlet-title">
                                                     <div class="caption">
@@ -137,6 +137,14 @@
                                                         <div class="col-md-5 name">投产日期:</div>
                                                         <div class="col-md-7 value">{{commissioningDate}}</div>
                                                     </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">质保开始日期:</div>
+                                                        <div class="col-md-7 value">{{warrantyStartDate}}</div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">质保结束日期:</div>
+                                                        <div class="col-md-7 value">{{warrantyEndDate}}</div>
+                                                    </div>
 
                                                     <div class="row static-info">
                                                         <div class="col-md-5 name">设备状态:</div>
@@ -155,18 +163,18 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-md-6 col-sm-12">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="portlet blue-hoki box">
                                                 <div class="portlet-title">
                                                     <div class="caption">
                                                         <i class="fa fa-cogs"></i>设备快照</div>
                                                 </div>
-                                                <div class="portlet-body" style="max-height:320px">
-                                                        <img class="img-responsive" style="max-height:300px;" src="../assets/pages/media/works/img7.jpg" alt="">
+                                                <div class="portlet-body" style="height:310px">
+                                                        <img class="img-responsive" style="max-height:300px;" ng-src="{{imagesrc}}" alt="">
 
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- END PERSONAL INFO TAB -->
