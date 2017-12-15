@@ -16,6 +16,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
     $scope.currentDTUname = '';  //当前设备的dtu的名称
     $scope.currentselectDTU = {};   //设备选择dtu时选择的dtu
     $scope.dtudevices = []; //当前dtu名下的设备
+    $scope.dtuId=$stateParams.equipmentInfo.dtuId;
     $scope.DTUlist = [];
     $scope.newDTU ={name:'',heartData:''};
     $scope.protocolName = '';
@@ -268,6 +269,9 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
                 if(result.data.code ==1 ){
                     $scope.message = '设备接入成功';
                     $('#myModal_alert').modal();
+                    if($scope.protocolId == 1){
+                      getDTUlist();
+                    }
                 }else{
                   $scope.message = '设备接入失败';
                   $('#myModal_alert').modal();
@@ -301,7 +305,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
             if(result.data.total > 0) {
                  $scope.DTUlist=result.data.rows;
                  for(var i=0;i<result.data.total;i++){
-                   if(result.data.rows[i].dtuId==$stateParams.equipmentInfo.dtuId){
+                   if(result.data.rows[i].dtuId==$scope.dtuId){
                      $scope.currentDTU = result.data.rows[i];
                      $scope.currentDTUname =  $scope.currentDTU.name;
                      $('.showDTUDetail').show();
@@ -382,6 +386,7 @@ angular.module('MetronicApp').controller('ConnectDeviceController', ['$scope', '
               $('#myModal_selectDTU').modal('hide');
               $scope.currentDTU = angular.copy($scope.currentselectDTU);
               $scope.currentDTUname = $scope.currentDTU.name;
+              $scope.dtuId=$scope.currentDTU.dtuId;
               dtuWriteEquipment($stateParams.equipmentInfo,0);
               $scope.message = 'dtu设置成功，正在写入数据，请稍后……';
             }else {
