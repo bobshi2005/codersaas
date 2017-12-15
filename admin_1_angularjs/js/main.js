@@ -752,7 +752,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                     return $ocLazyLoad.load([
                           "../assets/global/plugins/jquery.min.js",
                           "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                          'js/controllers/companyEquipmentManageController.js?version=2017121401'
+                          'js/controllers/CompanyEquipmentManageController.js?version=2017121401'
 
                     ])
                 }]

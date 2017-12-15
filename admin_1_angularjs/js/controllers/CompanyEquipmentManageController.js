@@ -210,10 +210,15 @@ angular.module('MetronicApp').controller('CompanyEquipmentManageController', ['$
       .then(function(result){
         if(result.data.code==1){
           getEquipList();
-          $scope.message = '设备修改成功！';
+          $scope.message = '公司名下设备修改成功！';
+          $('#myModal_alert').modal();
+        }else{
+          $scope.message = '公司名下设备修改失败！';
           $('#myModal_alert').modal();
         }
       },function(err){
+        $scope.message = '公司名下设备修改失败！';
+        $('#myModal_alert').modal();
         console.log('setCompanyEquipmentsErr');
       })
   }

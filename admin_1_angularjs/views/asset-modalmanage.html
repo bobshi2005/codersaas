@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="actions">
-                  <a href="/#myModal_createModel" role="button" data-toggle="modal" class="btn green">
+                  <a href="#" role="button" data-toggle="modal" ng-click="showCreateModel()" class="btn green">
                      <i class="fa fa-plus"></i>新建模型 </a>
                   <a href="/#myModal_deleteModel" class="btn green" data-toggle="modal" >
                     <i class="fa fa-minus"></i>删除模型 </a>
@@ -220,8 +220,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal" ng-click="cancelCreateModel()">取消操作</button>
-                <button type="button" class="btn green" data-dismiss="modal" ng-click='saveCreateModel()'>
+                <button type="button" class="btn grey-salsa btn-outline" ng-click="creatDismiss()" ng-click="cancelCreateModel()">取消操作</button>
+                <button type="button" class="btn green"  ng-click='saveCreateModel()'>
                         <i class="fa fa-check"></i> 确定添加 </button>
             </div>
         </div>

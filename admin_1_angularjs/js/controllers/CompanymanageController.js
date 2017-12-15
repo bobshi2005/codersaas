@@ -10,7 +10,7 @@ angular.module('MetronicApp').controller('CompanymanageController', ['$scope', '
     checked: false,
     items: {}
   };
-
+  $scope.currentData = {};
   $scope.createDismiss = function(){
     $('#myModal_createCompany').modal('hide');
   };
@@ -26,11 +26,46 @@ angular.module('MetronicApp').controller('CompanymanageController', ['$scope', '
   };
 
   $scope.showCreateCompany = function(){
-    $scope.currentData = {};
+    $scope.currentData={
+      name:'',
+      address:'',
+      phone:'',
+      fax:'',
+      www:'',
+      zip:'',
+    }
     $('#myModal_createCompany').modal();
   };
   $scope.createCompany = function(){
-    createCompanyImp();
+    var params={};
+    params.name = $scope.currentData.name;
+    params.address = $scope.currentData.address;
+    params.phone = $scope.currentData.phone;
+    params.fax = $scope.currentData.fax;
+    params.zip = $scope.currentData.zip;
+    params.www = $scope.currentData.www;
+    console.log('paramstest',params);
+    if(params.name=='' || params.name == null){
+      $scope.message = '公司名称不能为空';
+      $('#myModal_alert').modal();
+    }else if(!params.phone || params.phone=='' || params.phone==null){
+      $scope.message = '联系电话必须 由纯数字构成，且不能为空';
+      $('#myModal_alert').modal();
+    }else if(!params.address || params.address=='' || params.address==null){
+      $scope.message = '公司地址不能为空';
+      $('#myModal_alert').modal();
+    }else{
+      if(params.fax == undefined){
+        params.fax = '';
+      }
+      if(params.zip == undefined){
+        params.zip = '';
+      }
+      if(params.www == undefined){
+        params.www = '';
+      }
+      createCompanyImp(params);
+    }
   };
 
   $scope.showUpdateCompany = function(){
@@ -163,15 +198,7 @@ angular.module('MetronicApp').controller('CompanymanageController', ['$scope', '
       $scope.tableCompany.reload();
   }
 
-  function createCompanyImp(){
-    var params={};
-    params.name = $scope.currentData.name;
-    params.address = $scope.currentData.address;
-    params.phone = $scope.currentData.phone;
-    params.fax = $scope.currentData.fax;
-    params.zip = $scope.currentData.zip;
-    params.www = $scope.currentData.www;
-
+  function createCompanyImp(params){
     deviceApi.createCompany(params)
     .then(function(result){
       if(result.data.code==1){

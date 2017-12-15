@@ -72,12 +72,12 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                    <h4 class="modal-title">删除设备</h4>
+                                    <h4 class="modal-title">移除设备</h4>
                                 </div>
                                 <div class="modal-body form skin skin-line">
                                     <form action="" class="form-horizontal form-row-seperated" name="form">
                                         <div class="form-group">
-                                                您确定要删除设备 {{deletestr}} 吗?
+                                            <label>&nbsp&nbsp您确定要移除设备 {{deletestr}} 吗?</label>
                                         </div>
 
                                     </form>
@@ -85,7 +85,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn grey-salsa btn-outline " ng-click='removeDismiss()' >取消操作</button>
                                     <button type="button" class="btn green"  ng-click='removeEquipment()'>
-                                        <i class="fa fa-check"></i> 确定删除 </button>
+                                        <i class="fa fa-check"></i> 确定 </button>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                                 <a href="#" role="button" class="btn sbold blue" data-toggle="modal" ng-click="showAddEquipment()">添加
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="#" role="button" class="btn sbold red" data-toggle="modal" ng-click="showRemoveEquipment()">删除
+                                <a href="#" role="button" class="btn sbold red" data-toggle="modal" ng-click="showRemoveEquipment()">移除
                                     <i class="fa fa-times"></i>
                                 </a>
                             </div>

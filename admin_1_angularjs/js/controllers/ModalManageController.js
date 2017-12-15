@@ -140,24 +140,44 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.allowEdit = false;
       updatedeviceModel();
     };
+    $scope.showCreateModel=function(){
+      $('#myModal_createModel').modal();
+    };
+    $scope.creatDismiss = function(){
+        $('#myModal_createModel').modal('hide');
+    }
     $scope.saveCreateModel = function() {
-      deviceApi.createdeviceModel($scope.createFormData.name,$scope.createFormData.number,$scope.protocolId)
-        .then(function(result) {
-          if(result.data.code == 1){
-            getdeviceModellist();
-            $scope.message = '模型创建成功！';
-            $('#myModal_alert').modal();
-            $scope.createFormData = {};
-          }else{
-            $scope.message = '模型创建失败！';
-            $('#myModal_alert').modal();
-            $scope.createFormData = {};
-          }
+      console.log('formdata',$scope.createFormData);
+      if($scope.createFormData.name == undefined || $scope.createFormData.name==''){
+        $scope.message = '必须填写模型名称！';
+        $('#myModal_alert').modal();
+      }else if($scope.createFormData.number == undefined || $scope.createFormData.number==''){
+        $scope.message = '必须填写模型编号！';
+        $('#myModal_alert').modal();
+      }else if($scope.protocolId == undefined || $scope.protocolId==''){
+        $scope.message = '必须选择一个链接协议！';
+        $('#myModal_alert').modal();
+      }else{
+        $('#myModal_createModel').modal('hide');
+        deviceApi.createdeviceModel($scope.createFormData.name,$scope.createFormData.number,$scope.protocolId)
+          .then(function(result) {
+            if(result.data.code == 1){
+              getdeviceModellist();
+              $scope.message = '模型创建成功！';
+              $('#myModal_alert').modal();
+              $scope.createFormData = {};
+            }else{
+              $scope.message = '模型创建失败！';
+              $('#myModal_alert').modal();
+              $scope.createFormData = {};
+            }
 
-        }, function(err) {
-            console.log('createModelErr',err);
-            $scope.createFormData = {};
-        });
+          }, function(err) {
+              console.log('createModelErr',err);
+              $scope.createFormData = {};
+          });
+      }
+
 
     };
     $scope.cancelCreateModel = function() {
