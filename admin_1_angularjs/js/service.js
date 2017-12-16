@@ -2,7 +2,7 @@ var AppService = angular.module("AppService", []);
 // var url = "http://118.89.140.11/main/system/webdev/Saas/api";
 var deviceUrl = "http://139.196.141.29:9999"; //saas manager api  old 118.89.140.11
 var userUrl = "http://139.196.141.29:1111";  //user manager api  http://139.196.141.29/
-
+var fileuploaderUrl = "http://139.196.141.29:9498"; //fineUploader
 
 //用户相关api
 AppService.factory('userApi', ['$http', '$q', function($http, $q) {
@@ -1540,6 +1540,7 @@ AppService.factory('sharedataApi',function() {
     var partCategorydata ={}; // 共享的备件类别数据
     var wareHousedata = {};// 共享的仓库数据
     var userpermissiondata = {};//用户权限数据
+
     service.setModeldata = function(data){
       modeldata = data;
     }
@@ -1557,6 +1558,10 @@ AppService.factory('sharedataApi',function() {
     }
     service.getwareHousedata = function(){
       return wareHousedata;
+    }
+
+    service.getUploaderUrl = function(){
+      return fileuploaderUrl;
     }
     return service;
 });

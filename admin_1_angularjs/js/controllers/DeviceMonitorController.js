@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval','deviceApi','NgTableParams','$state', function($scope, $rootScope, $http, userApi, locals, $compile, $interval,deviceApi,NgTableParams,$state) {
+angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval','deviceApi','NgTableParams','$state','sharedataApi', function($scope, $rootScope, $http, userApi, locals, $compile, $interval,deviceApi,NgTableParams,$state,sharedataApi) {
     $rootScope.showHeader = true;
     $rootScope.menueName = 'sidebar-device';
     $scope.menueName = $rootScope.menueName;
@@ -21,6 +21,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.echartValue = [];
     $scope.empty = true;
     $scope.isOnline = true;
+    var uploaderUrl = sharedataApi.getUploaderUrl();
     $scope.changelistState = function() {
       $rootScope.showMap = !$rootScope.showMap;
       if($rootScope.showMap){
@@ -730,7 +731,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 if(data.imagePath ==''|| data.imagePath ==null){
                    $scope.imagesrc = "../assets/pages/media/works/img7.jpg";
                 }else{
-                  $scope.imagesrc ='http://139.196.141.29:9498/files/'+data.imagePath;
+                  $scope.imagesrc =uploaderUrl+'/files/'+data.imagePath;
                 }
                 // console.log('getEquipmentInfo',data);
                 setInfoWindow(data);

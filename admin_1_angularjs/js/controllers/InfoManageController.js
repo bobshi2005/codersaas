@@ -16,6 +16,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $scope.uuid = '';
     var galleryUploader;
     var galleryUpdate;
+    var uploaderUrl = sharedataApi.getUploaderUrl();
     $scope.doProvAndCityRelation = function(){
       console.log('selectPro',$scope.currentData.province);
       getProCity($scope.currentData.province);
@@ -390,7 +391,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
               element : document.getElementById("fine-uploader-gallery"),
               template : 'qq-template-gallery',
               request : {
-                  endpoint : 'http://139.196.141.29:9498/fd/upload',
+                  endpoint : uploaderUrl+'/fd/upload',
                   params : {
                       kuyunModule : "eam"
                   }
@@ -413,14 +414,14 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                       enabled : true
                   },
                   success : {
-                      endpoint : 'http://139.196.141.29:9498/fd/uploadDone'
+                      endpoint : uploaderUrl+'/fd/uploadDone'
                   },
                   mandatory : true
               },
               deleteFile : {
                   enabled : true,
                   forceConfirm : true,
-                  endpoint : 'http://139.196.141.29:9498/fd/delete',
+                  endpoint : uploaderUrl+'/fd/delete',
                   confirmMessage:'确定要删除文件{filename}吗？',
                   deletingFailedText:'删除失败！'
               },
@@ -455,7 +456,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                   },
                   onUploadChunkSuccess: function(id, chunkData, responseJSON) {
                     $scope.currentData.imagePath = $scope.uuid;
-                    $scope.currentData.imagesrc = 'http://139.196.141.29:9498/files/'+$scope.uuid;
+                    $scope.currentData.imagesrc = uploaderUrl+'/files/'+$scope.uuid;
 
                   },
               }
@@ -467,7 +468,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
               element : document.getElementById("fine-uploader-gallery-update"),
               template : 'qq-template-gallery-update',
               request : {
-                  endpoint : 'http://139.196.141.29:9498/fd/upload',
+                  endpoint : uploaderUrl+'/fd/upload',
                   params : {
                       kuyunModule : "eam"
                   }
@@ -490,14 +491,14 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                       enabled : true
                   },
                   success : {
-                      endpoint : 'http://139.196.141.29:9498/fd/uploadDone'
+                      endpoint : uploaderUrl+'/fd/uploadDone'
                   },
                   mandatory : true
               },
               deleteFile : {
                   enabled : true,
                   forceConfirm : true,
-                  endpoint : 'http://139.196.141.29:9498/fd/delete',
+                  endpoint : uploaderUrl+'/fd/delete',
                   confirmMessage:'确定要删除文件{filename}吗？',
                   deletingFailedText:'删除失败！'
               },
@@ -529,14 +530,14 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                   },
                   onUploadChunk: function(id, name, chunkData) {
                     // $scope.uuid = galleryUpdate.getUuid(0);
-                    // $scope.currentData.imagesrc = 'http://139.196.141.29:9498/files/'+uuid;
+                    // $scope.currentData.imagesrc = uploaderUrl+'/files/'+uuid;
 
                   },
                   onUploadChunkSuccess: function(id, chunkData, responseJSON) {
                     $scope.uuid = galleryUpdate.getUuid(0);
                     console.log('success',$scope.uuid);
                     $scope.currentData.imagePath = $scope.uuid;
-                    $scope.currentData.imagesrc = 'http://139.196.141.29:9498/files/'+$scope.uuid;
+                    $scope.currentData.imagesrc = uploaderUrl+'/files/'+$scope.uuid;
 
                   },
               }
@@ -629,7 +630,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                      for(var i=0;i<result.data.rows.length;i++) {
                        var tempname = getModelnameById($scope.devicelist[i].equipmentModelId);
                        $scope.devicelist[i].equipmentModelname = tempname;
-                       $scope.devicelist[i].imagesrc = 'http://139.196.141.29:9498/files/'+$scope.devicelist[i].imagePath;
+                       $scope.devicelist[i].imagesrc = uploaderUrl+'/files/'+$scope.devicelist[i].imagePath;
                        $scope.devicelist[i].factoryDate = changeTimeFormat($scope.devicelist[i].factoryDate);
                        $scope.devicelist[i].createTime = changeTimeFormat($scope.devicelist[i].createTime);
                        $scope.devicelist[i].warrantyStartDate = changeTimeFormat($scope.devicelist[i].warrantyStartDate);
