@@ -27,7 +27,7 @@ var Login = function() {
                 }
             },
 
-            invalidHandler: function(event, validator) { //display error alert on form submit   
+            invalidHandler: function(event, validator) { //display error alert on form submit
                 $('.alert-danger', $('.login-form')).show();
             },
 
@@ -79,8 +79,8 @@ var Login = function() {
         });
     }
 
- 
-  
+
+
 
     return {
         //main function to initiate the module
@@ -91,7 +91,7 @@ var Login = function() {
             // init background slide images
             $('.login-bg').backstretch([
                 "../assets/pages/img/login/bg1-final.jpg",
-                "../assets/pages/img/login/bg2-final.jpg",
+                // "../assets/pages/img/login/bg2-final.jpg",
             //    "../assets/pages/img/login/bg3.jpg"
                 ], {
                   fade: 1000,
