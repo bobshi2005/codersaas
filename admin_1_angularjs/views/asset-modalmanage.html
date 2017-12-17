@@ -29,7 +29,7 @@
                 <div class="actions">
                   <a href="#" role="button" data-toggle="modal" ng-click="showCreateModel()" class="btn green">
                      <i class="fa fa-plus"></i>新建模型 </a>
-                  <a href="/#myModal_deleteModel" class="btn green" data-toggle="modal" >
+                  <a data-target="#myModal_deleteModel" class="btn green" data-toggle="modal" >
                     <i class="fa fa-minus"></i>删除模型 </a>
                 </div>
 
@@ -118,7 +118,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="btn-group">
-                                                    <a href="/#myModal_createPropertyItem" data-toggle="modal"
+                                                    <a data-target="#myModal_createPropertyItem" data-toggle="modal"
                                                        class="btn green" ng-click='resetPropertyItem()'>
                                                         添加参数<i class="fa fa-plus"></i>
                                                     </a>
@@ -167,10 +167,10 @@
                                                 </div>
                                             </td>
                                             <td title="'操作'">
-                                                <a href="/#myModal_updatePropertyItem" data-toggle="modal"
+                                                <a data-target="#myModal_updatePropertyItem" data-toggle="modal"
                                                    class="btn blue btn-outline sbold uppercase"
                                                    ng-click='setPropertyItem(param)'>编辑</a>
-                                                <a href="/#myModal_deletePropertyItem" data-toggle="modal"
+                                                <a data-target="#myModal_deletePropertyItem" data-toggle="modal"
                                                    class="btn red btn-outline sbold uppercase"
                                                    ng-click='setPropertyItem(param)'> 删除</a>
                                             </td>
