@@ -762,15 +762,16 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
       $('.nav-pills li a').click(function() {　
           $(this).addClass('active').siblings().removeClass('active');　
-          var _id = $(this).attr('href').slice(2);　　
-          $('.tab-content').find('#' + _id).addClass('active').siblings().removeClass('active');
-          　
+          var _id = $(this).attr('data-target');　　
+          $('.tab-content').find(_id).addClass('active').siblings().removeClass('active');
+          // var _id = $(this).attr('href').slice(2);
+          // $('.tab-content').find('#' + _id).addClass('active').siblings().removeClass('active');
           switch (_id) {　　　　
-              case "tab_1_1":
+              case "#tab_1_1":
                 $scope.player.pause();
                 $interval.cancel($scope.timer);
                 break;　　　　
-              case "tab_1_2":
+              case "#tab_1_2":
                 $scope.player.pause();
                 $interval.cancel($scope.timer);
                 if($scope.isOnline==true){
@@ -790,7 +791,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
                 break;
 
-              case "tab_1_3":
+              case "#tab_1_3":
                   {
                     $interval.cancel($scope.timer);
                     $scope.player.pause();
@@ -846,17 +847,17 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                   }
                   　　　　　
                   break;
-              case "tab_1_4":
+              case "#tab_1_4":
                     $interval.cancel($scope.timer);
                   　　　　　　break;
-              case "tab_1_7":
+              case "#tab_1_7":
                     $interval.cancel($scope.timer);
                     if($scope.isOnline==true){
                       $scope.refreshData();
                       $scope.timer = $interval($scope.refreshData,10000);
                     }
                   　　　　　　break;
-              case "tab_1_8":
+              case "#tab_1_8":
                     $interval.cancel($scope.timer);
                     if($scope.isOnline==true){
                       $scope.refreshData();

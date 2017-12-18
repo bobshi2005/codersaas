@@ -46,12 +46,14 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
       getdevicelist();
 
       $('.nav-tabs li a').click(function() {
-        var _id = $(this).attr('href').slice(2);　
+        // var _id = $(this).attr('href').slice(2);　
+        var _id = $(this).attr('data-target');
+        // console.log('alarmtest',_id);
         switch(_id) {
-          case "tab_1":
+          case "#tab_1":
 
           break;
-          case "tab_2":
+          case "#tab_2":
           $('.start_date').datetimepicker({
               language: 'zh-CN',
               weekStart: 1,
