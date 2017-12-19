@@ -487,8 +487,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                     return $ocLazyLoad.load([
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                            "../assets/global/plugins/echarts/echarts.min.js",
                             "../assets/global/css/plugins.min.css",
-                            "../assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js",
+                            "../assets/global/plugins/jquery-easypiechart/jquery.easypiechart.js",
                             "js/controllers/MonitorScreen1Controller.js?version=2017121801"
 
                       ])

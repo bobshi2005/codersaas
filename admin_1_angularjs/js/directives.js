@@ -79,6 +79,21 @@ MetronicApp.directive('dropdownMenuHover', function () {
   };
 });
 
+MetronicApp.directive('autoHeight', function ($window) {
+  return {
+    restrict : 'A',
+            scope : {},
+            link : function($scope, element, attrs) {
+                var winowHeight = $window.innerHeight; //获取窗口高度
+                var headerHeight = 50;
+                var footerHeight = 35;
+                var paddingTop = 25;
+                element.css('height',
+                        (winowHeight - headerHeight - footerHeight -paddingTop) + 'px');
+            }
+  };
+});
+
 
 MetronicApp.directive('widget', function($http, $window) {
     function link($scope, element, attrs) {
