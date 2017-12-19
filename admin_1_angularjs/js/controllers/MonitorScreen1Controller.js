@@ -114,6 +114,16 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
         tooltip: {
             show:false,
         },
+        title:{
+          show:true,
+          text:'pm2.5(μg/m3)',
+          textStyle:{
+            fontWeight:'normal',
+            fontSize:18,
+            color:'#dedede'
+          },
+
+        },
         color:[$scope.pmBarColor,'#c5c7c0'],
         series: [
             {
@@ -154,7 +164,11 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
                         }
                       }
                     },
-                    {value:500-$scope.pmPercent, name:'novalue'},
+                    {
+                      value:500-$scope.pmPercent,
+                      name:'pm2.5(μg/m3)',
+
+                    },
 
                 ]
             }
@@ -167,6 +181,16 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
     option = {
       tooltip: {
           show:false,
+      },
+      title:{
+        show:true,
+        text:'二氧化碳（ppm）',
+        textStyle:{
+          fontWeight:'normal',
+          fontSize:12,
+          color:'#dedede'
+        },
+
       },
       color:[$scope.co2BarColor,'#c5c7c0'],
       series: [
@@ -193,6 +217,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
                       show: false
                   }
               },
+
               data:[
                   {
                     value:$scope.co2Number,
@@ -208,7 +233,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
                       }
                     }
                   },
-                  {value:200-$scope.co2Percent, name:'novalue'},
+                  {value:200-$scope.co2Percent,name:'二氧化碳（ppm）'},
 
               ]
           }
@@ -223,6 +248,16 @@ function setOption3(){
         show:false,
     },
     color:[$scope.anionBarColor,'#c5c7c0'],
+    title:{
+      show:true,
+      text:'负离子（个/cm2）',
+      textStyle:{
+        fontWeight:'normal',
+        fontSize:12,
+        color:'#dedede'
+      },
+
+    },
     series: [
         {
             name:'anion',
@@ -262,7 +297,11 @@ function setOption3(){
                     }
                   }
                 },
-                {value:200-$scope.anionPercent, name:'novalue'},
+                {
+                  value:200-$scope.anionPercent,
+                  name:'负离子（个/cm2）',
+
+                },
 
             ]
         }
