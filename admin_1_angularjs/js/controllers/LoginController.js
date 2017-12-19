@@ -11,26 +11,8 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
               if(result.data.code == 1) {
                 $rootScope.isloginpage = false;
                 getuserInfo($scope.loginForm.userName);
-                locals.set("islogin", 1);
-                //locals.set("userrole", result.data.role);
-                if($scope.loginForm.remember && $scope.loginForm.remember==true){
-                  locals.set("username", $scope.loginForm.userName);
-                  locals.set("password", $scope.loginForm.password);
-                  locals.set("remember", 'true');
-                }else{
-                  locals.set("username", '');
-                  locals.set("password", '');
-                  locals.set("remember", 'false');
-                }
 
-                $rootScope.$broadcast('alarm_start','true');
-                $state.go('main.home.dashboard');
-                // $state.transitionTo("main.home.dashboard", {}, {
-                //   reload: true, inherit: true, notify: true
-                // });
-                // $state.transitionTo("main.home.dashboard", {}, {
-                //   reload: false, inherit: true, notify: true
-                // });
+
               }else {
                 alert(result.data.data);
               }
@@ -93,7 +75,9 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
             $rootScope.$broadcast('realname_set','true');
             if(result.data.data.user.userId == 1059){
               $rootScope.showMonitorScreen =1;
+              locals.set("screenNumber", 1);
             }
+            gotoMainView();
             userApi.userPermissionCode(locals.get("userId"))
               .then(function(result){
                 console.log('用户的权限:',result.data);
@@ -106,6 +90,22 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
       }, function(err) {
           console.log('getUserInfoerr',err);
       });
+    }
+
+    function gotoMainView(){
+      locals.set("islogin", 1);
+      if($scope.loginForm.remember && $scope.loginForm.remember==true){
+        locals.set("username", $scope.loginForm.userName);
+        locals.set("password", $scope.loginForm.password);
+        locals.set("remember", 'true');
+      }else{
+        locals.set("username", '');
+        locals.set("password", '');
+        locals.set("remember", 'false');
+      }
+
+      $rootScope.$broadcast('alarm_start','true');
+      $state.go('main.home.dashboard');
     }
     $scope.gotoRegist = function() {
         $state.go('regist');

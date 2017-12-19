@@ -129,6 +129,7 @@ MetronicApp.controller('AppController', ['$scope', '$rootScope','$state', 'Modal
           $rootScope.showHeader = false;
         } else {
         }
+        $rootScope.showMonitorScreen = locals.get("screenNumber");
     });
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
         if(toState.name == 'login' || toState.name == 'regist' || toState.name == 'passback') {
