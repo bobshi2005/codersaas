@@ -10,7 +10,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "ngSanitize",
     "AppService",
     "angularModalService",
-    "ngTable"
+    "ngTable",
+    "easypiechart"
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -93,6 +94,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     $rootScope.listMode = '切换地图';
     $rootScope.showtimeoutflag = 0;
     $rootScope.alarmlist =[]; //全局active 报警列表
+    $rootScope.showMonitorScreen = 0;//选择显示的大屏序列，默认不显示
     return settings;
 }]);
 
@@ -178,6 +180,7 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
         $interval.cancel($scope.alarmtimer);
         userApi.logout().then(function(result){},function(err){});
         locals.set("islogin", 0);
+        $rootScope.showMonitorScreen = 0;
         $state.transitionTo("login",{},{reload: true});
     };
     $scope.useraccount = locals.get("username");
@@ -472,6 +475,21 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                         '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js',
                         'js/controllers/AlarmController.js?version=2017121801'
                     ])
+                }]
+            }
+        })
+        .state('main.device.monitorscreen1', {
+            url: "/monitorscreen1",
+            templateUrl: "views/monitorscreen-1.html?version=2017121801",
+            controller: 'MonitorScreen1Controller',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                            "js/controllers/MonitorScreen1Controller.js?version=2017121801"
+
+                      ])
                 }]
             }
         })

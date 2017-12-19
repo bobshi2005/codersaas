@@ -91,6 +91,9 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
             locals.set("userId", result.data.data.user.userId);
             $rootScope.$broadcast('alarm_stop','true');
             $rootScope.$broadcast('realname_set','true');
+            if(result.data.data.user.userId == 1059){
+              $rootScope.showMonitorScreen =1;
+            }
             userApi.userPermissionCode(locals.get("userId"))
               .then(function(result){
                 console.log('用户的权限:',result.data);
