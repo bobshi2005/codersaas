@@ -24,6 +24,12 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
     $scope.anionWidth = 0;
     $scope.anionHeight = 0;
     var chart1,chart2,chart3;
+    $scope.tofullsreen = function(){
+      $('.screenContainer').css('position','absolute');
+      $('.screenContainer').css('z-index','99999');
+      $('.screenContainer').css('min-height','100vh');
+      $('.screenContainer').css('min-width','100vh');
+    }
     $scope.$on('$viewContentLoaded', function() {
       setchart1();
       setchart2();
