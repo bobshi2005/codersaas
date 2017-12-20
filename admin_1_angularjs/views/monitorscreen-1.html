@@ -1,4 +1,4 @@
-<div auto-height class="col-md-12 screenContainer" ng-click="tofullsreen()" style="background-color:#626161">
+<div auto-height class="col-md-12 screenContainer"  style="background-color:#626161">
   <div class="col-md-6" style="height:60%;margin-top:20px">
         <div class="bgContainer" style="height:100%;border-radius:10px;background-color:#77767a;">
           <div class="text-center col-md-8" id="pie-pm25"></div>
@@ -17,22 +17,91 @@
       </div>
     </div>
     <div class="col-md-6" style="height:50%;padding: 5px  5px 0 0">
-      <div class="easy-pie-chart" style="height:100%;border-radius:10px;background-color:#77767a">
-          <div class="number Temperature" data-percent="0">
-              <span class='pie-value'></span>
-            </div>
+      <div class="smContainer" style="height:100%;border-radius:10px;background-color:#77767a">
+          <div class="titlecontainer" style="width:100%;height:20px;font-weight:normal;font-size:12px;color:#dedede;margin-left:20px">温度（℃）</div>
+          <div class="Temperature text-center" style="font-size:60px;color:#dbe3e6">
+              {{Temperature}}
+          </div>
       </div>
     </div>
     <div class="col-md-6" style="height:50%;padding: 5px 0 0  5px">
-      <div class="easy-pie-chart" style="height:100%;border-radius:10px;background-color:#77767a">
-          <div class="number Humidity" data-percent="0">
-              <span class='pie-value'></span>
-            </div>
+      <div class="smContainer" style="height:100%;border-radius:10px;background-color:#77767a">
+          <div class="titlecontainer" style="font-weight:normal;font-size:12px;color:#dedede;margin-left:20px">湿度（%rh）</div>
+          <div class="Humidity text-center" style="font-size:60px;color:#dbe3e6">{{Humidity}}</div>
       </div>
     </div>
   </div>
-  <div class="col-md-12" style="height:30%;margin-top: 20px">
+  <div class="col-md-12" style="height:8%;margin-top: 20px">
     <div style="height:100%;border-radius:10px;background-color:#77767a">
+      <div class="Tableitle pull-left" style="height: 100%; width: 80%;margin-left:10%">
+        <div class="ItemContainer pull-left" style="height:100%;width:16%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">位置</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:17%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">PM2.5(μg/m3)</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:18%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">负离子(个/cm2)</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:17%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">二氧化碳(ppm)</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:16%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">温度(℃)</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:16%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">湿度(%rh)</div>
+        </div>
+      </div>
     </div>
   </div>
+  <div class="col-md-12" style="height:8%;margin-top: 10px">
+    <div style="height:100%;border-radius:10px;background-color:#77767a">
+      <div class="Tableitle pull-left" style="height: 100%; width: 80%;margin-left:10%">
+        <div class="ItemContainer pull-left" style="height:100%;width:16%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">室内</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:17%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">23</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:18%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">324</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:17%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">34234</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:16%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">23</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:16%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">65</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" style="height:8%;margin-top: 10px">
+    <div style="height:100%;border-radius:10px;background-color:#77767a">
+      <div class="Tableitle pull-left" style="height: 100%; width: 80%;margin-left:10%">
+        <div class="ItemContainer pull-left" style="height:100%;width:16%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">室外</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:17%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">130</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:18%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">122</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:17%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">423</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:16%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">12</div>
+        </div>
+        <div class="ItemContainer pull-left" style="height:100%;width:16%">
+          <div  class="TableItem text-center" style="font-weight:normal;font-size:20px;color:#dbe3e6">70</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -5,24 +5,28 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
 
     $scope.pmNumber = 45;
     $scope.pmPercent = 13;
-    $scope.pmBarColor = 'green';
+    $scope.pmBarColor = '#39ee7c';
     $scope.pmfontSize = 40;
     $scope.pmWidth = 0;
     $scope.pmHeight = 0;
 
     $scope.co2Number = 466;
     $scope.co2Percent = 80;
-    $scope.co2BarColor = 'blue';
+    $scope.co2BarColor = '#79c4f5';
     $scope.co2fontSize = 40;
     $scope.co2Width = 0;
     $scope.co2Height = 0;
 
     $scope.anionNumber = 125;
     $scope.anionPercent = 46;
-    $scope.anionBarColor = 'yellow';
+    $scope.anionBarColor = '#f3ff6c';
     $scope.anionfontSize = 40;
     $scope.anionWidth = 0;
     $scope.anionHeight = 0;
+
+    $scope.Temperature = 12;
+    $scope.tempFontSize= 40;
+    $scope.Humidity = 65;
     var chart1,chart2,chart3;
     $scope.tofullsreen = function(){
       $('.screenContainer').css('position','absolute');
@@ -34,6 +38,9 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
       setchart1();
       setchart2();
       setchart3();
+      setchart4();
+      setchart5();
+      setTableItem();
       updatechart();
       var resizeTimeout;
       window.onresize=function(){
@@ -47,6 +54,9 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
           setchart1();
           setchart2();
           setchart3();
+          setchart4();
+          setchart5();
+          setTableItem();
           updatechart();
         },500)
 
@@ -84,6 +94,31 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
       $scope.anionfontSize = anionHeight/5;
       chart3Container = document.getElementById('pie-Anion');
       chart3 = echarts.init(chart3Container);
+    }
+    function setchart4(){
+      var tempHeight = $('.smContainer').height();
+      var tempWidth = $('.smContainer').width();
+      $('.Temperature').css('height',(tempHeight-40));
+      $('.Temperature').css('width',tempWidth);
+      $('.Temperature').css('padding-top',(tempHeight/5));
+      $('.Temperature').css('font-size',tempHeight/5*2);
+    }
+    function setchart5(){
+      var tempHeight = $('.smContainer').height();
+      var tempWidth = $('.smContainer').width();
+      $('.Humidity').css('height',(tempHeight-40));
+      $('.Humidity').css('width',tempWidth);
+      $('.Humidity').css('padding-top',(tempHeight/5));
+      $('.Humidity').css('font-size',tempHeight/5*2);
+    }
+
+    function setTableItem(){
+      var Height = $('.ItemContainer').height();
+      var Width = $('.ItemContainer').width();
+      $('.TableItem').css('height',(Height/2));
+      $('.TableItem').css('width',(Width));
+      $('.TableItem').css('padding-top',(Height/5));
+      $('.TableItem').css('font-size',(Height/3));
     }
 
     function updatechart(){
@@ -179,140 +214,141 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
                 ]
             }
         ]
-    };
-    return option;
-  }
+      };
+      return option;
+    }
 
-  function setOption2(){
-    option = {
-      tooltip: {
-          show:false,
-      },
-      title:{
-        show:true,
-        text:'二氧化碳（ppm）',
-        textStyle:{
-          fontWeight:'normal',
-          fontSize:12,
-          color:'#dedede'
+    function setOption2(){
+      option = {
+        tooltip: {
+            show:false,
         },
+        title:{
+          show:true,
+          text:'二氧化碳（ppm）',
+          textStyle:{
+            fontWeight:'normal',
+            fontSize:12,
+            color:'#dedede'
+          },
 
-      },
-      color:[$scope.co2BarColor,'#c5c7c0'],
-      series: [
-          {
-              name:'co2',
-              type:'pie',
-              radius: ['50%', '70%'],
-              avoidLabelOverlap: false,
-              hoverAnimation:false,	//关闭 hover 在扇区上的放大动画效果。
-              cursor:'default', //鼠标悬浮时在图形元素上时鼠标的样式是什么。同 CSS 的 cursor。
-              silent:true,	//图形是否不响应和触发鼠标事件，默认为 false，即响应和触发鼠标事件。
-              label: {
-                  normal: {
-                      show: false,
-                      position: 'center',
+        },
+        color:[$scope.co2BarColor,'#c5c7c0'],
+        series: [
+            {
+                name:'co2',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                hoverAnimation:false,	//关闭 hover 在扇区上的放大动画效果。
+                cursor:'default', //鼠标悬浮时在图形元素上时鼠标的样式是什么。同 CSS 的 cursor。
+                silent:true,	//图形是否不响应和触发鼠标事件，默认为 false，即响应和触发鼠标事件。
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center',
 
-                  },
-                  emphasis: {
-                      show: false
-                  }
-              },
-              labelLine: {
-                  normal: {
-                      show: false
-                  }
-              },
+                    },
+                    emphasis: {
+                        show: false
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
 
-              data:[
-                  {
-                    value:$scope.co2Number,
-                    name:$scope.co2Number,
-                    label : {
-                      normal:{
-                        show : true,
-                        position : 'center',
-                        textStyle:{
-                          fontWeight:'normal',
-                          fontSize:$scope.co2fontSize
+                data:[
+                    {
+                      value:$scope.co2Number,
+                      name:$scope.co2Number,
+                      label : {
+                        normal:{
+                          show : true,
+                          position : 'center',
+                          textStyle:{
+                            fontWeight:'normal',
+                            fontSize:$scope.co2fontSize
+                          }
                         }
                       }
+                    },
+                    {value:200-$scope.co2Percent,name:'二氧化碳（ppm）'},
+
+                ]
+            }
+        ]
+      };
+      return option;
+    }
+
+    function setOption3(){
+      option = {
+        tooltip: {
+            show:false,
+        },
+        color:[$scope.anionBarColor,'#c5c7c0'],
+        title:{
+          show:true,
+          text:'负离子（个/cm2）',
+          textStyle:{
+            fontWeight:'normal',
+            fontSize:12,
+            color:'#dedede'
+          },
+
+        },
+        series: [
+            {
+                name:'anion',
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                hoverAnimation:false,	//关闭 hover 在扇区上的放大动画效果。
+                cursor:'default', //鼠标悬浮时在图形元素上时鼠标的样式是什么。同 CSS 的 cursor。
+                silent:true,	//图形是否不响应和触发鼠标事件，默认为 false，即响应和触发鼠标事件。
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center',
+
+                    },
+                    emphasis: {
+                        show: false
                     }
-                  },
-                  {value:200-$scope.co2Percent,name:'二氧化碳（ppm）'},
-
-              ]
-          }
-      ]
-  };
-  return option;
-}
-
-function setOption3(){
-  option = {
-    tooltip: {
-        show:false,
-    },
-    color:[$scope.anionBarColor,'#c5c7c0'],
-    title:{
-      show:true,
-      text:'负离子（个/cm2）',
-      textStyle:{
-        fontWeight:'normal',
-        fontSize:12,
-        color:'#dedede'
-      },
-
-    },
-    series: [
-        {
-            name:'anion',
-            type:'pie',
-            radius: ['50%', '70%'],
-            avoidLabelOverlap: false,
-            hoverAnimation:false,	//关闭 hover 在扇区上的放大动画效果。
-            cursor:'default', //鼠标悬浮时在图形元素上时鼠标的样式是什么。同 CSS 的 cursor。
-            silent:true,	//图形是否不响应和触发鼠标事件，默认为 false，即响应和触发鼠标事件。
-            label: {
-                normal: {
-                    show: false,
-                    position: 'center',
-
                 },
-                emphasis: {
-                    show: false
-                }
-            },
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-            data:[
-                {
-                  value:$scope.anionNumber,
-                  name:$scope.anionNumber,
-                  label : {
-                    normal:{
-                      show : true,
-                      position : 'center',
-                      textStyle:{
-                        fontWeight:'normal',
-                        fontSize:$scope.anionfontSize
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {
+                      value:$scope.anionNumber,
+                      name:$scope.anionNumber,
+                      label : {
+                        normal:{
+                          show : true,
+                          position : 'center',
+                          textStyle:{
+                            fontWeight:'normal',
+                            fontSize:$scope.anionfontSize
+                          }
+                        }
                       }
-                    }
-                  }
-                },
-                {
-                  value:200-$scope.anionPercent,
-                  name:'负离子（个/cm2）',
+                    },
+                    {
+                      value:200-$scope.anionPercent,
+                      name:'负离子（个/cm2）',
 
-                },
+                    },
 
-            ]
-        }
-    ]
-  };
-  return option;
-  }
+                ]
+            }
+        ]
+      };
+      return option;
+    }
+
 }]);
