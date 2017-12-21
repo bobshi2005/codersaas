@@ -445,7 +445,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
         color:[$scope.anionBarColor,'#c5c7c0'],
         title:{
           show:true,
-          text:'负离子（千个/cm3）',
+          text:'负离子（ions/cm3）',
           textStyle:{
             fontWeight:'normal',
             fontSize:12,
