@@ -115,7 +115,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
             $scope.pmPercent = Math.round($scope.dataIn.pm25*100/500);
             $scope.co2Number = $scope.dataIn.co2;
             $scope.co2Percent = Math.round($scope.dataIn.co2*100/3000);
-            console.log('co2percent',$scope.co2Percent);
+            // console.log('co2percent',$scope.co2Percent);
             setchart1();
             setchart2();
             updatechart();
@@ -131,7 +131,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
              $.each(dataArr,
                function(i, val) {
                  if(val.type == 'analog'){
-                  $scope.dataIn.anion = parseInt(Number(val.vars[4].value));
+                  $scope.dataIn.anion = Math.round(Number(val.vars[4].value));
                   $scope.dataIn.temperature2 =  Number(val.vars[5].value).toFixed(1);
                   $scope.dataIn.Humidity2 =  Number(val.vars[6].value).toFixed(1);
                  }
@@ -197,7 +197,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
              $.each(dataArr,
                function(i, val) {
                  if(val.type == 'analog'){
-                  $scope.dataOut.anion = Math.round(Number(val.vars[4].value)/1000);
+                  $scope.dataOut.anion = Math.round(Number(val.vars[4].value));
                   $scope.dataOut.temperature2 = Number(val.vars[5].value).toFixed(1);
                   $scope.dataOut.Humidity2 = Number(val.vars[6].value).toFixed(1);
                  }
