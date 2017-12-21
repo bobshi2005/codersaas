@@ -63,7 +63,7 @@ angular.module('MetronicApp').controller('UserboardController', ['$scope', '$roo
         if(result.data.code == 1) {
           // console.log('loginInfo',result.data.data);
           $scope.info = result.data.data.user;
-          $scope.info.company = result.data.data.organization.name;
+          $scope.info.company = result.data.data.company.name;
           locals.set("realname", result.data.data.user.realname);
           $rootScope.$broadcast('realname_set','true');
 

@@ -73,7 +73,8 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
             locals.set("userId", result.data.data.user.userId);
             $rootScope.$broadcast('alarm_stop','true');
             $rootScope.$broadcast('realname_set','true');
-            if(result.data.data.user.userId == 1059){
+            console.log('loginInfo',result.data.data);
+            if(result.data.data.company.companyId == 1246){
               $rootScope.showMonitorScreen =1;
               locals.set("screenNumber", 1);
             }
