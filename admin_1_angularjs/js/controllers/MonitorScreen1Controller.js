@@ -1,17 +1,17 @@
-angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', '$rootScope', '$state', '$http', 'userApi', 'locals','deviceApi','$window',function($scope, $rootScope, $state, $http, userApi,locals,deviceApi,$window) {
+angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', '$rootScope', '$state', '$http', 'userApi', 'locals','deviceApi','$window','$interval',function($scope, $rootScope, $state, $http, userApi,locals,deviceApi,$window,$interval) {
     $rootScope.menueName = 'sidebar-device';
     $rootScope.showMonitorScreen = locals.get("screenNumber");
     $rootScope.settings.layout.pageContentWhite = false;
 
-    $scope.pmNumber = 45;
-    $scope.pmPercent = 13;
+    $scope.pmNumber = 50;
+    $scope.pmPercent = 10;
     $scope.pmBarColor = '#39ee7c';
     $scope.pmfontSize = 40;
     $scope.pmWidth = 0;
     $scope.pmHeight = 0;
 
-    $scope.co2Number = 466;
-    $scope.co2Percent = 80;
+    $scope.co2Number = 300;
+    $scope.co2Percent = 10;
     $scope.co2BarColor = '#79c4f5';
     $scope.co2fontSize = 40;
     $scope.co2Width = 0;
@@ -27,6 +27,14 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
     $scope.Temperature = 12;
     $scope.tempFontSize= 40;
     $scope.Humidity = 65;
+
+    $scope.deviceAir1='myLYRIe5FjfVccaA'; //室内 空气质量 检测仪
+    $scope.deviceAir2='t9qSesxzfz9kzQR6'; //室外 空气质量 检测仪
+    $scope.deviceAnion1='s2Va1iNCj1VALwn7'; //室内 负离子 检测仪
+    $scope.deviceAnion2='ZmdeHjh06r20tUMe'; //室外 负离子 检测仪
+
+    $scope.dataIn={}; //室内数据；
+    $scope.dataOut={}; //室外数据；
     var chart1,chart2,chart3;
     $scope.tofullsreen = function(){
       $('.screenContainer').css('position','absolute');
@@ -34,14 +42,23 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
       $('.screenContainer').css('min-height','100vh');
       $('.screenContainer').css('min-width','100vh');
     }
+    $scope.$on('$destroy',function(){
+       $interval.cancel($scope.timer);
+    });
+    $scope.refreshData=function(){
+      getValueIn();
+      getValueOut();
+    }
     $scope.$on('$viewContentLoaded', function() {
       setchart1();
       setchart2();
       setchart3();
       setchart4();
       setchart5();
-      setTableItem();
+      $scope.refreshData();
       updatechart();
+      $scope.timer = $interval($scope.refreshData,10000);
+      setTableItem();
       var resizeTimeout;
       window.onresize=function(){
         clearTimeout(resizeTimeout); //防止onresize连续调用两次
@@ -51,24 +68,158 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
           var footerHeight = 35;
           var paddingTop = 25;
           $('.screenContainer').css('height',(winowHeight - headerHeight - footerHeight -paddingTop) + 'px');
-          setchart1();
-          setchart2();
-          setchart3();
-          setchart4();
-          setchart5();
+          // setchart1();
+          // setchart2();
+          // setchart3();
+          // setchart4();
+          // setchart5();
           setTableItem();
-          updatechart();
+          // updatechart();
+          $scope.refreshData();
+          $interval.cancel($scope.timer);
+          $scope.timer = $interval($scope.refreshData,10000);
         },500)
 
       };
 
     });
 
-    function getValues(){
+    function getValueIn(){
+      //获取是被空气检测
+      deviceApi.getDeviceSensorData($scope.deviceAir1)
+        .then(function(result) {
+            if(result.data.code == 1) {
+              var dataArr=result.data.data;
+              if(dataArr!=null && dataArr.length>0){
+               $.each(dataArr,
+                 function(i, val) {
+                   if(val.type == 'analog'){
+                    $scope.dataIn.pm25 = val.vars[1].value;
+                    $scope.dataIn.co2 = val.vars[3].value;
+                    $scope.dataIn.temperature1 = Number(val.vars[7].value).toFixed(1);
+                    $scope.dataIn.Humidity1 =  Number(val.vars[8].value).toFixed(1);
 
+                   }
+                   if(val.type == 'digital'){}
+                 }
+               );
+             }
+
+            }else {
+              $scope.dataIn.pm25 = 0;
+              $scope.dataIn.co2 = 0;
+              $scope.dataIn.temperature1 = 0;
+              $scope.dataIn.Humidity1 = 0;
+            }
+            $scope.pmNumber = $scope.dataIn.pm25;
+            $scope.pmPercent = Math.round($scope.dataIn.pm25*100/500);
+            $scope.co2Number = $scope.dataIn.co2;
+            $scope.co2Percent = Math.round($scope.dataIn.co2*100/3000);
+            console.log('co2percent',$scope.co2Percent);
+            setchart1();
+            setchart2();
+            updatechart();
+        }, function(err) {
+            // alert(err);
+      });
+      //获取室内负离子数
+      deviceApi.getDeviceSensorData($scope.deviceAnion1)
+        .then(function(result) {
+          if(result.data.code == 1) {
+            var dataArr=result.data.data;
+            if(dataArr!=null && dataArr.length>0){
+             $.each(dataArr,
+               function(i, val) {
+                 if(val.type == 'analog'){
+                  $scope.dataIn.anion = parseInt(Number(val.vars[4].value));
+                  $scope.dataIn.temperature2 =  Number(val.vars[5].value).toFixed(1);
+                  $scope.dataIn.Humidity2 =  Number(val.vars[6].value).toFixed(1);
+                 }
+                 if(val.type == 'digital'){}
+               }
+             );
+           }
+
+          }else {
+            $scope.dataIn.anion = 0;
+            $scope.dataIn.temperature2 = 0;
+            $scope.dataIn.Humidity2 = 0;
+          }
+          $scope.anionNumber = $scope.dataIn.anion;
+          $scope.anionPercent = Math.round(($scope.dataIn.anion)*100/2000);
+          $scope.Temperature = $scope.dataIn.temperature2;
+          $scope.Humidity = $scope.dataIn.Humidity2;
+          setchart3();
+          setchart4();
+          setchart5();
+          updatechart();
+        }, function(err) {
+            // alert(err);
+      });
+    }
+
+    function getValueOut(){
+      //获取室外空气检测
+      deviceApi.getDeviceSensorData($scope.deviceAir2)
+        .then(function(result) {
+            if(result.data.code == 1) {
+              var dataArr=result.data.data;
+              if(dataArr!=null && dataArr.length>0){
+               $.each(dataArr,
+                 function(i, val) {
+                   if(val.type == 'analog'){
+                    $scope.dataOut.pm25 = val.vars[1].value;
+                    $scope.dataOut.co2 = val.vars[3].value;
+                    $scope.dataOut.temperature1 = Number(val.vars[7].value).toFixed(1);
+                    $scope.dataOut.Humidity1 = Number(val.vars[8].value).toFixed(1);
+
+                   }
+                   if(val.type == 'digital'){}
+                 }
+               );
+             }
+
+            }else {
+              $scope.dataOut.pm25 = 0;
+              $scope.dataOut.co2 = 0;
+              $scope.dataOut.temperature1 = 0;
+              $scope.dataOut.Humidity1 = 0;
+            }
+        }, function(err) {
+            // alert(err);
+      });
+      //获取室外负离子数
+      deviceApi.getDeviceSensorData($scope.deviceAnion2)
+        .then(function(result) {
+          if(result.data.code == 1) {
+            var dataArr=result.data.data;
+            if(dataArr!=null && dataArr.length>0){
+             $.each(dataArr,
+               function(i, val) {
+                 if(val.type == 'analog'){
+                  $scope.dataOut.anion = Math.round(Number(val.vars[4].value)/1000);
+                  $scope.dataOut.temperature2 = Number(val.vars[5].value).toFixed(1);
+                  $scope.dataOut.Humidity2 = Number(val.vars[6].value).toFixed(1);
+                 }
+                 if(val.type == 'digital'){}
+               }
+             );
+           }
+
+          }else {
+            // alert(result.data.errMsg);
+            $scope.dataOut.anion = 0;
+            $scope.dataOut.temperature2 = 0;
+            $scope.dataOut.Humidity2 = 0;
+          }
+        }, function(err) {
+            // alert(err);
+      });
     }
 
     function setchart1(){
+
+      $scope.pmBarColor = '#39ee7c';
       var pmHeight = $('.bgContainer').height();
       var pmWidth = $('.bgContainer').width();
       $('#pie-pm25').css('height',pmHeight);
@@ -78,6 +229,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
       chart1 = echarts.init(chart1Container);
     }
     function setchart2(){
+
       var co2Height = $('.smContainer').height();
       var co2idth = $('.smContainer').width();
       $('#pie-co2').css('height',co2Height);
@@ -87,6 +239,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
       chart2 = echarts.init(chart2Container);
     }
     function setchart3(){
+
       var anionHeight = $('.smContainer').height();
       var anionidth = $('.smContainer').width();
       $('#pie-Anion').css('height',anionHeight);
@@ -96,6 +249,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
       chart3 = echarts.init(chart3Container);
     }
     function setchart4(){
+
       var tempHeight = $('.smContainer').height();
       var tempWidth = $('.smContainer').width();
       $('.Temperature').css('height',(tempHeight-40));
@@ -192,7 +346,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
                 },
                 data:[
                     {
-                      value:$scope.pmNumber,
+                      value:$scope.pmPercent,
                       name:$scope.pmNumber,
                       label : {
                         normal:{
@@ -206,7 +360,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
                       }
                     },
                     {
-                      value:500-$scope.pmPercent,
+                      value:100-$scope.pmPercent,
                       name:'pm2.5(μg/m3)',
 
                     },
@@ -261,7 +415,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
 
                 data:[
                     {
-                      value:$scope.co2Number,
+                      value:$scope.co2Percent,
                       name:$scope.co2Number,
                       label : {
                         normal:{
@@ -274,7 +428,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
                         }
                       }
                     },
-                    {value:200-$scope.co2Percent,name:'二氧化碳（ppm）'},
+                    {value:100-$scope.co2Percent,name:'二氧化碳（ppm）'},
 
                 ]
             }
@@ -291,7 +445,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
         color:[$scope.anionBarColor,'#c5c7c0'],
         title:{
           show:true,
-          text:'负离子（个/cm2）',
+          text:'负离子（千个/cm3）',
           textStyle:{
             fontWeight:'normal',
             fontSize:12,
@@ -325,7 +479,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
                 },
                 data:[
                     {
-                      value:$scope.anionNumber,
+                      value:$scope.anionPercent,
                       name:$scope.anionNumber,
                       label : {
                         normal:{
@@ -339,7 +493,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
                       }
                     },
                     {
-                      value:200-$scope.anionPercent,
+                      value:100-$scope.anionPercent,
                       name:'负离子（个/cm2）',
 
                     },

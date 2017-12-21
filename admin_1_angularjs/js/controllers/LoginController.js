@@ -77,6 +77,9 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
             if(result.data.data.company.companyId == 1246){
               $rootScope.showMonitorScreen =1;
               locals.set("screenNumber", 1);
+            }else{
+              $rootScope.showMonitorScreen =0;
+              locals.set("screenNumber", 0);
             }
             gotoMainView();
             userApi.userPermissionCode(locals.get("userId"))
