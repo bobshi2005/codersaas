@@ -1,8 +1,8 @@
 var AppService = angular.module("AppService", []);
 // var url = "http://118.89.140.11/main/system/webdev/Saas/api";
-var deviceUrl = "http://139.196.141.29:9999"; //saas manager api  old 118.89.140.11
-var userUrl = "http://139.196.141.29:1111";  //user manager api  http://139.196.141.29/
-var fileuploaderUrl = "http://139.196.141.29:9498"; //fineUploader
+var deviceUrl = "http://122.112.237.243:9999"; //saas manager api  old 118.89.140.11
+var userUrl = "http://122.112.237.243:1111";  //user manager api  http://139.196.141.29/
+var fileuploaderUrl = "http://122.112.237.243:9498"; //fineUploader huawei http://122.112.237.243
 
 //用户相关api
 AppService.factory('userApi', ['$http', '$q', function($http, $q) {
@@ -831,11 +831,13 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
   // 写入equipment在dtu中的信息 saveId 和dtuId
   service.dtuWriteEquipment = function(equipmentInfo) {
       var d = $q.defer();
+      var param = {"salveId":equipmentInfo.salveId,"equipmentId":equipmentInfo.equipmentId};
+      console.log('params',param);
       $http({
           method: 'post',
           url: deviceUrl+ '/manage/dtu/equipment/write',
           headers: {"Content-Type":"application/json;charset=UTF-8"},
-          data: equipmentInfo,
+          data: param,
           withCredentials: true,
 
       }).then(function(response) {
