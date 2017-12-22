@@ -85,7 +85,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
     });
 
     function getValueIn(){
-      //获取是被空气检测
+      //获取室内空气检测
       deviceApi.getDeviceSensorData($scope.deviceAir1)
         .then(function(result) {
             if(result.data.code == 1) {
@@ -115,7 +115,14 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
             $scope.pmPercent = Math.round($scope.dataIn.pm25*100/500);
             $scope.co2Number = $scope.dataIn.co2;
             $scope.co2Percent = Math.round($scope.dataIn.co2*100/3000);
-            // console.log('co2percent',$scope.co2Percent);
+            if($scope.pmNumber <= 35){
+              $scope.pmBarColor = "#39ee7c";
+            }else if($scope.pmNumber <= 75){
+              $scope.pmBarColor = "#e7df2c";
+            }else{
+              $scope.pmBarColor = "#f7be14";
+            }
+            console.log('color',$scope.pmBarColor);
             setchart1();
             setchart2();
             updatechart();
@@ -163,6 +170,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
           $scope.anionPercent = Math.round(($scope.dataIn.anion)*100/2000);
           $scope.Temperature = $scope.dataIn.temperature2;
           $scope.Humidity = $scope.dataIn.Humidity2;
+
           setchart3();
           setchart4();
           setchart5();
@@ -246,8 +254,6 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
     }
 
     function setchart1(){
-
-      $scope.pmBarColor = '#39ee7c';
       var pmHeight = $('.bgContainer').height();
       var pmWidth = $('.bgContainer').width();
       $('#pie-pm25').css('height',pmHeight);
@@ -257,7 +263,6 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
       chart1 = echarts.init(chart1Container);
     }
     function setchart2(){
-
       var co2Height = $('.smContainer').height();
       var co2idth = $('.smContainer').width();
       $('#pie-co2').css('height',co2Height);
