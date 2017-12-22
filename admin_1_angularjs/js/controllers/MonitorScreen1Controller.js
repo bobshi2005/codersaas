@@ -50,6 +50,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
       getValueOut();
     }
     $scope.$on('$viewContentLoaded', function() {
+      convertData();
       setchart1();
       setchart2();
       setchart3();
@@ -131,7 +132,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
              $.each(dataArr,
                function(i, val) {
                  if(val.type == 'analog'){
-                  $scope.dataIn.anion = Math.round(Number(val.vars[4].value));
+                  $scope.dataIn.anion = convertData(Number(val.vars[4].value));
                   $scope.dataIn.temperature2 =  Number(val.vars[5].value).toFixed(1);
                   $scope.dataIn.Humidity2 =  Number(val.vars[6].value).toFixed(1);
                  }
@@ -197,7 +198,7 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
              $.each(dataArr,
                function(i, val) {
                  if(val.type == 'analog'){
-                  $scope.dataOut.anion = Math.round(Number(val.vars[4].value));
+                  $scope.dataOut.anion = convertData(Number(val.vars[4].value));
                   $scope.dataOut.temperature2 = Number(val.vars[5].value).toFixed(1);
                   $scope.dataOut.Humidity2 = Number(val.vars[6].value).toFixed(1);
                  }
@@ -503,6 +504,25 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
         ]
       };
       return option;
+    }
+
+    function convertData(origin){
+      // var origin = 65535;  //原始值 十进制
+      var flag = parseInt('7fff',16).toString(10);  // 7fff转成10进制
+      var bg = parseInt('10000',16).toString(10);  ///0x10000转成10进制
+      console.log('10进制flag：',flag);
+      console.log('10进制bg：',bg);
+      if(origin > flag){
+        var temp4 = (bg - origin)*10;
+        // console.log('result:',temp4*10);
+        return temp4;
+      }else{
+        var temp4 = origin*10;
+        return temp4;
+        // console.log('result:',temp4*10);
+      }
+
+      // var temp2 = parseInt(temp1,2);
     }
 
 }]);
