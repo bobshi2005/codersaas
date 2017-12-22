@@ -38,18 +38,33 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
     $scope.dataIn={}; //室内数据；
     $scope.dataOut={}; //室外数据；
     $scope.isscreen = false;
+    $scope.screentext = '进入全屏';
     var chart1,chart2,chart3;
     $scope.changeState = function(){
       console.log('you click bg scrren button');
       $scope.isScreen = !$scope.isScreen;
       if($scope.isScreen){
+        $scope.screentext = '退出全屏';
+        $('.fullbtn').removeClass('fullscreenContainer');
+        $('.fullbtn').addClass('fullscreenContainer1');
+
+        // $('.fulla').removeClass('fullscreen-btn');
+        // $('.fulla').addClass('fullscreen-btn1');
         var sidebarMenu = $('.page-sidebar-menu');
         var body = $('body');
         body.addClass("page-sidebar-closed");
         sidebarMenu.addClass("page-sidebar-menu-closed");
         $('.screenContainer').addClass('bg-screen');
+        launchFullscreen(document.documentElement);
       }else{
+        $scope.screentext = '进入全屏';
+        $('.fullbtn').removeClass('fullscreenContainer1');
+        $('.fullbtn').addClass('fullscreenContainer');
+        // ('.fulla').removeClass('fullscreen-btn1');
+        // $('.fulla').addClass('fullscreen-btn');
         $('.screenContainer').removeClass('bg-screen');
+        exitFullscreen();
+
       }
     }
     $scope.$on('$destroy',function(){
@@ -566,5 +581,26 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
         return temp4;
       }
     }
+
+    function exitFullscreen() {
+       if(document.exitFullscreen) {
+        document.exitFullscreen();
+       } else if(document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+       } else if(document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+       }
+      }
+      function launchFullscreen(element) {
+       if(element.requestFullscreen) {
+        element.requestFullscreen();
+       } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+       } else if(element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+       } else if(element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+       }
+      }
 
 }]);

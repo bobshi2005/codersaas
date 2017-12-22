@@ -9,3 +9,35 @@
   z-index: 99999;
   overflow:hidden;
 }
+
+.fullscreenContainer{
+  height:40px;
+  width:80px;
+  margin-top:-22px;
+  margin-bottom:-25px;
+  margin-left:-10px;
+}
+.fullscreenContainer1{
+  height:40px;
+  width:80px;
+  margin-left:20px;
+  margin-bottom:-40px;
+}
+
+.fullscreen-btn{
+  height:30px;
+  width:80px;
+  background-color: transparant;
+  border: 1px solid #d0cdce;
+  border-radius: 5px;
+  color:#c5c9cb;
+}
+
+.fullscreen-btn1{
+  height:30px;
+  width:80px;
+  background-color: transparant;
+  border: 1px solid transparant;
+  border-radius: 5px;
+  color:#9f9da3;
+}
