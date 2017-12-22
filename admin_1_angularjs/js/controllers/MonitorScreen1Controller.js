@@ -1,7 +1,9 @@
 angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', '$rootScope', '$state', '$http', 'userApi', 'locals','deviceApi','$window','$interval',function($scope, $rootScope, $state, $http, userApi,locals,deviceApi,$window,$interval) {
+
+    $rootScope.settings.layout.pageContentWhite = false;
     $rootScope.menueName = 'sidebar-device';
     $rootScope.showMonitorScreen = locals.get("screenNumber");
-    $rootScope.settings.layout.pageContentWhite = false;
+
 
     $scope.pmNumber = 50;
     $scope.pmPercent = 10;
@@ -35,15 +37,26 @@ angular.module('MetronicApp').controller('MonitorScreen1Controller', ['$scope', 
 
     $scope.dataIn={}; //室内数据；
     $scope.dataOut={}; //室外数据；
+    $scope.isscreen = false;
     var chart1,chart2,chart3;
-    $scope.tofullsreen = function(){
-      $('.screenContainer').css('position','absolute');
-      $('.screenContainer').css('z-index','99999');
-      $('.screenContainer').css('min-height','100vh');
-      $('.screenContainer').css('min-width','100vh');
+    $scope.changeState = function(){
+      console.log('you click bg scrren button');
+      $scope.isScreen = !$scope.isScreen;
+      if($scope.isScreen){
+        var sidebarMenu = $('.page-sidebar-menu');
+        var body = $('body');
+        body.addClass("page-sidebar-closed");
+        sidebarMenu.addClass("page-sidebar-menu-closed");
+        $('.screenContainer').addClass('bg-screen');
+      }else{
+        $('.screenContainer').removeClass('bg-screen');
+      }
     }
     $scope.$on('$destroy',function(){
-       $interval.cancel($scope.timer);
+      if($scope.timer){
+        $interval.cancel($scope.timer);
+      }
+
     });
     $scope.refreshData=function(){
       getValueIn();

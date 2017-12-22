@@ -488,6 +488,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                             "../assets/global/plugins/echarts/echarts.min.js",
+                            "../assets/pages/css/bgscreen.css",
                             "../assets/global/css/plugins.min.css",
                             "../assets/global/plugins/jquery-easypiechart/jquery.easypiechart.js",
                             "js/controllers/MonitorScreen1Controller.js?version=2017122201"

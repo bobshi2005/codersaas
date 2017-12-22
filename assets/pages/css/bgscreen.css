@@ -1,0 +1,11 @@
+.bg-screen {
+  position:absolute;
+  min-height: 100vh;
+  min-width: 100vw;
+  margin-top: -75px;
+  margin-bottom: -40px;
+  margin-left: -65px;
+  margin-right: -20px;
+  z-index: 99999;
+  overflow:hidden;
+}
