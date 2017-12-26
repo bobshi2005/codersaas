@@ -299,17 +299,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
         // home
         .state('login', {
             url: "/login",
-            templateUrl: "views/login5.html?version=2017122202",
+            templateUrl: "views/login6.html?version=2017122202",
             controller: 'LoginController',
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
+                            "../assets/pages/css/login-6.css",
                             "../assets/global/plugins/jquery.min.js",
-                            "../assets/pages/css/login-5.css",
-                            "../assets/global/plugins/jquery-validation/js/jquery.validate.min.js",
-                            "../assets/global/plugins/jquery-validation/js/additional-methods.min.js",
-                            "../assets/global/plugins/backstretch/jquery.backstretch.min.js",
-                            "../assets/pages/scripts/login-5.js",
                             "js/controllers/LoginController.js?version=2017122202",
                             "../assets/global/plugins/echarts/echarts.min.js",
                             "http://cache.amap.com/lbs/static/es5.min.js"
