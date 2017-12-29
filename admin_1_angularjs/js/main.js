@@ -458,6 +458,24 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
             }
         })
 
+        .state('main.device.monitorxmx', {
+            url: "/monitorxmx",
+            templateUrl: "views/monitorxmx.html?version=2017122701",
+            controller: 'XmxMonitorController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/apps/css/widget.css",
+                            "../assets/pages/css/xmxmonitor.css",
+                            // "../assets/pages/scripts/drage.js",
+                            "js/controllers/XmxMonitorController.js?version=2017122701 "
+
+                      ])
+                }]
+            }
+        })
+
         .state('main.device.alarm', {
             url: "/alarm",
             templateUrl: "views/alarm.html?version=2017122701",

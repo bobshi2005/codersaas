@@ -1,0 +1,67 @@
+#main-image-container{
+  height:100%;
+  width:80%;
+  margin-left:10%;
+  /*margin:0 auto;*/
+  overflow: hidden;
+  position: absolute;
+  background: url('http://192.168.1.110:3030/source/xmx1.jpg') no-repeat;
+}
+
+.xmx-tag{
+  width:150px;
+  height:80px;
+  position: absolute;
+  cursor: move;
+}
+
+#tag1{
+  /*top:0px;
+  left:0px;*/
+  /*border:1px solid red;*/
+}
+#tag2{
+  /*top:0px;
+  left:180px;*/
+  /*border:1px solid blue;*/
+}
+#tag3{
+  /*top:0px;
+  left:360px;*/
+  /*border:1px solid green;*/
+}
+#tag4{
+  /*top:0px;
+  left:540px;*/
+  /*border:1px solid yellow;*/
+}
+#tag5{
+  /*top:0px;
+  left:720px;*/
+  /*border:1px solid black;*/
+}
+.tag-statuscontainer{
+  width:100px;
+  height:20px;
+}
+
+.tag-status{
+  width:20px;
+  height:20px;
+  float: left;
+  background-color: red;
+}
+.tag-statustext{
+  width:60px;
+  height:20px;
+  margin-left: 10px;
+  float: left;
+}
+
+.tag-label{
+  float: left;
+}
+.tag-text{
+  float: right;
+  color:#a6a6a7;
+}

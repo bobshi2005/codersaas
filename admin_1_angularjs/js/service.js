@@ -1,8 +1,8 @@
 var AppService = angular.module("AppService", []);
-// var url = "http://118.89.140.11/main/system/webdev/Saas/api";
-var deviceUrl = "http://122.112.237.243:9999"; //saas manager api  old 118.89.140.11
-var userUrl = "http://122.112.237.243:1111";  //user manager api  http://139.196.141.29/
-var fileuploaderUrl = "http://122.112.237.243:9498"; //fineUploader huawei http://122.112.237.243
+var deviceUrl = "http://139.196.141.29:9999"; //saas manager api  old 118.89.140.11
+var userUrl = "http://139.196.141.29:1111";  //user manager api  http://139.196.141.29/
+var fileuploaderUrl = "http://139.196.141.29:9498"; //fineUploader huawei http://122.112.237.243
+var testUrl = "http://192.168.1.110:3030";//测试保存屏幕元素位置
 
 //用户相关api
 AppService.factory('userApi', ['$http', '$q', function($http, $q) {
@@ -234,7 +234,7 @@ AppService.factory('userApi', ['$http', '$q', function($http, $q) {
     };
     return service;
 }]);
-
+//设备相关api
 AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q, sharedataApi) {
   var service = {};
 
@@ -1517,7 +1517,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
 
   return service;
 }]);
-
+//locals
 AppService.factory('locals', ['$window', function($window) {
     return { //存储单个属性
         set: function(key, value) {
@@ -1535,7 +1535,7 @@ AppService.factory('locals', ['$window', function($window) {
 
     }
 }]);
-
+//数据共享
 AppService.factory('sharedataApi',function() {
     var service = {};
     var modeldata = {}; // 共享的设备模型list数据
@@ -1567,7 +1567,7 @@ AppService.factory('sharedataApi',function() {
     }
     return service;
 });
-
+//session超时
 AppService.factory('sessionTimeout', ['$q','$rootScope', function($q,$rootScope){
   var sessiontimeout = {
     request: function(config){
@@ -1600,4 +1600,40 @@ AppService.factory('sessionTimeout', ['$q','$rootScope', function($q,$rootScope)
     }
   };
   return sessiontimeout;
+}]);
+
+//测试保存位置
+AppService.factory('testApi', ['$http', '$q', function($http, $q) {
+  var service = {};
+  service.setPosition = function(params) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: testUrl + '/set/position',
+          headers: {"Content-Type":"application/json; charset=UTF-8"},
+          data:params,
+          withCredentials: true,
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+
+  service.getPosition = function() {
+      var d = $q.defer();
+      $http({
+          method: 'get',
+          url: testUrl + '/get/position',
+          headers: {"Content-Type":"application/json; charset=UTF-8"},
+          withCredentials: true,
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  return service;
 }]);
