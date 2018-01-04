@@ -1,17 +1,42 @@
+.xmx-mainContainer{
+  width:100%;
+  height:100%;
+}
+.xmx-topbar{
+  height:40px;
+}
 .xmx-box{
+  width:100%;
+  height:80%;
   min-width: 600px;
   min-height:500px;
   position: relative;
   overflow: hidden;
 }
-#main-image-container{
+
+.xmx-bottom{
+  width:100%;
+  height:200px;
+  /*background-color:#4be9f2;*/
+}
+#main-left-container{
   width:80%;
-  height:80%;
+  height:100%;
   min-width: 500px;
   min-height:400px;
   position: absolute;
   overflow: hidden;
-  background: url('http://192.168.1.110:3030/source/xmx1.jpg') no-repeat;
+  background-color: red
+  /*background: url('http://192.168.1.110:3030/source/xmx1.jpg') no-repeat;*/
+}
+
+#main-right-container{
+  width:20%;
+  height:100%;
+  position: absolute;
+  right:0;
+  top:0;
+  /*background-color: blue*/
 }
 
 .xmx-tag{
@@ -27,6 +52,10 @@
   height:40px;
   top:0px;
   right:100px;
+}
+.xmx-image{
+  width:100%;
+  height:100%;
 }
 
 #tag1{
@@ -78,4 +107,18 @@
 .tag-text{
   float: right;
   color:#a6a6a7;
+}
+
+.xmx-title1{
+  text-align: right;
+  padding:5px;
+  font-size: 24px;
+}
+.xmx-title1 label{
+  color:#969698
+}
+
+.right-status{
+  margin-top: 40px;
+  max-width: 300px;
 }
