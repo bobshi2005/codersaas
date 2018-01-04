@@ -6,7 +6,7 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
-  font-family: sans-serif;
+  font-family: "Microsoft YaHei","YouYuan",sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%; }
 
@@ -1055,7 +1055,7 @@ html {
   -webkit-tap-highlight-color: transparent; }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Microsoft YaHei","YouYuan", sans-serif;
   font-size: 14px;
   line-height: 1.42857;
   color: #333333;
@@ -1453,7 +1453,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace; }
+  font-family: "Microsoft YaHei","YouYuan", monospace; }
 
 code {
   padding: 2px 4px;
@@ -5187,7 +5187,7 @@ button.close {
   position: absolute;
   z-index: 1030;
   display: block;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Microsoft YaHei","YouYuan", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -5300,7 +5300,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Microsoft YaHei","YouYuan", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
