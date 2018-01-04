@@ -1,6 +1,29 @@
 .xmx-mainContainer{
   width:100%;
   height:100%;
+  position: relative;
+  /*overflow: hidden;*/
+}
+.xmx-left-bar{
+  width:10px;
+  height:90%;
+  line-height: 90%;
+  position: absolute;
+  left:-20px;
+  top:5%;
+  /*top:20px;*/
+  margin:0 auto;
+  background-color: #e37833;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: 999;
+}
+.xmx-left-bar img{
+  position: absolute;
+  right:0;
+  top:45%;
+  width:10px;
+  height: 16px;
 }
 .xmx-topbar{
   height:40px;
@@ -12,12 +35,13 @@
   min-height:500px;
   position: relative;
   overflow: hidden;
+  z-index: 998;
 }
 
 .xmx-bottom{
   width:100%;
   height:200px;
-  /*background-color:#4be9f2;*/
+  background-color:#4be9f2;
 }
 #main-left-container{
   width:80%;

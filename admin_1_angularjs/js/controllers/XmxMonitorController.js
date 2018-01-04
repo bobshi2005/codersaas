@@ -4,7 +4,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     $scope.menueName = $rootScope.menueName;
 
     $scope.message ='';
-    $scope.equipname = '';
+    $scope.showTree = false;
+    // $scope.equipname = '';
 
     $scope.savePosition = function(){
       var positions=[];
@@ -30,7 +31,21 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       });
       setTagPositions(positions);
     }
+    $scope.changeTreeState = function(){
+      console.log('sskdjoj',$('.xmx-left-bar img').attr('src'));
+      if($('.xmx-left-bar img').attr('src') == "../assets/pages/img/right.png"){
+        $scope.showTree = true;
+        $('.xmx-left-bar').css('width',"180px");
+        $('.xmx-left-bar').css('height',"90%");
+        $('.xmx-left-bar img').attr('src',"../assets/pages/img/left.png");
+      }else{
+        $scope.showTree = false;
+        $('.xmx-left-bar').css('width',"10px");
+        $('.xmx-left-bar').css('height',"90%");
+        $('.xmx-left-bar img').attr('src',"../assets/pages/img/right.png");
+      }
 
+    }
     $scope.$on('$destroy',function(){
        $interval.cancel($scope.timer);
     });
