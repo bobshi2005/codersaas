@@ -41,7 +41,7 @@
 .xmx-bottom{
   width:100%;
   height:200px;
-  background-color:#4be9f2;
+  /*background-color:#4be9f2;*/
 }
 #main-left-container{
   width:80%;
@@ -145,4 +145,46 @@
 .right-status{
   margin-top: 40px;
   max-width: 300px;
+}
+
+.bottom-itemContainer{
+  width:60%;
+  height:100%;
+  float: left;
+  /*background-color: #81aad5*/
+}
+.bottom-lineContainer{
+  width:40%;
+  height:100%;
+  float: left;
+  background-color: #e9d8bd
+}
+.bottom-item{
+  width:50%;
+  height:25%;
+  float: left;
+}
+.item-label{
+  width:50%;
+  height:100%;
+  float: left;
+  text-align: center;
+  padding:12px 0;
+  color: #f28130;
+  font-size: 18px;
+}
+.item-content{
+  width:50%;
+  height:50%;
+  margin-top: 12px;
+  float: left;
+  text-align: center;
+  padding:5px 0;
+  color: #d7dadb;
+  background-color: #92979f;
+  font-size: 14px;
+}
+
+.line-tabContainer{
+  
 }

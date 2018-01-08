@@ -32,7 +32,6 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       setTagPositions(positions);
     }
     $scope.changeTreeState = function(){
-      console.log('sskdjoj',$('.xmx-left-bar img').attr('src'));
       if($('.xmx-left-bar img').attr('src') == "../assets/pages/img/right.png"){
         $scope.showTree = true;
         $('.xmx-left-bar').css('width',"180px");
