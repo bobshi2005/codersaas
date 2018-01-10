@@ -5,29 +5,34 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
 
     $scope.message ='';
     $scope.showTree = false;
+    $scope.tagPositions ={};
     // $scope.equipname = '';
 
     $scope.savePosition = function(){
+      var width = parseInt($('#main-left-container').css('width'));
+      var height = parseInt($('#main-left-container').css('height'));
+
+      console.log('image',width,height);
       var positions=[];
       positions.push({
-        "left":parseInt($('#tag1').css('left')),
-        "top":parseInt($('#tag1').css('top')),
+        "left":parseInt($('#tag1').css('left'))/width,
+        "top":parseInt($('#tag1').css('top'))/height,
       });
       positions.push({
-        "left":parseInt($('#tag2').css('left')),
-        "top":parseInt($('#tag2').css('top')),
+        "left":parseInt($('#tag2').css('left'))/width,
+        "top":parseInt($('#tag2').css('top'))/height,
       });
       positions.push({
-        "left":parseInt($('#tag3').css('left')),
-        "top":parseInt($('#tag3').css('top')),
+        "left":parseInt($('#tag3').css('left'))/width,
+        "top":parseInt($('#tag3').css('top'))/height,
       });
       positions.push({
-        "left":parseInt($('#tag4').css('left')),
-        "top":parseInt($('#tag4').css('top')),
+        "left":parseInt($('#tag4').css('left'))/width,
+        "top":parseInt($('#tag4').css('top'))/height,
       });
       positions.push({
-        "left":parseInt($('#tag5').css('left')),
-        "top":parseInt($('#tag5').css('top')),
+        "left":parseInt($('#tag5').css('left'))/width,
+        "top":parseInt($('#tag5').css('top'))/height,
       });
       setTagPositions(positions);
     }
@@ -70,7 +75,30 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       var tag5=document.getElementById('tag5');
       var testdrag5 = new DragDiv(params5,tag5);
       testdrag5.startDrag();
+      var resizeTimeout;
+      window.onresize=function(){
+        clearTimeout(resizeTimeout); //防止onresize连续调用两次
+        resizeTimeout = setTimeout(function(){
+          resetTag();
+        },500);
+      }
     });
+
+    function resetTag(){
+      var width = parseInt($('#main-left-container').css('width'));
+      var height = parseInt($('#main-left-container').css('height'));
+      $('#tag1').css('left',$scope.tagPositions[0].left * width+'px');
+      $('#tag2').css('left',$scope.tagPositions[1].left * width+'px');
+      $('#tag3').css('left',$scope.tagPositions[2].left * width+'px');
+      $('#tag4').css('left',$scope.tagPositions[3].left * width+'px');
+      $('#tag5').css('left',$scope.tagPositions[4].left * width+'px');
+
+      $('#tag1').css('top',$scope.tagPositions[0].top * height+'px');
+      $('#tag2').css('top',$scope.tagPositions[1].top * height+'px');
+      $('#tag3').css('top',$scope.tagPositions[2].top * height+'px');
+      $('#tag4').css('top',$scope.tagPositions[3].top * height+'px');
+      $('#tag5').css('top',$scope.tagPositions[4].top * height+'px');
+    }
 
     function getCss(o,key){
       return o.currentStyle? o.currentStyle[key] : document.defaultView.getComputedStyle(o,false)[key];
@@ -149,17 +177,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       testApi.getPosition()
       .then(function(result){
         console.log('position',result.data);
-        $('#tag1').css('left',result.data[0].left+'px');
-        $('#tag2').css('left',result.data[1].left+'px');
-        $('#tag3').css('left',result.data[2].left+'px');
-        $('#tag4').css('left',result.data[3].left+'px');
-        $('#tag5').css('left',result.data[4].left+'px');
-
-        $('#tag1').css('top',result.data[0].top+'px');
-        $('#tag2').css('top',result.data[1].top+'px');
-        $('#tag3').css('top',result.data[2].top+'px');
-        $('#tag4').css('top',result.data[3].top+'px');
-        $('#tag5').css('top',result.data[4].top+'px');
+        $scope.tagPositions = result.data;
+        resetTag()
       },function(err){
         console.log('getpositionerr',err);
       })
@@ -172,6 +191,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       testApi.setPosition(JSON.stringify(positions))
       .then(function(result){
         console.log('result',result);
+        initTagPositions();
       },function(err){
         console.log('setpositionerr',err);
       })
