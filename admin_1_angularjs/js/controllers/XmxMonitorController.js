@@ -69,10 +69,6 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     $scope.$on('$destroy',function(){
        $interval.cancel($scope.timer);
     });
-    $scope.$on('$viewContentLoading', function() {
-      console.log('loading');
-      reloadleftbar();
-    });
     $scope.$on('$viewContentLoaded', function() {
       initTagPositions();
       var params1 = {left: 0,top: 0,currentX: 0,currentY: 0,flag: false};
