@@ -314,6 +314,14 @@
   margin-top: 20px;
   float:left;
 }
+.tab_2_container .left .part3 .line{
+  height: 100%;
+  width: 100%;
+}
+.tab_2_container .left .part4 .line{
+  height: 100%;
+  width: 100%;
+}
 .tab_2_container .left .part4{
   height: 250px;
   width: 49.5%;

@@ -8,6 +8,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     $scope.tagPositions ={};
     $scope.linechartoption;
     var linechart;
+    var machineline1;
+    var machineline2;
     // $scope.equipname = '';
 
     $scope.savePosition = function(){
@@ -96,6 +98,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       linechart = echarts.init(mychartContainer);
       setLinechart();
       reloadleftbar();
+      setTabClick();
+      // setMachinline();
       initTree(function(){
         console.log('getTreeSuccess');
       });
@@ -184,16 +188,154 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       selectNode();
       callback();
     }
-
     function selectNode(){
-      // $('#firstTab').addClass('active').siblings().removeClass('active');
-      // $('.tab-content').find('#tab_1_1').addClass('active').siblings().removeClass('active');
+      $('#firstTab').addClass('active').siblings().removeClass('active');
+      $('.tab-content').find('#tab_1').addClass('active').siblings().removeClass('active');
       // getEquipmentInfo($scope.selectedequipid);
       // getDataModel($scope.selectedequipid);
       console.log('i select ',$scope.selectedequipid);
       reloadleftbar();
 
     };
+    function setTabClick(){
+      $('.nav-pills li a').click(function() {　
+          $(this).addClass('active').siblings().removeClass('active');　
+          var _id = $(this).attr('data-target');　　
+          $('.tab-content').find(_id).addClass('active').siblings().removeClass('active');
+          // var _id = $(this).attr('href').slice(2);
+          // $('.tab-content').find('#' + _id).addClass('active').siblings().removeClass('active');
+          switch (_id) {　　　　
+              case "#tab_1":
+                break;　　　　
+              case "#tab_2":
+                {
+                  setMachinline();
+
+                  window.onresize=function(){
+                    console.log('reset');
+                    setMachinline();
+                  };
+                }
+                break;
+
+              case "#tab_3":
+                  {
+
+                  }
+                  　　　　　
+                  break;
+              case "#tab_1_4":
+                  break;
+
+               　　　
+              default:
+                  break;　　
+          }
+      });
+    };
+    function setMachinline(){
+      var xdata=['12','13','14'];
+      var ydata=[23,44,55];
+      var lineoption1 = {
+          title : {
+            text: '吹制温度',
+          },
+          tooltip: {
+              trigger: 'axis',
+              formatter: "{a} <br/>{b}: {c}"
+          },
+          grid: {
+              left: '5%',
+              right: '5%',
+              bottom: '5%',
+              containLabel: true
+          },
+          xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: xdata
+          },
+          yAxis: {
+             type: 'value',
+             scale: true,
+             axisLabel : {
+                 formatter: '{value}℃'
+             },
+          },
+          series: [
+              {
+                  name: '吹制温度',
+                  type: 'line',
+                  smooth: '1',
+                  data:  ydata,
+              }
+          ]
+      };
+      var lineoption2 = {
+          title : {
+            text: '吹制气压',
+          },
+          tooltip: {
+              trigger: 'axis',
+
+              formatter: "{b} : {c} (kPa)"
+          },
+          grid: {
+              left: '5%',
+              right: '5%',
+              bottom: '3%',
+              containLabel: true
+          },
+          toolbox: {
+              feature: {
+                  saveAsImage: {}
+              }
+          },
+          xAxis: [
+              {
+                  type: 'category',
+                  data: xdata
+              }
+          ],
+          yAxis: [
+              {
+                  type: 'value',
+                  axisLabel : {
+                      formatter: '{value}kPa'
+                  },
+                  splitNumber:10
+              }
+          ],
+          series: [
+              {
+                  name:'当年能耗',
+                  type:'line',
+                  smooth: '1',
+                  itemStyle : {
+                        normal : {
+                            color:'#d973e6'
+                        }
+                    },
+                  data: ydata
+              }
+          ]
+      };
+
+      var mychartContainer1 = document.getElementById('machine_line1');
+      mychartContainer1.style.width=$('#navContainer').width()*0.3+'px';
+      console.log('#navContainerwidth',$('#navContainer').width());
+      machineline1 = echarts.init(mychartContainer1);
+      machineline1.setOption(lineoption1);　
+
+
+      var mychartContainer2 = document.getElementById('machine_line2');
+      mychartContainer2.style.width=$('#navContainer').width()*0.3+'px';
+
+      machineline2 = echarts.init(mychartContainer2);
+      machineline2.setOption(lineoption2);　
+      machineline1.resize();
+      machineline2.resize();
+    }
 
     function setLinechart(){
       var xdata=['12','13','14'];
