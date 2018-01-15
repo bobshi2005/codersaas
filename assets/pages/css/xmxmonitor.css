@@ -330,6 +330,29 @@
   float:left;
 }
 
+.tab_2_container .right  .itemContainer{
+  width:100%;
+  height:100%;
+}
+.tab_2_container .right  .itemContainer .item{
+  width:100%;
+  height:40px;
+  padding-bottom: 5px;
+  font-size: 18px;
+  text-align: center;
+  float: left;
+}
+.tab_2_container .right .itemContainer .item .itemlabel{
+  width:50%;
+  text-align: center;
+  float:left;
+}
+.tab_2_container .right .itemContainer .item .content{
+  width:50%;
+  text-align: left;
+  float:left;
+}
+
 
 .hide{
   display: none
