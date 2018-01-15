@@ -97,6 +97,9 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       var mychartContainer = document.getElementById('linechart');
       linechart = echarts.init(mychartContainer);
       setLinechart();
+      initTree(function(){
+        console.log('getTreeSuccess');
+      });
       window.onresize=function(){
         clearTimeout(resizeTimeout); //防止onresize连续调用两次
         resizeTimeout = setTimeout(function(){
@@ -105,6 +108,70 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
         },500);
       }
     });
+
+    function initTree(callback){
+      var zNodes=
+        [{
+          "total":1,"code":"320000","name":"江苏省","online":2,
+          "children":[
+              {"total":3,"code":"320500","name":"苏州市","online":2,"latitude":33.00000,"longitude":120.00000,
+                "children":[
+                  {"id":"1","name":"百事灌装线",
+                    "children":[
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"吹瓶"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"灌装"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"打包"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"贴标"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"码垛"},
+                    ]
+                  },
+                ]
+              }
+            ]
+        }];
+        var setting = {
+          data : {
+            key : { title : "name"}
+          },
+          view: {
+            showIcon: false
+          },
+          callback: {
+            onClick: function(event, treeId, treeNode) {
+              var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+              var sNodes = treeObj.getSelectedNodes();
+              if (sNodes.length > 0) {
+                var level = sNodes[0].level;
+                if(level==1)//city node
+                {  //城市中心点 后期修改
+                  //  $scope.map.setZoomAndCenter(6, [treeNode.longitude,treeNode.latitude]);
+                }
+                else if(level>=2)//device node
+                {
+                    $scope.selectedequipid = treeNode.id;
+                    selectNode();
+                }
+              }
+            }
+          }
+        };
+      var treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+      treeObj.expandAll(true);
+      $scope.selectedequipid = zNodes[0].children[0].children[0].id;
+      var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
+      treeObj.selectNode(devNodes[0]);
+      selectNode();
+      callback();
+    }
+
+    function selectNode(){
+      // $('#firstTab').addClass('active').siblings().removeClass('active');
+      // $('.tab-content').find('#tab_1_1').addClass('active').siblings().removeClass('active');
+      // getEquipmentInfo($scope.selectedequipid);
+      // getDataModel($scope.selectedequipid);
+      console.log('i select ',$scope.selectedequipid);
+
+    };
 
     function setLinechart(){
       var xdata=['12','13','14'];

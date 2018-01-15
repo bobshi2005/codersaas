@@ -469,6 +469,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                             "../assets/global/plugins/echarts/echarts.min.js",
                             "../assets/pages/css/xmxmonitor.css?version=2017122701",
                             // "../assets/pages/scripts/drage.js",
+                            "../assets/global/plugins/ztree/css/zTreeStyle/zTreeStyle.css",
+                            "../assets/global/plugins/ztree/js/jquery.ztree.core.js",
                             "js/controllers/XmxMonitorController.js?version=2017122701"
 
                       ])
