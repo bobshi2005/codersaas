@@ -69,6 +69,10 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     $scope.$on('$destroy',function(){
        $interval.cancel($scope.timer);
     });
+    $scope.$on('$viewContentLoading', function() {
+      console.log('loading');
+      reloadleftbar();
+    });
     $scope.$on('$viewContentLoaded', function() {
       initTagPositions();
       var params1 = {left: 0,top: 0,currentX: 0,currentY: 0,flag: false};
@@ -169,8 +173,17 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
         };
       var treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
       treeObj.expandAll(true);
-      $scope.selectedequipid = zNodes[0].children[0].children[0].id;
+      $scope.selectedequipid = zNodes[0].children[0].children[0].children[0].id;
       var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
+      if(devNodes[0].level ==2){
+        $('.machine').addClass('hide');
+        $('.pro-line').removeClass('hide');
+      }
+      if(devNodes[0].level ==3){
+        $('.machine').removeClass('hide');
+        $('.pro-line').addClass('hide');
+      }
+
       treeObj.selectNode(devNodes[0]);
       selectNode();
       callback();
