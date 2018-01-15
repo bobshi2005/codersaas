@@ -14,7 +14,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       var width = parseInt($('#main-left-container').css('width'));
       var height = parseInt($('#main-left-container').css('height'));
 
-      console.log('image',width,height);
+      // console.log('image',width,height);
       var positions=[];
       positions.push({
         "left":parseInt($('#tag1').css('left'))/width,
@@ -42,12 +42,10 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       if($('.xmx-left-bar img').attr('src') == "../assets/pages/img/right.png"){
         $scope.showTree = true;
         $('.xmx-left-bar').css('width',"180px");
-        $('.xmx-left-bar').css('height',"90%");
         $('.xmx-left-bar img').attr('src',"../assets/pages/img/left.png");
       }else{
         $scope.showTree = false;
         $('.xmx-left-bar').css('width',"10px");
-        $('.xmx-left-bar').css('height',"90%");
         $('.xmx-left-bar img').attr('src',"../assets/pages/img/right.png");
       }
 
@@ -97,6 +95,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       var mychartContainer = document.getElementById('linechart');
       linechart = echarts.init(mychartContainer);
       setLinechart();
+      reloadleftbar();
       initTree(function(){
         console.log('getTreeSuccess');
       });
@@ -104,11 +103,17 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
         clearTimeout(resizeTimeout); //防止onresize连续调用两次
         resizeTimeout = setTimeout(function(){
           resetTag();
+          reloadleftbar();
           linechart.resize();
         },500);
       }
     });
 
+    function reloadleftbar(){
+      var height = document.body.offsetHeight;
+      $('.xmx-left-bar').css('height',height-175);
+      $('.xmx-left-bar').css('line-height',height-175);
+    }
     function initTree(callback){
       var zNodes=
         [{
@@ -146,8 +151,15 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                 {  //城市中心点 后期修改
                   //  $scope.map.setZoomAndCenter(6, [treeNode.longitude,treeNode.latitude]);
                 }
-                else if(level>=2)//device node
+                if(level==2)//device node
                 {
+                    $('.pro-line').removeClass('hide');
+                    $('.machine').addClass('hide');
+                    $scope.selectedequipid = treeNode.id;
+                    selectNode();
+                }else if(level==3){
+                  $('.machine').removeClass('hide');
+                  $('.pro-line').addClass('hide');
                     $scope.selectedequipid = treeNode.id;
                     selectNode();
                 }
@@ -170,6 +182,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       // getEquipmentInfo($scope.selectedequipid);
       // getDataModel($scope.selectedequipid);
       console.log('i select ',$scope.selectedequipid);
+      reloadleftbar();
 
     };
 
@@ -308,7 +321,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     function initTagPositions(){
       testApi.getPosition()
       .then(function(result){
-        console.log('position',result.data);
+        // console.log('position',result.data);
         $scope.tagPositions = result.data;
         resetTag()
       },function(err){
