@@ -6,6 +6,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     $scope.message ='';
     $scope.showTree = false;
     $scope.tagPositions ={};
+    $scope.linechartoption;
+    var linechart;
     // $scope.equipname = '';
 
     $scope.savePosition = function(){
@@ -35,7 +37,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
         "top":parseInt($('#tag5').css('top'))/height,
       });
       setTagPositions(positions);
-    }
+    };
     $scope.changeTreeState = function(){
       if($('.xmx-left-bar img').attr('src') == "../assets/pages/img/right.png"){
         $scope.showTree = true;
@@ -49,6 +51,22 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
         $('.xmx-left-bar img').attr('src',"../assets/pages/img/right.png");
       }
 
+    };
+    $scope.showline = function(type){
+      switch(type){
+        case 1:
+        console.log('hhh1');
+        break;
+        case 2:
+        console.log('hhh2');
+        break;
+        case 3:
+        console.log('hhh3');
+        break;
+        default:
+        break;
+
+      }
     }
     $scope.$on('$destroy',function(){
        $interval.cancel($scope.timer);
@@ -76,14 +94,61 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       var testdrag5 = new DragDiv(params5,tag5);
       testdrag5.startDrag();
       var resizeTimeout;
+      var mychartContainer = document.getElementById('linechart');
+      linechart = echarts.init(mychartContainer);
+      setLinechart();
       window.onresize=function(){
         clearTimeout(resizeTimeout); //防止onresize连续调用两次
         resizeTimeout = setTimeout(function(){
           resetTag();
+          linechart.resize();
         },500);
       }
     });
 
+    function setLinechart(){
+      var xdata=['12','13','14'];
+      var ydata=[23,44,55];
+      $scope.linechartoption={
+          tooltip: {
+              trigger: 'axis',
+              formatter: "{a} <br/>{b}: {c}"
+          },
+          grid: {
+              top: '5%',
+              left: '5%',
+              right: '5%',
+              bottom: '5%',
+              containLabel: true
+          },
+         //  toolbox: {
+         //      feature: {
+         //          saveAsImage: {}
+         //      }
+         //  },
+          xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: xdata
+          },
+          yAxis: {
+             type: 'value',
+             scale: true,
+             axisLabel : {
+                 formatter: '{value}'
+             },
+          },
+          series: [
+              {
+                  name: '设备开机率',
+                  type: 'line',
+                  smooth: '1',
+                  data:  ydata,
+              }
+          ]
+      };
+      linechart.setOption($scope.linechartoption);　
+    }
     function resetTag(){
       var width = parseInt($('#main-left-container').css('width'));
       var height = parseInt($('#main-left-container').css('height'));

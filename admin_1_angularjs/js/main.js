@@ -466,10 +466,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
                             "../assets/global/plugins/jquery.min.js",
-                            "../assets/apps/css/widget.css",
-                            "../assets/pages/css/xmxmonitor.css",
+                            "../assets/global/plugins/echarts/echarts.min.js",
+                            "../assets/pages/css/xmxmonitor.css?version=2017122701",
                             // "../assets/pages/scripts/drage.js",
-                            "js/controllers/XmxMonitorController.js?version=2017122701 "
+                            "js/controllers/XmxMonitorController.js?version=2017122701"
 
                       ])
                 }]

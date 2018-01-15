@@ -154,14 +154,18 @@
       </div>
     </div>
     <div class="bottom-lineContainer">
-      <div class="line-tab">
-
+      <div class="xmx-line" id="linechart">
       </div>
-      <div class="xmx-line"></div>
+      <div class="line-tab">
+         <button type="button" ng-click="showline(1)" class="btn blue-hoki">设备开机率</button>
+         <button type="button" ng-click="showline(2)" class="btn green-jungle">性能开动率</button>
+         <button type="button" ng-click="showline(3)" class="btn yellow-crusta">OEE</button>
+      </div>
+
     </div>
   </div>
   <div class="xmx-left-bar">
-    <div ng-show="showTree" style="width:170px;height:100%;background-color:#536073">Treesfweaefaweftwe
+    <div ng-show="showTree" style="width:170px;height:100%;background-color:#f9f2eb">Treesfweaefaweftwe
     </div>
     <img ng-click="changeTreeState()" src="../assets/pages/img/right.png">
   </div>
