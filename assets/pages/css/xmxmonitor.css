@@ -87,10 +87,21 @@
 }
 .tag-reset{
   position:absolute;
-  width:80px;
-  height:40px;
+  width:60px;
+  height:30px;
+  line-height: 30px;
   top:0px;
   right:100px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 5px;
+  border:1px solid #b9c7d2;
+  color:#b9c7d2;
+  cursor: pointer;
+}
+.tag-reset:hover{
+  border:1px solid #63abe4;
+  color:#63abe4;
 }
 .xmx-image{
   width:100%;

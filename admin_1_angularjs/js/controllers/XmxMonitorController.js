@@ -134,15 +134,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
         setMachineline5();
       }
     }
-    $("#treeContainer").hover(function(){
-      console.log('111');
-    },function(){
-      console.log('222');
-      $scope.showTree = false;
-      $("#treeContainer").addClass('hide');
-      $('.xmx-left-bar').css('width',"10px");
-      $('.xmx-left-bar img').attr('src',"../assets/pages/img/right.png");
-    });
+
 
     $scope.$on('$destroy',function(){
        $interval.cancel($scope.timer);
@@ -169,7 +161,32 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       var tag5=document.getElementById('tag5');
       var testdrag5 = new DragDiv(params5,tag5);
       testdrag5.startDrag();
+      $("#treeContainer").hover(function(){
+      },function(){
+        $scope.showTree = false;
+        $("#treeContainer").addClass('hide');
+        $('.xmx-left-bar').css('width',"10px");
+        $('.xmx-left-bar img').attr('src',"../assets/pages/img/right.png");
+      });
       var resizeTimeout;
+      window.onresize=function(){
+        clearTimeout(resizeTimeout); //防止onresize连续调用两次
+        resizeTimeout = setTimeout(function(){
+          console.log('resetxmx');
+          resetTag();
+          reloadleftbar();
+          $("#treeContainer").hover(function(){
+            console.log('111');
+          },function(){
+            console.log('222');
+            $scope.showTree = false;
+            $("#treeContainer").addClass('hide');
+            $('.xmx-left-bar').css('width',"10px");
+            $('.xmx-left-bar img').attr('src',"../assets/pages/img/right.png");
+          });
+          linechart.resize();
+        },500);
+      }
       var mychartContainer = document.getElementById('linechart');
       linechart = echarts.init(mychartContainer);
       setLinechart();
@@ -179,14 +196,9 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
         console.log('getTreeSuccess');
       });
 
-      window.onresize=function(){
-        clearTimeout(resizeTimeout); //防止onresize连续调用两次
-        resizeTimeout = setTimeout(function(){
-          resetTag();
-          reloadleftbar();
-          linechart.resize();
-        },500);
-      }
+
+
+
     });
 
     function reloadleftbar(){
@@ -833,8 +845,16 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       console.log('positions',JSON.stringify(positions));
       testApi.setPosition(JSON.stringify(positions))
       .then(function(result){
-        console.log('result',result);
-        initTagPositions();
+        if(result.data.code ==1){
+          console.log('result','保存位置成功！');
+          $scope.message="保存位置成功！";
+          $('#myModal_alert').modal();
+          initTagPositions();
+        }else{
+          $scope.message="保存位置失败！";
+          $('#myModal_alert').modal();
+        }
+
       },function(err){
         console.log('setpositionerr',err);
       })
