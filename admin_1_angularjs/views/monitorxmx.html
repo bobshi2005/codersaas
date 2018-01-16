@@ -419,7 +419,11 @@
                             <div class="tools"> </div>
                         </div>
                         <div class="portlet-body" >
-
+                            <div class="datatag"  ng-repeat="var in tab4vars" ng-click="slecttab4var(var)">
+                                <div class="name">{{var.name}} </div>
+                                <div class="value" >{{var.value}} </div>
+                                <div class="unit">{{var.unit}} </div>
+                            </div>
                         </div>
                       </div>
                       <div class='right portlet light bordered '>

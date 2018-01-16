@@ -13,7 +13,28 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     var machineline3;//tab3
     var machineline4;//tab3
     $scope.line4type = '';
-    // $scope.equipname = '';
+    $scope.tab4vars = [
+      {'name':'胚温设定','value': 400,'unit':'℃'},
+      {'name':'实际胚温','value': 397,'unit':'℃'},
+      {'name':'无胚输出','value': 400,'unit':'%'},
+      {'name':'初始输出','value': 397,'unit':'%'},
+      {'name':'前炉温','value': 400,'unit':'℃'},
+      {'name':'后炉温','value': 397,'unit':'℃'},
+      {'name':'模具冷却水温','value': 400,'unit':'℃'},
+      {'name':'炉温冷却水温','value': 397,'unit':'℃'},
+      {'name':'高压压力','value': 400,'unit':'bar'},
+      {'name':'低压气压力','value': 397,'unit':'bar'},
+      {'name':'预吹压力','value': 400,'unit':'bar'},
+      {'name':'主电机温度','value': 397,'unit':'℃'},
+      {'name':'主电机电流','value': 400,'unit':'A'},
+      {'name':'炉温冷却水温','value': 397,'unit':'℃'},
+      {'name':'模具冷却水温','value': 400,'unit':'℃'},
+      {'name':'炉温冷却水温','value': 397,'unit':'℃'},
+      {'name':'运行速度','value': 400,'unit':'A'},
+      {'name':'本班生产量','value': 12000,'unit':'个'},
+      {'name':'合格数','value': 12000,'unit':'个'},
+      {'name':'合格率','value': 100,'unit':'%'}
+    ];
 
     $scope.savePosition = function(){
       var width = parseInt($('#main-left-container').css('width'));
@@ -75,6 +96,9 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       console.log('history type',type);
       $scope.line4type = type;
       setMachinline4();
+    }
+    $scope.slecttab4var = function(item){
+      console.log('i select',item);
     }
 
     $scope.$on('$destroy',function(){
