@@ -69,15 +69,31 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     $scope.changeTreeState = function(){
       if($('.xmx-left-bar img').attr('src') == "../assets/pages/img/right.png"){
         $scope.showTree = true;
+        $("#treeContainer").removeClass('hide');
         $('.xmx-left-bar').css('width',"180px");
         $('.xmx-left-bar img').attr('src',"../assets/pages/img/left.png");
       }else{
         $scope.showTree = false;
+        $("#treeContainer").addClass('hide');
         $('.xmx-left-bar').css('width',"10px");
         $('.xmx-left-bar img').attr('src',"../assets/pages/img/right.png");
       }
 
     };
+    $scope.checktag = function(number){
+      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+      var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
+      treeObj.selectNode(devNodes[0].children[0]);
+      if(devNodes[0].children[number].level ==2){
+        $('.machine').addClass('hide');
+        $('.pro-line').removeClass('hide');
+      }
+      if(devNodes[0].children[number].level ==3){
+        $('.machine').removeClass('hide');
+        $('.pro-line').addClass('hide');
+      }
+      selectNode();
+    }
     $scope.showline = function(type){
       switch(type){
         case 1:
@@ -118,6 +134,15 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
         setMachineline5();
       }
     }
+    $("#treeContainer").hover(function(){
+      console.log('111');
+    },function(){
+      console.log('222');
+      $scope.showTree = false;
+      $("#treeContainer").addClass('hide');
+      $('.xmx-left-bar').css('width',"10px");
+      $('.xmx-left-bar img').attr('src',"../assets/pages/img/right.png");
+    });
 
     $scope.$on('$destroy',function(){
        $interval.cancel($scope.timer);
@@ -153,6 +178,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       initTree(function(){
         console.log('getTreeSuccess');
       });
+
       window.onresize=function(){
         clearTimeout(resizeTimeout); //防止onresize连续调用两次
         resizeTimeout = setTimeout(function(){
@@ -318,7 +344,6 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                         });
                     setGantt();
                     window.onresize=function(){
-                      console.log('i reset');
                         setMachineline5();
                         setGantt();
                     };

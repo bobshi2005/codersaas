@@ -29,6 +29,7 @@
   border-bottom-right-radius: 10px;
   z-index: 999;
 }
+
 .xmx-left-bar img{
   position: absolute;
   right:0;
@@ -76,10 +77,13 @@
 
 .xmx-tag{
   width:150px;
-  height:80px;
+  height:90px;
+  padding:5px;
   position: absolute;
   overflow: hidden;
   cursor: move;
+  border: 1px solid #919191;
+  border-radius: 5px;
 }
 .tag-reset{
   position:absolute;
@@ -119,7 +123,7 @@
   /*border:1px solid black;*/
 }
 .tag-statuscontainer{
-  width:100px;
+  width:140px;
   height:20px;
 }
 
@@ -127,13 +131,18 @@
   width:20px;
   height:20px;
   float: left;
-  background-color: red;
 }
 .tag-statustext{
-  width:60px;
+  width:50px;
   height:20px;
   margin-left: 10px;
   float: left;
+}
+.tag-check{
+  width:50px;
+  height:20px;
+  float: right;
+  cursor: pointer;
 }
 
 .tag-label{
