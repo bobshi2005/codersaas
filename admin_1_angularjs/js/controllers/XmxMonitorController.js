@@ -69,6 +69,10 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
 
       }
     }
+    $scope.getHistory = function(type){
+      console.log('history type',type);
+    }
+
     $scope.$on('$destroy',function(){
        $interval.cancel($scope.timer);
     });
