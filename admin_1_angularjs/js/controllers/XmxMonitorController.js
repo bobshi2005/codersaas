@@ -35,6 +35,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       {'name':'合格数','value': 12000,'unit':'个'},
       {'name':'合格率','value': 100,'unit':'%'}
     ];
+    $scope.selected4var = $scope.tab4vars[0];
+    $scope.curve={startTime:0,endTime:0,setTime:'自定义时间'};
 
     $scope.savePosition = function(){
       var width = parseInt($('#main-left-container').css('width'));
@@ -98,7 +100,23 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       setMachinline4();
     }
     $scope.slecttab4var = function(item){
-      console.log('i select',item);
+      $scope.selected4var = item;
+      setMachineline5();
+    }
+    $scope.disalert = function(){
+      $('#myModal_alert').modal('hide');
+    }
+
+    $scope.gettab4History = function(){
+      var startDate = new Date($scope.curve.startTime);
+      var endDate = new Date($scope.curve.endTime);
+      if(Date.parse(endDate)-Date.parse(startDate)<=0){
+        $scope.message = '开始时间必须早于结束时间';
+        $('#myModal_alert').modal();
+      }else{
+        $scope.curve.setTime=$scope.curve.startTime+'-'+$scope.curve.endTime;
+        setMachineline5();
+      }
     }
 
     $scope.$on('$destroy',function(){
@@ -161,9 +179,9 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                     "children":[
                       {"id":'lZm1tq1hKtmd21UQ',"name":"吹瓶"},
                       {"id":'lZm1tq1hKtmd21UQ',"name":"灌装"},
-                      {"id":'lZm1tq1hKtmd21UQ',"name":"打包"},
                       {"id":'lZm1tq1hKtmd21UQ',"name":"贴标"},
                       {"id":'lZm1tq1hKtmd21UQ',"name":"码垛"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"装箱"},
                     ]
                   },
                 ]
@@ -226,7 +244,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       resetTag();
       // getEquipmentInfo($scope.selectedequipid);
       // getDataModel($scope.selectedequipid);
-      console.log('i select ',$scope.selectedequipid);
+      // console.log('i select ',$scope.selectedequipid);
       reloadleftbar();
 
     };
@@ -264,7 +282,46 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                   break;
               case "#tab_4":
                   {
+                    $('.start_date').datetimepicker({
+                        language: 'zh-CN',
+                        weekStart: 1,
+                        todayBtn: 1,
+                        autoclose: 1,
+                        startView: 2,
+                        forceParse: 0,
+                        // minView:'day',
+                        format: 'yyyy/mm/dd hh:ii',
+                        todayHighlight: true,
+                        }).on('hide', function (e) {
+                          var $this = $(this);
+                          var _this = this;
+                          $scope.$apply(function(){
+                              $scope.curve.startTime = _this.value;
+                          });
+                      });
+                      $('.end_date').datetimepicker({
+                          language: 'zh-CN',
+                          weekStart: 1,
+                          todayBtn: 1,
+                          autoclose: 1,
+                          startView: 2,
+                          forceParse: 0,
+                          // minView:'day',
+                          format: 'yyyy/mm/dd hh:ii',
+                          todayHighlight: true,
+                          }).on('hide', function (e) {
+                            var $this = $(this);
+                            var _this = this;
+                            $scope.$apply(function(){
+                                $scope.curve.endTime = _this.value;
+                            });
+                        });
                     setGantt();
+                    window.onresize=function(){
+                      console.log('i reset');
+                        setMachineline5();
+                        setGantt();
+                    };
                   }
                   break;
 
@@ -274,6 +331,52 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
           }
       });
     };
+    function setMachineline5(){
+      var ydata=[12.1,11.9,13.2,11.6,12.3,10,14,16.5,17.4,1,56.7,34.6,63.5,63.8,62,59,10,0,0,0,0,0,0,0];
+      var xdata=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+      var lineoption5 = {
+        color: ['#0bbb71'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            top: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : xdata,
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:$scope.selected4var.name,
+                type:'line',
+                barWidth: '60%',
+                data:ydata
+            }
+        ]
+      };
+
+      var mychartContainer5 = document.getElementById('machine_line5');
+      mychartContainer5.style.width=$('#navContainer').width()*0.55+'px';
+      machineline5 = echarts.init(mychartContainer5);
+      machineline5.setOption(lineoption5);　
+      machineline5.resize();
+    }
+
     function setGantt(){
       var width =  $('#navContainer').width() - 40;
       $('#ganttContainer').css("width",width);
@@ -340,7 +443,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                 enabled: false //禁止显示百分比
             }
         }]
-    });
+      });
     }
     function setMachinline2(){
       var xdata=['12','13','14'];

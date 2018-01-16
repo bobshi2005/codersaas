@@ -92,6 +92,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.setCurvetime = function() {
       var startDate = new Date($scope.curve.startTime);
       var endDate = new Date($scope.curve.endTime);
+      console.log('timer',startDate,endDate);
       if(Date.parse(endDate)-Date.parse(startDate)<=0){
         $scope.message = '开始时间必须早于结束时间';
         $('#myModal_alert').modal();

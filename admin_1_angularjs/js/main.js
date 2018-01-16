@@ -469,6 +469,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                             "../assets/global/plugins/highcharts/js/highcharts_v6.0.4.js", //new add
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/echarts/echarts.min.js",
+                            "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+                            "../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
+                            "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
                             "../assets/pages/css/xmxmonitor.css?version=2017122701",
                             "../assets/global/plugins/ztree/css/zTreeStyle/zTreeStyle.css",
                             "../assets/global/plugins/ztree/js/jquery.ztree.core.js",

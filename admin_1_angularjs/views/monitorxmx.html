@@ -429,10 +429,23 @@
                       <div class='right portlet light bordered '>
                         <div class="portlet-title" >
                             <div class="caption">
-                                <i class="fa fa-bar-chart"></i>数据曲线</div>
+                                <i class="fa fa-bar-chart"></i>数据曲线-{{selected4var.name}}</div>
                             <div class="tools"> </div>
                         </div>
                         <div class="portlet-body" >
+                          <div class="selectime text-center">
+                              <div class="input-group input-large input-daterange" >
+                                  <input type="text" class="form-control date start_date selectinput"  placeholder="选择开始时间"/>
+                                  <span class="input-group-addon"> ~ </span>
+                                  <input type="text" class="form-control date end_date selectinput" placeholder="选择结束时间"/>
+                                  <span class="input-group-btn">
+                                      <button class="btn default selectbtn" type="button" ng-click="gettab4History()">
+                                          查询
+                                      </button>
+                                  </span>
+                              </div>
+                          </div>
+                          <div id="machine_line5" class='line'></div>
                         </div>
                       </div>
                       <div class='bottom portlet light bordered '>
