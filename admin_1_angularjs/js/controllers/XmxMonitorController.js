@@ -181,7 +181,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
         };
       var treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
       treeObj.expandAll(true);
-      $scope.selectedequipid = zNodes[0].children[0].children[0].children[0].id;
+      $scope.selectedequipid = zNodes[0].children[0].children[0].id;
       var devNodes = treeObj.getNodesByParam("id", $scope.selectedequipid, null);
       if(devNodes[0].level ==2){
         $('.machine').addClass('hide');
@@ -238,9 +238,9 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                   }
                   　　　　　
                   break;
-              case "#tab_1_4":
+              case "#tab_4":
                   {
-
+                    setGantt();
                   }
                   break;
 
@@ -250,6 +250,74 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
           }
       });
     };
+    function setGantt(){
+      var width =  $('#navContainer').width() - 40;
+      $('#ganttContainer').css("width",width);
+
+      Highcharts.chart('ganttContainer', {
+        chart: {
+            type: 'xrange'
+        },
+        title: {
+            text: null,
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: {
+                day: '%m-%d %H:%M'
+            }
+        },
+        yAxis: {
+            title: {
+                text: ''
+            },
+            categories: ['运行中', '待机中', '故障中','停机中'],
+            reversed: true
+        },
+        tooltip: {
+            dateTimeLabelFormats: {
+                hour:"%m-%d,%H:%M",
+            },
+             pointFormat: '<span style="color:{point.color}">\u25CF</span> <b>{point.yCategory}</b><br/>'
+        },
+        legend: {
+            enabled: false
+        },
+        colors:['#42bb38','#5da7ec','#dd532e','#a2a2a2'],
+        credits: {
+             enabled: false
+        } ,
+        series: [{
+            borderColor: 'gray',
+            pointWidth: 20,
+            data: [{
+                x: Date.UTC(2014, 10, 21, 0,00,00),
+                x2: Date.UTC(2014, 10, 21,2,00,00),
+                // partialFill:0.25, //显示任务完成百分比
+                y: 0
+            }, {
+                x: Date.UTC(2014, 10, 21, 2,00,00),
+                x2: Date.UTC(2014, 10, 21,3,00,00),
+                y: 1
+            },{
+                x: Date.UTC(2014, 10, 21, 3,00,00),
+                x2: Date.UTC(2014, 10, 21,4,00,00),
+                y: 2
+            },{
+                x: Date.UTC(2014, 10, 21, 4,00,00),
+                x2: Date.UTC(2014, 10, 21,5,00,00),
+                y: 3
+            },{
+                x: Date.UTC(2014, 10, 21, 5,00,00),
+                x2: Date.UTC(2014, 10, 21,6,00,00),
+                y: 1
+            }],
+            dataLabels: {
+                enabled: false //禁止显示百分比
+            }
+        }]
+    });
+    }
     function setMachinline2(){
       var xdata=['12','13','14'];
       var ydata=[23,44,55];

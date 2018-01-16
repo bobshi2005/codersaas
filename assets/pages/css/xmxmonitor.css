@@ -434,20 +434,26 @@
 
 .tab_4_container{
   width:100%;
-  height:720px;
+  height:700px;
 }
 .tab_4_container .left{
-  height: 500px;
+  height: 400px;
   width: 40%;
   float:left;
 }
 .tab_4_container .right{
-  height: 500px;
+  height: 400px;
   width: 59%;
   margin-left: 1%;
   float:left;
 }
 .tab_4_container .bottom{
+  height: 300px;
+  margin-top:-5px;
+  width: 100%;
+  float:left;
+}
+.tab_4_container .bottom .gantt{
   height: 200px;
   margin-top:-5px;
   width: 100%;

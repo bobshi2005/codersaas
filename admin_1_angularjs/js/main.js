@@ -308,6 +308,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                             "../assets/global/plugins/jquery.min.js",
                             "js/controllers/LoginController.js?version=2017122701",
                             "../assets/global/plugins/echarts/echarts.min.js",
+                            "../assets/global/plugins/highcharts/js/highcharts_v6.0.4.js",
                             "http://cache.amap.com/lbs/static/es5.min.js"
                       ])
                 }]
@@ -465,13 +466,14 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
+                            "../assets/global/plugins/highcharts/js/highcharts_v6.0.4.js", //new add
                             "../assets/global/plugins/jquery.min.js",
                             "../assets/global/plugins/echarts/echarts.min.js",
                             "../assets/pages/css/xmxmonitor.css?version=2017122701",
-                            // "../assets/pages/scripts/drage.js",
                             "../assets/global/plugins/ztree/css/zTreeStyle/zTreeStyle.css",
                             "../assets/global/plugins/ztree/js/jquery.ztree.core.js",
-                            "js/controllers/XmxMonitorController.js?version=2017122701"
+                            "js/controllers/XmxMonitorController.js?version=2017122701",
+                            "../assets/global/plugins/highcharts/js/xrange_v6.0.4.js", //new add
 
                       ])
                 }]
