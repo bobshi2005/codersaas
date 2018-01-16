@@ -233,7 +233,6 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                       setMachinline3();
                       if($scope.line4type.length>0){
                         setMachinline4();
-                        console.log('111');
                       }
                     };
                   }
@@ -241,7 +240,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                   break;
               case "#tab_1_4":
                   {
-                    
+
                   }
                   break;
 
