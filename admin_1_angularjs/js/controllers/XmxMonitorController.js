@@ -6,6 +6,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     $scope.message ='';
     $scope.showTree = false;
     $scope.tagPositions ={};
+    $scope.tabid='';
     $scope.linechartoption;
     var linechart;
     var machineline1;//tab2
@@ -175,16 +176,20 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
           console.log('resetxmx');
           resetTag();
           reloadleftbar();
-          $("#treeContainer").hover(function(){
-            console.log('111');
-          },function(){
-            console.log('222');
-            $scope.showTree = false;
-            $("#treeContainer").addClass('hide');
-            $('.xmx-left-bar').css('width',"10px");
-            $('.xmx-left-bar img').attr('src',"../assets/pages/img/right.png");
-          });
           linechart.resize();
+          if($scope.tabid =='#tab_2'){
+            setMachinline2();
+          }
+          if($scope.tabid =='#tab_3'){
+            setMachinline3();
+            if($scope.line4type.length>0){
+              setMachinline4();
+            }
+          }
+          if($scope.tabid =='#tab_4'){
+            setMachineline5();
+            setGantt();
+          }
         },500);
       }
       var mychartContainer = document.getElementById('linechart');
@@ -289,7 +294,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     function setTabClick(){
       $('.nav-pills li a').click(function() {　
           $(this).addClass('active').siblings().removeClass('active');　
-          var _id = $(this).attr('data-target');　　
+          var _id = $(this).attr('data-target');　
+          $scope.tabid = _id;
           $('.tab-content').find(_id).addClass('active').siblings().removeClass('active');
           // var _id = $(this).attr('href').slice(2);
           // $('.tab-content').find('#' + _id).addClass('active').siblings().removeClass('active');
@@ -300,21 +306,21 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                 {
                   setMachinline2();
 
-                  window.onresize=function(){
-                    setMachinline2();
-                  };
+                  // window.onresize=function(){
+                  //   setMachinline2();
+                  // };
                 }
                 break;
 
               case "#tab_3":
                   {
                     setMachinline3();
-                    window.onresize=function(){
-                      setMachinline3();
-                      if($scope.line4type.length>0){
-                        setMachinline4();
-                      }
-                    };
+                    // window.onresize=function(){
+                    //   setMachinline3();
+                    //   if($scope.line4type.length>0){
+                    //     setMachinline4();
+                    //   }
+                    // };
                   }
                   　　　　　
                   break;
@@ -355,10 +361,10 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                             });
                         });
                     setGantt();
-                    window.onresize=function(){
-                        setMachineline5();
-                        setGantt();
-                    };
+                    // window.onresize=function(){
+                    //     setMachineline5();
+                    //     setGantt();
+                    // };
                   }
                   break;
 
