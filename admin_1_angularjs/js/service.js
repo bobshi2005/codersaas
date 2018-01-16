@@ -2,7 +2,7 @@ var AppService = angular.module("AppService", []);
 var deviceUrl = "http://139.196.141.29:9999"; //saas manager api  old 118.89.140.11
 var userUrl = "http://139.196.141.29:1111";  //user manager api  http://139.196.141.29/
 var fileuploaderUrl = "http://139.196.141.29:9498"; //fineUploader huawei http://122.112.237.243
-var testUrl = "http://192.168.1.110:3030";//测试保存屏幕元素位置
+var testUrl = "http://118.89.140.11:3030";//测试保存屏幕元素位置
 
 //用户相关api
 AppService.factory('userApi', ['$http', '$q', function($http, $q) {

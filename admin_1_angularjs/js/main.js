@@ -304,7 +304,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
-                            "../assets/pages/css/login-6.css",
+                            "../assets/pages/css/login-6.css?version=2017122701",
                             "../assets/global/plugins/jquery.min.js",
                             "js/controllers/LoginController.js?version=2017122701",
                             "../assets/global/plugins/echarts/echarts.min.js",
