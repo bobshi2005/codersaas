@@ -191,6 +191,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     function selectNode(){
       $('#firstTab').addClass('active').siblings().removeClass('active');
       $('.tab-content').find('#tab_1').addClass('active').siblings().removeClass('active');
+      resetTag();
       // getEquipmentInfo($scope.selectedequipid);
       // getDataModel($scope.selectedequipid);
       console.log('i select ',$scope.selectedequipid);
@@ -322,14 +323,14 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       };
 
       var mychartContainer1 = document.getElementById('machine_line1');
-      mychartContainer1.style.width=$('#navContainer').width()*0.3+'px';
+      mychartContainer1.style.width=$('#navContainer').width()*0.325+'px';
       console.log('#navContainerwidth',$('#navContainer').width());
       machineline1 = echarts.init(mychartContainer1);
       machineline1.setOption(lineoption1);　
 
 
       var mychartContainer2 = document.getElementById('machine_line2');
-      mychartContainer2.style.width=$('#navContainer').width()*0.3+'px';
+      mychartContainer2.style.width=$('#navContainer').width()*0.325+'px';
 
       machineline2 = echarts.init(mychartContainer2);
       machineline2.setOption(lineoption2);　
