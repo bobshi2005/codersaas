@@ -8,8 +8,9 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     $scope.tagPositions ={};
     $scope.linechartoption;
     var linechart;
-    var machineline1;
-    var machineline2;
+    var machineline1;//tab2
+    var machineline2;//tab2
+    var machineline3;//tab3
     // $scope.equipname = '';
 
     $scope.savePosition = function(){
@@ -99,7 +100,6 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       setLinechart();
       reloadleftbar();
       setTabClick();
-      // setMachinline();
       initTree(function(){
         console.log('getTreeSuccess');
       });
@@ -210,18 +210,20 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                 break;　　　　
               case "#tab_2":
                 {
-                  setMachinline();
+                  setMachinline2();
 
                   window.onresize=function(){
-                    console.log('reset');
-                    setMachinline();
+                    setMachinline2();
                   };
                 }
                 break;
 
               case "#tab_3":
                   {
-
+                    setMachinline3();
+                    window.onresize=function(){
+                      setMachinline3();
+                    };
                   }
                   　　　　　
                   break;
@@ -234,7 +236,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
           }
       });
     };
-    function setMachinline(){
+    function setMachinline2(){
       var xdata=['12','13','14'];
       var ydata=[23,44,55];
       var lineoption1 = {
@@ -324,7 +326,7 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
 
       var mychartContainer1 = document.getElementById('machine_line1');
       mychartContainer1.style.width=$('#navContainer').width()*0.325+'px';
-      console.log('#navContainerwidth',$('#navContainer').width());
+      // console.log('#navContainerwidth',$('#navContainer').width());
       machineline1 = echarts.init(mychartContainer1);
       machineline1.setOption(lineoption1);　
 
@@ -336,6 +338,57 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       machineline2.setOption(lineoption2);　
       machineline1.resize();
       machineline2.resize();
+    }
+
+    function setMachinline3(){
+      var ydata=[12.1,11.9,13.2,11.6,12.3,10,14,16.5,17.4,1,56.7,34.6,63.5,63.8,62,59,10,0,0,0,0,0,0,0];
+      var xdata=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+      var lineoption3 = {
+        color: ['#0bbb71'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : xdata,
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'电能',
+                type:'bar',
+                barWidth: '60%',
+                data:ydata
+            }
+        ]
+      };
+
+
+      var mychartContainer3 = document.getElementById('machine_line3');
+      mychartContainer3.style.width=$('#navContainer').width()*0.59+'px';
+      machineline3 = echarts.init(mychartContainer3);
+      machineline3.setOption(lineoption3);　
+
+
+      machineline3.resize();
     }
 
     function setLinechart(){
