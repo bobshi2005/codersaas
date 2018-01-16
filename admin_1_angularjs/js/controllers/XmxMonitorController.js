@@ -11,6 +11,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     var machineline1;//tab2
     var machineline2;//tab2
     var machineline3;//tab3
+    var machineline4;//tab3
+    $scope.line4type = '';
     // $scope.equipname = '';
 
     $scope.savePosition = function(){
@@ -71,6 +73,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     }
     $scope.getHistory = function(type){
       console.log('history type',type);
+      $scope.line4type = type;
+      setMachinline4();
     }
 
     $scope.$on('$destroy',function(){
@@ -227,11 +231,18 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                     setMachinline3();
                     window.onresize=function(){
                       setMachinline3();
+                      if($scope.line4type.length>0){
+                        setMachinline4();
+                        console.log('111');
+                      }
                     };
                   }
                   　　　　　
                   break;
               case "#tab_1_4":
+                  {
+                    
+                  }
                   break;
 
                　　　
@@ -393,6 +404,65 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
 
 
       machineline3.resize();
+    }
+
+    function setMachinline4(){
+      var ydata=[12.1,11.9,13.2,11.6,12.3,10,14,16.5,17.4,1,56.7,34.6,63.5,63.8,62,59,10,0,0,0,0,0,0,0];
+      var xdata=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+      var lineoption4 = {
+        color: ['#0bbb71'],
+        title:{
+          text:$scope.line4type,
+          textStyle:{
+            color:'#ffaa18'
+          },
+          left:'center',
+          top:'10px',
+        },
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : xdata,
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:$scope.line4type,
+                type:'line',
+                barWidth: '60%',
+                data:ydata
+            }
+        ]
+      };
+
+
+      var mychartContainer4 = document.getElementById('machine_line4');
+      mychartContainer4.style.width=$('#navContainer').width()*0.35+'px';
+      machineline4 = echarts.init(mychartContainer4);
+      machineline4.setOption(lineoption4);　
+
+
+      machineline4.resize();
     }
 
     function setLinechart(){

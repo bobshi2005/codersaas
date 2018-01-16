@@ -425,6 +425,12 @@
   text-align: left;
   float:left;
 }
+.tab_3_container .left  .itemContainer .line{
+  width:100%;
+  margin-top:10px;
+  height:200px;
+  float: left;
+}
 
 
 .hide{
