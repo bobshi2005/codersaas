@@ -7,7 +7,8 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
     $scope.showTree = false;
     $scope.tagPositions ={};
     $scope.tabid='';
-    $scope.linechartoption;
+    $scope.linename ='';
+    $scope.machinename = '';
     var linechart;
     var machineline1;//tab2
     var machineline2;//tab2
@@ -88,10 +89,21 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       if(devNodes[0].children[number].level ==2){
         $('.machine').addClass('hide');
         $('.pro-line').removeClass('hide');
+        $scope.machinename = '';
+        $scope.linename = devNodes[0].children[number].name;
+        $scope.showlinename =true;
+        $scope.showmachinename= false;
+        // $("#showlinename").removeClass('hide');
+        $("#showmachinename").addClass('hide');
+
       }
       if(devNodes[0].children[number].level ==3){
         $('.machine').removeClass('hide');
         $('.pro-line').addClass('hide');
+        $scope.machinename = devNodes[0].children[number].name;
+        $scope.linename = devNodes[0].name;
+        // $("#showlinename").removeClass('hide');
+        $("#showmachinename").removeClass('hide');
       }
       selectNode();
     }
@@ -220,11 +232,11 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                 "children":[
                   {"id":"1","name":"百事灌装线",
                     "children":[
-                      {"id":'lZm1tq1hKtmd21UQ',"name":"吹瓶"},
-                      {"id":'lZm1tq1hKtmd21UQ',"name":"灌装"},
-                      {"id":'lZm1tq1hKtmd21UQ',"name":"贴标"},
-                      {"id":'lZm1tq1hKtmd21UQ',"name":"码垛"},
-                      {"id":'lZm1tq1hKtmd21UQ',"name":"装箱"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"吹瓶机"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"灌装机"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"贴标机"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"码垛机"},
+                      {"id":'lZm1tq1hKtmd21UQ',"name":"装箱机"},
                     ]
                   },
                 ]
@@ -252,11 +264,24 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
                 {
                     $('.pro-line').removeClass('hide');
                     $('.machine').addClass('hide');
+                    $scope.machinename = '';
+                    $scope.linename = sNodes[0].name;
+                    // $("#showlinename").removeClass('hide');
+                    $("#showmachinename").addClass('hide');
+                    console.log('2',sNodes[0]);
                     $scope.selectedequipid = treeNode.id;
                     selectNode();
                 }else if(level==3){
-                  $('.machine').removeClass('hide');
-                  $('.pro-line').addClass('hide');
+                    var node = sNodes[0].getParentNode();
+                    $('.machine').removeClass('hide');
+                    $('.pro-line').addClass('hide');
+
+                    $scope.machinename = sNodes[0].name;
+                    $scope.linename = node.name;
+                    // $("#showlinename").removeClass('hide');
+                    $("#showmachinename").removeClass('hide');
+                    console.log('linename',$scope.linename);
+                    console.log('machinename',$scope.machinename);
                     $scope.selectedequipid = treeNode.id;
                     selectNode();
                 }
@@ -271,10 +296,19 @@ angular.module('MetronicApp').controller('XmxMonitorController', ['$scope', '$ro
       if(devNodes[0].level ==2){
         $('.machine').addClass('hide');
         $('.pro-line').removeClass('hide');
+        $scope.machinename = '';
+        $scope.linename = devNodes[0].name;
+        $("#showlinename").removeClass('hide');
+        $("#showmachinename").addClass('hide');
       }
       if(devNodes[0].level ==3){
+        var node = devNodes[0].getParentNode()
         $('.machine').removeClass('hide');
         $('.pro-line').addClass('hide');
+        $scope.machinename = devNodes[0].name;
+        $scope.linename = node.name;
+        // $("#showlinename").removeClass('hide');
+        $("#showmachinename").removeClass('hide');
       }
 
       treeObj.selectNode(devNodes[0]);
