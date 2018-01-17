@@ -222,31 +222,32 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
       // console.log('hasalarm',$scope.hasalarm);
     });
     $scope.getcurrentalarms = function(){
-      deviceApi.getCurrentAlarms()
-      .then(function(result){
-        if(result.data.total && result.data.total>0){
-          $scope.alarmnum = result.data.total;
-          $scope.alarmlist = result.data.rows;
-          for(var i=0;i<result.data.rows.length;i++) {
-            $scope.alarmlist[i].alarmContent = $scope.alarmlist[i].alarmContent.split(' ')[4];//拆分原始的alarmContent
-          }
-          $rootScope.alarmlist = $scope.alarmlist;
-          $scope.hasalarm = true;
-          $rootScope.$broadcast('alarm_active_1','true');
-        }else{
-          $scope.alarmnum = 0;
-          $scope.alarmlist = [];
-          $scope.hasalarm = false;
-          $rootScope.alarmlist = $scope.alarmlist;
-          $rootScope.$broadcast('alarm_active_1','true');
-        }
-      },function(err){
-        $scope.alarmnum = 0;
-        $scope.alarmlist = [];
-        $scope.hasalarm = false;
-        $rootScope.alarmlist = $scope.alarmlist;
-        $rootScope.$broadcast('alarm_active_1','true');
-      });
+      //隐藏报警轮询
+      // deviceApi.getCurrentAlarms()
+      // .then(function(result){
+      //   if(result.data.total && result.data.total>0){
+      //     $scope.alarmnum = result.data.total;
+      //     $scope.alarmlist = result.data.rows;
+      //     for(var i=0;i<result.data.rows.length;i++) {
+      //       $scope.alarmlist[i].alarmContent = $scope.alarmlist[i].alarmContent.split(' ')[4];//拆分原始的alarmContent
+      //     }
+      //     $rootScope.alarmlist = $scope.alarmlist;
+      //     $scope.hasalarm = true;
+      //     $rootScope.$broadcast('alarm_active_1','true');
+      //   }else{
+      //     $scope.alarmnum = 0;
+      //     $scope.alarmlist = [];
+      //     $scope.hasalarm = false;
+      //     $rootScope.alarmlist = $scope.alarmlist;
+      //     $rootScope.$broadcast('alarm_active_1','true');
+      //   }
+      // },function(err){
+      //   $scope.alarmnum = 0;
+      //   $scope.alarmlist = [];
+      //   $scope.hasalarm = false;
+      //   $rootScope.alarmlist = $scope.alarmlist;
+      //   $rootScope.$broadcast('alarm_active_1','true');
+      // });
     }
 }]);
 

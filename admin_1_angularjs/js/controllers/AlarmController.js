@@ -37,12 +37,12 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
 
 
     $scope.$on('$viewContentLoaded', function() {
-      getCurrentalarms(function(){
-        $rootScope.alarmlist = $scope.alarmlist;
-        $rootScope.$broadcast('alarm_active_2','true');
-        reloadalarmtable();
-        getHistoryalarms();
-      });
+      // getCurrentalarms(function(){
+      //   $rootScope.alarmlist = $scope.alarmlist;
+      //   $rootScope.$broadcast('alarm_active_2','true');
+      //   reloadalarmtable();
+      //   // getHistoryalarms();
+      // });
       getdevicelist();
 
       $('.nav-tabs li a').click(function() {
@@ -89,7 +89,7 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
                   });
               });
             $scope.historylist=[];
-            getHistoryalarms();
+            // getHistoryalarms();
           break;
           default:
           break;
@@ -115,17 +115,17 @@ angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootSco
           }
         }
       }
-      getHistoryalarms();
+      // getHistoryalarms();
     }
 
     $scope.showalarmcontent = function(param){
       $scope.currentItem = param;
       $('#myModal_historydetail').modal();
     }
-    $scope.$on('alarm_active_1',function(value){
-      $scope.alarmlist = $rootScope.alarmlist;
-      reloadalarmtable();
-    });
+    // $scope.$on('alarm_active_1',function(value){
+    //   $scope.alarmlist = $rootScope.alarmlist;
+    //   reloadalarmtable();
+    // });
 
 
     function reloadalarmtable(){

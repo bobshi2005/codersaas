@@ -109,7 +109,7 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
         locals.set("remember", 'false');
       }
 
-      $rootScope.$broadcast('alarm_start','true');
+      // $rootScope.$broadcast('alarm_start','true');
       $state.go('main.home.dashboard');
     }
     $scope.gotoRegist = function() {
