@@ -23,6 +23,7 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
 
     }
     $scope.$on('$viewContentLoaded', function() {
+      locals.set("islogin", 0);
       if($rootScope.showtimeoutflag>=1){
         alert('超时，请重新登录');
         $rootScope.showtimeoutflag = 0;
