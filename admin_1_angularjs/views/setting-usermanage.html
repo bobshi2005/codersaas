@@ -112,7 +112,7 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button>
+                                    <button type="button" class="btn grey-salsa btn-outline" ng-click="DismissCreateUser()">取消操作</button>
                                     <button type="button" class="btn green" data-dismiss="modal" ng-click='saveModalMsg()'>
                                             <i class="fa fa-check"></i> 确定添加 </button>
                                 </div>
@@ -147,7 +147,7 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button>
+                                    <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal" ng-click='DismissCreateRole()'>取消操作</button>
                                     <button type="button" class="btn green" data-dismiss="modal"  ng-click='saveModalMsg()'>
                                             <i class="fa fa-check"></i> 确定添加 </button>
                                 </div>
@@ -171,11 +171,12 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="btn-group">
-                                            <a href="#myModal_autocomplete" role="button" class="btn sbold green" data-toggle="modal">新建用户
+                                            <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click='showCreateUser()'>新建用户
                                     <i class="fa fa-plus"></i>
                                     </a>
                                         </div>
                                     </div>
+                                    <br/>
                                     <div class="col-md-6">
                                         <div class="btn-group pull-right">
                                             <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">工具
@@ -361,11 +362,12 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="btn-group">
-                                                <a href="#myModal_autocomplete2" role="button" class="btn sbold green" data-toggle="modal">新建角色
+                                                <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="showCreateRole()">新建角色
                                 <i class="fa fa-plus"></i>
                                 </a>
                                             </div>
                                         </div>
+                                        <br/>
                                         <div class="col-md-6">
                                             <div class="btn-group pull-right">
                                                 <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">工具

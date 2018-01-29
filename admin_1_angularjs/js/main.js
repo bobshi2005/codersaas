@@ -741,6 +741,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
                             'js/controllers/UsermanageController.js?version=2018012901'
 
                     ])
