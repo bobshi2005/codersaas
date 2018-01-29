@@ -144,7 +144,8 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $('#myModal_createModel').modal();
     };
     $scope.creatDismiss = function(){
-        $('#myModal_createModel').modal('hide');
+       $scope.createFormData = {};
+       $('#myModal_createModel').modal('hide');
     }
     $scope.saveCreateModel = function() {
       console.log('formdata',$scope.createFormData);
@@ -180,9 +181,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
 
 
     };
-    $scope.cancelCreateModel = function() {
-      $scope.createFormData = {};
-    };
+    // $scope.cancelCreateModel = function() {
+    //   $scope.createFormData = {};
+    // };
 
     $scope.deleteModel = function() {
       if($scope.currentModel.equipmentModelId !=null){
