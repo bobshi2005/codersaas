@@ -193,7 +193,7 @@ MetronicApp.controller('HeaderController', ['$rootScope','$scope','$state','loca
         Layout.initHeader(); // init header
         // $interval.cancel($scope.timer);
         if(locals.get("islogin")==0){
-           $interval.cancel($scope.timer);
+           $interval.cancel($scope.alarmtimer);
         }else{
           $scope.alarmtimer = $interval($scope.getcurrentalarms,10000);
         }
