@@ -81,7 +81,7 @@ a.logo {
 .logincontent label {
   color: #eee; }
 
-.mt-checkbox > span:after {
+.mt-checkbox-login > span:after {
   border-color: #eee; }
 
 .logincontent .login-form,
