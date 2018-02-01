@@ -10,9 +10,9 @@ angular.module('MetronicApp').controller('LoginController', ['$scope', '$rootSco
           .then(function(result) {
               if(result.data.code == 1) {
                 $rootScope.isloginpage = false;
-                getuserInfo($scope.loginForm.userName);
+                // getuserInfo($scope.loginForm.userName);
 
-
+                gotoMainView();
               }else {
                 alert(result.data.data);
               }
