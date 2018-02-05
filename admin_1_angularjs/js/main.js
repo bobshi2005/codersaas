@@ -533,6 +533,21 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                 }]
             }
         })
+        .state('main.asset.equipmentCategory', {
+            url: "/equipmentCategory",
+            templateUrl: "views/asset-equipmentCategory.html?version=2018011701",
+            controller: 'EquipmentCategoryController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                          'js/controllers/EquipmentCategoryController.js?version=2018011701'
+
+                    ])
+                }]
+            }
+        })
         .state('main.asset.modalmanage', {
             url: "/modalmanage",
             templateUrl: "views/asset-modalmanage.html?version=2018011701",
