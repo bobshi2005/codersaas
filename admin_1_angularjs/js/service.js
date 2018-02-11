@@ -1592,6 +1592,23 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
       });
       return d.promise;
   };
+  // 数据点管理
+  service.getEquipmentDataList = function(order, offset, limit) {
+      var d = $q.defer();
+      $http({
+          method: 'get',
+          url: deviceUrl+ '/manage/dataElement/list',
+          headers: {"Accept":"application/json"},
+          withCredentials: true,
+          params: {order:'asc', offset:offset, limit:limit}
+      }).then(function(response) {
+          sharedataApi.setModeldata(response.data.rows);
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
 
 
   return service;
