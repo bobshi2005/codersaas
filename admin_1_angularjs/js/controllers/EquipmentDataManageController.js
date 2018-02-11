@@ -195,7 +195,6 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
                      for(var i=0;i<result.data.rows.length;i++) {
                        $scope.equipmentDataList[i].createTime = changeTimeFormat($scope.equipmentDataList[i].createTime);
                        $scope.equipmentDataList[i].dataTypeName = getDataTypeName($scope.equipmentDataList[i].dataType);
-                       $scope.equipmentDataList[i].equipmentCategoryName = getEquipmentCategoryNameById($scope.equipmentDataList[i].equipmentCategoryId);
                      }
                 }else {
                   $scope.equipmentDataList=[];
