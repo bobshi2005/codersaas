@@ -2,7 +2,7 @@ angular.module('MetronicApp').controller('EquipmentDataGroupController', ['$scop
     $rootScope.menueName = 'sidebar-asset';
     $scope.menueName = $rootScope.menueName;
 
-    $scope.equipmentCategoryList = [];
+    $scope.EquipmentDataGroupList = [];
     $scope.currentData = {};
     $scope.message = ''; // alert 提示信息
     $scope.deletelist = [];//删除对象列表
@@ -11,12 +11,12 @@ angular.module('MetronicApp').controller('EquipmentDataGroupController', ['$scop
       checked: false,
       items: {}
     };
-    $scope.addEquipmentCategory = function(){
+    $scope.addEquipmentDataGroup = function(){
       $scope.currentData = {};
-      $('#myModal_createEquipmentCategory').modal();
+      $('#myModal_createEquipmentDataGroup').modal();
 
     };
-    $scope.updateEquipmentCategory = function(){
+    $scope.updateEquipmentDataGroup = function(){
       $scope.currentData = {};
       var checked = 0, index = 0;
       angular.forEach($scope.checkboxes.items, function(value,key) {
@@ -26,31 +26,31 @@ angular.module('MetronicApp').controller('EquipmentDataGroupController', ['$scop
         }
       });
       if(checked == 0){
-        $scope.message = '请选择一个设备类';
+        $scope.message = '请选择一个数据分组';
         $('#myModal_alert').modal();
       }else if(checked > 1){
-        $scope.message = '只能选择一个设备类进行编辑';
+        $scope.message = '只能选择一个数据分组进行编辑';
         $('#myModal_alert').modal();
       }else{
-        for(var i=0; i< $scope.equipmentCategoryList.length; i++){
-          if($scope.equipmentCategoryList[i].equipmentCategoryId == index){
-            $scope.currentData = $scope.equipmentCategoryList[i];
+        for(var i=0; i< $scope.EquipmentDataGroupList.length; i++){
+          if($scope.EquipmentDataGroupList[i].id == index){
+            $scope.currentData = $scope.EquipmentDataGroupList[i];
             break;
           }
         }
-        $('#myModal_updateEquipmentCategory').modal();
+        $('#myModal_updateEquipmentDataGroup').modal();
       }
     };
-    $scope.deleteEquipmentCategory = function(){
+    $scope.deleteEquipmentDataGroup = function(){
       var checked = 0;
       $scope.deletelist = [];
       angular.forEach($scope.checkboxes.items, function(value,key) {
         if(value){
           checked += 1;
           let tempdata={};
-          for(var i=0; i< $scope.equipmentCategoryList.length; i++){
-            if($scope.equipmentCategoryList[i].equipmentCategoryId == key){
-              tempdata = $scope.equipmentCategoryList[i];
+          for(var i=0; i< $scope.EquipmentDataGroupList.length; i++){
+            if($scope.EquipmentDataGroupList[i].id == key){
+              tempdata = $scope.EquipmentDataGroupList[i];
               $scope.deletelist.push(tempdata);
               break;
             }
@@ -58,7 +58,7 @@ angular.module('MetronicApp').controller('EquipmentDataGroupController', ['$scop
         }
       });
       if(checked == 0){
-        $scope.message = '请选择一个设备类';
+        $scope.message = '请选择一个数据分组';
         $('#myModal_alert').modal();
       }else{
         let tempstr = '';
@@ -66,57 +66,57 @@ angular.module('MetronicApp').controller('EquipmentDataGroupController', ['$scop
           tempstr =tempstr+ $scope.deletelist[i].name;
           tempstr =tempstr+ ' ';
         }
-        tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个类别';
+        tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个分组';
         $scope.deletestr = tempstr;
-        $('#myModal_deleteEquipmentCategory').modal();
+        $('#myModal_deleteEquipmentDataGroup').modal();
       }
     };
 
     $scope.createDismiss = function(){
-      $('#myModal_createEquipmentCategory').modal('hide');
+      $('#myModal_createEquipmentDataGroup').modal('hide');
     };
     $scope.updateDismiss = function(){
-      $('#myModal_updateEquipmentCategory').modal('hide');
+      $('#myModal_updateEquipmentDataGroup').modal('hide');
     };
     $scope.deleteDismiss = function(){
-      $('#myModal_deleteEquipmentCategory').modal('hide');
+      $('#myModal_deleteEquipmentDataGroup').modal('hide');
     };
     $scope.disalert = function(){
       $('#myModal_alert').modal('hide');
     };
 
-    $scope.saveCreateEquipmentCategory = function(){
+    $scope.saveCreateEquipmentDataGroup = function(){
         if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-            $scope.message = '必须填写类别名称';
+            $scope.message = '必须填写分组名称';
             $('#myModal_alert').modal();
         }else{
-            createEquipmentCategoryImpl();
+            createEquipmentDataGroupImpl();
         }
     };
 
-    $scope.saveUpdateEquipmentCategory = function(){
+    $scope.saveUpdateEquipmentDataGroup = function(){
         if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-            $scope.message = '必须填写类别名称';
+            $scope.message = '必须填写分组名称';
             $('#myModal_alert').modal();
         }else{
-            $('#myModal_updateEquipmentCategory').modal('hide');
-            updateEquipmentcategoryImpl();
+            $('#myModal_updateEquipmentDataGroup').modal('hide');
+            updateEquipmentDataGroupImpl();
         }
     };
 
-    $scope.saveDeleteEquipmentCategory = function(){
-        deleteEquipmentcategoryImpl();
-        $('#myModal_deleteEquipmentCategory').modal('hide');
+    $scope.saveDeleteEquipmentDataGroup = function(){
+        deleteEquipmentDataGroupImpl();
+        $('#myModal_deleteEquipmentDataGroup').modal('hide');
     };
 
     $scope.$on('$viewContentLoaded', function() {
-        getEquipmentCategoryList();
+        getEquipmentDataGroupList();
     });
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
     }, function(value) {
-      angular.forEach($scope.equipmentCategoryList, function(item) {
-        $scope.checkboxes.items[item.equipmentCategoryId] = value;
+      angular.forEach($scope.EquipmentDataGroupList, function(item) {
+        $scope.checkboxes.items[item.id] = value;
       });
     });
 
@@ -124,7 +124,7 @@ angular.module('MetronicApp').controller('EquipmentDataGroupController', ['$scop
       return $scope.checkboxes.items;
       }, function(values) {
         var checked = 0, unchecked = 0,
-        total = $scope.equipmentCategoryList.length;
+        total = $scope.EquipmentDataGroupList.length;
         angular.forEach($scope.checkboxes.items, function(item) {
          if(item){
            checked += 1;
@@ -139,8 +139,8 @@ angular.module('MetronicApp').controller('EquipmentDataGroupController', ['$scop
         angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
       }, true);
 
-    function getEquipmentCategoryList(){
-      $scope.equipmentCategoryList=[];
+    function getEquipmentDataGroupList(){
+      $scope.EquipmentDataGroupList=[];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
 
@@ -150,70 +150,70 @@ angular.module('MetronicApp').controller('EquipmentDataGroupController', ['$scop
       }, {
         counts:[2,10,50],
         getData: function(params) {
-          return deviceApi.getEquipmentCategoryList('asc', (params.page()-1)*params.count(), params.count())
+          return deviceApi.getEquipmentDataGroupList('asc', (params.page()-1)*params.count(), params.count())
             .then(function(result) {
                 if(result.data.total > 0) {
-                     $scope.equipmentCategoryList=result.data.rows;
+                     $scope.EquipmentDataGroupList=result.data.rows;
                      for(var i=0;i<result.data.rows.length;i++) {
-                       $scope.equipmentCategoryList[i].updateTime = changeTimeFormat($scope.equipmentCategoryList[i].updateTime);
-                       $scope.equipmentCategoryList[i].createTime = changeTimeFormat($scope.equipmentCategoryList[i].createTime);
+                       $scope.EquipmentDataGroupList[i].updateTime = changeTimeFormat($scope.EquipmentDataGroupList[i].updateTime);
+                       $scope.EquipmentDataGroupList[i].createTime = changeTimeFormat($scope.EquipmentDataGroupList[i].createTime);
                      }
                 }else {
-                  $scope.equipmentCategoryList=[];
+                  $scope.EquipmentDataGroupList=[];
                 }
                 params.total(result.data.total);
-                return $scope.equipmentCategoryList;
+                return $scope.EquipmentDataGroupList;
             }, function(err) {
-              console.log('获取设备类列表err',err);
+              console.log('获取数据分组列表err',err);
             });
         }
       });
       $scope.tableParams.reload();
     }
 
-    function createEquipmentCategoryImpl(){
-      deviceApi.createEquipmentCategory($scope.currentData.name)
+    function createEquipmentDataGroupImpl(){
+      deviceApi.createEquipmentDataGroup($scope.currentData.name)
           .then(function(result){
               if(result.data.code == 1 ){
-                  $scope.message = '设备类型类创建成功！';
+                  $scope.message = '数据分组类创建成功！';
                   $('#myModal_alert').modal();
-                  getEquipmentCategoryList();
+                  getEquipmentDataGroupList();
               }else{
                 $scope.message = result.data.message;
                 $('#myModal_alert').modal();
               }
           }, function(err) {
-            console.log('设备类型创建err',err);
+            console.log('数据分组创建err',err);
           });
     }
 
-    function updateEquipmentcategoryImpl(){
-      deviceApi.updateEquipmentCategory($scope.currentData.equipmentCategoryId,$scope.currentData.name)
+    function updateEquipmentDataGroupImpl(){
+      deviceApi.updateEquipmentDataGroup($scope.currentData.id,$scope.currentData.name)
           .then(function(result){
               if(result.data.code == 1 ){
-                  $scope.message = '设备类型修改成功！';
+                  $scope.message = '数据分组修改成功！';
                   $('#myModal_alert').modal();
-                  getEquipmentCategoryList();
+                  getEquipmentDataGroupList();
               }else{
                 $scope.message = result.data.message;
                 $('#myModal_alert').modal();
               }
           }, function(err) {
-              console.log('设备类型更新err',err);
+              console.log('数据分组更新err',err);
           });
     }
 
-    function deleteEquipmentcategoryImpl(){
+    function deleteEquipmentDataGroupImpl(){
       var ids='';
       for(var i=0; i< $scope.deletelist.length; i++){
-        ids =ids+ $scope.deletelist[i].equipmentCategoryId+'-';
+        ids =ids+ $scope.deletelist[i].id+'-';
       }
-      deviceApi.deleteEquipmentCategory(ids)
+      deviceApi.deleteEquipmentDataGroup(ids)
       .then(function(result){
           if(result.data.code ==1 ){
-            $scope.message = '设备类型删除成功！';
+            $scope.message = '数据分组删除成功！';
             $('#myModal_alert').modal();
-            getEquipmentCategoryList();
+            getEquipmentDataGroupList();
           }else{
             if(result.data && result.data.message){
               $scope.message = result.data.message;
@@ -224,7 +224,7 @@ angular.module('MetronicApp').controller('EquipmentDataGroupController', ['$scop
             $('#myModal_alert').modal();
           }
       }, function(err) {
-        console.log('设备类型删除err',err);
+        console.log('数据分组删除err',err);
       });
     }
 

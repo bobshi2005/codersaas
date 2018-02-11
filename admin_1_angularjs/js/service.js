@@ -1671,6 +1671,85 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
       return d.promise;
   };
 
+  //数据点分组
+  service.getEquipmentDataGroupList = function(order, offset, limit) {
+      var d = $q.defer();
+      $http({
+          method: 'get',
+          url: deviceUrl+ '/manage/dataElementGroup/list',
+          headers: {"Accept":"application/json"},
+          withCredentials: true,
+          params: {order:'asc', offset:offset, limit:limit}
+      }).then(function(response) {
+          sharedataApi.setModeldata(response.data.rows);
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  service.createEquipmentDataGroup = function(name) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/dataElementGroup/create',
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          data:{name:name},
+          withCredentials: true,
+          transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
+          }
+
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  service.updateEquipmentDataGroup = function(id, name) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/dataElementGroup/update/'+id,
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          data:{name:name},
+          withCredentials: true,
+          transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
+          }
+
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+
+  service.deleteEquipmentDataGroup = function(ids) {
+      var d = $q.defer();
+      $http({
+          method: 'get',
+          url: deviceUrl+ '/manage/dataElementGroup/delete/'+ids,
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          withCredentials: true,
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+
 
   return service;
 }]);
