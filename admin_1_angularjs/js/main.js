@@ -548,6 +548,21 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                 }]
             }
         })
+        .state('main.asset.equipmentDataGroup', {
+            url: "/equipmentDataGroup",
+            templateUrl: "views/asset-equipmentDataGroup.html?version=2018011701",
+            controller: 'EquipmentDataGroupController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                          'js/controllers/EquipmentDataGroupController.js?version=2018011701'
+
+                    ])
+                }]
+            }
+        })
         .state('main.asset.equipmentDataManage', {
             url: "/equipmentDataManage",
             templateUrl: "views/asset-equipmentDataManage.html?version=2018011701",
