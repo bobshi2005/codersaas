@@ -51,7 +51,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
         $('#myModal_updateEquipmentData').modal();
       }
     };
-    $scope.deleteEquipmentCategory = function(){
+    $scope.deleteEquipmentData = function(){
       var checked = 0;
       $scope.deletelist = [];
       angular.forEach($scope.checkboxes.items, function(value,key) {
@@ -59,7 +59,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
           checked += 1;
           let tempdata={};
           for(var i=0; i< $scope.equipmentDataList.length; i++){
-            if($scope.equipmentDataList[i].equipmentDataId == key){
+            if($scope.equipmentDataList[i].id == key){
               tempdata = $scope.equipmentDataList[i];
               $scope.deletelist.push(tempdata);
               break;
@@ -78,7 +78,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
         }
         tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个类别';
         $scope.deletestr = tempstr;
-        $('#myModal_deleteEquipmentCategory').modal();
+        $('#myModal_deleteEquipmentData').modal();
       }
     };
 
@@ -89,7 +89,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
       $('#myModal_updateEquipmentData').modal('hide');
     };
     $scope.deleteDismiss = function(){
-      $('#myModal_deleteEquipmentCategory').modal('hide');
+      $('#myModal_deleteEquipmentData').modal('hide');
     };
     $scope.disalert = function(){
       $('#myModal_alert').modal('hide');
@@ -107,7 +107,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
         }
     };
 
-    $scope.saveUpdateEquipmentCategory = function(){
+    $scope.saveUpdateEquipmentData = function(){
         if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
             $scope.message = '必须填写数据点名称';
             $('#myModal_alert').modal();
@@ -122,7 +122,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
 
     $scope.saveDeleteEquipmentCategory = function(){
         deleteEquipmentcategoryImpl();
-        $('#myModal_deleteEquipmentCategory').modal('hide');
+        $('#myModal_deleteEquipmentData').modal('hide');
     };
 
     $scope.$on('$viewContentLoaded', function() {
@@ -272,7 +272,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
       for(var i=0; i< $scope.deletelist.length; i++){
         ids =ids+ $scope.deletelist[i].equipmentDataId+'-';
       }
-      deviceApi.deleteEquipmentCategory(ids)
+      deviceApi.deleteEquipmentData(ids)
       .then(function(result){
           if(result.data.code ==1 ){
             $scope.message = '数据点删除成功！';
