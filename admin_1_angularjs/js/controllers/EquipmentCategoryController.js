@@ -33,7 +33,7 @@ angular.module('MetronicApp').controller('EquipmentCategoryController', ['$scope
         $('#myModal_alert').modal();
       }else{
         for(var i=0; i< $scope.equipmentCategoryList.length; i++){
-          if($scope.equipmentCategoryList[i].id == index){
+          if($scope.equipmentCategoryList[i].equipmentCategoryId == index){
             $scope.currentData = $scope.equipmentCategoryList[i];
             break;
           }
@@ -116,7 +116,7 @@ angular.module('MetronicApp').controller('EquipmentCategoryController', ['$scope
       return $scope.checkboxes.checked;
     }, function(value) {
       angular.forEach($scope.equipmentCategoryList, function(item) {
-        $scope.checkboxes.items[item.id] = value;
+        $scope.checkboxes.items[item.equipmentCategoryId] = value;
       });
     });
 
