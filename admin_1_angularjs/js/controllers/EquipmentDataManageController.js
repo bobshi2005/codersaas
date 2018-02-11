@@ -76,7 +76,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
           tempstr =tempstr+ $scope.deletelist[i].name;
           tempstr =tempstr+ ' ';
         }
-        tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个类别';
+        tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个数据点';
         $scope.deletestr = tempstr;
         $('#myModal_deleteEquipmentData').modal();
       }
@@ -121,7 +121,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
     };
 
     $scope.saveDeleteEquipmentCategory = function(){
-        deleteEquipmentcategoryImpl();
+        deleteEquipmentDataImpl();
         $('#myModal_deleteEquipmentData').modal('hide');
     };
 
@@ -267,10 +267,10 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
           });
     }
 
-    function deleteEquipmentcategoryImpl(){
+    function deleteEquipmentDataImpl(){
       var ids='';
       for(var i=0; i< $scope.deletelist.length; i++){
-        ids =ids+ $scope.deletelist[i].equipmentDataId+'-';
+        ids =ids+ $scope.deletelist[i].id+'-';
       }
       deviceApi.deleteEquipmentData(ids)
       .then(function(result){
