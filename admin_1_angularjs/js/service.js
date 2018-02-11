@@ -1582,7 +1582,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
       var d = $q.defer();
       $http({
           method: 'get',
-          url: deviceUrl+ '/manage/part/category/delete/'+ids,
+          url: deviceUrl+ '/manage/equipment/category/delete/'+ids,
           headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
           withCredentials: true,
       }).then(function(response) {
@@ -1626,6 +1626,43 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
               return str.join("&");
           }
 
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  service.updateEquipmentData = function(params) {
+      var d = $q.defer();
+      $http({
+          method: 'post',
+          url: deviceUrl+ '/manage/dataElement/update/'+params.id,
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          data:params,
+          withCredentials: true,
+          transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj){
+                  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              }
+              return str.join("&");
+          }
+
+      }).then(function(response) {
+          d.resolve(response);
+      }).catch(function(err) {
+          d.reject(err);
+      });
+      return d.promise;
+  };
+  service.deleteEquipmentData = function(ids) {
+      var d = $q.defer();
+      $http({
+          method: 'get',
+          url: deviceUrl+ '/manage/dataElement/delete/'+ids,
+          headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+          withCredentials: true,
       }).then(function(response) {
           d.resolve(response);
       }).catch(function(err) {
