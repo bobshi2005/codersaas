@@ -22,7 +22,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
       $('#myModal_createEquipmentData').modal();
 
     };
-    $scope.updateEquipmentCategory = function(){
+    $scope.updateEquipmentData = function(){
       $scope.currentData = {};
       $scope.equipmentCategory=$scope.equipmentCategorylist[0];
       $scope.dataType=$scope.dataTypelist[0];
@@ -41,12 +41,14 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
         $('#myModal_alert').modal();
       }else{
         for(var i=0; i< $scope.equipmentDataList.length; i++){
-          if($scope.equipmentDataList[i].equipmentDataId == index){
+          if($scope.equipmentDataList[i].id == index){
             $scope.currentData = $scope.equipmentDataList[i];
+            $scope.equipmentCategory=getEquipmentCategoryById($scope.equipmentDataList[i].equipmentCategoryId);
+            $scope.dataType=getDataTypeById($scope.equipmentDataList[i].dataType);
             break;
           }
         }
-        $('#myModal_updateEquipmentCategory').modal();
+        $('#myModal_updateEquipmentData').modal();
       }
     };
     $scope.deleteEquipmentCategory = function(){
@@ -84,7 +86,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
       $('#myModal_createEquipmentData').modal('hide');
     };
     $scope.updateDismiss = function(){
-      $('#myModal_updateEquipmentCategory').modal('hide');
+      $('#myModal_updateEquipmentData').modal('hide');
     };
     $scope.deleteDismiss = function(){
       $('#myModal_deleteEquipmentCategory').modal('hide');
@@ -107,11 +109,14 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
 
     $scope.saveUpdateEquipmentCategory = function(){
         if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-            $scope.message = '必须填写类别名称';
+            $scope.message = '必须填写数据点名称';
+            $('#myModal_alert').modal();
+        }else if(!$scope.currentData.hasOwnProperty("lableName") || $scope.currentData.lableName == ''){
+            $scope.message = '必须填写数据点显示名称';
             $('#myModal_alert').modal();
         }else{
-            $('#myModal_updateEquipmentCategory').modal('hide');
-            updateEquipmentcategoryImpl();
+            $('#myModal_updateEquipmentData').modal('hide');
+            updateEquipmentDataImpl();
         }
     };
 
@@ -164,21 +169,21 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
         });
     }
 
-    function getEquipmentCategoryNameById(id){
+    function getEquipmentCategoryById(id){
       for(var i=0; i<$scope.equipmentCategorylist.length; i++){
-        if($scope.equipmentCategorylist[i].equipmentCategorylistId == id){
-          var name = $scope.equipmentCategorylist[i].name
-          return name;
+        if($scope.equipmentCategorylist[i].equipmentCategoryId == id){
+          var Category = $scope.equipmentCategorylist[i]
+          return Category;
           break;
         }
       }
     }
 
-    function getDataTypeName(id){
+    function getDataTypeById(id){
       for(var i=0; i<$scope.dataTypelist.length; i++){
         if($scope.dataTypelist[i].id == id){
-          var name = $scope.dataTypelist[i].name
-          return name;
+          var datatype = $scope.dataTypelist[i]
+          return datatype;
           break;
         }
       }
@@ -201,7 +206,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
                      $scope.equipmentDataList=result.data.rows;
                      for(var i=0;i<result.data.rows.length;i++) {
                        $scope.equipmentDataList[i].createTime = changeTimeFormat($scope.equipmentDataList[i].createTime);
-                       $scope.equipmentDataList[i].dataTypeName = getDataTypeName($scope.equipmentDataList[i].dataType);
+                       $scope.equipmentDataList[i].dataTypeName = getDataTypeById($scope.equipmentDataList[i].dataType).name;
                      }
                 }else {
                   $scope.equipmentDataList=[];
@@ -239,8 +244,15 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
           });
     }
 
-    function updateEquipmentcategoryImpl(){
-      deviceApi.updateEquipmentCategory($scope.currentData.equipmentDataId,$scope.currentData.name)
+    function updateEquipmentDataImpl(){
+      var params = {};
+      params.id = $scope.currentData.id;
+      params.equipmentCategoryId = $scope.equipmentCategory.equipmentCategoryId;
+      params.name = $scope.currentData.name;
+      params.lableName = $scope.currentData.lableName;
+      params.unit = $scope.currentData.unit;
+      params.dataType = $scope.dataType.id;
+      deviceApi.updateEquipmentData(params)
           .then(function(result){
               if(result.data.code == 1 ){
                   $scope.message = '数据点修改成功！';
