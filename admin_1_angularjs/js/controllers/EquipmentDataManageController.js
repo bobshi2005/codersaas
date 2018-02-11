@@ -15,13 +15,17 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
       checked: false,
       items: {}
     };
-    $scope.addEquipmentCategory = function(){
+    $scope.addEquipmentData = function(){
       $scope.currentData = {};
-      $('#myModal_createEquipmentCategory').modal();
+      $scope.equipmentCategory=$scope.equipmentCategorylist[0];
+      $scope.dataType=$scope.dataTypelist[0];
+      $('#myModal_createEquipmentData').modal();
 
     };
     $scope.updateEquipmentCategory = function(){
       $scope.currentData = {};
+      $scope.equipmentCategory=$scope.equipmentCategorylist[0];
+      $scope.dataType=$scope.dataTypelist[0];
       var checked = 0, index = 0;
       angular.forEach($scope.checkboxes.items, function(value,key) {
         if(value){
@@ -77,7 +81,7 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
     };
 
     $scope.createDismiss = function(){
-      $('#myModal_createEquipmentCategory').modal('hide');
+      $('#myModal_createEquipmentData').modal('hide');
     };
     $scope.updateDismiss = function(){
       $('#myModal_updateEquipmentCategory').modal('hide');
@@ -89,12 +93,15 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
       $('#myModal_alert').modal('hide');
     };
 
-    $scope.saveCreateEquipmentCategory = function(){
+    $scope.saveCreateEquipmentData = function(){
         if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-            $scope.message = '必须填写类别名称';
+            $scope.message = '必须填写数据点名称';
+            $('#myModal_alert').modal();
+        }else if(!$scope.currentData.hasOwnProperty("lableName") || $scope.currentData.lableName == ''){
+            $scope.message = '必须填写数据点显示名称';
             $('#myModal_alert').modal();
         }else{
-            createEquipmentCategoryImpl();
+            createEquipmentDataImpl();
         }
     };
 
@@ -209,8 +216,15 @@ angular.module('MetronicApp').controller('EquipmentDataManageController', ['$sco
       $scope.tableParams.reload();
     }
 
-    function createEquipmentCategoryImpl(){
-      deviceApi.createEquipmentCategory($scope.currentData.name)
+    function createEquipmentDataImpl(){
+      var params={};
+      params.equipmentCategoryId = $scope.equipmentCategory.equipmentCategoryId;
+      params.name = $scope.currentData.name;
+      params.lableName = $scope.currentData.lableName;
+      params.unit = $scope.currentData.unit;
+      params.dataType = $scope.dataType.id;
+      console.log('params',params);
+      deviceApi.createEquipmentData(params)
           .then(function(result){
               if(result.data.code == 1 ){
                   $scope.message = '数据点创建成功！';
