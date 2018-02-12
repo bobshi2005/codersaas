@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="myModal_createEquipmentData" class="modal fade" role="dialog" aria-hidden="true">
+                <div id="myModal_createAlarmTemplate" class="modal fade" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -71,12 +71,12 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn grey-salsa btn-outline" ng-click='createDismiss()'>取消操作</button>
-                                <button type="button" class="btn green" data-dismiss="modal" ng-click='saveCreateEquipmentData()'><i class="fa fa-check"/> 确定添加 </button>
+                                <button type="button" class="btn green" data-dismiss="modal" ng-click='saveCreateAlarmTemplate()'><i class="fa fa-check"/> 确定添加 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="myModal_updateEquipmentData" class="modal fade" role="dialog" aria-hidden="true">
+                <div id="myModal_updateAlarmTemplate" class="modal fade" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -122,12 +122,12 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn grey-salsa btn-outline" ng-click='updateDismiss()'>取消操作</button>
-                                <button type="button" class="btn green" data-dismiss="modal" ng-click='saveUpdateEquipmentData()'><i class="fa fa-check"/> 确定修改 </button>
+                                <button type="button" class="btn green" data-dismiss="modal" ng-click='saveUpdateAlarmTemplate()'><i class="fa fa-check"/> 确定修改 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="myModal_deleteEquipmentData" class="modal fade" role="dialog" aria-hidden="true">
+                <div id="myModal_deleteAlarmTemplate" class="modal fade" role="dialog" aria-hidden="true">
                   <div class="modal-dialog">
                       <div class="modal-content">
                           <div class="modal-header">
@@ -171,13 +171,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="btn-group">
-                                <a href="#" role="button" class="btn sbold green" ng-click="addEquipmentData()" data-toggle="modal">创建
+                                <a href="#" role="button" class="btn sbold green" ng-click="addAlarmTemplate()" data-toggle="modal">创建
                                     <i class="fa fa-plus"></i>
                                 </a>
-                                <a href="#" role="button" class="btn sbold blue" ng-click="updateEquipmentData()" data-toggle="modal">编辑
+                                <a href="#" role="button" class="btn sbold blue" ng-click="updateAlarmTemplate()" data-toggle="modal">编辑
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="#" role="button" class="btn sbold red" ng-click="deleteEquipmentData()" data-toggle="modal">删除
+                                <a href="#" role="button" class="btn sbold red" ng-click="deleteAlarmTemplate()" data-toggle="modal">删除
                                     <i class="fa fa-times"></i>
                                 </a>
                             </div>
@@ -199,11 +199,8 @@
                                 <input type="checkbox" ng-model="checkboxes.items[param.id]" /><span></span>
                                 </label>
                               </td>
-                              <td title="'变量名'">{{param.name}}</td>
-                              <td title="'显示名称'">{{param.lableName}}</td>
-                              <td title="'单位'">{{param.unit}}</td>
-                              <td title="'数据类型'">{{param.dataTypeName}}</td>
-                              <td title="'设备类别'">{{param.equipmentCategoryName}}</td>
+                              <td title="'报警名称'">{{param.name}}</td>
+                              <td title="'报警内容'">{{param.alarmContent}}</td>
                               <td title="'创建时间'">{{param.createTime}}</td>
                             </tr>
                         </tbody>
