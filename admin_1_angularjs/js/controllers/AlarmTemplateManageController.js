@@ -18,14 +18,12 @@ angular.module('MetronicApp').controller('AlarmTemplateManageController', ['$sco
     $scope.addAlarmTemplate = function(){
       $scope.currentData = {};
       $('#myModal_createAlarmTemplate').modal();
-      $('#upperBound').hide();
-      $('#lowerBound').hide();
-      $('#duration').hide();
+      $('.upperBound').hide();
+      $('.lowerBound').hide();
+      $('.duration').hide();
     };
     $scope.updateAlarmTemplate = function(){
       $scope.currentData = {};
-      // $scope.equipmentCategory=$scope.equipmentCategorylist[0];
-      $scope.dataType=$scope.dataTypelist[0];
       var checked = 0, index = 0;
       angular.forEach($scope.checkboxes.items, function(value,key) {
         if(value){
@@ -43,8 +41,12 @@ angular.module('MetronicApp').controller('AlarmTemplateManageController', ['$sco
         for(var i=0; i< $scope.AlarmTemplateList.length; i++){
           if($scope.AlarmTemplateList[i].alarmModelId == index){
             $scope.currentData = $scope.AlarmTemplateList[i];
-            $scope.equipmentCategory=getEquipmentCategoryById($scope.AlarmTemplateList[i].equipmentCategoryId);
-            $scope.dataType=getDataTypeById($scope.AlarmTemplateList[i].dataType);
+            console.log('updatecurrentData',$scope.currentData);
+            $scope.currentData.selectedDataElement=getDataElementById($scope.AlarmTemplateList[i].eamDataElementId);
+            console.log('selectedDataElement',$scope.currentData.selectedDataElement);
+            $scope.currentData.alarmType=getDataTypeById($scope.AlarmTemplateList[i].alarmType,$scope.currentData.selectedDataElement.dataType);
+            console.log('update',$scope.currentData.alarmType);
+            setNumContent($scope.currentData.alarmType.id);
             break;
           }
         }
@@ -106,7 +108,10 @@ angular.module('MetronicApp').controller('AlarmTemplateManageController', ['$sco
             $scope.message = '必须选择报警类型';
             $('#myModal_alert').modal();
         }else{
-            createAlarmTemplateImpl();
+           if(checkNumContent()){
+             $('#myModal_createAlarmTemplate').modal('hide');
+             createAlarmTemplateImpl();
+           }
         }
     };
 
@@ -114,12 +119,16 @@ angular.module('MetronicApp').controller('AlarmTemplateManageController', ['$sco
         if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
             $scope.message = '必须填写报警模板名称';
             $('#myModal_alert').modal();
-        }else if(!$scope.currentData.hasOwnProperty("lableName") || $scope.currentData.lableName == ''){
-            $scope.message = '必须填写报警模板显示名称';
+        }else if(!$scope.currentData.hasOwnProperty("selectedDataElement") || $scope.currentData.selectedDataElement == ''){
+            $scope.message = '必须选择报警变量';
+            $('#myModal_alert').modal();
+        }else if(!$scope.currentData.hasOwnProperty("alarmType") || $scope.currentData.alarmType == ''){
+            $scope.message = '必须选择报警类型';
             $('#myModal_alert').modal();
         }else{
-            $('#myModal_updateAlarmTemplate').modal('hide');
-            updateAlarmTemplateImpl();
+           if(checkNumContent()){
+             updateAlarmTemplateImpl();
+           }
         }
     };
 
@@ -132,60 +141,18 @@ angular.module('MetronicApp').controller('AlarmTemplateManageController', ['$sco
       var dataElement = $scope.currentData.selectedDataElement;
       getAlarmTypelistByDataType(dataElement.dataType);
       console.log('dataElement',dataElement);
-      $('#upperBound').hide();
-      $('#lowerBound').hide();
-      $('#duration').hide();
+      $('.upperBound').hide();
+      $('.lowerBound').hide();
+      $('.duration').hide();
     };
 
     $scope.selectAlarmType = function(){
       var alarmType = $scope.currentData.alarmType;
       console.log('alarmType',alarmType);
-      switch(alarmType.id){
-          case "same_data_element":
-            $('#upperBound').hide();
-            $('#lowerBound').hide();
-            $('#duration').hide();
-            break;
-          case "val_above":
-            $('#upperBound').show();
-            $('#lowerBound').hide();
-            $('#duration').hide();
-            break;
-          case "val_below":
-            $('#upperBound').hide();
-            $('#lowerBound').show();
-            $('#duration').hide();
-            break;
-          case "val_between":
-            $('#upperBound').show();
-            $('#lowerBound').show();
-            $('#duration').hide();
-            break;
-          case "val_above_below_ofm":
-            $('#upperBound').show();
-            $('#lowerBound').show();
-            $('#duration').show();
-            break;
-          case "val_above_bound":
-            $('#upperBound').show();
-            $('#lowerBound').hide();
-            $('#duration').show();
-            break;
-
-          case "val_below_bound":
-            $('#upperBound').hide();
-            $('#lowerBound').show();
-            $('#duration').show();
-            break;
-
-          default:
-            $('#upperBound').hide();
-            $('#lowerBound').hide();
-            $('#duration').hide();
-            break;
-        }
+      setNumContent(alarmType.id);
 
     };
+
 
     $scope.$on('$viewContentLoaded', function() {
         // getEquipmentCategoryList();
@@ -232,25 +199,26 @@ angular.module('MetronicApp').controller('AlarmTemplateManageController', ['$sco
     //     });
     // }
 
-    // function getEquipmentCategoryById(id){
-    //   for(var i=0; i<$scope.equipmentCategorylist.length; i++){
-    //     if($scope.equipmentCategorylist[i].equipmentCategoryId == id){
-    //       var Category = $scope.equipmentCategorylist[i]
-    //       return Category;
-    //       break;
-    //     }
-    //   }
-    // }
+    function getDataElementById(id){
+      for(var i=0; i<$scope.equipmentDataList.length; i++){
+        if($scope.equipmentDataList[i].id == id){
+          var Category = $scope.equipmentDataList[i]
+          return Category;
+          break;
+        }
+      }
+    }
 
-    // function getDataTypeById(id){
-    //   for(var i=0; i<$scope.dataTypelist.length; i++){
-    //     if($scope.dataTypelist[i].id == id){
-    //       var datatype = $scope.dataTypelist[i]
-    //       return datatype;
-    //       break;
-    //     }
-    //   }
-    // }
+    function getDataTypeById(id,elementType){
+      getAlarmTypelistByDataType(elementType);
+      for(var i=0; i<$scope.alarmTypeLists.length; i++){
+        if($scope.alarmTypeLists[i].id == id){
+          var datatype = $scope.alarmTypeLists[i]
+          return datatype;
+          break;
+        }
+      }
+    }
     //根据参数的类型获取报警的阈值类型
     function getAlarmTypelistByDataType(dataType){
         switch(dataType){
@@ -323,6 +291,137 @@ angular.module('MetronicApp').controller('AlarmTemplateManageController', ['$sco
       $scope.tableParams.reload();
     }
 
+    function setNumContent(alarmTypeId){
+      switch(alarmTypeId){
+          case "same_data_element":
+            $('.upperBound').hide();
+            $('.lowerBound').hide();
+            $('.duration').hide();
+            break;
+          case "val_above":
+            $('.upperBound').show();
+            $('.lowerBound').hide();
+            $('.duration').hide();
+            break;
+          case "val_below":
+            $('.upperBound').hide();
+            $('.lowerBound').show();
+            $('.duration').hide();
+            break;
+          case "val_between":
+            $('.upperBound').show();
+            $('.lowerBound').show();
+            $('.duration').hide();
+            break;
+          case "val_above_below_ofm":
+            $('.upperBound').show();
+            $('.lowerBound').show();
+            $('.duration').show();
+            break;
+          case "val_above_bound":
+            $('.upperBound').show();
+            $('.lowerBound').hide();
+            $('.duration').show();
+            break;
+
+          case "val_below_bound":
+            $('.upperBound').hide();
+            $('.lowerBound').show();
+            $('.duration').show();
+            break;
+
+          default:
+            $('.upperBound').hide();
+            $('.lowerBound').hide();
+            $('.duration').hide();
+            break;
+        }
+    }
+
+    function checkNumContent(){
+        var x = $('.upperBoundNum').val();
+        var y = $('.lowerBoundNum').val();
+        var m = $('.durationNum').val();
+        switch($scope.currentData.alarmType.id){
+          case "val_above":
+            if(x==null || x==''){
+              $scope.message ='请填写 X 的值';
+              $('#myModal_alert').modal();
+
+            }else{
+              $scope.currentData.lowerBound = '';
+              $scope.currentData.duration = '';
+              return true;
+            }
+
+            break;
+          case "val_below":
+            if( y==null || y==''){
+              $scope.message ='请填写 Y 的值';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.currentData.upperBound = '';
+              $scope.currentData.duration = '';
+              return true;
+            }
+            break;
+
+          case "val_between":
+            if(x==null || x=='' || y==null || y==''){
+              $scope.message ='请填写 X 与 Y 的值';
+              $('#myModal_alert').modal();
+            }else if(x-y>=0){
+              $scope.message ='X 必须小于 Y';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.currentData.duration = '';
+              return true;
+            }
+            break;
+          case "val_above_below_ofm":
+              if(x==null || x=='' || y==null || y=='' || m==null || m==''){
+                $scope.message ='请填写 X Y M 的值';
+                $('#myModal_alert').modal();
+              }else if(x-y>=0 || m<=0){
+                $scope.message ='X 必须小于 Y, M必须大于 0';
+                $('#myModal_alert').modal();
+              }else{
+                return true;
+              }
+            break;
+          case "val_above_bound":
+              if(x==null || x=='' || m==null || m==''){
+                $scope.message ='请填写 X 与 M 的值';
+                $('#myModal_alert').modal();
+              }else if(m<=0){
+                $scope.message ='M必须大于 0';
+                $('#myModal_alert').modal();
+              }else{
+                $scope.currentData.lowerBound = '';
+                return true;
+              }
+            break;
+          case "val_below_bound":
+              if(y==null || y=='' || m==null || m==''){
+                $scope.message ='请填写 Y 与 M 的值';
+                $('#myModal_alert').modal();
+              }else if(m<=0){
+                $scope.message ='M必须大于 0';
+                $('#myModal_alert').modal();
+              }else{
+                $scope.currentData.upperBound = '';
+                return true;
+              }
+            break;
+          default:
+              $scope.currentData.lowerBound = '';
+              $scope.currentData.upperBound = '';
+              $scope.currentData.duration = '';
+            break;
+        }
+      return false;
+    }
+
     function createAlarmTemplateImpl(){
       var params={};
       params.eamDataElementId = $scope.currentData.selectedDataElement.id;
@@ -351,6 +450,7 @@ angular.module('MetronicApp').controller('AlarmTemplateManageController', ['$sco
               if(result.data.code == 1 ){
                   $scope.message = '报警模板创建成功！';
                   $('#myModal_alert').modal();
+                  $('#myModal_createAlarmTemplate').modal('hide');
                   getAlarmTemplateList();
               }else{
                 $scope.message = result.data.message;
@@ -362,18 +462,32 @@ angular.module('MetronicApp').controller('AlarmTemplateManageController', ['$sco
     }
 
     function updateAlarmTemplateImpl(){
-      var params = {};
+      var params={};
       params.id = $scope.currentData.alarmModelId;
-      params.equipmentCategoryId = $scope.equipmentCategory.equipmentCategoryId;
+      params.eamDataElementId = $scope.currentData.selectedDataElement.id;
       params.name = $scope.currentData.name;
-      params.lableName = $scope.currentData.lableName;
-      params.unit = $scope.currentData.unit;
-      // params.dataType = $scope.dataType.id;
+      params.alarmType = $scope.currentData.alarmType.id;
+      if($scope.currentData.upperBound){
+        params.upperBound = $scope.currentData.upperBound;
+      }else{
+        params.upperBound = '';
+      }
+      if($scope.currentData.lowerBound){
+        params.lowerBound = $scope.currentData.lowerBound;
+      }else{
+        params.lowerBound = '';
+      }
+      if($scope.currentData.duration){
+        params.duration = $scope.currentData.duration;
+      }else{
+        params.duration = '';
+      }
       deviceApi.updateAlarmTemplate(params)
           .then(function(result){
               if(result.data.code == 1 ){
                   $scope.message = '报警模板修改成功！';
                   $('#myModal_alert').modal();
+                  $('#myModal_updateAlarmTemplate').modal('hide');
                   getAlarmTemplateList();
               }else{
                 $scope.message = result.data.message;

@@ -55,22 +55,22 @@
                                           </select>
                                       </div>
                                   </div>
-                                  <div class="form-group" id='upperBound'>
+                                  <div class="form-group upperBound">
                                       <label class="col-sm-4 control-label">X</label>
                                       <div class="col-sm-6">
-                                        <input id='upperBoundNum' class="form-control" type="number" ng-model="currentData.upperBound"  placeholder="请填写数字" ></select>
+                                        <input  class="form-control upperBoundNum" type="number" ng-model="currentData.upperBound"  placeholder="请填写数字" ></select>
                                       </div>
                                   </div>
-                                  <div class="form-group" id='lowerBound'>
+                                  <div class="form-group lowerBound">
                                       <label class="col-sm-4 control-label">Y</label>
                                       <div class="col-sm-6">
-                                        <input id='lowerBoundNum' class="form-control"  type="number" ng-model="currentData.lowerBound" placeholder="请填写数字" ></select>
+                                        <input  class="form-control lowerBoundNum"  type="number" ng-model="currentData.lowerBound" placeholder="请填写数字" ></select>
                                       </div>
                                   </div>
-                                  <div class="form-group"  id='duration'>
+                                  <div class="form-group duration">
                                       <label class="col-sm-4 control-label">M</label>
                                       <div class="col-sm-6">
-                                        <input id='durationNum' class="form-control"  type="number" ng-model="currentData.duration"  placeholder="请填写数字" ></select>
+                                        <input class="form-control durationNum"  type="number" ng-model="currentData.duration"  placeholder="请填写数字" ></select>
                                       </div>
                                   </div>
 
@@ -78,7 +78,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn grey-salsa btn-outline" ng-click='createDismiss()'>取消操作</button>
-                                <button type="button" class="btn green" data-dismiss="modal" ng-click='saveCreateAlarmTemplate()'><i class="fa fa-check"/> 确定添加 </button>
+                                <button type="button" class="btn green"  ng-click='saveCreateAlarmTemplate()'><i class="fa fa-check"/> 确定添加 </button>
                             </div>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">更新数据模板<h4>
+                                <h4 class="modal-title">更新报警模板<h4>
                             </div>
                             <div class="modal-body form">
                                 <form action="" class="form-horizontal form-row-seperated">
@@ -103,41 +103,40 @@
                                   <div class="form-group last">
                                       <label class="col-sm-4 control-label">选择变量</label>
                                       <div class="col-sm-4">
-                                          <select class="form-control" ng-model="selectedDataElement" ng-options="x.name for x in AlarmTemplateList" required>
+                                          <select class="form-control" ng-model="currentData.selectedDataElement" ng-change="selectDataElement()" ng-options="x.name for x in equipmentDataList" required>
                                           </select>
                                       </div>
                                   </div>
                                   <div class="form-group last">
                                       <label class="col-sm-4 control-label">报警类型</label>
                                       <div class="col-sm-4">
-                                          <select class="form-control" ng-model="currentData.alarmType" ng-options="x.name for x in alarmTypeLists" required>
+                                          <select class="form-control" ng-model="currentData.alarmType" ng-change="selectAlarmType()" ng-options="x.name for x in alarmTypeLists" required>
                                           </select>
                                       </div>
                                   </div>
-                                  <div class="form-group" id='upperBound'>
+                                  <div class="form-group upperBound" >
                                       <label class="col-sm-4 control-label">X</label>
                                       <div class="col-sm-6">
-                                        <input id='upperBoundNum' class="form-control" type="number" ng-model="currentData.upperBound"  placeholder="请填写数字" ></select>
+                                        <input class="form-control upperBoundNum" type="number" ng-model="currentData.upperBound"  placeholder="请填写数字" ></select>
                                       </div>
                                   </div>
-                                  <div class="form-group" id='lowerBound'>
+                                  <div class="form-group lowerBound" >
                                       <label class="col-sm-4 control-label">Y</label>
                                       <div class="col-sm-6">
-                                        <input id='lowerBoundNum' class="form-control"  type="number" ng-model="currentData.lowerBound" placeholder="请填写数字" ></select>
+                                        <input  class="form-control lowerBoundNum"  type="number" ng-model="currentData.lowerBound" placeholder="请填写数字" ></select>
                                       </div>
                                   </div>
-                                  <div class="form-group"  id='duration'>
+                                  <div class="form-group duration">
                                       <label class="col-sm-4 control-label">M</label>
                                       <div class="col-sm-6">
-                                        <input id='durationNum' class="form-control"  type="number" ng-model="currentData.duration"  placeholder="请填写数字" ></select>
+                                        <input  class="form-control durationNum"  type="number" ng-model="currentData.duration"  placeholder="请填写数字" ></select>
                                       </div>
                                   </div>
-
                                 </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn grey-salsa btn-outline" ng-click='updateDismiss()'>取消操作</button>
-                                <button type="button" class="btn green" data-dismiss="modal" ng-click='saveUpdateAlarmTemplate()'><i class="fa fa-check"/> 确定修改 </button>
+                                <button type="button" class="btn green"  ng-click='saveUpdateAlarmTemplate()'><i class="fa fa-check"/> 确定修改 </button>
                             </div>
                         </div>
                     </div>
