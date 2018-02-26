@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('ProductManageController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element) {
+angular.module('MetronicApp').controller('ProductManageController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element','$compile', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element,$compile) {
     $rootScope.menueName = 'sidebar-asset';
     $scope.isShowmap = false;
     $scope.loadModels = false;
@@ -7,10 +7,10 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     $scope.message = ''; // 自定义消息提示内容
     $scope.productLineList = [];
     $scope.productLineList = [];//产线列表
-    $scope.models = [];
     $scope.currentData = {};
-    $scope.modellist = [];
+    // $scope.modellist = [];
     $scope.provinceList = [];
+    $scope.linedataElements=[]; //产线的数据点列表
     $scope.allcity = []; //所有的城市数据
     $scope.cityList = [];
     $scope.showUploader = false;//UPDATE 界面中 更新图片
@@ -74,7 +74,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         $scope.marker2.setPosition([e.lnglat.getLng(),e.lnglat.getLat()]);
     });
     $scope.discreate = function(){
-      console.log('zaoban',$scope.currentData.morningShiftStartTime,$scope.currentData.morningShiftEndTime);
+      // console.log('zaoban',$scope.currentData.morningShiftStartTime,$scope.currentData.morningShiftEndTime);
         $('#myModal_createProductLine').modal('hide');
         $scope.isShowmap = false;
     };
@@ -110,13 +110,12 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         $scope.message = '请选择一个产线';
         $('#myModal_alert').modal();
       }else if(checked > 1){
-        $scope.message = '只能选择一个产线类行编辑';
+        $scope.message = '只能选择一个产线行编辑';
         $('#myModal_alert').modal();
       }else{
         for(var i=0; i< $scope.productLineList.length; i++){
           if($scope.productLineList[i].productLineId == index){
             $scope.currentData = $scope.productLineList[i];
-            $scope.currentData.model = getModelByID($scope.currentData.equipmentModelId);
             getProCity($scope.currentData.province);
             if($scope.currentData.longitude!=null && $scope.currentData.latitude!=null){
               $scope.marker2.setPosition([$scope.currentData.longitude,$scope.currentData.latitude]);
@@ -190,12 +189,6 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
           updateProductLineImpl();
       }
     };
-
-    $scope.updateModel=function(){
-      $scope.currentData.equipmentModelId = $scope.currentData.model.equipmentModelId;
-
-    };
-
     $scope.changeImageUpdate = function(){
       $scope.uuid = '';
       $scope.currentData.imagesrc = '';
@@ -257,6 +250,43 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     $scope.disShowProductLineDetail = function(){
       $('#myModal_ProductLineDetail').modal('hide');
     };
+    $scope.editProductLineElements = function(){
+      $scope.currentData = {};
+      var checked = 0, index = 0;
+      angular.forEach($scope.checkboxes.items, function(value,key) {
+        if(value){
+          index = key;
+          checked += 1;
+        }
+      });
+      if(checked == 0){
+        $scope.message = '请选择一个产线';
+        $('#myModal_alert').modal();
+      }else if(checked > 1){
+        $scope.message = '只能选择一个产线行编辑';
+        $('#myModal_alert').modal();
+      }else{
+        for(var i=0; i< $scope.productLineList.length; i++){
+          if($scope.productLineList[i].productLineId == index){
+            $scope.currentData = $scope.productLineList[i];
+          }
+        }
+        getProductLineElements($scope.currentData.productLineId);
+
+      }
+    }
+    $scope.disSlectetElements = function(){
+      $('#myModal_ProductSelectData').modal('hide');
+    };
+    $scope.saveSlectetElements = function(){
+      var idArr=$('#lineElements_selector').val();
+      var ids='';
+      for(var i=0;i<idArr.length;i++){
+        ids+=idArr[i]+'::';
+      }
+      console.log('selected',ids);
+      setProductLineElements($scope.currentData.productLineId,ids);
+    }
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
@@ -289,7 +319,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       // getdeviceModellist();
       getProductLineList();
       getCityData();
-      $scope.modellist = sharedataApi.getModeldata();
+      // $scope.modellist = sharedataApi.getModeldata();
       $('.form_date1').timepicker({
            minuteStep: 5,
            showInputs: false,
@@ -508,28 +538,16 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     });
 
 
-    // function getdeviceModellist(){
-    //   deviceApi.getdeviceModellist('asc',0,100)
-    //     .then(function(result) {
-    //       if(result.data.total > 0) {
-    //           $scope.selectedmodel=result.data.rows[0];
-    //           $scope.modellist=result.data.rows;
-    //       }else {
-    //         $scope.modellist=[];
-    //       }
-    //     });
+    // function getModelByID(id){
+    //   var obj = {};
+    //     for(var i=0; i<$scope.modellist.length; i++){
+    //         if($scope.modellist[i].equipmentModelId == id){
+    //             obj = $scope.modellist[i]
+    //             break;
+    //         }
+    //     }
+    //     return obj;
     // }
-
-    function getModelByID(id){
-      var obj = {};
-        for(var i=0; i<$scope.modellist.length; i++){
-            if($scope.modellist[i].equipmentModelId == id){
-                obj = $scope.modellist[i]
-                break;
-            }
-        }
-        return obj;
-    }
 
     Date.prototype.format = function(format) {
       var date = {
@@ -564,15 +582,53 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       return newDate.format('MM/dd/yyyy');
     }
 
-    // function getModelnameById(id) {
-    //   for(var i=0; i<$scope.modellist.length; i++){
-    //     if($scope.modellist[i].equipmentModelId == id){
-    //       var name = $scope.modellist[i].name
-    //       return name;
-    //       break;
-    //     }
-    //   }
-    // }
+
+    function getProductLineElements(productLineId){
+      deviceApi.getDataElementByProductLineId(productLineId)
+        .then(function(result){
+          if(result.data.rows){
+            $scope.linedataElements=result.data.rows;
+            console.log('linedataElements',$scope.linedataElements);
+            $('#myModal_ProductSelectData').modal();
+            for(var i=0;i<result.data.rows.length;i++){
+              var x = result.data.rows[i];
+              if(x.checked){
+                var optionhtml='<option  value="'+x.id+'" selected>'+x.lableName+'</option>';
+              }else{
+                var optionhtml='<option  value="'+x.id+'">'+x.lableName+'</option>';
+              }
+              var template = angular.element(optionhtml);
+              var mobileDialogElement = $compile(template)($scope);
+              angular.element("#lineElements_selector").append(mobileDialogElement);
+
+            }
+            $('#lineElements_selector').multiSelect({
+              selectableHeader: "<div class='custom-header'>可选数据点</div>",
+              selectionHeader: "<div class='custom-header'>已选数据点</div>",
+            });
+
+          }else{
+            $scope.linedataElements=[];
+          }
+        }, function(err) {
+            console.log('getProductLineElementsErr',err);
+        });
+    }
+    function setProductLineElements(productLineId,elementsIds){
+      deviceApi.setDataElementsToProductLine(productLineId,elementsIds)
+        .then(function(result){
+            if(result.data.code ==1 ){
+              $scope.message="数据点设置成功！";
+              $('#myModal_ProductSelectData').modal('hide');
+              $('#myModal_alert').modal();
+            }else{
+              $scope.message=result.data.message;
+              $('#myModal_alert').modal();
+            }
+        }, function(err) {
+            console.log('setProductLineElemenErr',err);
+        });
+    }
 
     function getProductLineList() {
       $scope.productLineList = [];

@@ -1901,6 +1901,47 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           });
           return d.promise;
       };
+      //获取产线可以取得的数据点
+      service.getDataElementByProductLineId = function(productLineId) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/productLine/dataElement/list',
+              headers: {"Accept":"application/json"},
+              withCredentials: true,
+              params: {productLineId:productLineId}
+          }).then(function(response) {
+              sharedataApi.setModeldata(response.data.rows);
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
+      //设置产线的数据点 ids中的DataElementId 以::相连
+      service.setDataElementsToProductLine = function(productLineId,elementsIds) {
+          var d = $q.defer();
+          $http({
+              method: 'post',
+              url: deviceUrl+ '/manage/productLine/dataElement/confirm',
+              headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+              data:{productLineId:productLineId,ids:elementsIds},
+              withCredentials: true,
+              transformRequest: function(obj) {
+                  var str = [];
+                  for(var p in obj){
+                      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                  }
+                  return str.join("&");
+              }
+
+          }).then(function(response) {
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
 
   return service;
 }]);
