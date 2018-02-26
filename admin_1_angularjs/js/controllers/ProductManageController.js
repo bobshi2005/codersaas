@@ -5,7 +5,8 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     $scope.deletelist = [];
     $scope.deletestr = ''; //删除队列显示字符串
     $scope.message = ''; // 自定义消息提示内容
-    $scope.devicelist = [];
+    $scope.productLineList = [];
+    $scope.productLineList = [];//产线列表
     $scope.models = [];
     $scope.currentData = {};
     $scope.modellist = [];
@@ -93,7 +94,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     $scope.createDevice = function() {
       $scope.currentData = [];
       $('#myModal_createDevice').modal();
-      getdeviceModellist();
+      // getdeviceModellist();
     };
     $scope.updateDevice = function() {
       $scope.currentData = {};
@@ -105,15 +106,15 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         }
       });
       if(checked == 0){
-        $scope.message = '请选择一个设备';
+        $scope.message = '请选择一个产线';
         $('#myModal_alert').modal();
       }else if(checked > 1){
-        $scope.message = '只能选择一个设备类行编辑';
+        $scope.message = '只能选择一个产线类行编辑';
         $('#myModal_alert').modal();
       }else{
-        for(var i=0; i< $scope.devicelist.length; i++){
-          if($scope.devicelist[i].equipmentId == index){
-            $scope.currentData = $scope.devicelist[i];
+        for(var i=0; i< $scope.productLineList.length; i++){
+          if($scope.productLineList[i].productLineId == index){
+            $scope.currentData = $scope.productLineList[i];
             $scope.currentData.model = getModelByID($scope.currentData.equipmentModelId);
             getProCity($scope.currentData.province);
             if($scope.currentData.longitude!=null && $scope.currentData.latitude!=null){
@@ -134,9 +135,9 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
           if(value){
             checked += 1;
             let tempdata={};
-            for(var i=0; i< $scope.devicelist.length; i++){
-              if($scope.devicelist[i].equipmentId == key){
-                tempdata = $scope.devicelist[i];
+            for(var i=0; i< $scope.productLineList.length; i++){
+              if($scope.productLineList[i].productLineId == key){
+                tempdata = $scope.productLineList[i];
                 $scope.deletelist.push(tempdata);
                 break;
               }
@@ -144,7 +145,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
           }
         });
         if(checked == 0){
-          $scope.message = '请至少选择一个设备';
+          $scope.message = '请至少选择一个产线';
           $('#myModal_alert').modal();
         }else{
           let tempstr = '';
@@ -152,7 +153,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             tempstr =tempstr+ $scope.deletelist[i].name;
             tempstr =tempstr+ ' ';
           }
-          tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个设备';
+          tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个产线';
           $scope.deletestr = tempstr;
           $('#myModal_deleteDevice').modal();
         }
@@ -161,13 +162,13 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       $('#imagePath').val($scope.uuid);
 
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-        $scope.message = '必须填写设备名称';
+        $scope.message = '必须填写产线名称';
         $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("number")  || $scope.currentData.number == ''){
-        $scope.message = '必须填写设备编号';
+        $scope.message = '必须填写产线编号';
         $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("serialNumber")  || $scope.currentData.serialNumber == ''){
-        $scope.message = '必须填写设备序列号';
+        $scope.message = '必须填写产线序列号';
         $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("createTime")  || $scope.currentData.createTime == ''){
         $scope.message = '必须填写生产日期';
@@ -193,13 +194,13 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     };
     $scope.saveUpdateDevice = function(){
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-        $scope.message = '必须填写设备名称';
+        $scope.message = '必须填写产线名称';
         $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("number")  || $scope.currentData.number == ''){
-        $scope.message = '必须填写设备编号';
+        $scope.message = '必须填写产线编号';
         $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("serialNumber")  || $scope.currentData.serialNumber == ''){
-        $scope.message = '必须填写设备序列号';
+        $scope.message = '必须填写产线序列号';
         $('#myModal_alert').modal();
       }else if(!$scope.currentData.hasOwnProperty("createTime")  || $scope.currentData.createTime == ''){
         $scope.message = '必须填写生产日期';
@@ -232,7 +233,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     }
 
     $scope.openStatusModal = function(param){
-      //设备启停
+      //产线启停
         $scope.currentData = param;
         if(param.collectStatus == "Working"){
           $scope.status ="已开启";
@@ -246,14 +247,14 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     $scope.changeStatus = function(){
       $('#myModal_status').modal('hide');
       param = {};
-      param.ids=$scope.currentData.equipmentId;
+      param.ids=$scope.currentData.productLineId;
       if($scope.statusAction == '开启'){
         deviceApi.startCollect(param)
           .then(function(result) {
             if(result.data.code == 1) {
-              $scope.message="设备开启成功！";
+              $scope.message="产线开启成功！";
               $('#myModal_alert').modal();
-              getDevicelist();
+              getproductLineList();
             }else {
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -266,9 +267,9 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         deviceApi.stopCollect(param)
           .then(function(result) {
             if(result.data.code == 1) {
-              $scope.message="设备停止成功！";
+              $scope.message="产线停止成功！";
               $('#myModal_alert').modal();
-              getDevicelist();
+              getproductLineList();
             }else {
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -278,12 +279,20 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
           });
       }
     };
+    $scope.showProductLineDetail = function(param){
+      console.log('showProductLineDetail',param);
+      $scope.currentData = param;
+      $('#myModal_ProductLineDetail').modal();
+    };
+    $scope.disShowProductLineDetail = function(){
+      $('#myModal_ProductLineDetail').modal('hide');
+    };
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
       }, function(value) {
-      angular.forEach($scope.devicelist, function(item) {
-        $scope.checkboxes.items[item.equipmentId] = value;
+      angular.forEach($scope.productLineList, function(item) {
+        $scope.checkboxes.items[item.productLineId] = value;
       });
     });
     // watch for data checkboxes
@@ -291,7 +300,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       return $scope.checkboxes.items;
       }, function(values) {
        var checked = 0, unchecked = 0,
-       total = $scope.devicelist.length;
+       total = $scope.productLineList.length;
        angular.forEach($scope.checkboxes.items, function(item) {
          if(item){
            checked += 1;
@@ -306,9 +315,9 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
        angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
      }, true);
 
-
     $scope.$on('$viewContentLoaded', function() {
-      getdeviceModellist();
+      // getdeviceModellist();
+      getProductLineList();
       getCityData();
       $scope.modellist = sharedataApi.getModeldata();
 
@@ -384,7 +393,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             });
         });
 
-      $timeout(getDevicelist(),1000);
+      // $timeout(getProductLineList(),1000);
 
       galleryUploader = new qq.FineUploader(
           {
@@ -546,17 +555,17 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     });
 
 
-    function getdeviceModellist(){
-      deviceApi.getdeviceModellist('asc',0,100)
-        .then(function(result) {
-          if(result.data.total > 0) {
-              $scope.selectedmodel=result.data.rows[0];
-              $scope.modellist=result.data.rows;
-          }else {
-            $scope.modellist=[];
-          }
-        });
-    }
+    // function getdeviceModellist(){
+    //   deviceApi.getdeviceModellist('asc',0,100)
+    //     .then(function(result) {
+    //       if(result.data.total > 0) {
+    //           $scope.selectedmodel=result.data.rows[0];
+    //           $scope.modellist=result.data.rows;
+    //       }else {
+    //         $scope.modellist=[];
+    //       }
+    //     });
+    // }
 
     function getModelByID(id){
       var obj = {};
@@ -602,19 +611,18 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       return newDate.format('MM/dd/yyyy');
     }
 
-    function getModelnameById(id) {
-      for(var i=0; i<$scope.modellist.length; i++){
-        if($scope.modellist[i].equipmentModelId == id){
-          var name = $scope.modellist[i].name
-          return name;
-          break;
-        }
-      }
-    }
+    // function getModelnameById(id) {
+    //   for(var i=0; i<$scope.modellist.length; i++){
+    //     if($scope.modellist[i].equipmentModelId == id){
+    //       var name = $scope.modellist[i].name
+    //       return name;
+    //       break;
+    //     }
+    //   }
+    // }
 
-    function getDevicelist() {
-      $scope.devicelist=[];
-      $scope.devicelist=[];
+    function getProductLineList() {
+      $scope.productLineList = [];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
       $scope.tableParams = new NgTableParams({
@@ -623,41 +631,43 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       }, {
         counts:[2,10,50],
         getData: function(params) {
-          return deviceApi.getDevicelist('asc', (params.page()-1)*params.count(), params.count())
+          return deviceApi.getProductLineList('asc', (params.page()-1)*params.count(), params.count())
             .then(function(result) {
                 if(result.data.total > 0) {
-                     $scope.devicelist=result.data.rows;
+                     $scope.productLineList=result.data.rows;
                      for(var i=0;i<result.data.rows.length;i++) {
-                       var tempname = getModelnameById($scope.devicelist[i].equipmentModelId);
-                       $scope.devicelist[i].equipmentModelname = tempname;
-                       $scope.devicelist[i].imagesrc = uploaderUrl+'/files/'+$scope.devicelist[i].imagePath;
-                       $scope.devicelist[i].factoryDate = changeTimeFormat($scope.devicelist[i].factoryDate);
-                       $scope.devicelist[i].createTime = changeTimeFormat($scope.devicelist[i].createTime);
-                       $scope.devicelist[i].warrantyStartDate = changeTimeFormat($scope.devicelist[i].warrantyStartDate);
-                       $scope.devicelist[i].warrantyEndDate = changeTimeFormat($scope.devicelist[i].warrantyEndDate);
-                       console.log('imgsrc',$scope.devicelist[i].imagesrc);
-                       if($scope.devicelist[i].imagePath ==''|| $scope.devicelist[i].imagePath ==null){
-                          $scope.devicelist[i].imagesrc = "../assets/pages/media/works/img7.jpg";
+                       $scope.productLineList[i].imagesrc = uploaderUrl+'/files/'+$scope.productLineList[i].imagePath;
+                       $scope.productLineList[i].createTime = changeTimeFormat($scope.productLineList[i].createTime);
+
+                       if($scope.productLineList[i].imagePath ==''|| $scope.productLineList[i].imagePath ==null){
+                          $scope.productLineList[i].imagesrc = "../assets/pages/media/works/img7.jpg";
                        }
-                       if($scope.devicelist[i].collectStatus == "Working"){
-                         $scope.devicelist[i].turnpic="../assets/pages/img/turn-on2.png"
+                       if($scope.productLineList[i].collectStatus == "Working"){
+                         $scope.productLineList[i].turnpic="../assets/pages/img/turn-on2.png"
                        }else{
-                         $scope.devicelist[i].turnpic="../assets/pages/img/turn-off2.png"
+                         $scope.productLineList[i].turnpic="../assets/pages/img/turn-off2.png"
+                       }
+                       if($scope.productLineList[i].isOnline == true){
+                         $scope.productLineList[i].isOnlinelabel="在线"
+                       }else{
+                         $scope.productLineList[i].isOnlinelabel="离线"
                        }
                      }
-                     console.log('convertparam',$scope.devicelist);
                 }else {
-                  $scope.devicelist=[];
+                  $scope.productLineList=[];
                 }
                 params.total(result.data.total);
-                return $scope.devicelist;
+                return $scope.productLineList;
             }, function(err) {
 
             });
         }
       });
       $scope.tableParams.reload();
-    };
+    }
+
+
+
 
     function createDeviceImpl() {
       var params={};
@@ -680,9 +690,9 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       deviceApi.createDevice(params)
         .then(function(result){
             if(result.data.code ==1 ){
-              $scope.message="创建设备成功！";
+              $scope.message="创建产线成功！";
               $('#myModal_alert').modal();
-              getDevicelist();
+              getproductLineList();
             }else{
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -708,12 +718,12 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       params.maintenancePeriod = $scope.currentData.maintenancePeriod;
       params.province = $scope.currentData.province;
       params.city = $scope.currentData.city;
-      deviceApi.updateDevice($scope.currentData.equipmentId,params)
+      deviceApi.updateDevice($scope.currentData.productLineId,params)
         .then(function(result){
             if(result.data.code ==1 ){
-              $scope.message="编辑设备成功！";
+              $scope.message="编辑产线成功！";
               $('#myModal_alert').modal();
-              getDevicelist();
+              getproductLineList();
             }else{
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -726,14 +736,14 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     function deleteDeviceImpl() {
       var ids='';
       for(var i=0; i< $scope.deletelist.length; i++){
-        ids =ids+ $scope.deletelist[i].equipmentId+'-';
+        ids =ids+ $scope.deletelist[i].productLineId+'-';
       }
       deviceApi.deleteDevice(ids)
         .then(function(result){
             if(result.data.code ==1 ){
-                $scope.message = '设备删除成功';
+                $scope.message = '产线删除成功';
                 $('#myModal_alert').modal();
-                getDevicelist();
+                getproductLineList();
             }else{
               $scope.message = result.data.message;
               $('#myModal_alert').modal();
