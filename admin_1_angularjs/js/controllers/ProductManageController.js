@@ -79,10 +79,10 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         $scope.isShowmap = false;
     };
     $scope.disdelete = function(){
-        $('#myModal_deleteDevice').modal('hide');
+        $('#myModal_deleteProductLine').modal('hide');
     };
     $scope.disupdate = function(){
-      $('#myModal_updateDevice').modal('hide');
+      $('#myModal_updateProductLine').modal('hide');
       $scope.isShowmap = false;
     };
     $scope.disalert = function(){
@@ -97,7 +97,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       $('.date').timepicker('setTime',null);
       $('#myModal_createProductLine').modal();
     };
-    $scope.updateDevice = function() {
+    $scope.updateProductLine = function() {
       $scope.currentData = {};
       var checked = 0, index = 0;
       angular.forEach($scope.checkboxes.items, function(value,key) {
@@ -123,13 +123,18 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             }else{
               $scope.marker2.setPosition([116,39]);
             }
-            break;
+            $('.form_date1').timepicker('setTime',$scope.currentData.morningShiftStartTime);
+            $('.form_date2').timepicker('setTime',$scope.currentData.morningShiftEndTime);
+            $('.form_date3').timepicker('setTime',$scope.currentData.middleShiftStartTime);
+            $('.form_date4').timepicker('setTime',$scope.currentData.middleShiftEndTime);
+            $('.form_date5').timepicker('setTime',$scope.currentData.nightShiftStartTime);
+            $('.form_date6').timepicker('setTime',$scope.currentData.nightShiftEndTime);
           }
         }
-        $('#myModal_updateDevice').modal();
+        $('#myModal_updateProductLine').modal();
       }
     };
-    $scope.deleteDevice = function() {
+    $scope.deleteProductLine = function() {
         var checked = 0;
         $scope.deletelist = [];
         angular.forEach($scope.checkboxes.items, function(value,key) {
@@ -156,7 +161,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
           }
           tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个产线';
           $scope.deletestr = tempstr;
-          $('#myModal_deleteDevice').modal();
+          $('#myModal_deleteProductLine').modal();
         }
     };
     $scope.saveCreateProductLine = function(){
@@ -170,37 +175,19 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
           createProductLineImpl();
       }
     };
-    $scope.saveDeleteDevice = function() {
-        $('#myModal_deleteDevice').modal("hide");
+    $scope.saveDeleteProductLine = function() {
+        // $('#myModal_deleteProductLine').modal("hide");
         $scope.isShowmap = false;
-        deleteDeviceImpl();
+        deleteProductLineImpl();
     };
-    $scope.saveUpdateDevice = function(){
+    $scope.saveUpdateProductLine = function(){
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
         $scope.message = '必须填写产线名称';
         $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("number")  || $scope.currentData.number == ''){
-        $scope.message = '必须填写产线编号';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("serialNumber")  || $scope.currentData.serialNumber == ''){
-        $scope.message = '必须填写产线序列号';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("createTime")  || $scope.currentData.createTime == ''){
-        $scope.message = '必须填写生产日期';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("factoryDate")  || $scope.currentData.factoryDate == ''){
-        $scope.message = '必须填写出厂日期';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("warrantyStartDate")  || $scope.currentData.warrantyStartDate == ''){
-        $scope.message = '必须填写质保开始日期';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("warrantyEndDate")  || $scope.currentData.warrantyEndDate == ''){
-        $scope.message = '必须填写质保结束日期';
-        $('#myModal_alert').modal();
       }else{
-          $('#myModal_updateDevice').modal('hide');
+          // $('#myModal_updateProductLine').modal('hide');
           $scope.isShowmap = false;
-          updateDeviceImpl();
+          updateProductLineImpl();
       }
     };
 
@@ -668,27 +655,29 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             console.log('createDeviceerr',err);
         });
     };
-    function updateDeviceImpl() {
+    function updateProductLineImpl() {
       var params ={};
+      params.id = $scope.currentData.productLineId;
       params.name = $scope.currentData.name;
-      params.number = $scope.currentData.number;
-      params.serialNumber = $scope.currentData.serialNumber;
-      params.equipmentModelId = $scope.currentData.equipmentModelId;
       params.imagePath = $scope.currentData.imagePath;
       params.longitude = Math.round(document.getElementById("formlongitude2").value);
       params.latitude = Math.round(document.getElementById("formlatitude2").value);
-      params.factoryDate = changeTimeFormat2($scope.currentData.factoryDate);
-      params.createTime = changeTimeFormat2($scope.currentData.createTime);
-      params.warrantyStartDate = changeTimeFormat2($scope.currentData.warrantyStartDate);
-      params.warrantyEndDate = changeTimeFormat2($scope.currentData.warrantyEndDate);
-      params.commissioningDate = changeTimeFormat2(new Date());
-      params.maintenancePeriod = $scope.currentData.maintenancePeriod;
+      params.morningShiftStartTime = $scope.currentData.morningShiftStartTime;
+      params.morningShiftEndTime = $scope.currentData.morningShiftEndTime;
+      params.middleShiftStartTime = $scope.currentData.middleShiftStartTime;
+      params.middleShiftEndTime = $scope.currentData.middleShiftEndTime;
+      params.nightShiftStartTime = $scope.currentData.nightShiftStartTime;
+      params.nightShiftEndTime = $scope.currentData.nightShiftEndTime;
       params.province = $scope.currentData.province;
       params.city = $scope.currentData.city;
-      deviceApi.updateDevice($scope.currentData.productLineId,params)
+      params.grm = $scope.currentData.grm;
+      params.grmPassword = $scope.currentData.grmPassword;
+      params.grmPeriod = $scope.currentData.grmPeriod;
+      deviceApi.updateProductLine(params)
         .then(function(result){
             if(result.data.code ==1 ){
               $scope.message="编辑产线成功！";
+              $('#myModal_updateProductLine').modal('hide');
               $('#myModal_alert').modal();
               getProductLineList();
             }else{
@@ -696,19 +685,20 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
               $('#myModal_alert').modal();
             }
         }, function(err) {
-            console.log('updateDeviceerr',err);
+            console.log('updateProductLineerr',err);
         });
 
     }
-    function deleteDeviceImpl() {
+    function deleteProductLineImpl() {
       var ids='';
       for(var i=0; i< $scope.deletelist.length; i++){
         ids =ids+ $scope.deletelist[i].productLineId+'-';
       }
-      deviceApi.deleteDevice(ids)
+      deviceApi.deleteProductLine(ids)
         .then(function(result){
             if(result.data.code ==1 ){
                 $scope.message = '产线删除成功';
+                $('#myModal_deleteProductLine').modal("hide");
                 $('#myModal_alert').modal();
                 getProductLineList();
             }else{

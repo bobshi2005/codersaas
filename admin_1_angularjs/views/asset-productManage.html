@@ -139,7 +139,7 @@
                           </div>
                       </div>
                   </div>
-                  <div id="myModal_updateDevice" class="modal fade" role="dialog" aria-hidden="true">
+                  <div id="myModal_updateProductLine" class="modal fade" role="dialog" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
                               <div class="modal-header">
@@ -147,126 +147,128 @@
                                   <h4 class="modal-title">编辑产线</h4>
                               </div>
                               <div class="modal-body form skin skin-line">
-                                  <form action="" class="form-horizontal form-row-seperated" name="form">
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              产线名称</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="currentData.name" class="form-control" required/>
-                                          </div>
+                                  <form action="" class="form-horizontal" name="form">
+                                    </br>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">
+                                            产线名称</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" ng-model="currentData.name" class="form-control" required/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label class="col-sm-4 control-label">产线图片</label>
+                                      <div class="col-sm-4">
+                                        <img ng-src="{{currentData.imagesrc}}" style="width:64px;height:64px"/>
                                       </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              产线编号</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="currentData.number" class="form-control" required/>
-                                          </div>
+                                      <div class="col-sm-2">
+                                        <a href="#" role="button" class="btn sbold green"  ng-click='changeImageUpdate()'>更新图片
+                                        </a>
                                       </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              产线序列号</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" ng-model="currentData.serialNumber" class="form-control" required/>
-                                          </div>
-                                      </div>
-                                      <div class="form-group last">
-                                          <label class="col-sm-4 control-label">产线模型</label>
-                                          <div class="col-sm-4">
-                                              <select class="form-control" ng-model="currentData.model" ng-change="updateModel()" ng-options="x.name for x in modellist" required>
-                                              </select>
-                                          </div>
-                                      </div>
-                                      <div class="form-group last">
-                                          <label class="col-sm-4 control-label">产线图片</label>
-                                          <div class="col-sm-4">
-                                              <img ng-src="{{currentData.imagesrc}}" style="width:64px;height:64px"/>
-                                          </div>
-                                          <div class="col-sm-2">
-                                              <a href="#" role="button" class="btn sbold green"  ng-click='changeImageUpdate()'>更新图片
-                                              </a>
-                                          </div>
-                                      </div>
-                                      <div class="form-group" ng-show='showUploader'>
-                                          <div class="col-sm-9 col-sm-offset-3" id="fine-uploader-gallery-update"></div>
-                                  				<input id="imagePathUpdate" type="hidden" class="form-control"  name="imagePath" maxlength="500">
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">地区</label>
-                                          <div class="col-sm-3">
-                                              <select class="form-control" ng-model="currentData.province"  ng-options="o.id as o.text for o in provinceList" ng-change="doProvAndCityRelation()"></select>
-                                          </div>
-                                          <div class="col-sm-3">
-                                              <select class="form-control" ng-model="currentData.city"  ng-options="o.id as o.text for o in cityList" ng-change="doGetCity()"></select>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">产线位置</label>
-                                          <label class="col-sm-2 control-label">经度</label>
-                                          <div class="col-sm-3">
-                                              <input type="number"  id='formlongitude2' class="form-control" placeholder="经度" ng-model="currentData.longitude" required/>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label"></label>
-                                          <label class="col-sm-2 control-label">纬度</label>
-                                          <div class="col-sm-3">
-                                              <input type="number" id='formlatitude2'  class="form-control" placeholder="纬度" ng-model="currentData.latitude" required/>
-                                          </div>
-                                          <div class="col-sm-2">
-                                              <a href="#" role="button" class="btn sbold green"  ng-click='showMap2()'>地图获取
-                                                  <i class="fa fa-map-marker"></i>
-                                              </a>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <div class="col-sm-7 col-sm-offset-3" id="mapContainer2" style="height: 240px" ng-show="isShowmap">
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">维保周期</label>
-                                          <div class="col-sm-4">
-                                              <select class="form-control" ng-model="currentData.maintenancePeriod" required>
-                                                  <option>3月</option>
-                                                  <option>6月</option>
-                                                  <option>1年</option>
-                                              </select>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">生产日期</label>
-                                          <div class="col-sm-4">
-                                              <input class="form-control date form_date1 " ng-model="currentData.createTime" data-date-format="yyyy-mm-dd hh:ii" size="26" type="text" value="" placeholder="点击选择日期" required/>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">出厂日期</label>
-                                          <div class="col-sm-4">
-                                              <input class="form-control date form_date2 " ng-model="currentData.factoryDate" data-date-format="yyyy-mm-dd hh:ii" size="26" type="text" value="" placeholder="点击选择日期" required/>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">质保开始日期</label>
-                                          <div class="col-sm-4">
-                                              <input class="form-control date form_date3 " ng-model="currentData.warrantyStartDate" data-date-format="yyyy-mm-dd hh:ii" size="26" type="text" value="" placeholder="点击选择日期" required/>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">质保结束日期</label>
-                                          <div class="col-sm-4">
-                                              <input class="form-control date form_date4 " ng-model="currentData.warrantyEndDate" data-date-format="yyyy-mm-dd hh:ii" size="26" type="text" value="" placeholder="点击选择日期" required/>
-                                          </div>
-                                      </div>
+
+                                    </div>
+                                    <div class="form-group" ng-show='showUploader'>
+                                        <div class="col-sm-9 col-sm-offset-3" id="fine-uploader-gallery-update"></div>
+                                        <input id="imagePathUpdate" type="hidden" class="form-control"  name="imagePath" maxlength="500">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">地区</label>
+                                        <div class="col-sm-3">
+                                            <select class="form-control" ng-model="currentData.province"  ng-options="o.id as o.text for o in provinceList" ng-change="doProvAndCityRelation()"></select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select class="form-control" ng-model="currentData.city"  ng-options="o.id as o.text for o in cityList" ng-change="doGetCity()"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">产线位置</label>
+                                        <label class="col-sm-2 control-label">经度</label>
+                                        <div class="col-sm-3">
+                                            <input type="number"  id='formlongitude2' class="form-control" placeholder="经度" ng-model="currentData.longitude" required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label"></label>
+                                        <label class="col-sm-2 control-label">纬度</label>
+                                        <div class="col-sm-3">
+                                            <input type="number" id='formlatitude2'  class="form-control" placeholder="纬度" ng-model="currentData.latitude" required/>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <a href="#" role="button" class="btn sbold green"  ng-click='showMap2()'>地图获取
+                                                <i class="fa fa-map-marker"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-7 col-sm-offset-3" id="mapContainer2" style="height: 240px" ng-show="isShowmap">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">早班时间</label>
+                                        <div class="col-sm-3">
+                                            <input class="form-control date form_date1 "  type="text" value=""  placeholder="选择时间" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input class="form-control date form_date2 "   type="text" value="" placeholder="选择时间" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">中班时间</label>
+                                        <div class="col-sm-3">
+                                            <input class="form-control date form_date3 "   type="text" value="" placeholder="选择时间" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input class="form-control date form_date4 "   type="text" value="" placeholder="选择时间" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">晚班时间</label>
+                                        <div class="col-sm-3">
+                                            <input class="form-control date form_date5 "   type="text" value="" placeholder="选择时间" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input class="form-control date form_date6 "   type="text" value="" placeholder="选择时间" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">
+                                            库智网关ID</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" ng-model="currentData.grm" class="form-control" required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">
+                                            库智网关密码</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" ng-model="currentData.grmPassword" class="form-control" required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">
+                                            采集频率</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <input type="text" ng-model="currentData.grmPeriod" class="form-control" required/>
+                                                <span class="input-group-addon">秒</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                   </form>
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn grey-salsa btn-outline " ng-click='disupdate()' >取消操作</button>
-                                  <button type="button" class="btn green"  ng-click='saveUpdateDevice()'>
+                                  <button type="button" class="btn green"  ng-click='saveUpdateProductLine()'>
                                       <i class="fa fa-check"></i> 确定修改 </button>
                               </div>
                           </div>
                       </div>
                   </div>
-                  <div id="myModal_deleteDevice" class="modal fade" role="dialog" aria-hidden="true">
+                  <div id="myModal_deleteProductLine" class="modal fade" role="dialog" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
                               <div class="modal-header">
@@ -280,7 +282,7 @@
 
                               <div class="modal-footer">
                                   <button type="button" class="btn grey-salsa btn-outline" ng-click='disdelete()'>取消操作</button>
-                                  <button type="button" class="btn green"  ng-click='saveDeleteDevice()'>
+                                  <button type="button" class="btn green"  ng-click='saveDeleteProductLine()'>
                                       <i class="fa fa-check"></i> 确定删除 </button>
                               </div>
                           </div>
@@ -344,10 +346,10 @@
                                               </a>
                                           </div> -->
                                       </div>
-                                      <div class="form-group">
+                                      <!-- <div class="form-group">
                                           <div class="col-sm-7 col-sm-offset-3" id="mapContainer1" style="height: 240px" ng-show="isShowmap">
                                           </div>
-                                      </div>
+                                      </div> -->
                                       <div class="form-group">
                                           <label class="col-sm-4 control-label">早班时间</label>
                                           <div class="col-sm-3">
@@ -462,9 +464,9 @@
                               <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="createProductLine()">新建
                                   <i class="fa fa-plus"></i>
                               </a>
-                              <a href="#" role="button" class="btn  sbold blue " ng-click='updateDevice()'>编辑<i class="fa fa-edit"></i>
+                              <a href="#" role="button" class="btn  sbold blue " ng-click='updateProductLine()'>编辑<i class="fa fa-edit"></i>
                               </a>
-                              <a href="#" role="button" class="btn sbold red " ng-click='deleteDevice()' >删除<i class="fa fa-times"></i>
+                              <a href="#" role="button" class="btn sbold red " ng-click='deleteProductLine()' >删除<i class="fa fa-times"></i>
                               </a>
                           </div>
                       </div>
