@@ -30,42 +30,49 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">新建数据点</h4>
+                                <h4 class="modal-title">新建报警模板</h4>
                             </div>
                             <div class="modal-body form">
                                 <form action="javascript:alert('xx');" class="form-horizontal form-row-seperated">
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">变量名称</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="name" ng-model="currentData.name" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">变量显示名称</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="name" ng-model="currentData.lableName" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">单位</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="name" ng-model="currentData.unit" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group last">
-                                        <label class="col-sm-4 control-label">产线类型</label>
-                                        <div class="col-sm-4">
-                                            <select class="form-control" ng-model="equipmentCategory" ng-options="x.name for x in equipmentCategorylist" required>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group last">
-                                        <label class="col-sm-4 control-label">变量类型</label>
-                                        <div class="col-sm-4">
-                                            <select class="form-control" ng-model="dataType" ng-options="x.name for x in dataTypelist" required>
-                                            </select>
-                                        </div>
-                                    </div>
+                                  <div class="form-group">
+                                      <label class="col-sm-4 control-label">报警名称</label>
+                                      <div class="col-sm-8">
+                                          <input type="text" id="name" ng-model="currentData.name" class="form-control" />
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group last">
+                                      <label class="col-sm-4 control-label">选择变量</label>
+                                      <div class="col-sm-4">
+                                          <select class="form-control" ng-model="currentData.selectedDataElement" ng-change="selectDataElement()" ng-options="x.name for x in equipmentDataList" required>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group last">
+                                      <label class="col-sm-4 control-label">报警类型</label>
+                                      <div class="col-sm-4">
+                                          <select class="form-control" ng-model="currentData.alarmType" ng-change="selectAlarmType()" ng-options="x.name for x in alarmTypeLists" required>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group" id='upperBound'>
+                                      <label class="col-sm-4 control-label">X</label>
+                                      <div class="col-sm-6">
+                                        <input id='upperBoundNum' class="form-control" type="number" ng-model="currentData.upperBound"  placeholder="请填写数字" ></select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group" id='lowerBound'>
+                                      <label class="col-sm-4 control-label">Y</label>
+                                      <div class="col-sm-6">
+                                        <input id='lowerBoundNum' class="form-control"  type="number" ng-model="currentData.lowerBound" placeholder="请填写数字" ></select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group"  id='duration'>
+                                      <label class="col-sm-4 control-label">M</label>
+                                      <div class="col-sm-6">
+                                        <input id='durationNum' class="form-control"  type="number" ng-model="currentData.duration"  placeholder="请填写数字" ></select>
+                                      </div>
+                                  </div>
 
                                 </form>
                             </div>
@@ -81,40 +88,48 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class="modal-title">更新数据点<h4>
+                                <h4 class="modal-title">更新数据模板<h4>
                             </div>
                             <div class="modal-body form">
                                 <form action="" class="form-horizontal form-row-seperated">
+
                                   <div class="form-group">
-                                      <label class="col-sm-4 control-label">变量名称</label>
+                                      <label class="col-sm-4 control-label">报警名称</label>
                                       <div class="col-sm-8">
                                           <input type="text" id="name" ng-model="currentData.name" class="form-control" />
                                       </div>
                                   </div>
-                                  <div class="form-group">
-                                      <label class="col-sm-4 control-label">变量显示名称</label>
-                                      <div class="col-sm-8">
-                                          <input type="text" id="name" ng-model="currentData.lableName" class="form-control" />
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label class="col-sm-4 control-label">单位</label>
-                                      <div class="col-sm-8">
-                                          <input type="text" id="name" ng-model="currentData.unit" class="form-control" />
-                                      </div>
-                                  </div>
+
                                   <div class="form-group last">
-                                      <label class="col-sm-4 control-label">产线类型</label>
+                                      <label class="col-sm-4 control-label">选择变量</label>
                                       <div class="col-sm-4">
-                                          <select class="form-control" ng-model="equipmentCategory" ng-options="x.name for x in equipmentCategorylist" required>
+                                          <select class="form-control" ng-model="selectedDataElement" ng-options="x.name for x in AlarmTemplateList" required>
                                           </select>
                                       </div>
                                   </div>
                                   <div class="form-group last">
-                                      <label class="col-sm-4 control-label">变量类型</label>
+                                      <label class="col-sm-4 control-label">报警类型</label>
                                       <div class="col-sm-4">
-                                          <select class="form-control" ng-model="dataType" ng-options="x.name for x in dataTypelist" required>
+                                          <select class="form-control" ng-model="currentData.alarmType" ng-options="x.name for x in alarmTypeLists" required>
                                           </select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group" id='upperBound'>
+                                      <label class="col-sm-4 control-label">X</label>
+                                      <div class="col-sm-6">
+                                        <input id='upperBoundNum' class="form-control" type="number" ng-model="currentData.upperBound"  placeholder="请填写数字" ></select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group" id='lowerBound'>
+                                      <label class="col-sm-4 control-label">Y</label>
+                                      <div class="col-sm-6">
+                                        <input id='lowerBoundNum' class="form-control"  type="number" ng-model="currentData.lowerBound" placeholder="请填写数字" ></select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group"  id='duration'>
+                                      <label class="col-sm-4 control-label">M</label>
+                                      <div class="col-sm-6">
+                                        <input id='durationNum' class="form-control"  type="number" ng-model="currentData.duration"  placeholder="请填写数字" ></select>
                                       </div>
                                   </div>
 
@@ -196,7 +211,7 @@
                             <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
                               <td header="'headerCheckbox.html'">
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                <input type="checkbox" ng-model="checkboxes.items[param.id]" /><span></span>
+                                <input type="checkbox" ng-model="checkboxes.items[param.alarmModelId]" /><span></span>
                                 </label>
                               </td>
                               <td title="'报警名称'">{{param.name}}</td>
