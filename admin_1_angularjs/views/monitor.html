@@ -46,54 +46,54 @@
                         <div class="portlet-title tabbable-line tabbable-bordered" id="navContainer" style="margin-top:0px;">
                             <ul class="nav nav-pills pull-left">
                                 <li id="firstTab"  class="active">
-                                    <a href="/#tab_1_1" data-toggle="tab">设备概况</a>
+                                    <a data-target="#tab_1_1" data-toggle="tab">设备概况</a>
                                 </li>
                                 <li ng-show='showAnalogTab'>
-                                    <a href="/#tab_1_2" data-toggle="tab">运行监控</a>
+                                    <a data-target="#tab_1_2" data-toggle="tab">运行监控</a>
                                 </li>
                                 <!--
                                 <li>
-                                    <a href="/#tab_1_4" data-toggle="tab">数据报表
+                                    <a data-target="#tab_1_4" data-toggle="tab">数据报表
                                     </a>
                                 </li>
                                 -->
                                 <li>
-                                    <a href="/#tab_1_4" data-toggle="tab">视频监控
+                                    <a data-target="#tab_1_4" data-toggle="tab">视频监控
                                     </a>
                                 </li>
                                 <li ng-show='showAnalogTab'>
-                                    <a href="/#tab_1_7" data-toggle="tab">{{groupname0}}
+                                    <a data-target="#tab_1_7" data-toggle="tab">{{groupname0}}
                                     </a>
                                 </li>
                                 <li ng-show='showDigitalTab'>
-                                    <a href="/#tab_1_8" data-toggle="tab">{{groupname1}}
-                                    </a>
-                                </li>
-                                <li ng-show='showAnalogTab'>
-                                    <a href="/#tab_1_3" data-toggle="tab">历史数据
-                                    </a>
-                                </li>
-                                 <!-- <li>
-                                    <a href="/#tab_1_9" data-toggle="tab">故障快照
+                                    <a data-target="#tab_1_8" data-toggle="tab">{{groupname1}}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/#tab_1_10" data-toggle="tab">历史数据
+                                    <a data-target="#tab_1_3" data-toggle="tab">历史数据
+                                    </a>
+                                </li>
+                                 <!-- <li>
+                                    <a data-target="#tab_1_9" data-toggle="tab">故障快照
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-target="#tab_1_10" data-toggle="tab">历史数据
                                     </a>
                                 </li> -->
                                 <!--
                                 <li>
-                                    <a href="/#tab_1_11" data-toggle="tab">数据趋势
+                                    <a data-target="#tab_1_11" data-toggle="tab">数据趋势
                                     </a>
                                 </li>
                                 -->
                                 <!-- <li>
-                                    <a href="/#tab_1_5" data-toggle="tab">维保记录
+                                    <a data-target="#tab_1_5" data-toggle="tab">维保记录
                                       <span class="badge badge-danger"> vip </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/#tab_1_6" data-toggle="tab">历史工单
+                                    <a data-target="#tab_1_6" data-toggle="tab">历史工单
                                       <span class="badge badge-danger"> vip </span>
                                     </a>
                                 </li> -->
@@ -104,7 +104,7 @@
                                 <!-- 设备信息 INFO TAB -->
                                 <div class="tab-pane active" id="tab_1_1">
                                     <div class="row" >
-                                        <div class="col-md-12 col-sm-12">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="portlet yellow-crusta box">
                                                 <div class="portlet-title">
                                                     <div class="caption">
@@ -137,11 +137,19 @@
                                                         <div class="col-md-5 name">投产日期:</div>
                                                         <div class="col-md-7 value">{{commissioningDate}}</div>
                                                     </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">质保开始日期:</div>
+                                                        <div class="col-md-7 value">{{warrantyStartDate}}</div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name">质保结束日期:</div>
+                                                        <div class="col-md-7 value">{{warrantyEndDate}}</div>
+                                                    </div>
 
                                                     <div class="row static-info">
                                                         <div class="col-md-5 name">设备状态:</div>
                                                         <div class="col-md-7 value">
-                                                            <span class="label label-success"> 正常运行 </span>
+                                                            <span class="label label-success">{{isOnline? '在线':'离线'}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="row static-info">
@@ -155,25 +163,25 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-md-6 col-sm-12">
+                                        <div class="col-md-6 col-sm-12">
                                             <div class="portlet blue-hoki box">
                                                 <div class="portlet-title">
                                                     <div class="caption">
                                                         <i class="fa fa-cogs"></i>设备快照</div>
                                                 </div>
-                                                <div class="portlet-body" style="max-height:320px">
-                                                        <img class="img-responsive" style="max-height:300px;" src="../assets/pages/media/works/img7.jpg" alt="">
+                                                <div class="portlet-body" style="height:310px">
+                                                        <img class="img-responsive" style="max-height:300px;" ng-src="{{imagesrc}}" alt="">
 
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- END PERSONAL INFO TAB -->
                                 <!-- CHANGE AVATAR TAB -->
                                 <div class="tab-pane" id="tab_1_2">
                                     <div class="row">
-                                        <div class="col-md-4" ng-repeat=" items in echartValue">
+                                        <div class="col-md-4"  ng-show="isOnline" ng-repeat=" items in echartValue">
                                             <div class="portlet light portlet-fit bordered">
                                                 <div class="portlet-title">
                                                     <div class="caption">
@@ -185,6 +193,9 @@
                                                     <div  widget e-data="items" e-type="items.widgetType" style="height:300px"></div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div ng-show="!isOnline">
+                                          <h4>采集器中断，请确认您的设备连接和设置是否正常，并在产线管理->设备信息管理 中开启设备</h4>
                                         </div>
                                         <!-- <div class="col-md-4">
                                             <div class="portlet light portlet-fit bordered">
@@ -1133,7 +1144,7 @@
                 </div>
             </div>
             <div  ng-show="empty">
-              <h4>请添加设备：资产管理 -> 设备管理</h4>
+              <h4>请添加设备：产线管理 -> 设备管理</h4>
             </div>
         </div>
         <!-- END PROFILE CONTENT -->

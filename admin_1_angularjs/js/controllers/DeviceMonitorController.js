@@ -1,12 +1,12 @@
-angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval','deviceApi','NgTableParams', function($scope, $rootScope, $http, userApi, locals, $compile, $interval,deviceApi,NgTableParams) {
+angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '$rootScope', '$http', 'userApi', 'locals','$compile','$interval','deviceApi','NgTableParams','$state','sharedataApi', function($scope, $rootScope, $http, userApi, locals, $compile, $interval,deviceApi,NgTableParams,$state,sharedataApi) {
     $rootScope.showHeader = true;
     $rootScope.menueName = 'sidebar-device';
     $scope.menueName = $rootScope.menueName;
 
     $scope.message ='';
     $scope.equipname = '';
-    $scope.latitude=31.35046;
-    $scope.longitude=120.35046;
+    $scope.latitude;
+    $scope.longitude;
     $scope.linechartoption=[];
     $scope.historyType='line'; //历史数据显示方式 line为曲线 table为表格
     $scope.lineType='最近10分钟';  //历史曲线title 时间部分
@@ -20,6 +20,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     $scope.lineLabel=$scope.lineType+$scope.lineTab;
     $scope.echartValue = [];
     $scope.empty = true;
+    $scope.isOnline = true;
+    var uploaderUrl = sharedataApi.getUploaderUrl();
     $scope.changelistState = function() {
       $rootScope.showMap = !$rootScope.showMap;
       if($rootScope.showMap){
@@ -79,13 +81,18 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     };
 
     $scope.refreshData = function(){
-      if($scope.selectedequipid && $scope.selectedequipid!=null){
+      // console.log('I am refreshing',$state.current.name);
+      if($state.current.name !='main.device.monitor'){
+        $interval.cancel($scope.timer);
+        // console.log('stop refreshing');
+      }else if($scope.selectedequipid && $scope.selectedequipid!=null){
         getDataModelAndValues($scope.selectedequipid);
       }
     };
     $scope.setCurvetime = function() {
       var startDate = new Date($scope.curve.startTime);
       var endDate = new Date($scope.curve.endTime);
+      console.log('timer',startDate,endDate);
       if(Date.parse(endDate)-Date.parse(startDate)<=0){
         $scope.message = '开始时间必须早于结束时间';
         $('#myModal_alert').modal();
@@ -143,7 +150,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       asDestination :false
      });
     })
-    var timer;
+    $scope.timer;
     var setting = {
       data : {
         key : { title : "name"}
@@ -195,7 +202,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       deviceApi.getDevicelist('asc',0,10000)
         .then(function(result) {
             if(result.data.total > 0) {
-              if(result.data.rows.length>0){
+              if(result.data.rows && result.data.rows.length>0){
                 for(var i=0;i<result.data.rows.length;i++){
                   var item = result.data.rows[i];
                   var marker = new AMap.Marker({
@@ -224,8 +231,8 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       deviceApi.getDeviceTree()
         .then(function(result) {
             if(result.data.code == 1) {
-              console.log('resulttree',result.data);
-              if(result.data.data.provices.length == 0){
+              // console.log('resulttree',result.data);
+              if(result.data.data && result.data.data.provices && result.data.data.provices.length == 0){
 
               }else{
                 $scope.empty = false;
@@ -237,11 +244,14 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
           			 treeObj.selectNode(devNodes[0]);
                 selectNode();
               }
+              callback();
             }else {
               // alert(result.data.errMsg);
+              callback();
             }
         }, function(err) {
             // alert(err);
+            callback();
         });
     }
     function getHistoryData(){
@@ -282,9 +292,10 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
       if($scope.historyType =='line'){
         App.startPageLoading({animate: true});
-        deviceApi.getSensorHistory(tab.varid, starttime, endtime)
+        deviceApi.getSensorHistory($scope.equipmentId,tab.varid, starttime, endtime)
           .then(function(result) {
               if(result.data.value) {
+                // console.log('gethistorydata',result.data);
                    var xdata=result.data.time;
                    var ydata=result.data.value;
 
@@ -292,45 +303,48 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                      xdata[i]=(new Date(xdata[i])).format('yyyy/MM/dd h:m:s');
                    }
                    App.stopPageLoading();
-                   $scope.linechartoption={
-                       tooltip: {
-                           trigger: 'axis',
-                           formatter: "{a} <br/>{b}: {c}"+tab.unit
-                       },
-                       grid: {
-                           left: '3%',
-                           right: '5%',
-                           bottom: '3%',
-                           containLabel: true
-                       },
-                       toolbox: {
-                           feature: {
-                               saveAsImage: {}
-                           }
-                       },
-                       xAxis: {
-                           type: 'category',
-                           boundaryGap: false,
-                           data: xdata
-                       },
-                       yAxis: {
-                          type: 'value',
-                          scale: true,
-                          axisLabel : {
-                              formatter: '{value}'+tab.unit
-                          },
-                       },
-                       series: [
-                           {
-                               name: tab.name,
-                               type: 'line',
-                               smooth: '1',
-                               data:  ydata,
-                           }
-                       ]
-                   };
-                   linechart.setOption($scope.linechartoption);　
-
+                   if(ydata.length>0){
+                     $scope.linechartoption={
+                         tooltip: {
+                             trigger: 'axis',
+                             formatter: "{a} <br/>{b}: {c}"+tab.unit
+                         },
+                         grid: {
+                             left: '3%',
+                             right: '5%',
+                             bottom: '3%',
+                             containLabel: true
+                         },
+                        //  toolbox: {
+                        //      feature: {
+                        //          saveAsImage: {}
+                        //      }
+                        //  },
+                         xAxis: {
+                             type: 'category',
+                             boundaryGap: false,
+                             data: xdata
+                         },
+                         yAxis: {
+                            type: 'value',
+                            scale: true,
+                            axisLabel : {
+                                formatter: '{value}'+tab.unit
+                            },
+                         },
+                         series: [
+                             {
+                                 name: tab.name,
+                                 type: 'line',
+                                 smooth: '1',
+                                 data:  ydata,
+                             }
+                         ]
+                     };
+                     linechart.setOption($scope.linechartoption);　
+                   }else{
+                     resetlineoption();
+                   }
               }else {
                 console.log(result.data.errMsg);
                 App.stopPageLoading();
@@ -342,7 +356,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       }else if($scope.historyType == 'table'){
         App.startPageLoading({animate: true});
         //获取表格信息
-        deviceApi.getSensorHistoryDetail(tab.varid, starttime, endtime)
+        deviceApi.getSensorHistoryDetail($scope.equipmentId,tab.varid, starttime, endtime)
           .then(function(result) {
               if(result.data) {
                   for(var i=0;i<result.data.length;i++){
@@ -364,6 +378,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
     }
     function selectNode(){
+      $interval.cancel($scope.timer);
       $('#firstTab').addClass('active').siblings().removeClass('active');
       $('.tab-content').find('#tab_1_1').addClass('active').siblings().removeClass('active');
       getEquipmentInfo($scope.selectedequipid);
@@ -387,7 +402,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
         '<div style="color: white;font-size: 14px;background-color: rgba(0,155,255,0.8);line-height: 26px; padding: 0px 0 0 6px; font-weight: lighter; varter-spacing: 1px">'+
         '设备概况</div>'+
         '<div style="padding: 4px;color: #666666;line-height: 35px; width: 300px">'+
-        '<img style=" float: left; margin: 3px; width: 60px" src="../assets/pages/media/works/img7.jpg">'+
+        '<img style=" float: left; margin: 3px; width: 60px" src='+$scope.imagesrc+'>'+
         '<a href="javascritp:void(0);" ng-click="selectNodefromMap()">'+ infodata.name +'</a><br/>'+infodata.equipmentId+'<br/>'+
         '</div></div>';
       var content=$compile(content1)($scope);
@@ -395,6 +410,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       $scope.infowindow.open($scope.map,[infodata.longitude,infodata.latitude]);
     }
     function formatEchartValue(origindata) {
+      // console.log('formatValee',origindata);
       $scope.echartValue = [];
       if(origindata.length>0){
         for(var i=0; i<origindata.length; i++) {
@@ -556,11 +572,11 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
               bottom: '3%',
               containLabel: true
           },
-          toolbox: {
-              feature: {
-                  saveAsImage: {}
-              }
-          },
+          // toolbox: {
+          //     feature: {
+          //         saveAsImage: {}
+          //     }
+          // },
           xAxis: {
               type: 'category',
               boundaryGap: false,
@@ -581,15 +597,24 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
       linechart.setOption($scope.linechartoption);　
     };
     function getDataModel(equipid){
+      // console.log('getDataModel--start---',equipid);
       $scope.selectedlinetab=[];
       $scope.lineTab='';
       $scope.lineLabel='';
+      $scope.groupname0='';
+      $scope.varsArr0=[];
+      $scope.showDigitalTab = false;
+      $scope.showAnalogTab = false;
+      $scope.groupname1='';
+      $scope.varsArr1=[];
+      $scope.echartValue = [];
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
+          // console.log('getDataModel',result.data.data);
             if(result.data.code == 1) {
               var analogflag=0,digitalflag=0;
                  var dataArr=result.data.data;
-                 if(dataArr.length>0){
+                 if(dataArr!=null && dataArr.length>0){
                   $.each(dataArr,
                     function(i, val) {
                       if(val.type == 'analog'){
@@ -609,11 +634,11 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                             $scope.lineTab=$scope.selectedlinetab.name;
                             $scope.lineLabel=$scope.lineType+$scope.lineTab;
                         }
-                        if($scope.selectedlinetab.name){
-                            getHistoryData();
-                        }else{
-                           resetlineoption();
-                        }
+                        // if($scope.selectedlinetab.name){
+                        //     getHistoryData();
+                        // }else{
+                        //    resetlineoption();
+                        // }
                       }
                       if(val.type == 'digital'){
                         digitalflag = digitalflag+1;
@@ -625,7 +650,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                       if(analogflag == 0){$scope.showAnalogTab = false;}
                     }
                   );
-                }else if(dataArr.length==0){
+                }else if(dataArr!=null && dataArr.length==0){
                   $scope.groupname0=null;
                   $scope.varsArr0=[];
                   formatEchartValue($scope.varsArr0);
@@ -643,41 +668,14 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
             // alert(err);
       });
 
-      // userApi.getDataModel(equipid)
-      // .then(function(result) {
-      //   if(result.data.code == 0) {
-      //        var dataArr=result.data.data[0].vars;
-      //        $scope.linevarstab = [];
-      //        for(var i=0;i<dataArr.length;i++){
-      //          if(dataArr[i].showchart == true){
-      //            $scope.linevarstab.push(dataArr[i]);
-      //          }
-      //        }
-      //        if($scope.linevarstab.length>0){
-      //          $scope.selectedlinetab = $scope.linevarstab[0];
-      //          $scope.lineTab=$scope.selectedlinetab.name;
-      //          $scope.lineLabel=$scope.lineType+$scope.lineTab;
-      //        }
-      //        if($scope.selectedlinetab.name){
-      //            getHistoryData();
-      //        }else{
-      //          resetlineoption();
-      //        }
-      //
-      //   }else {
-      //     // alert(result.data.errMsg);
-      //   }
-      // },function(err){
-      //   // alert(err);
-      // });
-
     };
     function getDataModelAndValues(equipid) {
       deviceApi.getDeviceSensorData(equipid)
         .then(function(result) {
+            // console.log('getDataModelAndValues',result.data);
             if(result.data.code == 1) {
                  var dataArr=result.data.data;
-                 if(dataArr.length>0){
+                 if(dataArr!=null && dataArr.length>0){
                    $.each(dataArr,
                      function(i, val) {
                        if(val.type == 'analog'){
@@ -701,25 +699,17 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     };
     function getEquipmentInfo(equipid){
       var data ={};
-      // for(var i=0;i<$scope.markers.length;i++){
-      //   var obj = $scope.markers[i].getExtData();
-      //   if(obj.equipmentId == equipid){
-      //     data = obj;
-      //     console.log('getEquipmentInfo哈哈哈',obj);
-      //     break;
-      //   }
-      // }
-      // if(data.equipmentId){
-      //   $scope.gatewaySN=data.serialNumber;
-      //   $scope.equipmentId=data.equipmentId;
-      //   $scope.equipname=data.name;
-      //   $scope.number=data.number;
-      //   $scope.factoryDate=changeTimeFormat(data.factoryDate);
-      //   $scope.commissioningDate=changeTimeFormat(data.commissioningDate);
-      //   $scope.latitude=data.latitude;
-      //   $scope.longitude=data.longitude;
-      //   setInfoWindow(data);
-      // }
+      $scope.gatewaySN='';
+      $scope.equipmentId='';
+      $scope.equipname='';
+      $scope.number='';
+      $scope.factoryDate='';
+      $scope.commissioningDate='';
+      $scope.warrantyStartDate='';
+      $scope.warrantyEndDate='';
+      $scope.latitude=null;
+      $scope.longitude=null;
+      $scope.isOnline=false;
 
       deviceApi.getDeviceInfoById(equipid)
         .then(function(result) {
@@ -731,8 +721,20 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                 $scope.number=data.number;
                 $scope.factoryDate=changeTimeFormat(data.factoryDate);
                 $scope.commissioningDate=changeTimeFormat(data.commissioningDate);
+                $scope.warrantyStartDate=changeTimeFormat(data.warrantyStartDate);
+                $scope.warrantyEndDate=changeTimeFormat(data.warrantyEndDate);
                 $scope.latitude=data.latitude;
                 $scope.longitude=data.longitude;
+                $scope.isOnline= data.isOnline;
+                if(data.isOnline==null){
+                  $scope.isOnline = false;
+                }
+                if(data.imagePath ==''|| data.imagePath ==null){
+                   $scope.imagesrc = "../assets/pages/media/works/img7.jpg";
+                }else{
+                  $scope.imagesrc =uploaderUrl+'/files/'+data.imagePath;
+                }
+                // console.log('getEquipmentInfo',data);
                 setInfoWindow(data);
             }else {
               console.log('getEquipmentInfobyIderr',result.message);
@@ -744,14 +746,14 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
     }
 
     $scope.$on('$destroy',function(){
-       $interval.cancel(timer);
+       $interval.cancel($scope.timer);
     });
     $scope.$on('$viewContentLoaded', function() {
       getEquipmentList();
       getCityTree(function(){
         if($scope.empty==true){
           if($scope.selectedequipid && $scope.selectedequipid>0){
-            getDataModelAndValues($scope.selectedequipid);
+            getDataModel($scope.selectedequipid);
             getEquipmentInfo($scope.selectedequipid);
           }
         }else{
@@ -761,27 +763,38 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
 
       $('.nav-pills li a').click(function() {　
           $(this).addClass('active').siblings().removeClass('active');　
-          var _id = $(this).attr('href').slice(2);　　
-          $('.tab-content').find('#' + _id).addClass('active').siblings().removeClass('active');
-          　
+          var _id = $(this).attr('data-target');　　
+          $('.tab-content').find(_id).addClass('active').siblings().removeClass('active');
+          // var _id = $(this).attr('href').slice(2);
+          // $('.tab-content').find('#' + _id).addClass('active').siblings().removeClass('active');
           switch (_id) {　　　　
-              case "tab_1_1":
+              case "#tab_1_1":
                 $scope.player.pause();
+                $interval.cancel($scope.timer);
                 break;　　　　
-              case "tab_1_2":
+              case "#tab_1_2":
                 $scope.player.pause();
-                $scope.refreshData();
-                $interval.cancel(timer);
-                timer = $interval($scope.refreshData,10000);
-                window.onresize=function(){
+                $interval.cancel($scope.timer);
+                if($scope.isOnline==true){
                   $scope.refreshData();
-                  $interval.cancel(timer);
-                  timer = $interval($scope.refreshData,10000);
-                };
+                  $scope.timer = $interval($scope.refreshData,10000);
+                  var resizeTimeout;
+                  window.onresize=function(){
+                    clearTimeout(resizeTimeout); //防止onresize连续调用两次
+                    resizeTimeout = setTimeout(function(){
+                        // console.log('I AM ON RESIZE');
+                        $scope.refreshData();
+                        $interval.cancel($scope.timer);
+                        $scope.timer = $interval($scope.refreshData,10000);
+                    },500)
+                  };
+                }
+
                 break;
 
-              case "tab_1_3":
+              case "#tab_1_3":
                   {
+                    $interval.cancel($scope.timer);
                     $scope.player.pause();
                     $('.start_date').datetimepicker({
                         language: 'zh-CN',
@@ -823,6 +836,7 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                         mychartContainer.style.width=$('#navContainer').width()-20+'px';
                         linechart = echarts.init(mychartContainer);
                         // linechart.setOption($scope.linechartoption);　
+                        resetlineoption();
                         if($scope.selectedlinetab.name){
                             getHistoryData();
                         }
@@ -834,14 +848,25 @@ angular.module('MetronicApp').controller('DeviceMonitorController', ['$scope', '
                   }
                   　　　　　
                   break;
-              case "tab_1_4":
+              case "#tab_1_4":
+                    $interval.cancel($scope.timer);
                   　　　　　　break;
-              // case "tab_1_5":
-              //     　　　　　　break;
-              // case "tab_1_6":
-              //     　　　　　　break;　　　　
+              case "#tab_1_7":
+                    $interval.cancel($scope.timer);
+                    if($scope.isOnline==true){
+                      $scope.refreshData();
+                      $scope.timer = $interval($scope.refreshData,10000);
+                    }
+                  　　　　　　break;
+              case "#tab_1_8":
+                    $interval.cancel($scope.timer);
+                    if($scope.isOnline==true){
+                      $scope.refreshData();
+                      $scope.timer = $interval($scope.refreshData,10000);
+                    }
+                  　　　　　　break;　　　　
               default:
-                  　　　　　　　　　　　
+                  　$interval.cancel($scope.timer);　　　　　　　　　
                   break;　　
           }
       });

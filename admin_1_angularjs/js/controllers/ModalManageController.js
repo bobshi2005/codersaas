@@ -3,8 +3,8 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.menueName = $rootScope.menueName;
     $scope.modellist;
     $scope.propertylist=[];
-    $scope.currentModal={};
-    $scope.editModal={};
+    $scope.currentModel={};
+    $scope.editModel={};
     $scope.currentPropertySensor={};
     $scope.allowEdit = false;//允许编辑modal
     $scope.createFormData = {};
@@ -12,7 +12,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     $scope.offset = 0;
     $scope.limit = 2;
     $scope.alarm = {};
+    $scope.hasAlarmset = false;
     $scope.companyUserLists=[];
+    $scope.isAnalogProperty = false;
     $scope.typeList = [
       {"id":"analog",'name':'模拟量'},
       {"id":"digital",'name':'开关量'}
@@ -23,7 +25,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       {"id":"guage","name":"仪表盘"}
     ];
     $scope.protocolLists =[
-      {"id":1,"name":"MB RTU"},
+      {"id":1,"name":"Modbus RTU"},
       {"id":4,"name":"库智网关"}
       //{"id":2,"name":"MB TCP"},
       //{"id":3,"name":"MQTT"}
@@ -40,7 +42,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       {"id":'UNSIGNED_16',"name":"16位 无符号数"},
       {"id":'SIGNED_16',"name":"16位 有符号数"},
       {"id":'UNSIGNED_32',"name":"32位 无符号数"},
-      {"id":'UNSIGNED_32',"name":"32位 无符号数"},
+      {"id":'SIGNED_32',"name":"32位 有符号数"},
       {"id":'FLOAT_32',"name":"32位 浮点数"}
     ];
 
@@ -70,12 +72,12 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
 				speed: 300,
 				slidesToShow: 2,
 				slidesToScroll: 1,
-				variableWidth: true
+				variableWidth: true,
 			});
       getdeviceModellist();
     });
     // 重新选择模型，重新获取模型参数
-    var watch = $scope.$watch('currentModal',function(newValue,oldValue, scope){
+    var watch = $scope.$watch('currentModel',function(newValue,oldValue, scope){
         if(newValue.equipmentModelId !=oldValue.equipmentModelId) {
           getmodelPropertylist();
         }
@@ -126,8 +128,10 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
     $scope.selectModel = function(index) {
       $scope.allowEdit = false;
-      $scope.currentModal = angular.copy($scope.modellist[index]);
-      $scope.editModal = angular.copy($scope.modellist[index]);
+      $scope.currentModel = angular.copy($scope.modellist[index]);
+      $scope.editModel = angular.copy($scope.modellist[index]);
+      // console.log('editmodel',$scope.editModel);
+
     };
     $scope.allowEditInput = function() {
       $scope.allowEdit = true;
@@ -136,24 +140,44 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       $scope.allowEdit = false;
       updatedeviceModel();
     };
+    $scope.showCreateModel=function(){
+      $('#myModal_createModel').modal();
+    };
+    $scope.creatDismiss = function(){
+        $('#myModal_createModel').modal('hide');
+    }
     $scope.saveCreateModel = function() {
-      deviceApi.createdeviceModel($scope.createFormData.name,$scope.createFormData.number,$scope.protocolId)
-        .then(function(result) {
-          if(result.data.code == 1){
-            getdeviceModellist();
-            $scope.message = '模型创建成功！';
-            $('#myModal_alert').modal();
-            $scope.createFormData = {};
-          }else{
-            $scope.message = '模型创建失败！';
-            $('#myModal_alert').modal();
-            $scope.createFormData = {};
-          }
+      console.log('formdata',$scope.createFormData);
+      if($scope.createFormData.name == undefined || $scope.createFormData.name==''){
+        $scope.message = '必须填写模型名称！';
+        $('#myModal_alert').modal();
+      }else if($scope.createFormData.number == undefined || $scope.createFormData.number==''){
+        $scope.message = '必须填写模型编号！';
+        $('#myModal_alert').modal();
+      }else if($scope.protocolId == undefined || $scope.protocolId==''){
+        $scope.message = '必须选择一个链接协议！';
+        $('#myModal_alert').modal();
+      }else{
+        $('#myModal_createModel').modal('hide');
+        deviceApi.createdeviceModel($scope.createFormData.name,$scope.createFormData.number,$scope.protocolId)
+          .then(function(result) {
+            if(result.data.code == 1){
+              getdeviceModellist();
+              $scope.message = '模型创建成功！';
+              $('#myModal_alert').modal();
+              $scope.createFormData = {};
+            }else{
+              $scope.message = '模型创建失败！';
+              $('#myModal_alert').modal();
+              $scope.createFormData = {};
+            }
 
-        }, function(err) {
-            console.log('createModelErr',err);
-            $scope.createFormData = {};
-        });
+          }, function(err) {
+              console.log('createModelErr',err);
+              $scope.createFormData = {};
+          });
+      }
+
 
     };
     $scope.cancelCreateModel = function() {
@@ -161,19 +185,19 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
 
     $scope.deleteModel = function() {
-      if($scope.currentModal.equipmentModelId !=null){
+      if($scope.currentModel.equipmentModelId !=null){
         deletedeviceModel();
       }
     };
 
     $scope.canceleditPropertyItem = function() {
-      $scope.PropertyItemData = [];
+      $scope.PropertyItemData = {};
     }
     $scope.updatePropertyItem = function() {
       updatePropertyItem();
     };
     $scope.createPropertyItem = function() {
-      $scope.PropertyItemData.equipmentModelId = $scope.currentModal.equipmentModelId;
+      $scope.PropertyItemData.equipmentModelId = $scope.currentModel.equipmentModelId;
       createPropertyItem();
     };
 
@@ -183,30 +207,199 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
     $scope.setPropertyItem = function(param) {
       $scope.PropertyItemData = param;
+      if(param.dataType =='analog'){
+        $scope.isAnalogProperty = true;
+      }else{
+        $scope.isAnalogProperty = false;
+      }
+    };
+
+    $scope.resetPropertyItem = function() {
+      $scope.PropertyItemData = {};
+      $scope.isAnalogProperty = false;
     };
 
     $scope.cancelupdatePropertyItem = function() {
+      $scope.PropertyItemData = {};
       getmodelPropertylist();
     };
 
+    $scope.selectAlarmtype = function(){
+      var alarmtype = $scope.alarm.alarmType;
+      if(alarmtype.hasOwnProperty('type')){
+        switch (alarmtype.type){
+          case 1:
+            $('#upperBound').show();
+            $('#lowerBound').hide();
+            $('#duration').hide();
+            break;
+          case 2:
+            $('#upperBound').hide();
+            $('#lowerBound').show();
+            $('#duration').hide();
+            break;
+          case 3:
+            $('#upperBound').show();
+            $('#lowerBound').show();
+            $('#duration').hide();
+            break;
+          case 4:
+            $('#upperBound').show();
+            $('#lowerBound').show();
+            $('#duration').show();
+            break;
+          case 5:
+            $('#upperBound').show();
+            $('#lowerBound').hide();
+            $('#duration').show();
+            break;
+          case 6:
+            $('#upperBound').hide();
+            $('#lowerBound').show();
+            $('#duration').show();
+            break;
+
+          case 7:
+            $('#upperBound').show();
+            $('#lowerBound').show();
+            $('#duration').hide();
+            break;
+          default:
+            $('#upperBound').hide();
+            $('#lowerBound').hide();
+            $('#duration').hide();
+            break;
+        }
+      }
+    };
+    $scope.saveAlarm = function(){
+      //模拟量
+      // console.log('savealarm',$scope.alarm);
+      if($scope.alarm.alarmType.hasOwnProperty('type')){
+        console.log('X',$('#upperBoundNum').val());
+        console.log('Y',$('#lowerBoundNum').val());
+        console.log('M',$('#durationNum').val());
+        var x = $('#upperBoundNum').val();
+        var y = $('#lowerBoundNum').val();
+        var m = $('#durationNum').val();
+        switch($scope.alarm.alarmType.type){
+          case 1:
+            if(x==null || x==''){
+              $scope.message ='请填写 X 的值';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.alarm.lowerBound = 0;
+              $scope.alarm.duration = 0;
+              saveAlarmImpl();
+            }
+
+            break;
+          case 2:
+            if( y==null || y==''){
+              $scope.message ='请填写 Y 的值';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.alarm.upperBound = 0;
+              $scope.alarm.duration = 0;
+                saveAlarmImpl();
+            }
+            break;
+
+          case 3:
+            if(x==null || x=='' || y==null || y==''){
+              $scope.message ='请填写 X 与 Y 的值';
+              $('#myModal_alert').modal();
+            }else if(x-y>=0){
+              $scope.message ='X 必须小于 Y';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.alarm.duration = 0;
+              saveAlarmImpl();
+            }
+            break;
+          case 4:
+              if(x==null || x=='' || y==null || y=='' || m==null || m==''){
+                $scope.message ='请填写 X Y M 的值';
+                $('#myModal_alert').modal();
+              }else if(x-y>=0 || m<=0){
+                $scope.message ='X 必须小于 Y, M必须大于 0';
+                $('#myModal_alert').modal();
+              }else{
+                saveAlarmImpl();
+              }
+            break;
+          case 5:
+              if(x==null || x=='' || m==null || m==''){
+                $scope.message ='请填写 X 与 M 的值';
+                $('#myModal_alert').modal();
+              }else if(m<=0){
+                $scope.message ='M必须大于 0';
+                $('#myModal_alert').modal();
+              }else{
+                $scope.alarm.lowerBound = 0;
+                saveAlarmImpl();
+              }
+            break;
+          case 6:
+              if(y==null || y=='' || m==null || m==''){
+                $scope.message ='请填写 Y 与 M 的值';
+                $('#myModal_alert').modal();
+              }else if(m<=0){
+                $scope.message ='M必须大于 0';
+                $('#myModal_alert').modal();
+              }else{
+                $scope.alarm.upperBound = 0;
+                saveAlarmImpl();
+              }
+            break;
+          case 7:
+            if(x==null || x=='' || y==null || y==''){
+              $scope.message ='请填写 X 与 Y 的值';
+              $('#myModal_alert').modal();
+            }else if(x-y<0){
+              $scope.message ='X 不能小于 Y';
+              $('#myModal_alert').modal();
+            }else{
+              $scope.alarm.duration = 0;
+              saveAlarmImpl();
+            }
+            break;
+          case 0:
+              $scope.alarm.lowerBound = 0;
+              $scope.alarm.upperBound = 0;
+              $scope.alarm.duration = 0;
+              saveAlarmImpl();
+          default:
+              $scope.alarm.lowerBound = 0;
+              $scope.alarm.upperBound = 0;
+              $scope.alarm.duration = 0;
+            break;
+        }
+      }
+    };
     $scope.showSetAlarm = function(param){
+      $scope.alarm ={};
       $scope.alarmTypeLists =[];
-      console.log('PARTAM',param);
+      $scope.alarmType='';
+      $scope.alarm.dataType = param.dataType;
+      $scope.alarm.equipmentModelPropertyId = param.equipmentModelPropertyId;
+      // console.log('PARTAM',param);
       switch(param.dataType){
         case 'analog':
          $scope.alarmTypeLists=[
-           {"id":'val_above',"name":"数值高于X"},
-           {"id":'val_below',"name":"数值低于X"},
-           {"id":'val_above_below',"name":"数值高于X低于Y"},
-           {"id":'val_above_below_ofm',"name":"数值高于X低于Y超过M分钟"},
-           {"id":'val_between',"name":"数值在X和Y之间"},
-           {"id":'val_above_bound',"name":"数值超过M分钟高于X"},
-           {"id":'val_below_bound',"name":"数值超过M分钟低于Y"},
-           {"id":'x_tir_y_rec',"name":"数值高于X报警，低于Y恢复"},
-           {"id":'offline',"name":"传感器断开"},
+           {"id":'val_above',"name":"数值高于X",'type':1},//
+           {"id":'val_below',"name":"数值低于Y",'type':2},
+           {"id":'val_between',"name":"数值高于X低于Y",'type':3},
+           {"id":'val_above_below_ofm',"name":"数值高于X低于Y超过M分钟",'type':4},
+           {"id":'val_above_bound',"name":"数值超过M分钟高于X",'type':5},
+           {"id":'val_below_bound',"name":"数值超过M分钟低于Y",'type':6},
+           {"id":'x_tir_y_rec',"name":"数值高于X报警，低于Y恢复",'type':7},
+           {"id":'offline',"name":"传感器断开",'type':0},
          ];
-
-        //  $('#myModal_setAlarm').modal();
+         $('#upperBound').hide();
+         $('#lowerBound').hide();
+         $('#duration').hide();
+         $('#myModal_setAlarm').modal();
          break;
         case 'digital':
          $scope.alarmTypeLists=[
@@ -214,21 +407,40 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
            {"id":'switch_off',"name":"开关关闭"},
            {"id":'offline',"name":"传感器断开"},
          ];
-        //  $('#myModal_setAlarm').modal();
+         $('#upperBound').hide();
+         $('#lowerBound').hide();
+         $('#duration').hide();
+         $('#myModal_setAlarm').modal();
          break;
         default:
-            // $scope.message = '请设置参数类型！';
-            // $('#myModal_alert').modal();
+            $scope.message = '请设置参数类型！';
+            $('#myModal_alert').modal();
          break;
       }
+      getAlarmset(param.equipmentModelId,param.equipmentModelPropertyId);
 
+    };
+    $scope.clearAlarmset = function(){
+      deviceApi.deleteAlarmset($scope.alarm.alarmId)
+          .then(function(result){
+            if(result.data.code ==1){
+              // console.log('deleteAlarmset',result.data);
+              $scope.message = '报警设置移除成功！';
+              $('#myModal_alert').modal();
+              $scope.alarm = {};
+              $('#myModal_setAlarm').modal('hide');
+              $scope.hasAlarmset = false;
+            }
+          }, function(err) {
+            console.log('deleteAlarmsetErr',err);
+          });
     };
 
     $scope.showSetSensor = function(param){
       $scope.sensor = {};
       $scope.sensor.equipmentModelPropertyId = param.equipmentModelPropertyId;
       $scope.sensor.equipmentModelId = param.equipmentModelId;
-      switch($scope.currentModal.protocolId){
+      switch($scope.currentModel.protocolId){
         case 1:
          getSensorModbus();
          break;
@@ -252,6 +464,14 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         $('#bitcode').show();
       }
     };
+    $scope.selectDataType = function(){
+      if($scope.PropertyItemData.dataType =='analog' ){
+        $scope.isAnalogProperty = true;
+      }else{
+        $scope.isAnalogProperty = false;
+        $scope.PropertyItemData.displayType ='';
+      }
+    };
 
     $scope.addDataConversioin = function(){
       $scope.isl = 0;
@@ -263,12 +483,10 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     };
 
     $scope.removeDataConversioin = function(){
-      if($scope.currentPropertySensor.isl!=null){
-        $scope.isl = 0; //这里应该是null
-        $scope.ish = 0;
-        $scope.osl = 0;
-        $scope.osh = 0;
-      }
+      $scope.isl = '';
+      $scope.ish = '';
+      $scope.osl = '';
+      $scope.osh = '';
       $('.conversion-view').hide();
       $('.conversion-add').show();
     };
@@ -277,15 +495,25 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       if($('.conversion-view').is(':visible') && $scope.isl == $scope.osl && $scope.ish == $scope.osh){
         $scope.message = '参数转换前后数据不能一致';
         $('#myModal_alert').modal();
+      }else if($scope.isl-$scope.ish == 0 && $scope.isl!=null && $scope.isl!=''){
+
+          $scope.message = '同一组转换参数的两个数值不能一样';
+          $('#myModal_alert').modal();
       }else{
-        if($('.conversion-view').is(':hidden') && $scope.isl == null){
-          //如果是空值就不用update了
-        }else{
-          $scope.sensor.isl = $scope.isl;
-          $scope.sensor.ish = $scope.ish;
-          $scope.sensor.osl = $scope.osl;
-          $scope.sensor.osh = $scope.osh;
-        }
+          if($scope.isl!=undefined){
+            $scope.sensor.isl = $scope.isl;
+            $scope.sensor.ish = $scope.ish;
+            $scope.sensor.osl = $scope.osl;
+            $scope.sensor.osh = $scope.osh;
+            // console.log('sensor',$scope.sensor);
+          }else{
+            $scope.sensor.isl = '';
+            $scope.sensor.ish = '';
+            $scope.sensor.osl = '';
+            $scope.sensor.osh = '';
+          }
+
+
         $scope.sensor.grmAction ='R'; //默认读取模式
         deviceApi.createPropertySensor($scope.sensor)
             .then(function(result){
@@ -312,9 +540,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
             if(result.data.sensor && result.data.sensor!=null){
                 var sensor = result.data.sensor;
                 $scope.currentPropertySensor = angular.copy(sensor);
-                $scope.sensor.salveId = sensor.salveId;
+                // $scope.sensor.salveId = sensor.salveId;
                 $scope.sensor.sensorId = sensor.sensorId;
-                $scope.sensor.period = sensor.period;
+                // $scope.sensor.period = sensor.period;
                 $scope.sensor.functionCode = sensor.functionCode;
                 $scope.sensor.address = sensor.address;
                 $scope.sensor.bitOrder = sensor.bitOrder;
@@ -330,7 +558,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
                 }else{
                   $('#bitcode').show();
                 }
-                console.log('sensor',$scope.sensor);
+                // console.log('sensor',$scope.sensor);
                 if($scope.sensor.isl == null || $scope.sensor.ish == null || $scope.sensor.osl == null || $scope.sensor.osh == null){
                   $('.conversion-view').hide();
                   $('.conversion-add').show();
@@ -338,7 +566,6 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
                   $('.conversion-view').hide();
                   $('.conversion-add').show();
                 }else{
-                  console.log('haha');
                   $scope.isl = angular.copy($scope.sensor.isl);
                   $scope.ish = angular.copy($scope.sensor.ish);
                   $scope.osl = angular.copy($scope.sensor.osl);
@@ -366,7 +593,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
               $scope.sensor.grmAction = sensor.grmAction;
               $scope.sensor.grmVariable = sensor.grmVariable;
               $scope.sensor.grmVariableValue = sensor.grmVariableValue;
-              $scope.sensor.grmVariableOrder = sensor.grmVariableOrder;
+              // $scope.sensor.grmVariableOrder = sensor.grmVariableOrder;
 
               if(sensor.isl == null || sensor.ish == null || sensor.osl == null || sensor.osh == null){
                   $('.conversion-view').hide();
@@ -394,7 +621,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
           });
     }
     function deletedeviceModel(){
-      deviceApi.deletedeviceModel($scope.currentModal.equipmentModelId)
+      deviceApi.deletedeviceModel($scope.currentModel.equipmentModelId)
         .then(function(result) {
             if(result.data.code == 1){
               getdeviceModellist();
@@ -410,7 +637,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     }
 
     function updatedeviceModel(){
-      deviceApi.updatedeviceModel($scope.editModal.equipmentModelId,$scope.editModal.name,$scope.editModal.number,$scope.editModal.protocolId)
+      deviceApi.updatedeviceModel($scope.editModel.equipmentModelId,$scope.editModel.name,$scope.editModel.number,$scope.editModel.protocolId)
         .then(function(result) {
             if(result.data.code ==1){
               getdeviceModellist();
@@ -442,6 +669,93 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         });
     }
 
+    function findAlarmTypeItemById(id){
+      for(var i=0;i<$scope.alarmTypeLists.length;i++){
+        if($scope.alarmTypeLists[i].id == id){
+          return $scope.alarmTypeLists[i];
+          break;
+        }
+      }
+    }
+
+    function findTargetUserById(id){
+      // console.log('userlists',id,$scope.companyUserLists);
+      for(var i=0;i<$scope.companyUserLists.length;i++){
+        if($scope.companyUserLists[i].userId == id){
+          return $scope.companyUserLists[i].userId;
+          break;
+        }
+      }
+    }
+
+    function getAlarmset(mid,pid){
+      $scope.companyUserLists=[];
+      deviceApi.getAlarmset(mid,pid)
+        .then(function(result) {
+            if(result.data.users){
+              $scope.companyUserLists = result.data.users;
+            }
+            if(result.data.alarm && result.data.alarm.alarmId){
+              var alarm = result.data.alarm;
+              $scope.alarm.alarmType = findAlarmTypeItemById(alarm.alarmType);
+              $scope.alarm.upperBound = alarm.upperBound;
+              $scope.alarm.alarmId = alarm.alarmId;
+              $scope.alarm.lowerBound = alarm.lowerBound;
+              $scope.alarm.duration = alarm.duration;
+              $scope.alarm.alarmTarget = alarm.alarmTarget;
+              $scope.hasAlarmset = true;
+              $scope.selectAlarmtype();
+            }else{
+              $scope.hasAlarmset = false;
+            }
+            if(result.data.targetUsers.length>0){
+              $scope.alarm.targetUser=findTargetUserById(result.data.targetUsers[0].userId);
+            }else{
+              $scope.alarm.targetUser=angular.copy($scope.companyUserLists[0]);
+            }
+
+        }, function(err) {
+            console.log('getalarmsseterr',err);
+            // console.log(err);
+        });
+    }
+
+    function saveAlarmImpl(){
+      var params={}
+      if($scope.alarm.dataType =='analog'){
+        params.equipmentModelPropertyId = $scope.alarm.equipmentModelPropertyId;
+        params.alarmType = $scope.alarm.alarmType.id;
+        params.upperBound = $scope.alarm.upperBound;
+        params.lowerBound = $scope.alarm.lowerBound;
+        params.duration = $scope.alarm.duration;
+        params.alarmTarget = $scope.alarm.alarmTarget;
+        params.targetUser = $scope.alarm.targetUser;
+      }else{
+        params.equipmentModelPropertyId = $scope.alarm.equipmentModelPropertyId;
+        params.alarmType = $scope.alarm.alarmType.id;
+        params.alarmTarget = $scope.alarm.alarmTarget;
+        params.targetUser = $scope.alarm.targetUser;
+      }
+      if($scope.alarm.alarmId){
+        params.alarmId = $scope.alarm.alarmId;
+      }
+
+      deviceApi.createPropertyAlarm(params)
+          .then(function(result){
+              if(result.data.code ==1 ){
+                  $scope.message = '报警设置成功';
+                  $('#myModal_alert').modal();
+                  $('#myModal_setAlarm').modal('hide');
+              }else{
+                $scope.message = '报警设置失败';
+                $('#myModal_alert').modal();
+              }
+          }, function(err) {
+              console.log('createAlarmerr',err);
+                $('#myModal_setAlarm').modal('hide');
+          });
+    }
+
     function getdataTypeNameByID(id){
       for(var i=0;i<$scope.typeList.length;i++){
         if($scope.typeList[i].id == id){
@@ -461,6 +775,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
     }
 
     function getmodelPropertylist(){
+      // console.log('获取模型参数');
       $scope.propertylist=[];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
@@ -470,7 +785,7 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
       }, {
         counts:[2,10,20],
         getData: function(params) {
-          return deviceApi.getmodelPropertylist($scope.currentModal.equipmentModelId,'asc', (params.page()-1)*params.count(), params.count())
+          return deviceApi.getmodelPropertylist($scope.currentModel.equipmentModelId,'asc', (params.page()-1)*params.count(), params.count())
             .then(function(result) {
                 if(result.data.total > 0) {
                      $scope.propertylist=result.data.rows;
@@ -574,12 +889,11 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         // `;
         var divStr=
             '<div class="slickitem widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 bordered" ng-click="selectModel('+i+')">'
-          + '<h4 class="widget-thumb-heading">'+modellist[i].number+'</h4>'
           + '<div class="widget-thumb-wrap">'
           + '<i class="widget-thumb-icon bg-green icon-layers"></i>'
           + '<div class="widget-thumb-body">'
           + '<span class="widget-thumb-subtitle">'+modellist[i].name+'</span>'
-          + '<span class="widget-thumb-body-stat">'+modellist[i].equipmentModelId+'</span>'
+          + '<span class="widget-thumb-body-stat" style="font-size: 15px">'+modellist[i].number+'</span>'
           + '</div></div></div>';
 
 
@@ -587,7 +901,9 @@ angular.module('MetronicApp').controller('ModalManageController', ['$scope', '$r
         $('.multiple-items').slick('slickAdd',content[0]);
         $('.multiple-items').slick('refresh');
       }
-      $scope.currentModal = angular.copy($scope.modellist[0]);
+      $scope.currentModel = angular.copy($scope.modellist[0]);
+      $scope.editModel = angular.copy($scope.modellist[0]);
+      // console.log('editmodel',$scope.editModel);
       getmodelPropertylist();
     };
 }]);

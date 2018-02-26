@@ -42,7 +42,7 @@ angular.module('MetronicApp').controller('RegistController', ['$scope', '$http',
                     alert("用户创建成功，请登录");
                     $state.go('login');
                 } else if(result.data.code == 0) {
-                    alert("手机号已被注册，请更换手机号");
+                    alert(result.data.data);
                 }else{
                     console.log(result.data.data);
                 }

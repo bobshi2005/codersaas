@@ -12,6 +12,11 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
     $scope.provinceList = [];
     $scope.allcity = []; //所有的城市数据
     $scope.cityList = [];
+    $scope.showUploader = false;//UPDATE 界面中 更新图片
+    $scope.uuid = '';
+    var galleryUploader;
+    var galleryUpdate;
+    var uploaderUrl = sharedataApi.getUploaderUrl();
     $scope.doProvAndCityRelation = function(){
       console.log('selectPro',$scope.currentData.province);
       getProCity($scope.currentData.province);
@@ -153,6 +158,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
         }
     };
     $scope.saveCreateDevice = function(){
+      $('#imagePath').val($scope.uuid);
 
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
         $scope.message = '必须填写设备名称';
@@ -213,6 +219,17 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
           updateDeviceImpl();
       }
     };
+
+    $scope.updateModel=function(){
+      $scope.currentData.equipmentModelId = $scope.currentData.model.equipmentModelId;
+
+    };
+
+    $scope.changeImageUpdate = function(){
+      $scope.uuid = '';
+      $scope.currentData.imagesrc = '';
+      $scope.showUploader = true;
+    }
 
     $scope.openStatusModal = function(param){
       //设备启停
@@ -369,6 +386,163 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
 
       $timeout(getDevicelist(),1000);
 
+      galleryUploader = new qq.FineUploader(
+          {
+              element : document.getElementById("fine-uploader-gallery"),
+              template : 'qq-template-gallery',
+              request : {
+                  endpoint : uploaderUrl+'/fd/upload',
+                  params : {
+                      kuyunModule : "eam"
+                  }
+              },
+              thumbnails : {
+                  placeholders : {
+                      waitingPath : '../assets/global/plugins/fine-uploader/placeholders/waiting-generic.png',
+                      notAvailablePath : '../assets/global/plugins/fine-uploader/placeholders/not_available-generic.png'
+                  }
+              },
+              multiple: false,
+              validation : {
+                  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
+                  sizeLimit: 512000, //不能大于500K
+                  itemLimit:1
+              },
+              chunking : {
+                  enabled : true,
+                  concurrent : {
+                      enabled : true
+                  },
+                  success : {
+                      endpoint : uploaderUrl+'/fd/uploadDone'
+                  },
+                  mandatory : true
+              },
+              deleteFile : {
+                  enabled : true,
+                  forceConfirm : true,
+                  endpoint : uploaderUrl+'/fd/delete',
+                  confirmMessage:'确定要删除文件{filename}吗？',
+                  deletingFailedText:'删除失败！'
+              },
+              cors : {
+                  //all requests are expected to be cross-domain requests
+                  expected : true,
+
+                  //if you want cookies to be sent along with the request
+                  sendCredentials : true
+              },
+              messages: {
+                  typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
+                  sizeError: "{file} 文件太大，文件大小小于{sizeLimit}.",
+                  minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                  emptyError: "{file} is empty, please select files again without it.",
+                  noFilesError: "No files to upload.",
+                  tooManyItemsError: "您上传了 ({netItems}) 张图片.  只允许上传 {itemLimit}张.",
+                  maxHeightImageError: "Image is too tall.",
+                  maxWidthImageError: "Image is too wide.",
+                  minHeightImageError: "Image is not tall enough.",
+                  minWidthImageError: "Image is not wide enough.",
+                  retryFailTooManyItems: "Retry failed - you have reached your file limit.",
+                  onLeave: "The files are being uploaded, if you leave now the upload will be canceled.",
+                  unsupportedBrowserIos8Safari: "Unrecoverable error - this browser does not permit file uploading of any kind due to serious bugs in iOS8 Safari.  Please use iOS8 Chrome until Apple fixes these issues."
+              },
+              callbacks: {
+                  onComplete: function(id, name, responseJSON) {
+                    $scope.showUploader = false;
+                  },
+                  onUploadChunk: function(id, name, chunkData) {
+                    $scope.uuid = galleryUploader.getUuid(0);
+                  },
+                  onUploadChunkSuccess: function(id, chunkData, responseJSON) {
+                    $scope.currentData.imagePath = $scope.uuid;
+                    $scope.currentData.imagesrc = uploaderUrl+'/files/'+$scope.uuid;
+
+                  },
+              }
+
+          });
+
+      galleryUpdate = new qq.FineUploader(
+          {
+              element : document.getElementById("fine-uploader-gallery-update"),
+              template : 'qq-template-gallery-update',
+              request : {
+                  endpoint : uploaderUrl+'/fd/upload',
+                  params : {
+                      kuyunModule : "eam"
+                  }
+              },
+              thumbnails : {
+                  placeholders : {
+                      waitingPath : '../assets/global/plugins/fine-uploader/placeholders/waiting-generic.png',
+                      notAvailablePath : '../assets/global/plugins/fine-uploader/placeholders/not_available-generic.png'
+                  }
+              },
+              multiple: false,
+              validation : {
+                  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
+                  sizeLimit: 512000, //不能大于500K
+                  itemLimit:1
+              },
+              chunking : {
+                  enabled : true,
+                  concurrent : {
+                      enabled : true
+                  },
+                  success : {
+                      endpoint : uploaderUrl+'/fd/uploadDone'
+                  },
+                  mandatory : true
+              },
+              deleteFile : {
+                  enabled : true,
+                  forceConfirm : true,
+                  endpoint : uploaderUrl+'/fd/delete',
+                  confirmMessage:'确定要删除文件{filename}吗？',
+                  deletingFailedText:'删除失败！'
+              },
+              cors : {
+                  //all requests are expected to be cross-domain requests
+                  expected : true,
+
+                  //if you want cookies to be sent along with the request
+                  sendCredentials : true
+              },
+              messages: {
+                typeError: "{file} has an invalid extension. Valid extension(s): {extensions}.",
+                sizeError: "{file} 文件太大，文件大小小于{sizeLimit}.",
+                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                emptyError: "{file} is empty, please select files again without it.",
+                noFilesError: "No files to upload.",
+                tooManyItemsError: "您上传了 ({netItems}) 张图片.  只允许上传 {itemLimit}张.",
+                maxHeightImageError: "Image is too tall.",
+                maxWidthImageError: "Image is too wide.",
+                minHeightImageError: "Image is not tall enough.",
+                minWidthImageError: "Image is not wide enough.",
+                retryFailTooManyItems: "Retry failed - you have reached your file limit.",
+                onLeave: "The files are being uploaded, if you leave now the upload will be canceled.",
+                unsupportedBrowserIos8Safari: "Unrecoverable error - this browser does not permit file uploading of any kind due to serious bugs in iOS8 Safari.  Please use iOS8 Chrome until Apple fixes these issues."
+              },
+              callbacks: {
+                  onComplete: function(id, name, responseJSON) {
+                    $scope.showUploader = false;
+                  },
+                  onUploadChunk: function(id, name, chunkData) {
+                    // $scope.uuid = galleryUpdate.getUuid(0);
+                    // $scope.currentData.imagesrc = uploaderUrl+'/files/'+uuid;
+
+                  },
+                  onUploadChunkSuccess: function(id, chunkData, responseJSON) {
+                    $scope.uuid = galleryUpdate.getUuid(0);
+                    console.log('success',$scope.uuid);
+                    $scope.currentData.imagePath = $scope.uuid;
+                    $scope.currentData.imagesrc = uploaderUrl+'/files/'+$scope.uuid;
+
+                  },
+              }
+          });
+
     });
 
 
@@ -456,11 +630,22 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
                      for(var i=0;i<result.data.rows.length;i++) {
                        var tempname = getModelnameById($scope.devicelist[i].equipmentModelId);
                        $scope.devicelist[i].equipmentModelname = tempname;
+                       $scope.devicelist[i].imagesrc = uploaderUrl+'/files/'+$scope.devicelist[i].imagePath;
                        $scope.devicelist[i].factoryDate = changeTimeFormat($scope.devicelist[i].factoryDate);
                        $scope.devicelist[i].createTime = changeTimeFormat($scope.devicelist[i].createTime);
                        $scope.devicelist[i].warrantyStartDate = changeTimeFormat($scope.devicelist[i].warrantyStartDate);
                        $scope.devicelist[i].warrantyEndDate = changeTimeFormat($scope.devicelist[i].warrantyEndDate);
+                       console.log('imgsrc',$scope.devicelist[i].imagesrc);
+                       if($scope.devicelist[i].imagePath ==''|| $scope.devicelist[i].imagePath ==null){
+                          $scope.devicelist[i].imagesrc = "../assets/pages/media/works/img7.jpg";
+                       }
+                       if($scope.devicelist[i].collectStatus == "Working"){
+                         $scope.devicelist[i].turnpic="../assets/pages/img/turn-on2.png"
+                       }else{
+                         $scope.devicelist[i].turnpic="../assets/pages/img/turn-off2.png"
+                       }
                      }
+                     console.log('convertparam',$scope.devicelist);
                 }else {
                   $scope.devicelist=[];
                 }
@@ -481,7 +666,7 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       params.number = $scope.currentData.number;
       params.serialNumber = $scope.currentData.serialNumber;
       params.equipmentModelId = $scope.selectedmodel.equipmentModelId;
-      params.imagePath = '';
+      params.imagePath = $('#imagePath').val();
       params.longitude = Math.round(document.getElementById("formlongitude1").value);
       params.latitude = Math.round(document.getElementById("formlatitude1").value);
       params.factoryDate = changeTimeFormat2($scope.currentData.factoryDate);
@@ -511,8 +696,8 @@ angular.module('MetronicApp').controller('InfoManageController', ['$scope', '$ro
       params.name = $scope.currentData.name;
       params.number = $scope.currentData.number;
       params.serialNumber = $scope.currentData.serialNumber;
-      params.equipmentModelId = $scope.selectedmodel.equipmentModelId;
-      params.imagePath = '';
+      params.equipmentModelId = $scope.currentData.equipmentModelId;
+      params.imagePath = $scope.currentData.imagePath;
       params.longitude = Math.round(document.getElementById("formlongitude2").value);
       params.latitude = Math.round(document.getElementById("formlatitude2").value);
       params.factoryDate = changeTimeFormat2($scope.currentData.factoryDate);

@@ -8,14 +8,14 @@ angular.module('MetronicApp').controller('HomeController2', ['$scope', '$rootSco
           if ($("#echarts_world").length > 0) {
               mapChart = echarts.init(document.getElementById('echarts_world'));
               mapChart.setOption(worldoption);
-              mapChart.on('click', function (params) {
-                  if(params.data.name =='中国'){
-                    $rootScope.showMap = true;
-                    $rootScope.pagetitle = '地图模式';
-                    $rootScope.listMode = '切换列表';
-                    $state.go('main.device.monitor');
-                  }
-              });
+              // mapChart.on('click', function (params) {
+              //     if(params.data.name =='中国'){
+              //       $rootScope.showMap = true;
+              //       $rootScope.pagetitle = '地图模式';
+              //       $rootScope.listMode = '切换列表';
+              //       $state.go('main.device.monitor');
+              //     }
+              // });
           }
           if ($("#echarts_pie").length > 0) {
               pieChart = echarts.init(document.getElementById('echarts_pie'));

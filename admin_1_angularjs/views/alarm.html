@@ -18,266 +18,178 @@
             <div class="portlet-title tabbable-line tabbable-bordered" style="margin-top:-20px;">
                 <ul class="nav nav-tabs pull-left">
                     <li class="active">
-                        <a href="/#tab_1_4" data-toggle="tab">活跃报警</a>
+                        <a data-target="#tab_1" data-toggle="tab">活跃报警</a>
                     </li>
                     <li>
-                        <a href="/#tab_1_5" data-toggle="tab">历史报警</a>
+                        <a data-target="#tab_2" data-toggle="tab">历史报警</a>
                     </li>
                 </ul>
             </div>
             <div class="portlet-body">
                 <div class="tab-content">
                     <!-- PRIVACY SETTINGS TAB -->
-                    <div class="tab-pane active open" id="tab_1_4">
+                    <div class="tab-pane active open" id="tab_1">
                         <div class="row">
-                            <div class="col-md-12">
-                                <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                                <!-- Begin: life time stats -->
-                                <div class="portlet light portlet-fit portlet-datatable bordered">
-                                    <!--
-                                    <div class="portlet-title">
-                                        <div class="caption">
-                                            <i class="icon-settings font-dark"></i>
-                                            <span class="caption-subject font-dark sbold uppercase">活跃报警记录列表</span>
-                                        </div>
-                                        <div class="actions">
-                                            <div class="btn-group">
-                                                <a class="btn red btn-outline btn-circle" href="javascript:;" data-toggle="dropdown">
-                                                    <i class="fa fa-share"></i>
-                                                    <span class="hidden-xs"> 工具 </span>
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                                <ul class="dropdown-menu pull-right">
-                                                    <li>
-                                                        <a href="javascript:;"> 导出 Excel </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;"> 导出 CSV </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:;"> 导出 XML </a>
-                                                    </li>
-                                                    <li class="divider"></li>
-                                                    <li>
-                                                        <a href="javascript:;"> 打印 </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    -->
-                                    <div class="portlet-body">
-                                        <div class="table-container">
-                                            <!-- <div class="table-actions-wrapper">
-                                                <span> </span>
-                                                <select class="table-group-action-input form-control input-inline input-small input-sm">
-                                                    <option value="1">温度超标</option>
-                                                    <option value="1">温度超标</option>
-                                                    <option value="2">压力超标</option>
-                                                    <option value="3">故障停机</option>
-                                                    <option value="4">故障恢复</option>
-                                                </select>
-                                                <button class="btn btn-sm green table-group-action-submit">
-                                                    <i class="fa fa-check"></i> Submit
-                                                </button>
-                                            </div> -->
-                                            <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax">
-                                                <thead>
-                                                    <tr role="row" class="heading">
-                                                        <th width="2%">
-                                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                                <input type="checkbox" class="group-checkable" data-set="#sample_2 .checkboxes" />
-                                                                <span></span>
-                                                            </label>
-                                                        </th>
-                                                        <th width="10%">序号</th>
-                                                        <th width="15%">报警时间</th>
-                                                        <th width="200">设备编号</th>
-                                                        <th width="10%">设备名称</th>
-                                                        <th width="10%">报警内容</th>
-                                                        <th width="10%">报警等级</th>
-                                                        <th width="8%">报警状态</th>
-                                                        <th width="12%">操作</th>
-                                                    </tr>
-                                                    <!--
-                                                    <tr role="row" class="filter">
-                                                        <td></td>
-                                                        <td>
-                                                            <input type="text" class="form-control form-filter input-sm" name="order_id">
-                                                        </td>
-                                                        <td>
-                                                            <div class="input-group date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                                                <input type="text" class="form-control form-filter input-sm" readonly name="order_date_from" placeholder="开始时间">
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn btn-sm default" type="button">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
-                                                            <div class="input-group date date-picker" data-date-format="dd/mm/yyyy">
-                                                                <input type="text" class="form-control form-filter input-sm" readonly name="order_date_to" placeholder="结束时间">
-                                                                <span class="input-group-btn">
-                                                                    <button class="btn btn-sm default" type="button">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control form-filter input-sm" name="order_customer_name">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control form-filter input-sm" name="order_ship_to">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control form-filter input-sm" name="order_price_to"  />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control form-filter input-sm" name="order_quantity_to"  />
-                                                        </td>
-                                                        <td>
-                                                          <select class="table-group-action-input form-control input-inline input-small input-sm">
-                                                              <option value="1">温度超标</option>
-                                                              <option value="1">温度超标</option>
-                                                              <option value="2">压力超标</option>
-                                                              <option value="3">故障停机</option>
-                                                              <option value="4">故障恢复</option>
-                                                          </select>                                                        </td>
-                                                        <td>
-                                                            <div class="margin-bottom-5">
-                                                                <button class="btn btn-sm green btn-outline filter-submit margin-bottom" ng-click='saveModalMsg()'>
-                                                                    <i class="fa fa-search"></i> 搜索</button>
-                                                            </div>
-                                                            <button class="btn btn-sm red btn-outline filter-cancel" ng-click='saveModalMsg()'>
-                                                                    <i class="fa fa-times"></i> 重置</button>
-                                                        </td>
-                                                    </tr>
-                                                    -->
-                                                </thead>
-                                                <tbody>
-
-                                                    <tr>
-                                                        <td>
-                                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                                <input name="id[]" type="checkbox" class="checkboxes" value="1" /><span></span>
-                                                            </label>
-                                                        </td>
-                                                        <td>1</td>
-                                                        <td>2017-03-23 13:30:48</td>
-                                                        <td>NS200190</td>
-                                                        <td>双螺旋杆压缩机</td>
-                                                        <td>设备远程开启</td>
-                                                        <td>低</td>
-                                                        <td>未确认</td>
-                                                        <td>
-                                                            <a class="btn blue btn-outline sbold uppercase" id="demo_3" ng-click='saveModalMsg()'> 详情</a>
-                                                            <a class="btn red btn-outline sbold uppercase" id="demo_3" ng-click='saveModalMsg()'> 确认</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                                <input name="id[]" type="checkbox" class="checkboxes" value="1" /><span></span>
-                                                            </label>
-                                                        </td>
-                                                        <td>2</td>
-                                                        <td>2017-03-21 08:23:45</td>
-                                                        <td>NH10088</td>
-                                                        <td>双螺旋杆压缩机</td>
-                                                        <td>设备温度过噶</td>
-                                                        <td>中</td>
-                                                        <td>未确认</td>
-                                                        <td>
-                                                            <a class="btn blue btn-outline sbold uppercase" id="demo_3" ng-click='saveModalMsg()'> 详情</a>
-                                                            <a class="btn red btn-outline sbold uppercase" id="demo_3" ng-click='saveModalMsg()'> 确认</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                        <input name="id[]" type="checkbox" class="checkboxes" value="1" /><span></span>
-                    </label>
-                                                        </td>
-                                                        <td>3</td>
-                                                        <td>2017-03-20 13:29:42</td>
-                                                        <td>NH20920</td>
-                                                        <td>空压机</td>
-                                                        <td>通讯故障</td>
-                                                        <td>高</td>
-                                                        <td>未确认</td>
-                                                        <td>
-                                                            <a class="btn blue btn-outline sbold uppercase" id="demo_3" ng-click='saveModalMsg()'> 详情</a>
-                                                            <a class="btn red btn-outline sbold uppercase" id="demo_3" ng-click='saveModalMsg()'> 确认</a>
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                              <script type="text/ng-template" id="headerCheckbox.html">
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" /><span></span>
+                                </label>
+                              </script>
+                              <table ng-table="table_alarm"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px">
+                                  <tbody>
+                                      <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                                          <td header="'headerCheckbox.html'">
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                            <input type="checkbox" ng-model="checkboxes.items[param.alarmId]" /><span></span>
+                                            </label>
+                                          </td>
+                                          <td title="'报警设备'">{{param.equipmentName}}</td>
+                                          <td title="'报警时间'" class="center">{{param.alarmTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                          <td title="'报警参数'">{{param.equipmentModelPropertyName}}</td>
+                                          <td title="'报警值'">{{param.alarmValue}}</td>
+                                          <td title="'内容'">{{param.alarmContent}}</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
                         </div>
-
-
                     </div>
-                    <div class="tab-pane" id="tab_1_5">
+                    <div class="tab-pane" id="tab_2">
 
                         <div class="row">
-                            <div class="col-md-12">
-                                <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                                <div class="portlet light bordered">
-                                    <div class="portlet-title">
-                                        <div class="caption font-dark">
-                                            <i class="icon-settings font-dark"></i>
-                                            <span class="caption-subject bold uppercase">历史报警记录列表</span>
+                          <div class=" margin-bottom-20">
+                              <div class="margin-top-10 margin-bottom-20 pull-right" style="margin:10px">
+                                  <div class="margin-top-10 pull-left" style="width: 220px;" >
+                                      <span style="width: 70px;margin-top:8px" class='pull-left'>报警类型:&nbsp</span>
+                                      <ui-select ng-model="alarmtype" class='pull-left'  style="width: 140px" theme="bootstrap">
+                                          <ui-select-match>{{alarmtype.name}}</ui-select-match>
+                                          <ui-select-choices repeat="var in alartypelist ">
+                                              <div ng-bind-html="var.name" ng-click="setAlarmType(var)"></div>
+                                          </ui-select-choices>
+                                      </ui-select>
+                                  </div>
+                                  <div class="margin-top-10 pull-left" style="width: 220px" >
+                                      <span style="width: 70px;margin-top:8px" class='pull-left'>报警设备:&nbsp</span>
+                                      <ui-select ng-model="equipment" class='pull-left' style="width: 140px" theme="bootstrap">
+                                          <ui-select-match>{{equipment.name}}</ui-select-match>
+                                          <ui-select-choices repeat="var in equipmentlist ">
+                                              <div ng-bind-html="var.name" ng-click="setAlarmEquipment(var)"></div>
+                                          </ui-select-choices>
+                                      </ui-select>
+                                  </div>
+                                  <div class="margin-top-10 pull-left" style="width: 400px">
+                                      <span style="width: 70px;margin-top:8px" class='pull-left'>报警时间:&nbsp</span>
+                                      <div class="input-group input-large input-daterange pull-left" >
+                                          <input type="text" class="form-control date start_date" style="width: 150px" placeholder="选择开始时间"/>
+                                          <span class="input-group-addon"style="width: 20px"> ~ </span>
+                                          <input type="text" class="form-control date end_date" style="width: 150px" placeholder="选择结束时间"/>
+                                      </div>
+                                  </div>
+                                  <div class="margin-top-10 pull-left" style="width: 50px">
+                                    <button class="btn btn-sm green table-group-action-submit" style="margin-top-10" ng-click='searchAlarm()'>
+                                        <i class="fa fa-search"></i> 查询
+                                    </button>
+                                  </div>
+                              </div>
+
+                              <table ng-table="table_historyalarm" class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px">
+                              <tbody>
+                                  <!-- <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                                      <td title="'设备'" filter="{ equipmentName: 'text'}" sortable="'equipmentName'">{{param.equipmentName}}</td>
+                                      <td title="'报警时间'" filter="{ alarmTime: 'number'}" sortable="'alarmTime'" class="center">{{param.alarmTime}}</td>
+                                      <td title="'报警参数'" filter="{ equipmentModelPropertyName: 'text'}" sortable="'equipmentModelPropertyName'">{{param.equipmentModelPropertyName}}</td>
+                                      <td title="'报警值'" filter="{ alarmValue: 'text'}" sortable="'alarmValue'">{{param.alarmValue}}</td>
+                                      <td title="'内容'" filter="{ alarmContent: 'text'}" sortable="'alarmContent'">{{param.alarmContent}}</td>
+                                      <td title="'状态'" filter="{ alarmStatus: 'text'}" sortable="'alarmStatus'">{{param.alarmStatus}}</td>
+                                  </tr> -->
+                                  <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                                      <td title="'设备'" >{{param.equipmentName}}</td>
+                                      <td title="'报警时间'" class="center">{{param.alarmTime}}</td>
+                                      <td title="'报警参数'"  >{{param.equipmentModelPropertyName}}</td>
+                                      <td title="'报警值'" >{{param.alarmValue}}</td>
+                                      <td title="'内容'" >{{param.alarmContent}}</td>
+                                      <td title="'状态'" >{{param.alarmStatus}}</td>
+                                      <td title="'详情'" >
+                                        <div >
+                                          <a href="#" data-toggle="modal" ng-click="showalarmcontent(param)" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>查看
+                                          </a>
                                         </div>
-                                        <div class="tools"></div>
-
-                                    </div>
-                                    <div class="portlet-body">
-                                        <table class="table table-striped table-bordered table-hover" id="sample_2">
-                                        </table>
-
-                                        <div class=" margin-bottom-20">
-                                            <div class="table-actions-wrapper pull-right">
-                                                <span> </span>
-                                                <select class="table-group-action-input form-control input-inline input-small input-sm">
-                                                    <option value="">设备编号</option>
-                                                    <option value="1">NH10892</option>
-                                                    <option value="2">NH80093</option>
-                                                    <option value="3">NJ29388</option>
-                                                    <option value="4">NB70012</option>
-                                                </select>
-                                                <select class="table-group-action-input form-control input-inline input-small input-sm">
-                                                      <option value="">设备名称</option>
-                                                      <option value="1">空压机</option>
-                                                      <option value="2">净水机</option>
-                                                      <option value="3">双螺旋杆压缩机</option>
-                                                      <option value="4">压缩机</option>
-                                                  </select>
-                                                  <select class="table-group-action-input form-control input-inline input-small input-sm">
-                                                      <option value="">报警等级</option>
-                                                      <option value="Cancel">低</option>
-                                                      <option value="Cancel">中</option>
-                                                      <option value="Cancel">高</option>
-                                                  </select>
-                                                  <button class="btn btn-sm green table-group-action-submit" ng-click='saveModalMsg()'>
-                                                      <i class="fa fa-check"></i> 查询
-                                                  </button>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <!-- END EXAMPLE TABLE PORTLET-->
-                            </div>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- END PROFILE CONTENT -->
+    </div>
+</div>
+<div id="myModal_historydetail" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">报警详情</h4>
+            </div>
+            <div class="modal-body">
+              <div class="container-fluid">
+                <div class="row margin-bottom-10">
+                  <div class="col-md-3 text-right "><strong>报警设备：</strong></div>
+                  <div class="col-md-9  text-left ">{{currentItem.equipmentName}}</div>
+                  <div class="col-md-3 text-right"><strong>报警状态：</strong></div>
+                  <div class="col-md-9 text-left">
+                    <button type="button" class="btn btn-primary btn-xs" style="">
+                         {{currentItem.alarmStatus}}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row margin-bottom-10">
+                  <div class="col-md-3 text-right"><strong>报警参数：</strong></div>
+                  <div class="col-md-9  text-left">{{currentItem.equipmentModelPropertyName}}</div>
+                  <div class="col-md-3 text-right"><strong>报警阈值：</strong></div>
+                  <div class="col-md-9  text-left">{{currentItem.alarmContent}}</div>
+                </div>
+                <div class="row margin-bottom-10">
+                  <div class="col-md-3 text-right"><strong>报警时间：</strong></div>
+                  <div class="col-md-9  text-left">{{currentItem.alarmTime}}</div>
+                  <div class="col-md-3 text-right"><strong>报警值：</strong></div>
+                  <div class="col-md-9  text-left">{{currentItem.alarmValue}}</div>
+                </div>
+
+                <div class="row margin-bottom-10" ng-show="currentItem.isClear">
+                  <div class="col-md-3 text-right"><strong>报警取消时间：</strong></div>
+                  <div class="col-md-9  text-left">{{currentItem.updateTime}}</div>
+                  <div class="col-md-3 text-right"><strong>报警取消值：</strong></div>
+                  <div class="col-md-9 text-left ">{{currentItem.alarmClearValue}}</div>
+                </div>
+
+                <div class="row margin-bottom-10">
+                  <div class="col-md-3 text-right"><strong>报警提醒对象：</strong></div>
+                  <div class="col-md-9  text-left">{{currentItem.alarmTargetUser}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn green btn-outline col-md-offset-5 col-md-2" data-dismiss="modal" ng-click="disdetail()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal_alert" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">提示</h4>
+            </div>
+            <div class="
+            ">{{message}}</div>
+            <div class="modal-footer">
+                <button type="button" class="btn green"  ng-click='disalert()'>
+                    <i class="fa fa-check"></i> 确定 </button>
+            </div>
+        </div>
     </div>
 </div>

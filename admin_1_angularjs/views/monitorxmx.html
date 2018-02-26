@@ -1,0 +1,498 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <!-- <a href="devopt.html">设备监控</a> -->
+            <span>设备监控</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>产线监控</span>
+        </li>
+        <li id="showlinename" class="hide">
+           <i class="fa fa-circle"></i>
+            <span ng-bind="linename"></span>
+        </li>
+        <li id="showmachinename" class="hide">
+           <i class="fa fa-circle"></i>
+            <span ng-bind="machinename"></span>
+        </li>
+    </ul>
+</div>
+<br class="">
+<div class="xmx-mainContainer">
+  <div class='pro-line'>
+    <div class="xmx-topbar">
+      <div class="xmx-title1">当前班次:
+        <label>早班</label>
+      </div>
+    </div>
+    <div class="xmx-box">
+      <div id="main-left-container">
+        <div class="xmx-tag"   id="tag1">
+          <div class="tag-statuscontainer">
+            <div class="tag-status bg-green"></div>
+            <div class="tag-statustext">运行中</div>
+            <div class="tag-check" ng-click="checktag(0)">查看</div>
+          </div>
+
+          <div class="tag-label">进胚计数：<div class="tag-text">122331</div></div>
+          <div class="tag-label">吹瓶计数：<div class="tag-text">211222</div></div>
+          <div class="tag-label">合格瓶数：<div class="tag-text">122312</div></div>
+        </div>
+        <div class="xmx-tag"   id="tag2">
+          <div class="tag-statuscontainer">
+            <div class="tag-status bg-blue-dark"></div>
+            <div class="tag-statustext">停机中</div>
+          </div>
+
+          <div class="tag-label">灌装计数：<div class="tag-text">122331</div></div>
+          <div class="tag-label">灌装速度：<div class="tag-text">211222</div></div>
+        </div>
+        <div class="xmx-tag"   id="tag3">
+          <div class="tag-statuscontainer">
+            <div class="tag-status bg-blue-dark"></div>
+            <div class="tag-statustext">停机中</div>
+          </div>
+
+          <div class="tag-label">贴标计数：<div class="tag-text">122331</div></div>
+          <div class="tag-label">贴标速度：<div class="tag-text">211222</div></div>
+        </div>
+        <div class="xmx-tag"   id="tag4">
+          <div class="tag-statuscontainer">
+            <div class="tag-status bg-blue-dark"></div>
+            <div class="tag-statustext">停机中</div>
+          </div>
+
+          <div class="tag-label">纸包箱数：<div class="tag-text">122331</div></div>
+          <div class="tag-label">包装速度：<div class="tag-text">211222</div></div>
+        </div>
+        <div class="xmx-tag"   id="tag5">
+          <div class="tag-statuscontainer">
+            <div class="tag-status bg-blue-dark"></div>
+            <div class="tag-statustext">停机中</div>
+          </div>
+
+          <div class="tag-label">码垛箱数：<div class="tag-text">122331</div></div>
+          <div class="tag-label">码垛速度：<div class="tag-text">211222</div></div>
+        </div>
+        <div class="tag-reset" ng-click="savePosition()">设置
+        </div>
+        <img class="xmx-image" src="http://118.89.140.11:3030/source/xmx1.jpg"/>
+
+      </div>
+      <div id="main-right-container">
+        <div class="dashboard-stat2 right-status">
+            <div class="display">
+                <div class="number">
+                    <h3 class="font-green-sharp">
+                        <span data-counter="counterup" data-value="7800">36000</span>
+                        <small class="font-green-sharp">个</small>
+                    </h3>
+                    <small>生产速度</small>
+                </div>
+                <div class="icon">
+                    <i class="icon-pie-chart"></i>
+                </div>
+            </div>
+            <div class="progress-info">
+                <div class="progress">
+                    <span style="width: 76%;" class="progress-bar progress-bar-success green-sharp">
+                        <span class="sr-only">76% </span>
+                    </span>
+                </div>
+                <div class="status">
+                    <div class="status-title"> 进度 </div>
+                    <div class="status-number"> 76% </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-stat2 right-status">
+            <div class="display">
+                <div class="number">
+                    <h3 class="font-blue-sharp">
+                        <span data-counter="counterup" data-value="7800">89</span>
+                        <small class="font-blue-sharp">%</small>
+                    </h3>
+                    <small>产线效率</small>
+                </div>
+                <div class="icon">
+                    <i class="icon-pie-chart"></i>
+                </div>
+            </div>
+            <div class="progress-info">
+                <div class="progress">
+                    <span style="width: 89%;" class="progress-bar progress-bar-success blue-sharp">
+                        <span class="sr-only">89% </span>
+                    </span>
+                </div>
+                <div class="status">
+                    <!-- <div class="status-title"> 进度 </div> -->
+                    <div class="status-number"> 89% </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="xmx-bottom">
+      <div class="bottom-itemContainer">
+        <div class="bottom-item">
+          <div class="item-label">生产品相</div>
+          <div class="item-content">hahahah</div>
+        </div>
+        <div class="bottom-item">
+          <div class="item-label">批次号</div>
+          <div class="item-content">01928383900</div>
+        </div>
+        <div class="bottom-item">
+          <div class="item-label">计划产量</div>
+          <div class="item-content">470000</div>
+        </div>
+
+        <div class="bottom-item">
+          <div class="item-label">生产开始时间</div>
+          <div class="item-content">2018-01-01 12:00:00</div>
+        </div>
+        <div class="bottom-item">
+          <div class="item-label">实际产量</div>
+          <div class="item-content">360000</div>
+        </div>
+        <div class="bottom-item">
+          <div class="item-label">生产累计时间</div>
+          <div class="item-content">39:29:13</div>
+        </div>
+      </div>
+      <div class="bottom-lineContainer">
+        <div class="xmx-line" id="linechart">
+        </div>
+        <div class="line-tab">
+           <button type="button" ng-click="showline(1)" class="btn blue-hoki">设备开机率</button>
+           <button type="button" ng-click="showline(2)" class="btn green-jungle">性能开动率</button>
+           <button type="button" ng-click="showline(3)" class="btn yellow-crusta">OEE</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="machine hide">
+    <div class="portlet light bordered">
+        <div class="portlet-title tabbable-line tabbable-bordered" id="navContainer">
+            <ul class="nav nav-pills pull-left">
+                <li id="firstTab"  class="active">
+                    <a data-target="#tab_1" data-toggle="tab">设备信息</a>
+                </li>
+                <li>
+                    <a data-target="#tab_2" data-toggle="tab">运行监控</a>
+                </li>
+                <li>
+                    <a data-target="#tab_3" data-toggle="tab">能源管理</a>
+                </li>
+                <li>
+                    <a data-target="#tab_4" data-toggle="tab">数据分析</a>
+                </li>
+            </ul>
+        </div>
+        <div class="machine">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                  <div class='tab_1_container'>
+                    <div class='title'>全自动旋转式吹瓶机</div>
+                    <div class="itemContainer">
+                      <div class="item">
+                        <div class="itemlabel">设备型号:</div>
+                        <div class="content">CGX8MC-24-8A</div>
+                      </div>
+                      <div class="item">
+                        <div class="itemlabel">产量:</div>
+                        <div class="content">12000 B/H</div>
+                      </div>
+                      <div class="item">
+                        <div class="itemlabel">外形尺寸:</div>
+                        <div class="content">11350*4500*3200</div>
+                      </div>
+                      <div class="item">
+                        <div class="itemlabel">设备重量:</div>
+                        <div class="content">20000 KG</div>
+                      </div>
+                      <div class="item">
+                        <div class="itemlabel">使用电源:</div>
+                        <div class="content">380/50 V/Hz</div>
+                      </div>
+                      <div class="item">
+                        <div class="itemlabel">装机容量:</div>
+                        <div class="content">183 KW</div>
+                      </div>
+                      <div class="item">
+                        <div class="itemlabel">出厂编号:</div>
+                        <div class="content">17018104</div>
+                      </div>
+                      <div class="item">
+                        <div class="itemlabel">出厂日期:</div>
+                        <div class="content">2017.12</div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="tab_2">
+                    <div class="tab_2_container">
+                        <div class='left'>
+                            <div class='part1 hasborder'>
+                                  <div class='itemContainer'>
+                                    <div class='item'>
+                                      <div class='itemlabel'>当前班次:</div>
+                                      <div class='content'>早班</div>
+                                    </div>
+                                    <div class='item'>
+                                      <div class='itemlabel'>工作状态:</div>
+                                      <div class='content'>运行中</div>
+                                    </div>
+                                    <div class='item'>
+                                      <div class='itemlabel'>操作模式:</div>
+                                      <div class='content'>自动</div>
+                                    </div>
+                                    <div class='item'>
+                                      <div class='itemlabel'>停机次数:</div>
+                                      <div class='content'>7</div>
+                                    </div>
+                                    <div class='item'>
+                                      <div class='itemlabel'>耗电量:</div>
+                                      <div class='content'>78kW</div>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class='part2 hasborder'>
+                              <img class="xmx-image" src="http://118.89.140.11:3030/source/chuipinji.jpg"/>
+                            </div>
+                            <div class='part3 hasborder'>
+                              <div id="machine_line1" class='line'></div>
+                            </div>
+                            <div class='part4 hasborder'>
+                              <div id="machine_line2" class='line'></div>
+                            </div>
+                        </div>
+                        <div class='right hasborder'>
+                          <div class='itemContainer'>
+                            <div class='item'>
+                              <div class='itemlabel'>瓶胚总数:</div>
+                              <div class='content'>4243</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>进模腔瓶胚数:</div>
+                              <div class='content'>4243</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>爆瓶数:</div>
+                              <div class='content'>0</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>瓶口异常数:</div>
+                              <div class='content'>0</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>合格瓶数:</div>
+                              <div class='content'>16000</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>进入灌装数:</div>
+                              <div class='content'>4221</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>合格品率:</div>
+                              <div class='content'>100%</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>时间开动率:</div>
+                              <div class='content'>70%</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>性能开动率:</div>
+                              <div class='content'>100%</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>OEE:</div>
+                              <div class='content'>70%</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>运行速度:</div>
+                              <div class='content'>12000</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>班次开始时间:</div>
+                              <div class='content'>2017.12.08 11:00</div>
+                            </div>
+                            <div class='item'>
+                              <div class='itemlabel'>累计生产时长:</div>
+                              <div class='content'>10:32:58</div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_3">
+                  <div class="tab_3_container">
+                      <div class='left portlet light bordered'>
+                        <div class="portlet-title" >
+                            <div class="caption">
+                                <i class="fa fa-tv"></i>电力状态监测</div>
+                            <div class="tools"> </div>
+                        </div>
+                        <div class="portlet-body" >
+                          <div class='itemContainer'>
+                            <div class='item' ng-click='getHistory("U_A")'>
+                              <div class='itemlabel'>U_A:</div>
+                              <div class='content'>395.2</div>
+                              <div class='unit'>V</div>
+                            </div>
+                            <div class='item' ng-click='getHistory("I_A")'>
+                              <div class='itemlabel'>I_A:</div>
+                              <div class='content'>97.2</div>
+                                <div class='unit'>A</div>
+                            </div>
+
+                            <div class='item bg-default' ng-click='getHistory("U_B")'>
+                              <div class='itemlabel'>U_B:</div>
+                              <div class='content'>395.5</div>
+                              <div class='unit'>V</div>
+                            </div>
+                            <div class='item bg-default' ng-click='getHistory("I_B")'>
+                              <div class='itemlabel'>I_B:</div>
+                              <div class='content'>81.8</div>
+                              <div class='unit'>A</div>
+                            </div>
+                            <div class='item' ng-click='getHistory("U_C")'>
+                              <div class='itemlabel'>U_C:</div>
+                              <div class='content'>395.5</div>
+                              <div class='unit'>V</div>
+                            </div>
+                            <div class='item' ng-click='getHistory("I_C")'>
+                              <div class='itemlabel'>I_C:</div>
+                              <div class='content'>100.8</div>
+                              <div class='unit'>A</div>
+                            </div>
+                            <div class='item-blank bg-default'></div>
+                            <div class='item-blank bg-default'></div>
+                            <div class='item ' ng-click='getHistory("P")'>
+                              <div class='itemlabel'>P:</div>
+                              <div class='content'>61095.8</div>
+                              <div class='unit'>kW</div>
+                            </div>
+                            <div class='item' ng-click='getHistory("Q")'>
+                              <div class='itemlabel'>Q:</div>
+                              <div class='content'>3322.5</div>
+                              <div class='unit'>kW</div>
+                            </div>
+                            <div class='item bg-default' ng-click='getHistory("f")'>
+                              <div class='itemlabel'>f:</div>
+                              <div class='content'>6633939.0</div>
+                              <div class='unit'></div>
+                            </div>
+                            <div class='item-blank bg-default'></div>
+                            <div class='item-blank'></div>
+                            <div class='item-blank'></div>
+                            <div class='item bg-default' ng-click='getHistory("用电量")'>
+                              <div class='itemlabel'>用电量:</div>
+                              <div class='content'>12653.20</div>
+                              <div class='unit'>kWh</div>
+                            </div>
+                            <div class='item-blank bg-default'>
+                              <div class='status bg-green-jungle'>正常</div>
+                            </div>
+                            <div id="machine_line4" class='line'></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='right portlet light bordered '>
+                        <div class="portlet-title" >
+                            <div class="caption">
+                                <i class="fa fa-bar-chart"></i>电能趋势图</div>
+                            <div class="tools"> </div>
+                        </div>
+                        <div class="portlet-body" >
+                          <div id="machine_line3" class='line'></div>
+                          <div class='actions text-center' style="height:40px;">
+                            <a href="#" role="button" class="btn green" ng-click="checkelecline(1)">日 </a>
+                            <a href="#" role="button" class="btn purple-medium" ng-click="checkelecline(2)">月 </a>
+                            <a href="#" role="button" class="btn red-sunglo" ng-click="checkelecline(3)">年 </a>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="tab_4">
+                  <div class="tab_4_container">
+                      <div class='left portlet light bordered'>
+                        <div class="portlet-title" >
+                            <div class="caption">
+                                <i class="fa fa-tv"></i>实时数据</div>
+                            <div class="tools"> </div>
+                        </div>
+                        <div class="portlet-body" >
+                            <div class="datatag"  ng-repeat="var in tab4vars" ng-click="slecttab4var(var)">
+                                <div class="name">{{var.name}} </div>
+                                <div class="value" >{{var.value}} </div>
+                                <div class="unit">{{var.unit}} </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class='right portlet light bordered '>
+                        <div class="portlet-title" >
+                            <div class="caption">
+                                <i class="fa fa-bar-chart"></i>数据曲线-{{selected4var.name}}</div>
+                            <div class="tools"> </div>
+                        </div>
+                        <div class="portlet-body" >
+                          <div class="selectime text-center">
+                              <div class="input-group input-large input-daterange" >
+                                  <input type="text" class="form-control date start_date selectinput"  placeholder="选择开始时间"/>
+                                  <span class="input-group-addon"> ~ </span>
+                                  <input type="text" class="form-control date end_date selectinput" placeholder="选择结束时间"/>
+                                  <span class="input-group-btn">
+                                      <button class="btn default selectbtn" type="button" ng-click="gettab4History()">
+                                          查询
+                                      </button>
+                                  </span>
+                              </div>
+                          </div>
+                          <div id="machine_line5" class='line'></div>
+                        </div>
+                      </div>
+                      <div class='bottom portlet light bordered '>
+                        <div class="portlet-title" >
+                            <div class="caption">
+                                <i class="fa fa-bar-chart"></i>设备生产绩效分析</div>
+                            <div class="tools"> </div>
+                        </div>
+                        <div class="portlet-body" >
+                          <div id="ganttContainer" class='gantt'></div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  </div>
+  <div class="xmx-left-bar">
+    <div ng-show="showTree" id="treeContainer" style="width:170px;height:100%;background-color:#f9f2eb">
+      <ul id="treeDemo" class="ztree"></ul>
+    </div>
+    <img ng-click="changeTreeState()" src="../assets/pages/img/right.png">
+  </div>
+</div>
+
+<div id="myModal_alert" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">提示</h4>
+            </div>
+            <div class="modal-body">{{message}}</div>
+            <div class="modal-footer">
+                <button type="button" class="btn green"  ng-click='disalert()'>
+                    <i class="fa fa-check"></i> 确定 </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,193 @@
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <span>设备管理</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>DTU管理</span>
+            <i class="fa fa-circle"></i>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase">DTU列表</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div id="myModal_createDTU" class="modal fade" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">创建DTU</h4>
+                                </div>
+                                <div class="modal-body form">
+                                    <form action="" class="form-horizontal form-row-seperated">
+                                      <div class="form-group">
+                                          <label class="col-sm-4 control-label">
+                                              名称</label>
+                                          <div class="col-sm-6">
+                                              <input type="text" ng-model="currentData.name" class="form-control" required/>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-sm-4 control-label">
+                                              心跳包</label>
+                                          <div class="col-sm-6">
+                                              <input type="text" ng-model="currentData.heartData" class="form-control" required/>
+                                          </div>
+                                      </div>
+                                      <!-- <div class="form-group">
+                                          <label class="col-sm-4 control-label">
+                                              采集频率</label>
+                                          <div class="col-sm-6">
+                                              <input type="number" ng-model="currentData.modbusRtuPeriod" class="form-control" required/>
+                                          </div>
+                                      </div> -->
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn grey-salsa btn-outline" ng-click='createDismiss()'>取消操作</button>
+                                    <button type="button" class="btn green"  ng-click='saveCreateDTU()'><i class="fa fa-check"/> 确定添加 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="myModal_updateDTU" class="modal fade" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">更新DTU</h4>
+                                </div>
+                                <div class="modal-body form">
+                                    <form action="" class="form-horizontal form-row-seperated">
+                                      <div class="form-group">
+                                          <label class="col-sm-4 control-label">
+                                              名称</label>
+                                          <div class="col-sm-6">
+                                              <input type="text" ng-model="currentData.name" class="form-control" required/>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-sm-4 control-label">
+                                              心跳包</label>
+                                          <div class="col-sm-6">
+                                              <input type="text" ng-model="currentData.heartData" class="form-control" required/>
+                                          </div>
+                                      </div>
+                                      <!-- <div class="form-group">
+                                          <label class="col-sm-4 control-label">
+                                              采集频率</label>
+                                          <div class="col-sm-6">
+                                              <input type="number" ng-model="currentData.modbusRtuPeriod" class="form-control" required/>
+                                          </div>
+                                      </div> -->
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn grey-salsa btn-outline" ng-click='updateDismiss()'>取消操作</button>
+                                    <button type="button" class="btn green" ng-click='saveUpdateDTU()'><i class="fa fa-check"/> 确定修改 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="myModal_deleteDTU" class="modal fade" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">删除DTU</h4>
+                                </div>
+                                <div class="modal-body form skin skin-line">
+                                    <form action="" class="form-horizontal form-row-seperated" name="form">
+                                        <div class="form-group">
+                                            <lable>&nbsp&nbsp您确定要删除DTU {{deletestr}} 吗?</lable>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn grey-salsa btn-outline " ng-click='deleteDismiss()' >取消操作</button>
+                                    <button type="button" class="btn green"  ng-click='saveDeleteDTU()'>
+                                        <i class="fa fa-check"></i> 确定删除 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="myModal_alert" class="modal fade" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h4 class="modal-title">提示</h4>
+                                </div>
+                                <div class="modal-body">{{message}}
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn green"  ng-click='disalert()'>
+                                        <i class="fa fa-check"></i> 确定 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="addDTU()">新建
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <a href="#" role="button" class="btn sbold blue" data-toggle="modal" ng-click="updateDTU()">编辑
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="#" role="button" class="btn sbold red" data-toggle="modal" ng-click="deleteDTU()">删除
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <script type="text/ng-template" id="headerCheckbox.html">
+                      <!-- <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" /> -->
+                      <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                          <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" /><span></span>
+                      </label>
+                    </script>
+                    <table ng-table="tableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px">
+                        <tbody>
+                            <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
+                                <td header="'headerCheckbox.html'">
+                                  <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                  <input type="checkbox" ng-model="checkboxes.items[param.dtuId]" /><span></span>
+                                  </label>
+                                </td>
+                                <!-- <td header="'headerCheckbox.html'"><input type="checkbox" ng-model="checkboxes.items[param.inventoryId]" /></td> -->
+                                <td title="'名称'">{{param.name}}</td>
+                                <td title="'dtuID'">{{param.dtuId}}</td>
+                                <td title="'心跳包'">{{param.heartData}}</td>
+                                <!-- <td title="'采集频率'">{{param.modbusRtuPeriod}}</td> -->
+                                </td>
+                                <td title="'操作'">
+                                  <a ui-sref="main.asset.dtuConnectEquip({dtuInfo:param})" class="btn btn-sm btn-success sbold blue "><i class="fa fa-plus"></i>连接设备
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

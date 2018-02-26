@@ -1,93 +1,268 @@
-angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootScope', function($scope, $rootScope) {
+angular.module('MetronicApp').controller('AlarmController', ['$scope', '$rootScope','NgTableParams','deviceApi', function($scope, $rootScope, NgTableParams, deviceApi) {
     $rootScope.menueName = 'sidebar-device';
-    var alarmlistitems = [
-      ['1211','2017-03-23 13:30:48','NH108982','双螺旋杆压缩机','设备远程开启','低','已确认',`<a class="btn red btn-outline sbold uppercase showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
-      ['1212','2017-03-22 06:23:39','NH108045','空压机','设备通讯故障','高','已确认',`<a class="btn red btn-outline sbold uppercasec showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
-      ['1213','2017-03-21 18:23:39','NH800133','空压机','温度超限','中','已确认',`<a class="btn red btn-outline sbold uppercase showdetail" id="demo_3" ng-click='saveModalMsg()'> 查看 </a>`],
+    $scope.message='';
+    $scope.currentItem={};
+
+    $scope.alarmlist = $rootScope.alarmlist;
+    $scope.historylist = [];
+    $scope.table_historyalarm;
+
+    $scope.equipmentlist=[];
+    $scope.alartypelist=[
+      {'id':'','name':'所有'},
+      {'id':'ANU','name':'活跃'},
+      {'id':'CNU','name':'已消除'},
 
     ];
+    $scope.startDate='';
+    $scope.endDate='';
+    $scope.equipment='';
+    $scope.alarmtype=$scope.alartypelist[0];
 
-    $('#sample_2').on('click', '.showdetail', function (e) {
-        e.preventDefault();
-        $rootScope.saveModalMsg();
+    $scope.setAlarmType = function(type){
+      $scope.alarmtype = type;
+    };
+    $scope.setAlarmEquipment = function(type){
+      $scope.equipment = type;
+    };
+
+    $scope.table_alarm = new NgTableParams({
+      page: 1,
+      count:10
+    }, {
+      counts:[5,10,20],
+      dataset: $scope.alarmlist
     });
 
-    $('#sample_2').dataTable({
-
-        // Internationalisation. For more info refer to http://datatables.net/manual/i18n
-        "language": {
-            "aria": {
-                "sortAscending": ": activate to sort column ascending",
-                "sortDescending": ": activate to sort column descending"
-            },
-            "emptyTable": "没有数据",
-            "info": "显示 _START_ 到 _END_    共 _TOTAL_ 条",
-            "infoEmpty": "没有记录",
-            "infoFiltered": "(filtered1 from _MAX_ total entries)",
-            "lengthMenu": "_MENU_ 条记录/页",
-            "search": "搜索:",
-            "zeroRecords": "没有符合条件的查询记录"
-        },
-
-        // Or you can use remote translation file
-        //"language": {
-        //   url: '//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Portuguese.json'
-        //},
 
 
-        buttons: [
-            { extend: 'print', className: 'btn dark btn-outline',text:'打印' },
-            { extend: 'copy', className: 'btn red btn-outline' ,text:'复制'},
-            { extend: 'pdf', className: 'btn green btn-outline' },
-            { extend: 'excel', className: 'btn yellow btn-outline ' },
-            { extend: 'csv', className: 'btn purple btn-outline ' },
-            { extend: 'colvis', className: 'btn dark btn-outline', text: '列表项'}
-        ],
+    $scope.$on('$viewContentLoaded', function() {
+      // getCurrentalarms(function(){
+      //   $rootScope.alarmlist = $scope.alarmlist;
+      //   $rootScope.$broadcast('alarm_active_2','true');
+      //   reloadalarmtable();
+      //   // getHistoryalarms();
+      // });
+      getdevicelist();
 
-        // setup responsive extension: http://datatables.net/extensions/responsive/
-        responsive: true,
+      $('.nav-tabs li a').click(function() {
+        // var _id = $(this).attr('href').slice(2);　
+        var _id = $(this).attr('data-target');
+        // console.log('alarmtest',_id);
+        switch(_id) {
+          case "#tab_1":
 
-        //"ordering": false, disable column ordering
-        //"paging": false, disable pagination
+          break;
+          case "#tab_2":
+          $('.start_date').datetimepicker({
+              language: 'zh-CN',
+              weekStart: 1,
+              todayBtn: 1,
+              autoclose: 1,
+              startView: 2,
+              forceParse: 0,
+              // minView:'day',
+              format: 'yyyy/mm/dd hh:ii',
+              todayHighlight: true,
+              }).on('hide', function (e) {
+                var $this = $(this);
+                var _this = this;
+                $scope.$apply(function(){
+                    $scope.startDate = _this.value;
+                });
+            });
+            $('.end_date').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                startView: 2,
+                forceParse: 0,
+                // minView:'day',
+                format: 'yyyy/mm/dd hh:ii',
+                todayHighlight: true,
+                }).on('hide', function (e) {
+                  var $this = $(this);
+                  var _this = this;
+                  $scope.$apply(function(){
+                      $scope.endDate = _this.value;
+                  });
+              });
+            $scope.historylist=[];
+            // getHistoryalarms();
+          break;
+          default:
+          break;
+        }
+      });
+    });
 
-        "order": [
-            [0, 'asc']
-        ],
+    $scope.disalert=function(){
+      $('#myModal_alert').modal('hide');
+    };
+    $scope.disdetail=function(){
+      $('#myModal_historydetail').modal('hide');
+    };
 
-        "lengthMenu": [
-            [5, 10, 15, 20, -1],
-            [5, 10, 15, 20, "All"] // change per page values here
-        ],
-        data: alarmlistitems,
-        columns: [{
-                title: "序号"
-            },
-            {
-                title: "报警时间"
-            },
-            {
-                title: "设备编号"
-            },
-            {
-                title: "设备名称"
-            },
-            {
-                title: "报警内容"
-            },
-            {
-                title: "报警等级"
-            },
-            {
-                title: "报警状态"
-            },
-            {
-                title: "操作"
+    $scope.searchAlarm = function(){
+      $scope.historylist=[];
+      if($scope.startDate && $scope.startDate !=null && $scope.startDate !=''){
+        if($scope.endDate && $scope.endDate !=null && $scope.endDate !=''){
+          if($scope.startDate>$scope.endDate){
+            console.log('kaishishijianbuengnxiaoyujieshushijian');
+            $scope.message = '开始时间必须 早于 结束时间';
+            $('#myModal_alert').modal();
+          }
+        }
+      }
+      // getHistoryalarms();
+    }
+
+    $scope.showalarmcontent = function(param){
+      $scope.currentItem = param;
+      $('#myModal_historydetail').modal();
+    }
+    // $scope.$on('alarm_active_1',function(value){
+    //   $scope.alarmlist = $rootScope.alarmlist;
+    //   reloadalarmtable();
+    // });
+
+
+    function reloadalarmtable(){
+      $scope.table_alarm = new NgTableParams({
+        page: 1,
+        count:10
+      }, {
+        counts:[2,10,50],
+        dataset:  $scope.alarmlist
+      });
+    }
+
+    function getdevicelist(){
+      deviceApi.getDevicelist('asc', 0, 9999)
+        .then(function(result) {
+            if(result.data.total > 0) {
+              $scope.equipmentlist.push({
+                'id':'','name':'所有'
+              });
+              for(var i=0;i<result.data.total;i++){
+                $scope.equipmentlist.push({
+                  'id':result.data.rows[i].equipmentId,
+                  'name':result.data.rows[i].name
+                })
+              }
+             $scope.equipment = $scope.equipmentlist[0];
+            }else {
+              $scope.equipmentlist=[];
             }
-        ],
-        "pageLength": 10,
-        "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>", // horizobtal scrollable datatable
-    });
+            return $scope.devicelist;
+        }, function(err) {
+            console.log('getdevicelisterr',err);
+            $scope.equipmentlist=[];
+        });
+    }
+
+    function getCurrentalarms(callback){
+      deviceApi.getCurrentAlarms()
+      .then(function(result){
+        if(result.data.total && result.data.total>0){
+          $scope.alarmlist = result.data.rows;
+          for(var i=0;i<result.data.rows.length;i++) {
+            $scope.alarmlist[i].alarmContent = $scope.alarmlist[i].alarmContent.split(' ')[4];//拆分原始的alarmContent
+          }
+
+          callback();
+        }else{
+          $scope.alarmlist = [];
+          callback();
+        }
+      },function(err){
+        $scope.alarmlist = [];
+        callback();
+      });
+    }
+
+    function getHistoryalarms(){
+      $scope.table_historyalarm = new NgTableParams({
+        page: 1,
+        count:5
+      }, {
+        counts:[5,10,20],
+        getData:
+         function(params) {
+           var data={};
+           data.order = 'asc';
+           data.offset = (params.page()-1)*params.count();
+           data.limit = params.count();
+           if($scope.equipment.id && $scope.equipment.id !=null && $scope.equipment.id !=''){
+             data.equipmentId = $scope.equipment.id;
+           }
+           if($scope.startDate && $scope.startDate !=null && $scope.startDate !=''){
+             data.startDate = $scope.startDate;
+           }
+           if($scope.endDate && $scope.endDate !=null && $scope.endDate !=''){
+             data.endDate = $scope.endDate;
+           }
+           if($scope.alarmtype.id && $scope.alarmtype.id !=null && $scope.alarmtype.id !=''){
+             data.alarmStatus = $scope.alarmtype.id;
+           }
+          return deviceApi.searchHistoryAlarms(data)
+            .then(function(result) {
+                if(result.data.total && result.data.total > 0) {
+                     $scope.historylist=result.data.rows;
+                     for(var i=0;i<result.data.rows.length;i++) {
+                       $scope.historylist[i].alarmTime = changeTimeFormat($scope.historylist[i].alarmTime);
+                       $scope.historylist[i].updateTime = changeTimeFormat($scope.historylist[i].updateTime);
+                       $scope.historylist[i].alarmContent = $scope.historylist[i].alarmContent.split(' ')[4];//拆分原始的alarmContent
+                       if($scope.historylist[i].alarmStatus=='CNU'){
+                         $scope.historylist[i].alarmStatus ='已消除';
+                         $scope.historylist[i].isClear =true;
+                       }
+                       if($scope.historylist[i].alarmStatus=='ANU'){
+                         $scope.historylist[i].alarmStatus ='活跃';
+                         $scope.historylist[i].isClear =false;
+                       }
+                     }
+                }else {
+                  $scope.historylist=[];
+                }
+                params.total(result.data.total);
+                return $scope.historylist;
+
+            }, function(err) {
+                $scope.historylist=[];
+                return $scope.historylist;
+            });
+        }
+      });
+    }
 
 
+    Date.prototype.format = function(format) {
+      var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S+": this.getMilliseconds()
+      };
+      if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+      }
+      for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                   format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                          ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+      }
+      return format;
+    }
 
+    function changeTimeFormat(timestamp) {
+      var newDate = new Date();
+      newDate.setTime(timestamp);
+      return newDate.format('yyyy-MM-dd hh:mm:ss');
+    }
 }]);

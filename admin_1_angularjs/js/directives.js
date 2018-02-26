@@ -55,12 +55,42 @@ MetronicApp.directive('a', function() {
     };
 });
 
+MetronicApp.directive('stringToNumber', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+            ngModel.$parsers.push(function(value) {
+                return '' + value;
+            });
+            ngModel.$formatters.push(function(value) {
+                return parseInt(value);
+            });
+        }
+    };
+});
+
+
 // Handle Dropdown Hover Plugin Integration
 MetronicApp.directive('dropdownMenuHover', function () {
   return {
     link: function (scope, elem) {
       elem.dropdownHover();
     }
+  };
+});
+
+MetronicApp.directive('autoHeight', function ($window) {
+  return {
+    restrict : 'A',
+            scope : {},
+            link : function($scope, element, attrs) {
+                var winowHeight = $window.innerHeight; //获取窗口高度
+                var headerHeight = 50;
+                var footerHeight = 35;
+                var paddingTop = 25;
+                element.css('height',
+                        (winowHeight - headerHeight - footerHeight -paddingTop) + 'px');
+            }
   };
 });
 

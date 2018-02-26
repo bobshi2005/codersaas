@@ -1,8 +1,8 @@
 <div class="page-bar">
     <ul class="page-breadcrumb">
         <li>
-            <!-- <a href="#">资产管理</a> -->
-            <span>资产管理</span>
+            <!-- <a href="#">产线管理</a> -->
+            <span>产线管理</span>
             <i class="fa fa-circle"></i>
         </li>
         <li>
@@ -27,9 +27,9 @@
                 </div>
 
                 <div class="actions">
-                  <a href="/#myModal_createModel" role="button" data-toggle="modal" class="btn green">
+                  <a href="#" role="button" data-toggle="modal" ng-click="showCreateModel()" class="btn green">
                      <i class="fa fa-plus"></i>新建模型 </a>
-                  <a href="/#myModal_deleteModel" class="btn green" data-toggle="modal" >
+                  <a data-target="#myModal_deleteModel" class="btn green" data-toggle="modal" >
                     <i class="fa fa-minus"></i>删除模型 </a>
                 </div>
 
@@ -70,13 +70,13 @@
                 <div class="tabbable-line">
                     <ul class="nav nav-tabs nav-tabs-lg">
                         <li class="active">
-                            <a href="/#tab_1" data-toggle="tab">
+                            <a data-target="#tab_1" data-toggle="tab">
                                 <i class="icon-info">
                                   </i> 信息
                             </a>
                         </li>
                         <li>
-                            <a href="/#tab_2" data-toggle="tab">
+                            <a data-target="#tab_2" data-toggle="tab">
                                 <i class="icon-briefcase">
                                   </i> 属性
                             </a>
@@ -89,19 +89,19 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">模型名称</label>
                                     <div class="col-md-3">
-                                        <input type="text" ng-disabled="!allowEdit" class="form-control modalinput" ng-model="editModal.name">
+                                        <input type="text" ng-disabled="!allowEdit" class="form-control modalinput" ng-model="editModel.name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">模型编号</label>
                                     <div class="col-md-3">
-                                        <input type="text" ng-disabled="!allowEdit" class="form-control modalinput" ng-model="editModal.number">
+                                        <input type="text" ng-disabled="!allowEdit" class="form-control modalinput" ng-model="editModel.number">
                                     </div>
                                 </div>
                                 <div class="form-group last">
                                     <label class="col-sm-3 control-label">链接协议</label>
                                     <div class="col-sm-3">
-                                        <select class="form-control" ng-disabled="!allowEdit" ng-model="editModal.protocolId" ng-options="o.id as o.name for o in protocolLists"></select>
+                                        <select class="form-control" ng-disabled="!allowEdit" ng-model="editModel.protocolId" ng-options="o.id as o.name for o in protocolLists"></select>
                                     </div>
                                 </div>
                                 <br/>
@@ -118,8 +118,8 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="btn-group">
-                                                    <a href="/#myModal_createPropertyItem" data-toggle="modal"
-                                                       class="btn green" ng-click='editParams(param)'>
+                                                    <a data-target="#myModal_createPropertyItem" data-toggle="modal"
+                                                       class="btn green" ng-click='resetPropertyItem()'>
                                                         添加参数<i class="fa fa-plus"></i>
                                                     </a>
                                                 </div>
@@ -167,10 +167,10 @@
                                                 </div>
                                             </td>
                                             <td title="'操作'">
-                                                <a href="/#myModal_updatePropertyItem" data-toggle="modal"
+                                                <a data-target="#myModal_updatePropertyItem" data-toggle="modal"
                                                    class="btn blue btn-outline sbold uppercase"
                                                    ng-click='setPropertyItem(param)'>编辑</a>
-                                                <a href="/#myModal_deletePropertyItem" data-toggle="modal"
+                                                <a data-target="#myModal_deletePropertyItem" data-toggle="modal"
                                                    class="btn red btn-outline sbold uppercase"
                                                    ng-click='setPropertyItem(param)'> 删除</a>
                                             </td>
@@ -220,8 +220,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal" ng-click="cancelCreateModel()">取消操作</button>
-                <button type="button" class="btn green" data-dismiss="modal" ng-click='saveCreateModel()'>
+                <button type="button" class="btn grey-salsa btn-outline" ng-click="creatDismiss()" ng-click="cancelCreateModel()">取消操作</button>
+                <button type="button" class="btn green"  ng-click='saveCreateModel()'>
                         <i class="fa fa-check"></i> 确定添加 </button>
             </div>
         </div>
@@ -236,7 +236,7 @@
                 <h4 class="modal-title">删除模型</h4>
             </div>
             <div class="modal-body">
-                    您确定要删除 模型： {{currentModal.name}}  吗？
+                    您确定要删除 模型： {{currentModel.name}}  吗？
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button>
@@ -302,10 +302,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">参数类型</label>
                         <div class="col-sm-3">
-                            <select class="form-control" ng-model="PropertyItemData.dataType"  ng-options="o.id as o.name for o in typeList"></select>
+                            <select class="form-control" ng-model="PropertyItemData.dataType" ng-change="selectDataType()"  ng-options="o.id as o.name for o in typeList"></select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-show="isAnalogProperty">
                         <label class="col-sm-3 control-label">展示类型</label>
                         <div class="col-sm-3">
                           <select class="form-control" ng-model="PropertyItemData.displayType"  ng-options="o.id as o.name for o in displayTypeList"></select>
@@ -339,7 +339,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">编辑设备模型参数</h4>
+                <h4 class="modal-title">添加设备模型参数</h4>
             </div>
             <div class="modal-body form">
                 <form action="javascript:alert('xx');" class="form-horizontal form-row-seperated">
@@ -370,10 +370,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">参数类型</label>
                         <div class="col-sm-3">
-                            <select class="form-control" ng-model="PropertyItemData.dataType"  ng-options="o.id as o.name for o in typeList"></select>
+                            <select class="form-control" ng-model="PropertyItemData.dataType" ng-change="selectDataType()"   ng-options="o.id as o.name for o in typeList"></select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-show="isAnalogProperty">
                         <label class="col-sm-3 control-label">展示类型</label>
                         <div class="col-sm-3">
                           <select class="form-control" ng-model="PropertyItemData.displayType"  ng-options="o.id as o.name for o in displayTypeList"></select>
@@ -413,13 +413,13 @@
               <form action="" class="form-horizontal form-row-seperated" name="sensorform" role="form">
                   <input type="hidden" name="equipmentId" ng-model="sensor.equipmentId">
                   <input type="hidden" name="equipmentModelPropertyId" ng-model="sensor.equipmentModelPropertyId">
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                       <label class="col-sm-4 control-label">
                           从站地址</label>
                       <div class="col-sm-6">
-                          <input type="text" ng-model="sensor.salveId" placeholder="地址范围 1 - 247" class="form-control" required/>
+                          <input type="number" ng-model="sensor.salveId" placeholder="地址范围 1 - 247" class="form-control" required/>
                       </div>
-                  </div>
+                  </div> -->
                   <div class="form-group last">
                       <label class="col-sm-4 control-label">读取模式</label>
                       <div class="col-sm-4">
@@ -430,7 +430,7 @@
                       <label class="col-sm-4 control-label">
                           参数地址</label>
                       <div class="col-sm-6">
-                          <input type="text" ng-model="sensor.address" class="form-control" required/>
+                          <input type="number" ng-model="sensor.address" class="form-control" required/>
                       </div>
                   </div>
 
@@ -456,15 +456,12 @@
 
                   <div class="form-group">
                       <label class="col-sm-4 control-label">
-                          采集周期</label>
+                          数据转换</label>
                       <div class="col-sm-4">
-                          <div class="input-group">
-                            <input type="text" ng-model="sensor.period" class="form-control col-sm-3" required/>
-                            <span class="input-group-addon">秒</span>
-                          </div>
+                        <a href="#" ng-click="addDataConversioin()" class="btn btn-sm btn-success sbold blue conversion-add"><i class="fa fa-balance-scale"></i> 添加参数映射
+                        </a>
                       </div>
-                      <a href="#" ng-click="addDataConversioin()" class="btn btn-sm btn-success sbold blue conversion-add"><i class="fa fa-balance-scale"></i> 添加参数映射
-                      </a>
+
 
                   </div>
 
@@ -530,14 +527,11 @@
 
                   <div class="form-group">
                       <label class="col-sm-4 control-label">
-                          变量名读写顺序</label>
+                          数据转换</label>
                       <div class="col-sm-4">
-                          <div class="input-group">
-                            <input type="text" ng-model="sensor.grmVariableOrder" class="form-control col-sm-3" required/>
-                          </div>
+                        <a  href="#" ng-click="addDataConversioin()" class="btn btn-sm btn-success sbold blue conversion-add"><i class="fa fa-balance-scale"></i> 添加参数映射
+                        </a>
                       </div>
-                      <a  href="#" ng-click="addDataConversioin()" class="btn btn-sm btn-success sbold blue conversion-add"><i class="fa fa-balance-scale"></i> 添加参数映射
-                      </a>
                   </div>
 
                   <div class="form-group last conversion-view">
@@ -586,18 +580,30 @@
           <div class="modal-body form skin skin-line">
               <form action="" class="form-horizontal form-row-seperated" name="alarmform" role="form">
                   <input type="hidden" name="equipmentModelPropertyId" ng-model="alarm.equipmentModelPropertyId">
+                  <input type="hidden" name="dataType" ng-model="alarm.dataType">
                   <div class="form-group">
                       <label class="col-sm-4 control-label">
                           报警选择</label>
                       <div class="col-sm-6">
-                        <select class="form-control" ng-model="alarm.alarmType"  ng-options="o.id as o.name for o in alarmTypeLists" required></select>
+                        <select class="form-control" ng-model="alarm.alarmType" ng-change="selectAlarmtype()"  ng-options="o as o.name for o in alarmTypeLists" required></select>
                       </div>
                   </div>
-                  <div class="form-group">
-                      <label class="col-sm-1 control-label">
-                          X</label>
-                      <div class="col-sm-2">
-                        <input class="form-control" ng-model="alarm.upperBound" required></select>
+                  <div class="form-group"  id='upperBound'>
+                      <label class="col-sm-4 control-label">X</label>
+                      <div class="col-sm-6">
+                        <input id='upperBoundNum' class="form-control" type="number" ng-model="alarm.upperBound"  placeholder="请填写数字" ></select>
+                      </div>
+                  </div>
+                  <div class="form-group" id='lowerBound'>
+                      <label class="col-sm-4 control-label">Y</label>
+                      <div class="col-sm-6">
+                        <input id='lowerBoundNum' class="form-control"  type="number" ng-model="alarm.lowerBound" placeholder="请填写数字" ></select>
+                      </div>
+                  </div>
+                  <div class="form-group" id='duration'>
+                      <label class="col-sm-4 control-label">M</label>
+                      <div class="col-sm-6">
+                        <input id='durationNum' class="form-control"  type="number" ng-model="alarm.duration"  placeholder="请填写数字" ></select>
                       </div>
                   </div>
                   <div class="form-group last">
@@ -609,7 +615,7 @@
                   <div class="form-group last">
                       <label class="col-sm-4 control-label">提醒对象</label>
                       <div class="col-sm-4">
-                          <select class="form-control" ng-model="alarm.targetUser"  ng-options="o.id as o.name for o in companyUserLists" required></select>
+                          <select class="form-control" ng-model="alarm.targetUser"  ng-options="o.userId as o.realname for o in companyUserLists" required></select>
                       </div>
                   </div>
 
@@ -618,6 +624,7 @@
           </div>
           <div class="modal-footer">
               <!-- <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">取消操作</button> -->
+              <button type="button" ng-show="hasAlarmset" class="btn blue" ng-click='clearAlarmset()' >移除报警</button>
               <button type="button" class="btn grey-salsa btn-outline " ng-click='setAlarmDismiss()' >取消</button>
               <button type="button" class="btn green"  ng-click='saveAlarm()' ng-disabled="alarmform.$invalid">
                   <i class="fa fa-check"></i> 确定 </button>
