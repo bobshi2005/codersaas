@@ -74,7 +74,8 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         $scope.marker2.setPosition([e.lnglat.getLng(),e.lnglat.getLat()]);
     });
     $scope.discreate = function(){
-        $('#myModal_createDevice').modal('hide');
+      console.log('zaoban',$scope.currentData.morningShiftStartTime,$scope.currentData.morningShiftEndTime);
+        $('#myModal_createProductLine').modal('hide');
         $scope.isShowmap = false;
     };
     $scope.disdelete = function(){
@@ -91,10 +92,10 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     $scope.disstatus = function(){
         $('#myModal_status').modal('hide')
     };
-    $scope.createDevice = function() {
+    $scope.createProductLine = function() {
       $scope.currentData = [];
-      $('#myModal_createDevice').modal();
-      // getdeviceModellist();
+      $('.date').timepicker('setTime',null);
+      $('#myModal_createProductLine').modal();
     };
     $scope.updateDevice = function() {
       $scope.currentData = {};
@@ -158,33 +159,15 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
           $('#myModal_deleteDevice').modal();
         }
     };
-    $scope.saveCreateDevice = function(){
+    $scope.saveCreateProductLine = function(){
       $('#imagePath').val($scope.uuid);
 
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
         $scope.message = '必须填写产线名称';
         $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("number")  || $scope.currentData.number == ''){
-        $scope.message = '必须填写产线编号';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("serialNumber")  || $scope.currentData.serialNumber == ''){
-        $scope.message = '必须填写产线序列号';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("createTime")  || $scope.currentData.createTime == ''){
-        $scope.message = '必须填写生产日期';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("factoryDate")  || $scope.currentData.factoryDate == ''){
-        $scope.message = '必须填写出厂日期';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("warrantyStartDate")  || $scope.currentData.warrantyStartDate == ''){
-        $scope.message = '必须填写质保开始日期';
-        $('#myModal_alert').modal();
-      }else if(!$scope.currentData.hasOwnProperty("warrantyEndDate")  || $scope.currentData.warrantyEndDate == ''){
-        $scope.message = '必须填写质保结束日期';
-        $('#myModal_alert').modal();
       }else{
-          $('#myModal_createDevice').modal('hide');
-          createDeviceImpl();
+          // $('#myModal_createProductLine').modal('hide');
+          createProductLineImpl();
       }
     };
     $scope.saveDeleteDevice = function() {
@@ -254,7 +237,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             if(result.data.code == 1) {
               $scope.message="产线开启成功！";
               $('#myModal_alert').modal();
-              getproductLineList();
+              getProductLineList();
             }else {
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -269,7 +252,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             if(result.data.code == 1) {
               $scope.message="产线停止成功！";
               $('#myModal_alert').modal();
-              getproductLineList();
+              getProductLineList();
             }else {
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -320,78 +303,61 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       getProductLineList();
       getCityData();
       $scope.modellist = sharedataApi.getModeldata();
+      $('.form_date1').timepicker({
+           minuteStep: 5,
+           showInputs: false,
+           disableFocus: true,
+           showMeridian: false,
+           defaultTime: false
+      }).on('hide.timepicker', function (e) {
+          $scope.currentData.morningShiftStartTime = e.time.value;
+      });
+      $('.form_date2').timepicker({
+           minuteStep: 5,
+           showInputs: false,
+           disableFocus: true,
+           showMeridian: false,
+           defaultTime: false
+      }).on('hide.timepicker', function (e) {
+          $scope.currentData.morningShiftEndTime = e.time.value;
+      });
 
-      $('.form_date1').datetimepicker({
-          language: 'zh-CN',
-          weekStart: 1,
-          todayBtn: 1,
-          autoclose: 1,
-          startView: 2,
-          forceParse: 0,
-          minView:'month',
-          format: 'yyyy-mm-dd',
-          todayHighlight: true,
-      }).on('hide', function (e) {
-          var $this = $(this);
-          var _this = this;
-          $scope.$apply(function(){
-              $scope.currentData.createTime = _this.value;
-          });
-        });
-
-        $('.form_date2').datetimepicker({
-          language: 'zh-CN',
-          weekStart: 1,
-          todayBtn: 1,
-          autoclose: 1,
-          startView: 2,
-          forceParse: 0,
-          minView:'month',
-          format: 'yyyy-mm-dd',
-          todayHighlight: true,
-        }).on('hide', function (e) {
-            var $this = $(this);
-            var _this = this;
-            $scope.$apply(function(){
-                $scope.currentData.factoryDate = _this.value;
-            });
-        });
-
-        $('.form_date3').datetimepicker({
-          language: 'zh-CN',
-          weekStart: 1,
-          todayBtn: 1,
-          autoclose: 1,
-          startView: 2,
-          forceParse: 0,
-          minView:'month',
-          format: 'yyyy-mm-dd',
-          todayHighlight: true,
-        }).on('hide', function (e) {
-            var $this = $(this);
-            var _this = this;
-            $scope.$apply(function(){
-                $scope.currentData.warrantyStartDate = _this.value;
-            });
-        });
-
-        $('.form_date4').datetimepicker({
-          language: 'zh-CN',
-          weekStart: 1,
-          todayBtn: 1,
-          autoclose: 1,
-          startView: 2,
-          forceParse: 0,
-          minView:'month',
-          format: 'yyyy-mm-dd',
-          todayHighlight: true,
-        }).on('hide', function (e) {
-            var $this = $(this);
-            var _this = this;
-            $scope.$apply(function(){
-                $scope.currentData.warrantyEndDate = _this.value;
-            });
-        });
+      $('.form_date3').timepicker({
+           minuteStep: 5,
+           showInputs: false,
+           disableFocus: true,
+           showMeridian: false,
+           defaultTime: false
+      }).on('hide.timepicker', function (e) {
+          $scope.currentData.middleShiftStartTime = e.time.value;
+      });
+      $('.form_date4').timepicker({
+           minuteStep: 5,
+           showInputs: false,
+           disableFocus: true,
+           showMeridian: false,
+           defaultTime: false
+      }).on('hide.timepicker', function (e) {
+          $scope.currentData.middleShiftEndTime = e.time.value;
+      });
+      $('.form_date5').timepicker({
+           minuteStep: 5,
+           showInputs: false,
+           disableFocus: true,
+           showMeridian: false,
+           defaultTime: false
+      }).on('hide.timepicker', function (e) {
+          $scope.currentData.nightShiftStartTime = e.time.value;
+      });
+      $('.form_date6').timepicker({
+           minuteStep: 5,
+           showInputs: false,
+           disableFocus: true,
+           showMeridian: false,
+           defaultTime: false
+      }).on('hide.timepicker', function (e) {
+          $scope.currentData.nightShiftEndTime = e.time.value;
+      });
 
       // $timeout(getProductLineList(),1000);
 
@@ -669,30 +635,31 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
 
 
 
-    function createDeviceImpl() {
+    function createProductLineImpl() {
       var params={};
       // params.userId = 1;
       params.name = $scope.currentData.name;
-      params.number = $scope.currentData.number;
-      params.serialNumber = $scope.currentData.serialNumber;
-      params.equipmentModelId = $scope.selectedmodel.equipmentModelId;
       params.imagePath = $('#imagePath').val();
       params.longitude = Math.round(document.getElementById("formlongitude1").value);
       params.latitude = Math.round(document.getElementById("formlatitude1").value);
-      params.factoryDate = changeTimeFormat2($scope.currentData.factoryDate);
-      params.createTime = changeTimeFormat2($scope.currentData.createTime);
-      params.warrantyStartDate = changeTimeFormat2($scope.currentData.warrantyStartDate);
-      params.warrantyEndDate = changeTimeFormat2($scope.currentData.warrantyEndDate);
-      params.commissioningDate = changeTimeFormat2(new Date());
-      params.maintenancePeriod = $scope.currentData.maintenancePeriod;
+      params.morningShiftStartTime = $scope.currentData.morningShiftStartTime;
+      params.morningShiftEndTime = $scope.currentData.morningShiftEndTime;
+      params.middleShiftStartTime = $scope.currentData.middleShiftStartTime;
+      params.middleShiftEndTime = $scope.currentData.middleShiftEndTime;
+      params.nightShiftStartTime = $scope.currentData.nightShiftStartTime;
+      params.nightShiftEndTime = $scope.currentData.nightShiftEndTime;
       params.province = $scope.currentData.province;
       params.city = $scope.currentData.city;
-      deviceApi.createDevice(params)
+      params.grm = $scope.currentData.grm;
+      params.grmPassword = $scope.currentData.grmPassword;
+      params.grmPeriod = $scope.currentData.grmPeriod;
+      deviceApi.createProductLine(params)
         .then(function(result){
             if(result.data.code ==1 ){
               $scope.message="创建产线成功！";
+              $('#myModal_createProductLine').modal('hide');
               $('#myModal_alert').modal();
-              getproductLineList();
+              getProductLineList();
             }else{
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -723,7 +690,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             if(result.data.code ==1 ){
               $scope.message="编辑产线成功！";
               $('#myModal_alert').modal();
-              getproductLineList();
+              getProductLineList();
             }else{
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -743,7 +710,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             if(result.data.code ==1 ){
                 $scope.message = '产线删除成功';
                 $('#myModal_alert').modal();
-                getproductLineList();
+                getProductLineList();
             }else{
               $scope.message = result.data.message;
               $('#myModal_alert').modal();

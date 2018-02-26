@@ -602,9 +602,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                     return $ocLazyLoad.load([
                           "../assets/global/plugins/jquery.min.js",
                           "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
-                          "../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
-                          "../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
-                          "../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js",
+                          "../assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
+                          "../assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
                           "../assets/global/plugins/fine-uploader/fine-uploader-gallery.min.css",
                           "../assets/global/plugins/fine-uploader/fine-uploader.min.js",
                           'js/controllers/ProductManageController.js?version=2018011701'
