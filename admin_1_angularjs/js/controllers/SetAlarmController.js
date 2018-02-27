@@ -3,7 +3,8 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
     $scope.menueName = $rootScope.menueName;
     $scope.productLine = $stateParams.productLine;
 
-    $scope.AlarmSetList = [];
+    $scope.AlarmSetList = []; //产线的报警设置数组
+    $scope.alarmTemplateList=[]; //报警模板数组
     $scope.equipmentDataList=[];
     $scope.dataTypelist=[
       {"id":"analog",'name':'模拟量'},
@@ -16,12 +17,17 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
       checked: false,
       items: {}
     };
+    $scope.checkboxes2 = {
+      checked: false,
+      items: {}
+    };
     $scope.addAlarmSet = function(){
       $scope.currentData = {};
       $('#myModal_createAlarmSet').modal();
-      $('.upperBound').hide();
-      $('.lowerBound').hide();
-      $('.duration').hide();
+      getAlarmTemplateList();
+      // $('.upperBound').hide();
+      // $('.lowerBound').hide();
+      // $('.duration').hide();
     };
     $scope.updateAlarmSet = function(){
       $scope.currentData = {};
@@ -33,7 +39,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         }
       });
       if(checked == 0){
-        $scope.message = '请选择一个报警模板';
+        $scope.message = '请选择一条报警设置';
         $('#myModal_alert').modal();
       }else if(checked > 1){
         $scope.message = '只能选择一个报警模板进行编辑';
@@ -71,7 +77,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         }
       });
       if(checked == 0){
-        $scope.message = '请选择一个报警模板';
+        $scope.message = '请选择一条报警设置';
         $('#myModal_alert').modal();
       }else{
         let tempstr = '';
@@ -102,21 +108,23 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
     }
 
     $scope.saveCreateAlarmSet = function(){
-        if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-            $scope.message = '必须填写报警模板名称';
-            $('#myModal_alert').modal();
-        }else if(!$scope.currentData.hasOwnProperty("selectedDataElement") || $scope.currentData.selectedDataElement == ''){
-            $scope.message = '必须选择报警变量';
-            $('#myModal_alert').modal();
-        }else if(!$scope.currentData.hasOwnProperty("alarmType") || $scope.currentData.alarmType == ''){
-            $scope.message = '必须选择报警类型';
-            $('#myModal_alert').modal();
-        }else{
-           if(checkNumContent()){
-             $('#myModal_createAlarmSet').modal('hide');
-             createAlarmSetImpl();
-           }
+      var checked = 0, ids='';
+      angular.forEach($scope.checkboxes2.items, function(value,key) {
+        if(value){
+          index = key;
+          checked += 1;
+          ids+=key+'::';
         }
+      });
+      if(checked == 0){
+        $scope.message = '请至少选择一个报警模板';
+        $('#myModal_alert').modal();
+      }else{
+        console.log('selectedids',ids);
+        createAlarmSetImpl($scope.productLine.productLineId,ids);
+      }
+        // $('#myModal_createAlarmSet').modal('hide');
+
     };
 
     $scope.saveUpdateAlarmSet = function(){
@@ -189,6 +197,33 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
 
         angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
       }, true);
+
+      $scope.$watch(function() {
+        return $scope.checkboxes2.checked;
+        }, function(value) {
+        angular.forEach($scope.alarmTemplateList, function(item) {
+          $scope.checkboxes2.items[item.alarmModelId] = value;
+        });
+        console.log('checkbox2',$scope.checkboxes2);
+      });
+      $scope.$watch(function() {
+        return $scope.checkboxes2.items;
+        }, function(values) {
+          var checked = 0, unchecked = 0,
+          total = $scope.alarmTemplateList.length;
+          angular.forEach($scope.checkboxes2.items, function(item) {
+           if(item){
+             checked += 1;
+           }else{
+             unchecked +=1;
+           }
+          });
+          if ((unchecked == 0) || (checked == 0)) {
+           $scope.checkboxes2.checked = (checked == total && total>0);
+          }
+
+          angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+        }, true);
 
     // function getEquipmentCategoryList(){
     //   deviceApi.getEquipmentCategoryList('asc',0,100)
@@ -264,6 +299,25 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         });
     }
 
+    function getAlarmTemplateList(){
+      deviceApi.getAlarmTemplateList('asc', 0,100)
+        .then(function(result) {
+            if(result.data.total > 0) {
+              $scope.alarmTemplateList=result.data.rows;
+            }else {
+              $scope.alarmTemplateList=[];
+            }
+            $scope.checkboxes.checked = false;
+            $scope.checkboxes.items = {};
+            console.log('alarmTemplateList',$scope.alarmTemplateList);
+            $scope.tableTemplate = new NgTableParams({},
+              { counts:[],
+                dataset: $scope.alarmTemplateList
+              });
+        }, function(err) {
+          console.log('获取数据点列表err',err);
+        });
+    }
 
     function getAlarmSetList(){
       $scope.AlarmSetList=[];
@@ -427,33 +481,11 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
       return false;
     }
 
-    function createAlarmSetImpl(){
-      var params={};
-      params.eamDataElementId = $scope.currentData.selectedDataElement.id;
-      params.name = $scope.currentData.name;
-      params.alarmType = $scope.currentData.alarmType.id;
-      if($scope.currentData.upperBound){
-        params.upperBound = $scope.currentData.upperBound;
-      }else{
-        params.upperBound = '';
-      }
-      if($scope.currentData.lowerBound){
-        params.lowerBound = $scope.currentData.lowerBound;
-      }else{
-        params.lowerBound = '';
-      }
-      if($scope.currentData.duration){
-        params.duration = $scope.currentData.duration;
-      }else{
-        params.duration = '';
-      }
-
-      console.log('alarmparams',params);
-
-      deviceApi.createAlarmSet(params)
+    function createAlarmSetImpl(productLineId,ids){
+      deviceApi.createProductLineAlarmSet(productLineId,ids)
           .then(function(result){
               if(result.data.code == 1 ){
-                  $scope.message = '报警模板创建成功！';
+                  $scope.message = '新建报警设置成功！';
                   $('#myModal_alert').modal();
                   $('#myModal_createAlarmSet').modal('hide');
                   getAlarmSetList();
@@ -462,7 +494,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
                 $('#myModal_alert').modal();
               }
           }, function(err) {
-            console.log('报警模板创建err',err);
+            console.log('新建报警设置err',err);
           });
     }
 

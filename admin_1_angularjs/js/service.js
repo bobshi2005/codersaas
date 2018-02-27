@@ -956,7 +956,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
             withCredentials: true,
             params: {order:'asc', offset:offset, limit:limit}
         }).then(function(response) {
-            sharedataApi.setModeldata(response.data.rows);
             d.resolve(response);
         }).catch(function(err) {
             d.reject(err);
@@ -1427,7 +1426,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
             withCredentials: true,
             params: {order:'asc', offset:offset, limit:limit}
         }).then(function(response) {
-            sharedataApi.setModeldata(response.data.rows);
             d.resolve(response);
         }).catch(function(err) {
             d.reject(err);
@@ -1507,7 +1505,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
             withCredentials: true,
             params: {order:'asc', offset:offset, limit:limit}
         }).then(function(response) {
-            sharedataApi.setModeldata(response.data.rows);
             d.resolve(response);
         }).catch(function(err) {
             d.reject(err);
@@ -1525,7 +1522,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
             withCredentials: true,
             params: {order:'asc', offset:offset, limit:limit}
         }).then(function(response) {
-            sharedataApi.setModeldata(response.data.rows);
             d.resolve(response);
         }).catch(function(err) {
             d.reject(err);
@@ -1602,7 +1598,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
             withCredentials: true,
             params: {order:'asc', offset:offset, limit:limit}
         }).then(function(response) {
-            sharedataApi.setModeldata(response.data.rows);
             d.resolve(response);
         }).catch(function(err) {
             d.reject(err);
@@ -1679,7 +1674,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
             withCredentials: true,
             params: {order:'asc', offset:offset, limit:limit}
         }).then(function(response) {
-            sharedataApi.setModeldata(response.data.rows);
             d.resolve(response);
         }).catch(function(err) {
             d.reject(err);
@@ -1756,7 +1750,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
             withCredentials: true,
             params: {order:'asc', offset:offset, limit:limit}
         }).then(function(response) {
-            sharedataApi.setModeldata(response.data.rows);
             d.resolve(response);
         }).catch(function(err) {
             d.reject(err);
@@ -1834,7 +1827,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
               withCredentials: true,
               params: {order:'asc', offset:offset, limit:limit}
           }).then(function(response) {
-              sharedataApi.setModeldata(response.data.rows);
               d.resolve(response);
           }).catch(function(err) {
               d.reject(err);
@@ -1911,7 +1903,6 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
               withCredentials: true,
               params: {productLineId:productLineId}
           }).then(function(response) {
-              sharedataApi.setModeldata(response.data.rows);
               d.resolve(response);
           }).catch(function(err) {
               d.reject(err);
@@ -1943,16 +1934,31 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           return d.promise;
       };
       //获取产线报警设置列表
-      service.getProductLineAlarmSet = function(productId,order, offset, limit) {
+      service.getProductLineAlarmSet = function(productLineId,order, offset, limit) {
           var d = $q.defer();
           $http({
               method: 'get',
-              url: deviceUrl+ '/manage/'+productId+'/alarm/list',
+              url: deviceUrl+ '/manage/'+productLineId+'/alarm/list',
               headers: {"Accept":"application/json"},
               withCredentials: true,
               params: {order:'asc', offset:offset, limit:limit}
           }).then(function(response) {
-              sharedataApi.setModeldata(response.data.rows);
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
+      //新建产线报警设置
+      service.createProductLineAlarmSet = function(productLineId,ids) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+productLineId+'/alarm/confirm',
+              headers: {"Accept":"application/json"},
+              params:{ids:ids},
+              withCredentials: true,
+          }).then(function(response) {
               d.resolve(response);
           }).catch(function(err) {
               d.reject(err);
