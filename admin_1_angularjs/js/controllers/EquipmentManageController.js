@@ -59,18 +59,7 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
         for(var i=0; i< $scope.equipmentList.length; i++){
           if($scope.equipmentList[i].equipmentId == index){
             $scope.currentData = $scope.equipmentList[i];
-            getProCity($scope.currentData.province);
-            if($scope.currentData.longitude!=null && $scope.currentData.latitude!=null){
-              $scope.marker2.setPosition([$scope.currentData.longitude,$scope.currentData.latitude]);
-            }else{
-              $scope.marker2.setPosition([116,39]);
-            }
-            $('.form_date1').timepicker('setTime',$scope.currentData.morningShiftStartTime);
-            $('.form_date2').timepicker('setTime',$scope.currentData.morningShiftEndTime);
-            $('.form_date3').timepicker('setTime',$scope.currentData.middleShiftStartTime);
-            $('.form_date4').timepicker('setTime',$scope.currentData.middleShiftEndTime);
-            $('.form_date5').timepicker('setTime',$scope.currentData.nightShiftStartTime);
-            $('.form_date6').timepicker('setTime',$scope.currentData.nightShiftEndTime);
+            $scope.equipmentCategory = getEquipmentCategoryById($scope.equipmentList[i].equipmentCategoryId);
           }
         }
         $('#myModal_updateEquipment').modal();
@@ -133,9 +122,13 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
         $scope.message = '必须填写设备名称';
         $('#myModal_alert').modal();
+      }else if(!$scope.equipmentCategory.equipmentCategoryId){
+        $scope.message = '必须选择设备类型';
+        $('#myModal_alert').modal();
+      }else if($scope.equipmentCategory.name =='产线'){
+        $scope.message = '设备类型不能是产线';
+        $('#myModal_alert').modal();
       }else{
-          // $('#myModal_updateEquipment').modal('hide');
-          $scope.isShowmap = false;
           updateEquipmentImpl();
       }
     };
@@ -406,6 +399,16 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
         });
     }
 
+    function getEquipmentCategoryById(id){
+      for(var i=0; i<$scope.equipmentCategorylist.length; i++){
+        if($scope.equipmentCategorylist[i].equipmentCategoryId == id){
+          var Category = $scope.equipmentCategorylist[i]
+          return Category;
+          break;
+        }
+      }
+    }
+
     Date.prototype.format = function(format) {
       var date = {
             "M+": this.getMonth() + 1,
@@ -556,21 +559,16 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       var params ={};
       params.id = $scope.currentData.equipmentId;
       params.name = $scope.currentData.name;
-      params.imagePath = $scope.currentData.imagePath;
-      params.longitude = Math.round(document.getElementById("formlongitude2").value);
-      params.latitude = Math.round(document.getElementById("formlatitude2").value);
-      params.morningShiftStartTime = $scope.currentData.morningShiftStartTime;
-      params.morningShiftEndTime = $scope.currentData.morningShiftEndTime;
-      params.middleShiftStartTime = $scope.currentData.middleShiftStartTime;
-      params.middleShiftEndTime = $scope.currentData.middleShiftEndTime;
-      params.nightShiftStartTime = $scope.currentData.nightShiftStartTime;
-      params.nightShiftEndTime = $scope.currentData.nightShiftEndTime;
-      params.province = $scope.currentData.province;
-      params.city = $scope.currentData.city;
-      params.grm = $scope.currentData.grm;
-      params.grmPassword = $scope.currentData.grmPassword;
-      params.grmPeriod = $scope.currentData.grmPeriod;
-      deviceApi.updateEquipment(params)
+      params.imagePath = $('#imagePath').val();
+      params.equipmentCategoryId =$scope.equipmentCategory.equipmentCategoryId;
+      params.number = $scope.currentData.number || '';
+      params.output = $scope.currentData.output || '';
+      params.weight = $scope.currentData.weight || '';
+      params.power = $scope.currentData.power || '';
+      params.capacity = $scope.currentData.capacity || '';
+      params.serialNumber = $scope.currentData.serialNumber || '';
+      params.factoryDate = $scope.currentData.factoryDate || '';
+      deviceApi.updateProductLineEquipment($scope.productLineId,params)
         .then(function(result){
             if(result.data.code ==1 ){
               $scope.message="编辑设备成功！";

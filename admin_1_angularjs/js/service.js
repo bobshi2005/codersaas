@@ -2049,7 +2049,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           var d = $q.defer();
           $http({
               method: 'post',
-              url: deviceUrl+ '/manage/'+productLineId+'/equipment/update',
+              url: deviceUrl+ '/manage/'+productLineId+'/equipment/update/'+params.id,
               headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
               data:params,
               withCredentials: true,
