@@ -1942,7 +1942,23 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           });
           return d.promise;
       };
-
+      //获取产线报警设置列表
+      service.getProductLineAlarmSet = function(productId,order, offset, limit) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+productId+'/alarm/list',
+              headers: {"Accept":"application/json"},
+              withCredentials: true,
+              params: {order:'asc', offset:offset, limit:limit}
+          }).then(function(response) {
+              sharedataApi.setModeldata(response.data.rows);
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
   return service;
 }]);
 //locals

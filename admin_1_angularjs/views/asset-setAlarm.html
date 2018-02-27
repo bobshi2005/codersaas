@@ -21,11 +21,15 @@
             <div class="portlet-title">
                 <div class="caption font-dark">
                     <i class="icon-settings font-dark"></i>
-                    <span class="caption-subject bold uppercase">报警模板列表</span>
+                    <span class="caption-subject bold uppercase">产线报警设置列表</span>
+                </div>
+                <div class="btn-group pull-right">
+                  <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='goback()'><i class="fa fa-reply"></i>返回
+                  </a>
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="myModal_createAlarmTemplate" class="modal fade" role="dialog" aria-hidden="true">
+                <div id="myModal_createAlarmSet" class="modal fade" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -78,12 +82,12 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn grey-salsa btn-outline" ng-click='createDismiss()'>取消操作</button>
-                                <button type="button" class="btn green"  ng-click='saveCreateAlarmTemplate()'><i class="fa fa-check"/> 确定添加 </button>
+                                <button type="button" class="btn green"  ng-click='saveCreateAlarmSet()'><i class="fa fa-check"/> 确定添加 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="myModal_updateAlarmTemplate" class="modal fade" role="dialog" aria-hidden="true">
+                <div id="myModal_updateAlarmSet" class="modal fade" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -136,12 +140,12 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn grey-salsa btn-outline" ng-click='updateDismiss()'>取消操作</button>
-                                <button type="button" class="btn green"  ng-click='saveUpdateAlarmTemplate()'><i class="fa fa-check"/> 确定修改 </button>
+                                <button type="button" class="btn green"  ng-click='saveUpdateAlarmSet()'><i class="fa fa-check"/> 确定修改 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="myModal_deleteAlarmTemplate" class="modal fade" role="dialog" aria-hidden="true">
+                <div id="myModal_deleteAlarmSet" class="modal fade" role="dialog" aria-hidden="true">
                   <div class="modal-dialog">
                       <div class="modal-content">
                           <div class="modal-header">
@@ -163,7 +167,7 @@
                           </div>
                       </div>
                   </div>
-              </div>
+                </div>
                 <div id="myModal_alert" class="modal fade" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -185,13 +189,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="btn-group">
-                                <a href="#" role="button" class="btn sbold green" ng-click="addAlarmTemplate()" data-toggle="modal">创建
+                                <a href="#" role="button" class="btn sbold green" ng-click="addAlarmSet()" data-toggle="modal">创建
                                     <i class="fa fa-plus"></i>
                                 </a>
-                                <a href="#" role="button" class="btn sbold blue" ng-click="updateAlarmTemplate()" data-toggle="modal">编辑
+                                <a href="#" role="button" class="btn sbold blue" ng-click="updateAlarmSet()" data-toggle="modal">编辑
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="#" role="button" class="btn sbold red" ng-click="deleteAlarmTemplate()" data-toggle="modal">删除
+                                <a href="#" role="button" class="btn sbold red" ng-click="deleteAlarmSet()" data-toggle="modal">删除
                                     <i class="fa fa-times"></i>
                                 </a>
                             </div>
@@ -210,7 +214,7 @@
                             <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
                               <td header="'headerCheckbox.html'">
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                <input type="checkbox" ng-model="checkboxes.items[param.alarmModelId]" /><span></span>
+                                <input type="checkbox" ng-model="checkboxes.items[param.alarmId]" /><span></span>
                                 </label>
                               </td>
                               <td title="'报警名称'">{{param.name}}</td>
