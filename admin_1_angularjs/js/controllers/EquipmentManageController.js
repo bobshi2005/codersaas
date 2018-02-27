@@ -1,103 +1,46 @@
-angular.module('MetronicApp').controller('ProductManageController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element','$compile','$state', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element,$compile,$state) {
+angular.module('MetronicApp').controller('EquipmentManageController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element','$compile','$state','$stateParams', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element,$compile,$state,$stateParams) {
     $rootScope.menueName = 'sidebar-asset';
-    $scope.isShowmap = false;
-    $scope.loadModels = false;
+
+    $scope.productLineId = $stateParams.productLine.productLineId;
     $scope.deletelist = [];
     $scope.deletestr = ''; //删除队列显示字符串
     $scope.message = ''; // 自定义消息提示内容
-    $scope.productLineList = [];
-    $scope.productLineList = [];//产线列表
+    $scope.equipmentList = [];//设备列表
     $scope.currentData = {};
-    // $scope.modellist = [];
-    $scope.provinceList = [];
-    $scope.linedataElements=[]; //产线的数据点列表
-    $scope.allcity = []; //所有的城市数据
-    $scope.cityList = [];
+    $scope.linedataElements=[]; //设备的数据点列表
     $scope.showUploader = false;//UPDATE 界面中 更新图片
     $scope.uuid = '';
     var galleryUploader;
     var galleryUpdate;
     var uploaderUrl = sharedataApi.getUploaderUrl();
-    $scope.doProvAndCityRelation = function(){
-      console.log('selectPro',$scope.currentData.province);
-      getProCity($scope.currentData.province);
-    };
-    $scope.doGetCity = function(){
-      console.log('selectCity',$scope.currentData.city);
-    };
-    $scope.showMap1 = function() {
-      $scope.isShowmap = true;
-    };
-    $scope.showMap2 = function() {
-      $scope.isShowmap = true;
-    };
+
     $scope.checkboxes = {
       checked: false,
       items: {}
     };
-    $scope.map1 = new AMap.Map('mapContainer1', {
-        resizeEnable: true,
-        center: [116.397428, 39.90923],
-        zoom: 4
-    });
-    $scope.marker1 = new AMap.Marker({
-      position: $scope.map1.getCenter(),
-      offset: new AMap.Pixel(-12, -12),
-      zIndex: 101,
-      map: $scope.map1
-    });
-    $scope.map1.plugin(["AMap.ToolBar"], function() {
-        $scope.map1.addControl(new AMap.ToolBar());
-    });
-    $scope.map1.on('click', function(e) {
-        document.getElementById("formlongitude1").value = e.lnglat.getLng();
-        document.getElementById("formlatitude1").value = e.lnglat.getLat();
-        $scope.marker1.setPosition([e.lnglat.getLng(),e.lnglat.getLat()]);
-    });
-    $scope.map2 = new AMap.Map('mapContainer2', {
-        resizeEnable: true,
-        center: [116.397428, 39.90923],
-        zoom: 4
-    });
-    $scope.marker2 = new AMap.Marker({
-      position: $scope.map2.getCenter(),
-      offset: new AMap.Pixel(-12, -12),
-      zIndex: 101,
-      map: $scope.map2
-    });
-    $scope.map2.plugin(["AMap.ToolBar"], function() {
-        $scope.map2.addControl(new AMap.ToolBar());
-    });
-    $scope.map2.on('click', function(e) {
-        document.getElementById("formlongitude2").value = e.lnglat.getLng();
-        document.getElementById("formlatitude2").value = e.lnglat.getLat();
-        $scope.marker2.setPosition([e.lnglat.getLng(),e.lnglat.getLat()]);
-    });
+
+
     $scope.discreate = function(){
       // console.log('zaoban',$scope.currentData.morningShiftStartTime,$scope.currentData.morningShiftEndTime);
-        $('#myModal_createProductLine').modal('hide');
+        $('#myModal_createEquipment').modal('hide');
         $scope.isShowmap = false;
     };
     $scope.disdelete = function(){
-        $('#myModal_deleteProductLine').modal('hide');
+        $('#myModal_deleteEquipment').modal('hide');
     };
     $scope.disupdate = function(){
-      $('#myModal_updateProductLine').modal('hide');
+      $('#myModal_updateEquipment').modal('hide');
       $scope.isShowmap = false;
     };
     $scope.disalert = function(){
         $('#myModal_alert').modal('hide')
     };
-
-    $scope.disstatus = function(){
-        $('#myModal_status').modal('hide')
-    };
-    $scope.createProductLine = function() {
+    $scope.createEquipment = function() {
       $scope.currentData = [];
       $('.date').timepicker('setTime',null);
-      $('#myModal_createProductLine').modal();
+      $('#myModal_createEquipment').modal();
     };
-    $scope.updateProductLine = function() {
+    $scope.updateEquipment = function() {
       $scope.currentData = {};
       var checked = 0, index = 0;
       angular.forEach($scope.checkboxes.items, function(value,key) {
@@ -107,15 +50,15 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         }
       });
       if(checked == 0){
-        $scope.message = '请选择一个产线';
+        $scope.message = '请选择一个设备';
         $('#myModal_alert').modal();
       }else if(checked > 1){
-        $scope.message = '只能选择一个产线行编辑';
+        $scope.message = '只能选择一个设备行编辑';
         $('#myModal_alert').modal();
       }else{
-        for(var i=0; i< $scope.productLineList.length; i++){
-          if($scope.productLineList[i].productLineId == index){
-            $scope.currentData = $scope.productLineList[i];
+        for(var i=0; i< $scope.equipmentList.length; i++){
+          if($scope.equipmentList[i].equipmentId == index){
+            $scope.currentData = $scope.equipmentList[i];
             getProCity($scope.currentData.province);
             if($scope.currentData.longitude!=null && $scope.currentData.latitude!=null){
               $scope.marker2.setPosition([$scope.currentData.longitude,$scope.currentData.latitude]);
@@ -130,19 +73,19 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             $('.form_date6').timepicker('setTime',$scope.currentData.nightShiftEndTime);
           }
         }
-        $('#myModal_updateProductLine').modal();
+        $('#myModal_updateEquipment').modal();
       }
     };
-    $scope.deleteProductLine = function() {
+    $scope.deleteEquipment = function() {
         var checked = 0;
         $scope.deletelist = [];
         angular.forEach($scope.checkboxes.items, function(value,key) {
           if(value){
             checked += 1;
             let tempdata={};
-            for(var i=0; i< $scope.productLineList.length; i++){
-              if($scope.productLineList[i].productLineId == key){
-                tempdata = $scope.productLineList[i];
+            for(var i=0; i< $scope.equipmentList.length; i++){
+              if($scope.equipmentList[i].equipmentId == key){
+                tempdata = $scope.equipmentList[i];
                 $scope.deletelist.push(tempdata);
                 break;
               }
@@ -150,7 +93,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
           }
         });
         if(checked == 0){
-          $scope.message = '请至少选择一个产线';
+          $scope.message = '请至少选择一个设备';
           $('#myModal_alert').modal();
         }else{
           let tempstr = '';
@@ -158,35 +101,35 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             tempstr =tempstr+ $scope.deletelist[i].name;
             tempstr =tempstr+ ' ';
           }
-          tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个产线';
+          tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个设备';
           $scope.deletestr = tempstr;
-          $('#myModal_deleteProductLine').modal();
+          $('#myModal_deleteEquipment').modal();
         }
     };
-    $scope.saveCreateProductLine = function(){
+    $scope.saveCreateEquipment = function(){
       $('#imagePath').val($scope.uuid);
 
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-        $scope.message = '必须填写产线名称';
+        $scope.message = '必须填写设备名称';
         $('#myModal_alert').modal();
       }else{
-          // $('#myModal_createProductLine').modal('hide');
-          createProductLineImpl();
+          // $('#myModal_createEquipment').modal('hide');
+          createEquipmentImpl();
       }
     };
-    $scope.saveDeleteProductLine = function() {
-        // $('#myModal_deleteProductLine').modal("hide");
+    $scope.saveDeleteEquipment = function() {
+        // $('#myModal_deleteEquipment').modal("hide");
         $scope.isShowmap = false;
-        deleteProductLineImpl();
+        deleteEquipmentImpl();
     };
-    $scope.saveUpdateProductLine = function(){
+    $scope.saveUpdateEquipment = function(){
       if(!$scope.currentData.hasOwnProperty("name") || $scope.currentData.name == ''){
-        $scope.message = '必须填写产线名称';
+        $scope.message = '必须填写设备名称';
         $('#myModal_alert').modal();
       }else{
-          // $('#myModal_updateProductLine').modal('hide');
+          // $('#myModal_updateEquipment').modal('hide');
           $scope.isShowmap = false;
-          updateProductLineImpl();
+          updateEquipmentImpl();
       }
     };
     $scope.changeImageUpdate = function(){
@@ -194,110 +137,21 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       $scope.currentData.imagesrc = '';
       $scope.showUploader = true;
     };
-    $scope.goSetAlarmPage = function(){
-      $scope.currentData = {};
-      var checked = 0, index = 0;
-      angular.forEach($scope.checkboxes.items, function(value,key) {
-        if(value){
-          index = key;
-          checked += 1;
-        }
-      });
-      if(checked == 0){
-        $scope.message = '请选择一个产线';
-        $('#myModal_alert').modal();
-      }else if(checked > 1){
-        $scope.message = '只能选择一个产线进行设置';
-        $('#myModal_alert').modal();
-      }else{
-        for(var i=0; i< $scope.productLineList.length; i++){
-          if($scope.productLineList[i].productLineId == index){
-            $scope.currentData = $scope.productLineList[i];
-            $state.go('main.asset.setAlarm',{productLine:$scope.currentData})
-          }
-        }
-      }
-    };
-    $scope.goSetEquipmentPage = function(){
-      $scope.currentData = {};
-      var checked = 0, index = 0;
-      angular.forEach($scope.checkboxes.items, function(value,key) {
-        if(value){
-          index = key;
-          checked += 1;
-        }
-      });
-      if(checked == 0){
-        $scope.message = '请选择一个产线';
-        $('#myModal_alert').modal();
-      }else if(checked > 1){
-        $scope.message = '只能选择一个产线进行设置';
-        $('#myModal_alert').modal();
-      }else{
-        for(var i=0; i< $scope.productLineList.length; i++){
-          if($scope.productLineList[i].productLineId == index){
-            $scope.currentData = $scope.productLineList[i];
-            $state.go('main.asset.equipmentManage',{productLine:$scope.currentData})
-          }
-        }
-      }
-    };
-    $scope.openStatusModal = function(param){
-      //产线启停
-        $scope.currentData = param;
-        if(param.collectStatus == "Working"){
-          $scope.status ="已开启";
-          $scope.statusAction = "停止";
-        }else {
-          $scope.status ="已停止";
-          $scope.statusAction = "开启";
-        }
-        $('#myModal_status').modal();
-    };
-    $scope.changeStatus = function(){
-      $('#myModal_status').modal('hide');
-      param = {};
-      param.ids=$scope.currentData.productLineId;
-      if($scope.statusAction == '开启'){
-        deviceApi.startCollect(param)
-          .then(function(result) {
-            if(result.data.code == 1) {
-              $scope.message="产线开启成功！";
-              $('#myModal_alert').modal();
-              getProductLineList();
-            }else {
-              $scope.message=result.data.message;
-              $('#myModal_alert').modal();
-            }
-          }, function(err) {
-              console.log('startCollectErr',err);
-          });
 
-      }else if($scope.statusAction == '停止'){
-        deviceApi.stopCollect(param)
-          .then(function(result) {
-            if(result.data.code == 1) {
-              $scope.message="产线停止成功！";
-              $('#myModal_alert').modal();
-              getProductLineList();
-            }else {
-              $scope.message=result.data.message;
-              $('#myModal_alert').modal();
-            }
-          }, function(err) {
-              console.log('stopCollectErr',err);
-          });
-      }
+    $scope.goback = function(){
+      $state.go('main.asset.productmanage')
     };
-    $scope.showProductLineDetail = function(param){
-      console.log('showProductLineDetail',param);
+
+
+    $scope.showEquipmentDetail = function(param){
+      console.log('showEquipmentDetail',param);
       $scope.currentData = param;
-      $('#myModal_ProductLineDetail').modal();
+      $('#myModal_EquipmentDetail').modal();
     };
-    $scope.disShowProductLineDetail = function(){
-      $('#myModal_ProductLineDetail').modal('hide');
+    $scope.disShowEquipmentDetail = function(){
+      $('#myModal_EquipmentDetail').modal('hide');
     };
-    $scope.editProductLineElements = function(){
+    $scope.editEquipmentElements = function(){
       $scope.currentData = {};
       var checked = 0, index = 0;
       angular.forEach($scope.checkboxes.items, function(value,key) {
@@ -307,18 +161,18 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         }
       });
       if(checked == 0){
-        $scope.message = '请选择一个产线';
+        $scope.message = '请选择一个设备';
         $('#myModal_alert').modal();
       }else if(checked > 1){
-        $scope.message = '只能选择一个产线行编辑';
+        $scope.message = '只能选择一个设备行编辑';
         $('#myModal_alert').modal();
       }else{
-        for(var i=0; i< $scope.productLineList.length; i++){
-          if($scope.productLineList[i].productLineId == index){
-            $scope.currentData = $scope.productLineList[i];
+        for(var i=0; i< $scope.equipmentList.length; i++){
+          if($scope.equipmentList[i].equipmentId == index){
+            $scope.currentData = $scope.equipmentList[i];
           }
         }
-        getProductLineElements($scope.currentData.productLineId);
+        getEquipmentElements($scope.currentData.equipmentId);
 
       }
     };
@@ -332,15 +186,15 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         ids+=idArr[i]+'::';
       }
       console.log('selected',ids);
-      setProductLineElements($scope.currentData.productLineId,ids);
+      // setEquipmentElements($scope.currentData.equipmentId,ids);
     };
 
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
       }, function(value) {
-      angular.forEach($scope.productLineList, function(item) {
-        $scope.checkboxes.items[item.productLineId] = value;
+      angular.forEach($scope.equipmentList, function(item) {
+        $scope.checkboxes.items[item.equipmentId] = value;
       });
     });
     // watch for data checkboxes
@@ -348,7 +202,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       return $scope.checkboxes.items;
       }, function(values) {
        var checked = 0, unchecked = 0,
-       total = $scope.productLineList.length;
+       total = $scope.equipmentList.length;
        angular.forEach($scope.checkboxes.items, function(item) {
          if(item){
            checked += 1;
@@ -364,67 +218,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
      }, true);
 
     $scope.$on('$viewContentLoaded', function() {
-      // getdeviceModellist();
-      getProductLineList();
-      getCityData();
-      // $scope.modellist = sharedataApi.getModeldata();
-      $('.form_date1').timepicker({
-           minuteStep: 5,
-           showInputs: false,
-           disableFocus: true,
-           showMeridian: false,
-           defaultTime: false
-      }).on('hide.timepicker', function (e) {
-          $scope.currentData.morningShiftStartTime = e.time.value;
-      });
-      $('.form_date2').timepicker({
-           minuteStep: 5,
-           showInputs: false,
-           disableFocus: true,
-           showMeridian: false,
-           defaultTime: false
-      }).on('hide.timepicker', function (e) {
-          $scope.currentData.morningShiftEndTime = e.time.value;
-      });
-
-      $('.form_date3').timepicker({
-           minuteStep: 5,
-           showInputs: false,
-           disableFocus: true,
-           showMeridian: false,
-           defaultTime: false
-      }).on('hide.timepicker', function (e) {
-          $scope.currentData.middleShiftStartTime = e.time.value;
-      });
-      $('.form_date4').timepicker({
-           minuteStep: 5,
-           showInputs: false,
-           disableFocus: true,
-           showMeridian: false,
-           defaultTime: false
-      }).on('hide.timepicker', function (e) {
-          $scope.currentData.middleShiftEndTime = e.time.value;
-      });
-      $('.form_date5').timepicker({
-           minuteStep: 5,
-           showInputs: false,
-           disableFocus: true,
-           showMeridian: false,
-           defaultTime: false
-      }).on('hide.timepicker', function (e) {
-          $scope.currentData.nightShiftStartTime = e.time.value;
-      });
-      $('.form_date6').timepicker({
-           minuteStep: 5,
-           showInputs: false,
-           disableFocus: true,
-           showMeridian: false,
-           defaultTime: false
-      }).on('hide.timepicker', function (e) {
-          $scope.currentData.nightShiftEndTime = e.time.value;
-      });
-
-      // $timeout(getProductLineList(),1000);
+      getEquipmentList();
 
       galleryUploader = new qq.FineUploader(
           {
@@ -631,8 +425,8 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
     }
 
 
-    function getProductLineElements(productLineId){
-      deviceApi.getDataElementByProductLineId(productLineId)
+    function getEquipmentElements(equipmentId){
+      deviceApi.getDataElementByEquipmentId(equipmentId)
         .then(function(result){
           if(result.data.rows){
             $scope.linedataElements=result.data.rows;
@@ -659,11 +453,11 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             $scope.linedataElements=[];
           }
         }, function(err) {
-            console.log('getProductLineElementsErr',err);
+            console.log('getEquipmentElementsErr',err);
         });
     }
-    function setProductLineElements(productLineId,elementsIds){
-      deviceApi.setDataElementsToProductLine(productLineId,elementsIds)
+    function setEquipmentElements(equipmentId,elementsIds){
+      deviceApi.setDataElementsToEquipment(equipmentId,elementsIds)
         .then(function(result){
             if(result.data.code ==1 ){
               $scope.message="数据点设置成功！";
@@ -674,12 +468,12 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
               $('#myModal_alert').modal();
             }
         }, function(err) {
-            console.log('setProductLineElemenErr',err);
+            console.log('setEquipmentElemenErr',err);
         });
     }
 
-    function getProductLineList() {
-      $scope.productLineList = [];
+    function getEquipmentList() {
+      $scope.equipmentList = [];
       $scope.checkboxes.checked = false;
       $scope.checkboxes.items = {};
       $scope.tableParams = new NgTableParams({
@@ -688,33 +482,23 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       }, {
         counts:[2,10,50],
         getData: function(params) {
-          return deviceApi.getProductLineList('asc', (params.page()-1)*params.count(), params.count())
+          return deviceApi.getProductLineEquipmentsList($scope.productLineId,'asc', (params.page()-1)*params.count(), params.count())
             .then(function(result) {
                 if(result.data.total > 0) {
-                     $scope.productLineList=result.data.rows;
+                     $scope.equipmentList=result.data.rows;
                      for(var i=0;i<result.data.rows.length;i++) {
-                       $scope.productLineList[i].imagesrc = uploaderUrl+'/files/'+$scope.productLineList[i].imagePath;
-                       $scope.productLineList[i].createTime = changeTimeFormat($scope.productLineList[i].createTime);
+                       $scope.equipmentList[i].imagesrc = uploaderUrl+'/files/'+$scope.equipmentList[i].imagePath;
+                       $scope.equipmentList[i].createTime = changeTimeFormat($scope.equipmentList[i].createTime);
 
-                       if($scope.productLineList[i].imagePath ==''|| $scope.productLineList[i].imagePath ==null){
-                          $scope.productLineList[i].imagesrc = "../assets/pages/media/works/img7.jpg";
-                       }
-                       if($scope.productLineList[i].collectStatus == "Working"){
-                         $scope.productLineList[i].turnpic="../assets/pages/img/turn-on2.png"
-                       }else{
-                         $scope.productLineList[i].turnpic="../assets/pages/img/turn-off2.png"
-                       }
-                       if($scope.productLineList[i].isOnline == true){
-                         $scope.productLineList[i].isOnlinelabel="在线"
-                       }else{
-                         $scope.productLineList[i].isOnlinelabel="离线"
+                       if($scope.equipmentList[i].imagePath ==''|| $scope.equipmentList[i].imagePath ==null){
+                          $scope.equipmentList[i].imagesrc = "../assets/pages/media/works/img7.jpg";
                        }
                      }
                 }else {
-                  $scope.productLineList=[];
+                  $scope.equipmentList=[];
                 }
                 params.total(result.data.total);
-                return $scope.productLineList;
+                return $scope.equipmentList;
             }, function(err) {
 
             });
@@ -726,7 +510,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
 
 
 
-    function createProductLineImpl() {
+    function createEquipmentImpl() {
       var params={};
       // params.userId = 1;
       params.name = $scope.currentData.name;
@@ -744,13 +528,13 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       params.grm = $scope.currentData.grm;
       params.grmPassword = $scope.currentData.grmPassword;
       params.grmPeriod = $scope.currentData.grmPeriod;
-      deviceApi.createProductLine(params)
+      deviceApi.createEquipment(params)
         .then(function(result){
             if(result.data.code ==1 ){
-              $scope.message="创建产线成功！";
-              $('#myModal_createProductLine').modal('hide');
+              $scope.message="创建设备成功！";
+              $('#myModal_createEquipment').modal('hide');
               $('#myModal_alert').modal();
-              getProductLineList();
+              getEquipmentList();
             }else{
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -759,9 +543,9 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             console.log('createDeviceerr',err);
         });
     };
-    function updateProductLineImpl() {
+    function updateEquipmentImpl() {
       var params ={};
-      params.id = $scope.currentData.productLineId;
+      params.id = $scope.currentData.equipmentId;
       params.name = $scope.currentData.name;
       params.imagePath = $scope.currentData.imagePath;
       params.longitude = Math.round(document.getElementById("formlongitude2").value);
@@ -777,34 +561,34 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       params.grm = $scope.currentData.grm;
       params.grmPassword = $scope.currentData.grmPassword;
       params.grmPeriod = $scope.currentData.grmPeriod;
-      deviceApi.updateProductLine(params)
+      deviceApi.updateEquipment(params)
         .then(function(result){
             if(result.data.code ==1 ){
-              $scope.message="编辑产线成功！";
-              $('#myModal_updateProductLine').modal('hide');
+              $scope.message="编辑设备成功！";
+              $('#myModal_updateEquipment').modal('hide');
               $('#myModal_alert').modal();
-              getProductLineList();
+              getEquipmentList();
             }else{
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
             }
         }, function(err) {
-            console.log('updateProductLineerr',err);
+            console.log('updateEquipmenterr',err);
         });
 
     }
-    function deleteProductLineImpl() {
+    function deleteEquipmentImpl() {
       var ids='';
       for(var i=0; i< $scope.deletelist.length; i++){
-        ids =ids+ $scope.deletelist[i].productLineId+'-';
+        ids =ids+ $scope.deletelist[i].equipmentId+'-';
       }
-      deviceApi.deleteProductLine(ids)
+      deviceApi.deleteEquipment(ids)
         .then(function(result){
             if(result.data.code ==1 ){
-                $scope.message = '产线删除成功';
-                $('#myModal_deleteProductLine').modal("hide");
+                $scope.message = '设备删除成功';
+                $('#myModal_deleteEquipment').modal("hide");
                 $('#myModal_alert').modal();
-                getProductLineList();
+                getEquipmentList();
             }else{
               $scope.message = result.data.message;
               $('#myModal_alert').modal();
@@ -813,21 +597,5 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
             console.log('deleteerr',err);
         });
     }
-    function getCityData() {
-      $.getJSON("./data/areas.json", function(value){
-        $scope.provinceList = value.province;
-        $scope.allcity = value.city;
-    })}
-    function getProCity(procode) {
-      $scope.cityList = [];
-      if(procode!=null && procode!=''){
-        $.each($scope.allcity,
-          function(i, val) {
-            if (val.id.substr(0, 2) == procode.substr(0, 2)) {
-              $scope.cityList.push(val);
-            }
-          }
-        );
-      }
-    }
+
 }]);

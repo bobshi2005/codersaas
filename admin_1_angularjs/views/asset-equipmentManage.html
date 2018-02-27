@@ -7,6 +7,10 @@
         </li>
         <li>
             <span>产线信息管理</span>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>设备管理</span>
         </li>
     </ul>
 </div>
@@ -17,10 +21,10 @@
           <div class="portlet light portlet-fit portlet-datatable bordered">
               <div class="portlet-title">
                   <div class="caption">
-                      <i class="icon-settings font-dark"></i>产线列表</div>
+                      <i class="icon-settings font-dark"></i>设备列表</div>
               </div>
               <div class="portlet-body">
-                  <div id="myModal_createProductLine" class="modal fade" role="dialog" aria-hidden="true">
+                  <div id="myModal_createEquipment" class="modal fade" role="dialog" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
                               <div class="modal-header">
@@ -133,13 +137,13 @@
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn grey-salsa btn-outline " ng-click='discreate()' >取消操作</button>
-                                  <button type="button" class="btn green"  ng-click='saveCreateProductLine()'>
+                                  <button type="button" class="btn green"  ng-click='saveCreateEquipment()'>
                                       <i class="fa fa-check"></i> 确定添加 </button>
                               </div>
                           </div>
                       </div>
                   </div>
-                  <div id="myModal_updateProductLine" class="modal fade" role="dialog" aria-hidden="true">
+                  <div id="myModal_updateEquipment" class="modal fade" role="dialog" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
                               <div class="modal-header">
@@ -262,13 +266,13 @@
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn grey-salsa btn-outline " ng-click='disupdate()' >取消操作</button>
-                                  <button type="button" class="btn green"  ng-click='saveUpdateProductLine()'>
+                                  <button type="button" class="btn green"  ng-click='saveUpdateEquipment()'>
                                       <i class="fa fa-check"></i> 确定修改 </button>
                               </div>
                           </div>
                       </div>
                   </div>
-                  <div id="myModal_deleteProductLine" class="modal fade" role="dialog" aria-hidden="true">
+                  <div id="myModal_deleteEquipment" class="modal fade" role="dialog" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
                               <div class="modal-header">
@@ -282,13 +286,13 @@
 
                               <div class="modal-footer">
                                   <button type="button" class="btn grey-salsa btn-outline" ng-click='disdelete()'>取消操作</button>
-                                  <button type="button" class="btn green"  ng-click='saveDeleteProductLine()'>
+                                  <button type="button" class="btn green"  ng-click='saveDeleteEquipment()'>
                                       <i class="fa fa-check"></i> 确定删除 </button>
                               </div>
                           </div>
                       </div>
                   </div>
-                  <div id="myModal_ProductLineDetail" class="modal fade" role="dialog" aria-hidden="true">
+                  <div id="myModal_EquipmentDetail" class="modal fade" role="dialog" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
                               <div class="modal-header">
@@ -409,7 +413,7 @@
                                   </form>
                               </div>
                               <div class="modal-footer ">
-                                  <button type="button" class="btn green text-center"  ng-click='disShowProductLineDetail()'>关闭 </button>
+                                  <button type="button" class="btn green text-center"  ng-click='disShowEquipmentDetail()'>关闭 </button>
                               </div>
                           </div>
                       </div>
@@ -482,22 +486,17 @@
                   </div>
 
                   <div class="row">
-                      <div class="col-md-12 col-sm-12">
+                      <div class="col-md-6">
                           <div class="btn-group">
-                              <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="createProductLine()">新建
+                              <a href="#" role="button" class="btn sbold green" data-toggle="modal" ng-click="createEquipment()">新建
                                   <i class="fa fa-plus"></i>
                               </a>
-                              <a href="#" role="button" class="btn  sbold blue " ng-click='updateProductLine()'>编辑<i class="fa fa-edit"></i>
+                              <a href="#" role="button" class="btn  sbold blue " ng-click='updateEquipment()'>编辑<i class="fa fa-edit"></i>
                               </a>
-                              <a href="#" role="button" class="btn sbold red " ng-click='deleteProductLine()' >删除<i class="fa fa-times"></i>
+                              <a href="#" role="button" class="btn sbold red " ng-click='deleteEquipment()' >删除<i class="fa fa-times"></i>
                               </a>
                           </div>
-                          <a href="#" role="button" class="btn  sbold blue " ng-click='editProductLineElements()'>数据点<i class="fa fa-plus"></i>
-                          </a>
-                          <a href="#" role="button" class="btn  sbold blue" ng-click='goSetAlarmPage()'>报警设置<i class="fa fa-tag"></i>
-                          </a>
-                          <a href="#" role="button" class="btn  sbold blue" ng-click='goSetEquipmentPage()'>设备管理<i class="fa fa-tag"></i>
-                          </a>
+
                       </div>
                   </div>
                   <div class="row">
@@ -512,25 +511,20 @@
                                   <tr class="odd gradeX" ng-repeat="param in  $data" style=" text-align: center;">
                                       <td header="'headerCheckbox.html'">
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                        <input type="checkbox" ng-model="checkboxes.items[param.productLineId]" /><span></span>
+                                        <input type="checkbox" ng-model="checkboxes.items[param.equipmentId]" /><span></span>
                                         </label>
                                       </td>
-                                      <td title="'ID'">{{param.productLineId}}</td>
-                                      <td title="'名称'">{{param.name}}</td>
+                                      <td title="'ID'">{{param.equipmentId}}</td>
+                                      <td title="'设备名称'">{{param.name}}</td>
                                       <td title="'图片'">
                                           <img ng-src="{{param.imagesrc}}" style="width: 36px;height:36px"/>
                                       </td>
 
-                                      <td title="'采集频率'">{{param.grmPeriod}}</td>
-                                      <td title="'在线情况'">{{param.isOnlinelabel}}</td>
-                                      <td title="'启停情况'">
-                                            <a  href="#" class="btn" style="width:64px;height:20px" >
-                                              <img src={{param.turnpic}} style="width:32px;height:17px" />
-                                            </a>
-                                      </td>
-                                      <td title="'详情'">
+                                      <td title="'设备编号'">{{param.number}}</td>
+
+                                      <td title="'数据分组'">
                                         <div class="margin-bottom-5">
-                                          <a href="#" ng-click="showProductLineDetail(param)" class="btn btn-sm btn-success sbold blue ">查看&nbsp<i class="fa fa-search"></i>
+                                          <a href="#" ng-click="showEquipmentDetail(param)" class="btn btn-sm btn-success sbold blue ">设置&nbsp
                                           </a>
                                         </div>
                                       </td>

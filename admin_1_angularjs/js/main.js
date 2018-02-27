@@ -628,6 +628,28 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                 }]
             }
         })
+        .state('main.asset.equipmentManage', {
+            url: "/equipmentManage",
+            params:{"productLine":null},
+            templateUrl: "views/asset-equipmentManage.html?version=2018011701",
+            controller: 'EquipmentManageController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                          "../assets/global/plugins/jquery.min.js",
+                          "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                          "../assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
+                          "../assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
+                          "../assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js",
+                          "../assets/global/plugins/jquery-multi-select/css/multi-select.css",
+                          "../assets/global/plugins/fine-uploader/fine-uploader-gallery.min.css",
+                          "../assets/global/plugins/fine-uploader/fine-uploader.min.js",
+                          'js/controllers/EquipmentManageController.js?version=2018011701'
+
+                    ])
+                }]
+            }
+        })
         .state('main.asset.modalmanage', {
             url: "/modalmanage",
             templateUrl: "views/asset-modalmanage.html?version=2018011701",
