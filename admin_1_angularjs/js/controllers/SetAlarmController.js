@@ -42,7 +42,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         $scope.message = '请选择一条报警设置';
         $('#myModal_alert').modal();
       }else if(checked > 1){
-        $scope.message = '只能选择一个报警模板进行编辑';
+        $scope.message = '只能选择一条报警设置进行编辑';
         $('#myModal_alert').modal();
       }else{
         for(var i=0; i< $scope.AlarmSetList.length; i++){
@@ -168,7 +168,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
 
     $scope.$on('$viewContentLoaded', function() {
         console.log('productLine',$scope.productLine);
-        // getEquipmentDataList();
+        getEquipmentDataList();
         getAlarmSetList();
     });
     $scope.$watch(function() {
@@ -500,10 +500,11 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
 
     function updateAlarmSetImpl(){
       var params={};
-      params.id = $scope.currentData.alarmId;
+      params.alarmId =$scope.currentData.alarmId;
       params.eamDataElementId = $scope.currentData.selectedDataElement.id;
       params.name = $scope.currentData.name;
       params.alarmType = $scope.currentData.alarmType.id;
+      params.alarmTargetUser = 1;
       if($scope.currentData.upperBound){
         params.upperBound = $scope.currentData.upperBound;
       }else{
@@ -519,7 +520,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
       }else{
         params.duration = '';
       }
-      deviceApi.updateAlarmSet(params)
+      deviceApi.updateProductLineAlarmSet($scope.productLine.productLineId,params)
           .then(function(result){
               if(result.data.code == 1 ){
                   $scope.message = '报警模板修改成功！';
