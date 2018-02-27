@@ -85,7 +85,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
           tempstr =tempstr+ $scope.deletelist[i].name;
           tempstr =tempstr+ ' ';
         }
-        tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个报警模板';
+        tempstr =tempstr+ '  共'+ $scope.deletelist.length+'条报警设置';
         $scope.deletestr = tempstr;
         $('#myModal_deleteAlarmSet').modal();
       }
@@ -315,7 +315,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
                 dataset: $scope.alarmTemplateList
               });
         }, function(err) {
-          console.log('获取数据点列表err',err);
+          console.log('获取报警模板列表err',err);
         });
     }
 
@@ -523,7 +523,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
       deviceApi.updateProductLineAlarmSet($scope.productLine.productLineId,params)
           .then(function(result){
               if(result.data.code == 1 ){
-                  $scope.message = '报警模板修改成功！';
+                  $scope.message = '报警设置修改成功！';
                   $('#myModal_alert').modal();
                   $('#myModal_updateAlarmSet').modal('hide');
                   getAlarmSetList();
@@ -532,19 +532,19 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
                 $('#myModal_alert').modal();
               }
           }, function(err) {
-              console.log('报警模板更新err',err);
+              console.log('报警设置更新err',err);
           });
     }
 
     function deleteAlarmSetImpl(){
       var ids='';
       for(var i=0; i< $scope.deletelist.length; i++){
-        ids =ids+ $scope.deletelist[i].alarmId+'-';
+        ids =ids+ $scope.deletelist[i].alarmId+'::';
       }
-      deviceApi.deleteAlarmSet(ids)
+      deviceApi.deleteProductLineAlarmSet($scope.productLine.productLineId,ids)
       .then(function(result){
           if(result.data.code ==1 ){
-            $scope.message = '报警模板删除成功！';
+            $scope.message = '报警设置删除成功！';
             $('#myModal_alert').modal();
             getAlarmSetList();
           }else{
@@ -556,7 +556,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
             $('#myModal_alert').modal();
           }
       }, function(err) {
-        console.log('报警模板删除err',err);
+        console.log('报警设置删除err',err);
       });
     }
 

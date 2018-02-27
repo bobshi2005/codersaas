@@ -1989,6 +1989,21 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           });
           return d.promise;
       };
+      //删除报警设置
+      service.deleteProductLineAlarmSet = function(productLineId,alarmId) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+productLineId+'/alarm/delete/'+alarmId,
+              headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+              withCredentials: true,
+          }).then(function(response) {
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
   return service;
 }]);
 //locals
