@@ -614,6 +614,20 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                 }]
             }
         })
+        .state('main.asset.setAlarm', {
+            url: "/setAlarm",
+            params:{"productLine":null},
+            templateUrl: "views/asset-setAlarm.html?version=2018011701",
+            controller: 'SetAlarmController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                          'js/controllers/SetAlarmController.js?version=2018011701'
+
+                    ])
+                }]
+            }
+        })
         .state('main.asset.modalmanage', {
             url: "/modalmanage",
             templateUrl: "views/asset-modalmanage.html?version=2018011701",

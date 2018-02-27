@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('ProductManageController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element','$compile', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element,$compile) {
+angular.module('MetronicApp').controller('ProductManageController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element','$compile','$state', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element,$compile,$state) {
     $rootScope.menueName = 'sidebar-asset';
     $scope.isShowmap = false;
     $scope.loadModels = false;
@@ -193,8 +193,32 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       $scope.uuid = '';
       $scope.currentData.imagesrc = '';
       $scope.showUploader = true;
-    }
-
+    };
+    $scope.goSetAlarmPage = function(){
+      console.log('sjsjs');
+      $scope.currentData = {};
+      var checked = 0, index = 0;
+      angular.forEach($scope.checkboxes.items, function(value,key) {
+        if(value){
+          index = key;
+          checked += 1;
+        }
+      });
+      if(checked == 0){
+        $scope.message = '请选择一个产线';
+        $('#myModal_alert').modal();
+      }else if(checked > 1){
+        $scope.message = '只能选择一个产线行编辑';
+        $('#myModal_alert').modal();
+      }else{
+        for(var i=0; i< $scope.productLineList.length; i++){
+          if($scope.productLineList[i].productLineId == index){
+            $scope.currentData = $scope.productLineList[i];
+            $state.go('main.asset.setAlarm',{productLine:$scope.currentData})
+          }
+        }
+      }
+    };
     $scope.openStatusModal = function(param){
       //产线启停
         $scope.currentData = param;
@@ -274,7 +298,7 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
         getProductLineElements($scope.currentData.productLineId);
 
       }
-    }
+    };
     $scope.disSlectetElements = function(){
       $('#myModal_ProductSelectData').modal('hide');
     };
@@ -286,7 +310,8 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       }
       console.log('selected',ids);
       setProductLineElements($scope.currentData.productLineId,ids);
-    }
+    };
+
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
