@@ -7,6 +7,8 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
     $scope.message = ''; // 自定义消息提示内容
     $scope.equipmentList = [];//设备列表
     $scope.dataGroupList =[];//数据分组数据
+    $scope.unselectedDataGroupList=[];
+    $scope.equipmentId ='';
     $scope.currentData = {};
     $scope.linedataElements=[]; //设备的数据点列表
     $scope.showUploader = false;//UPDATE 界面中 更新图片
@@ -152,7 +154,6 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
     $scope.showRemoveDataGroup = function(){
       var checked = 0;
       $scope.deletelist = [];
-      console.log('showRemoveDataGroup',$scope.checkboxes2.items,$scope.dataGroupList);
       angular.forEach($scope.checkboxes2.items, function(value,key) {
         if(value){
           checked += 1;
@@ -476,7 +477,6 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
           }else {
             $scope.equipmentCategorylist=[];
           }
-          console.log('myModal_createEquipment',$scope.equipmentCategorylist);
           $('#myModal_createEquipment').modal();
         });
     }
