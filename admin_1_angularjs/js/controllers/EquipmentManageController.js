@@ -138,18 +138,6 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       $state.go('main.asset.productmanage')
     };
 
-
-    $scope.disSlectetElements = function(){
-      $('#myModal_ProductSelectData').modal('hide');
-    };
-    $scope.saveSlectetElements = function(){
-      var idArr=$('#lineElements_selector').val();
-      var ids='';
-      for(var i=0;i<idArr.length;i++){
-        ids+=idArr[i]+'::';
-      }
-      console.log('selected',ids);
-    };
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
@@ -493,7 +481,7 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
     function deleteEquipmentImpl() {
       var ids='';
       for(var i=0; i< $scope.deletelist.length; i++){
-        ids =ids+ $scope.deletelist[i].equipmentId+'::';
+        ids =ids+ $scope.deletelist[i].equipmentId+'-';
       }
       deviceApi.deleteProductLineEquipment($scope.productLineId,ids)
         .then(function(result){
