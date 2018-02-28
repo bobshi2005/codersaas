@@ -108,14 +108,10 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
         $scope.message = '设备类型不能是产线';
         $('#myModal_alert').modal();
       }else{
-          // $('#myModal_createEquipment').modal('hide');
-
           createEquipmentImpl();
       }
     };
     $scope.saveDeleteEquipment = function() {
-        // $('#myModal_deleteEquipment').modal("hide");
-        $scope.isShowmap = false;
         deleteEquipmentImpl();
     };
     $scope.saveUpdateEquipment = function(){
@@ -587,9 +583,9 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
     function deleteEquipmentImpl() {
       var ids='';
       for(var i=0; i< $scope.deletelist.length; i++){
-        ids =ids+ $scope.deletelist[i].equipmentId+'-';
+        ids =ids+ $scope.deletelist[i].equipmentId+'::';
       }
-      deviceApi.deleteEquipment(ids)
+      deviceApi.deleteProductLineEquipment($scope.productLineId,ids)
         .then(function(result){
             if(result.data.code ==1 ){
                 $scope.message = '设备删除成功';
