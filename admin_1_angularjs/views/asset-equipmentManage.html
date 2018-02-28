@@ -21,7 +21,12 @@
           <div class="portlet light portlet-fit portlet-datatable bordered">
               <div class="portlet-title">
                   <div class="caption">
-                      <i class="icon-settings font-dark"></i>设备列表</div>
+                      <i class="icon-settings font-dark"></i>设备列表
+                  </div>
+                  <div class="btn-group pull-right">
+                    <a href="#" role="button" class="btn btn-sm btn-success sbold green margin-bottom" ng-click='goback()'><i class="fa fa-reply"></i>返回
+                    </a>
+                  </div>
               </div>
               <div class="portlet-body">
                   <div id="myModal_createEquipment" class="modal fade" role="dialog" aria-hidden="true">
@@ -249,181 +254,6 @@
                                   <button type="button" class="btn grey-salsa btn-outline" ng-click='disdelete()'>取消操作</button>
                                   <button type="button" class="btn green"  ng-click='saveDeleteEquipment()'>
                                       <i class="fa fa-check"></i> 确定删除 </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div id="myModal_EquipmentDetail" class="modal fade" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                  <h4 class="modal-title">产线详情</h4>
-                              </div>
-                              <div class="modal-body form skin ">
-                                <br/>
-                                  <form action="" class="form-horizontal " name="form">
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              产线名称</label>
-                                          <div class="col-sm-4 ">
-                                              <label class="form-control">{{currentData.name}}</label>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">
-                                              产线ID</label>
-                                          <div class="col-sm-4">
-                                              <label class="form-control">{{currentData.productLineId}}</label>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">产线图片</label>
-                                          <div class="col-sm-6">
-                                            <img ng-src="{{currentData.imagesrc}}" style="width: 64px;height:64px"/>
-                                          </div>
-                                      </div>
-                                      <!-- <div class="form-group">
-                                          <label class="col-sm-4 control-label">地区</label>
-                                          <div class="col-sm-3">
-                                              <select class="form-control" ng-model="currentData.province"  ng-options="o.id as o.text for o in provinceList" ng-change="doProvAndCityRelation()"></select>
-                                          </div>
-                                          <div class="col-sm-3">
-                                              <select class="form-control" ng-model="currentData.city"  ng-options="o.id as o.text for o in cityList" ng-change="doGetCity()"></select>
-                                          </div>
-                                      </div> -->
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">产线位置</label>
-                                          <label class="col-sm-2 control-label">经度</label>
-                                          <div class="col-sm-3">
-                                            <label class="form-control">{{currentData.longitude}}</label>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label"></label>
-                                          <label class="col-sm-2 control-label">纬度</label>
-                                          <div class="col-sm-3">
-                                              <label class="form-control">{{currentData.latitude}}</label>
-                                          </div>
-                                          <!-- <div class="col-sm-2">
-                                              <a href="#" role="button" class="btn sbold green"  ng-click='showMap1()'>地图获取
-                                                  <i class="fa fa-map-marker"></i>
-                                              </a>
-                                          </div> -->
-                                      </div>
-                                      <!-- <div class="form-group">
-                                          <div class="col-sm-7 col-sm-offset-3" id="mapContainer1" style="height: 240px" ng-show="isShowmap">
-                                          </div>
-                                      </div> -->
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">早班时间</label>
-                                          <div class="col-sm-3">
-                                            <label class="form-control">{{currentData.morningShiftStartTime}}</label>
-                                          </div>
-                                          <div class="col-sm-3">
-                                            <label class="form-control">{{currentData.morningShiftEndTime}}</label>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">中班时间</label>
-                                          <div class="col-sm-3">
-                                            <label class="form-control">{{currentData.middleShiftStartTime}}</label>
-                                          </div>
-                                          <div class="col-sm-3">
-                                            <label class="form-control">{{currentData.middleShiftEndTime}}</label>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">晚班时间</label>
-                                          <div class="col-sm-3">
-                                            <label class="form-control">{{currentData.nightShiftStartTime}}</label>
-                                          </div>
-                                          <div class="col-sm-3">
-                                            <label class="form-control">{{currentData.nightShiftEndTime}}</label>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">库智网关ID</label>
-                                          <div class="col-sm-4">
-                                             <label class="form-control">{{currentData.grm}}</label>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">库智网关密码</label>
-                                          <div class="col-sm-4">
-                                             <label class="form-control">{{currentData.grmPassword}}</label>
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">数据采集频率</label>
-                                          <div class="col-sm-4">
-                                            <div class="input-group">
-                                                <label class="form-control">{{currentData.grmPeriod}}</label>
-                                                <span class="input-group-addon">秒</span>
-                                            </div>
-
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="col-sm-4 control-label">创建时间</label>
-                                          <div class="col-sm-4">
-                                             <label class="form-control">{{currentData.createTime}}</label>
-                                          </div>
-                                      </div>
-
-                                  </form>
-                              </div>
-                              <div class="modal-footer ">
-                                  <button type="button" class="btn green text-center"  ng-click='disShowEquipmentDetail()'>关闭 </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div id="myModal_status" class="modal fade" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                  <h4 class="modal-title">产线启停</h4>
-                              </div>
-                              <div class="modal-body form skin skin-line">
-                                <form action="" class="form-horizontal form-row-seperated">
-                                    <div class="form-group">
-                                        <label class="col-sm-4 control-label">
-                                            产线{{status}}</label>
-                                        <div class="col-sm-6">
-                                          <button type="button" class="btn green"  ng-click='changeStatus()'>
-                                               点我{{statusAction}} </button>
-                                        </div>
-                                    </div>
-                                </form>
-                              </div>
-                              <div class="modal-footer">
-                                  <button type="button" class="btn green"  ng-click='disstatus()'>
-                                      <i class="fa fa-check"></i> 关闭 </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div id="myModal_ProductSelectData" class="modal fade" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                  <h4 class="modal-title">产线数据点</h4>
-                              </div>
-                              <div class="modal-body ">
-                                <div class="row">
-                                    <div class="col-md-8 col-md-offset-2">
-                                      <select id='lineElements_selector' multiple='multiple'>
-                                        <!-- <option ng-repeat="x in linedataElements" value="{{x.id}}">{{x.lableName}}</option> -->
-                                      </select>
-                                    </div>
-                                </div>
-                              </div>
-                              <div class="modal-footer">
-                                  <button type="button" class="btn green"  ng-click='disSlectetElements()'>关闭 </button>
-                                  <button type="button" class="btn blue"  ng-click='saveSlectetElements()'>确定选择 </button>
                               </div>
                           </div>
                       </div>

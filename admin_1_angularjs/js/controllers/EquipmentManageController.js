@@ -139,39 +139,6 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
     };
 
 
-    $scope.showEquipmentDetail = function(param){
-      console.log('showEquipmentDetail',param);
-      $scope.currentData = param;
-      $('#myModal_EquipmentDetail').modal();
-    };
-    $scope.disShowEquipmentDetail = function(){
-      $('#myModal_EquipmentDetail').modal('hide');
-    };
-    $scope.editEquipmentElements = function(){
-      $scope.currentData = {};
-      var checked = 0, index = 0;
-      angular.forEach($scope.checkboxes.items, function(value,key) {
-        if(value){
-          index = key;
-          checked += 1;
-        }
-      });
-      if(checked == 0){
-        $scope.message = '请选择一个设备';
-        $('#myModal_alert').modal();
-      }else if(checked > 1){
-        $scope.message = '只能选择一个设备行编辑';
-        $('#myModal_alert').modal();
-      }else{
-        for(var i=0; i< $scope.equipmentList.length; i++){
-          if($scope.equipmentList[i].equipmentId == index){
-            $scope.currentData = $scope.equipmentList[i];
-          }
-        }
-        getEquipmentElements($scope.currentData.equipmentId);
-
-      }
-    };
     $scope.disSlectetElements = function(){
       $('#myModal_ProductSelectData').modal('hide');
     };
@@ -182,13 +149,7 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
         ids+=idArr[i]+'::';
       }
       console.log('selected',ids);
-      // setEquipmentElements($scope.currentData.equipmentId,ids);
     };
-
-    // $scope.doChangeCategory = function(){
-    //   console.log($scope.equipmentCategory);//equipmentCategoryId
-    // }
-
     //监听 checkbox
     $scope.$watch(function() {
       return $scope.checkboxes.checked;
@@ -438,54 +399,6 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       return newDate.format('MM/dd/yyyy');
     }
 
-
-    function getEquipmentElements(equipmentId){
-      deviceApi.getDataElementByEquipmentId(equipmentId)
-        .then(function(result){
-          if(result.data.rows){
-            $scope.linedataElements=result.data.rows;
-            console.log('linedataElements',$scope.linedataElements);
-            $('#myModal_ProductSelectData').modal();
-            for(var i=0;i<result.data.rows.length;i++){
-              var x = result.data.rows[i];
-              if(x.checked){
-                var optionhtml='<option  value="'+x.id+'" selected>'+x.lableName+'</option>';
-              }else{
-                var optionhtml='<option  value="'+x.id+'">'+x.lableName+'</option>';
-              }
-              var template = angular.element(optionhtml);
-              var mobileDialogElement = $compile(template)($scope);
-              angular.element("#lineElements_selector").append(mobileDialogElement);
-
-            }
-            $('#lineElements_selector').multiSelect({
-              selectableHeader: "<div class='custom-header'>可选数据点</div>",
-              selectionHeader: "<div class='custom-header'>已选数据点</div>",
-            });
-
-          }else{
-            $scope.linedataElements=[];
-          }
-        }, function(err) {
-            console.log('getEquipmentElementsErr',err);
-        });
-    }
-    function setEquipmentElements(equipmentId,elementsIds){
-      deviceApi.setDataElementsToEquipment(equipmentId,elementsIds)
-        .then(function(result){
-            if(result.data.code ==1 ){
-              $scope.message="数据点设置成功！";
-              $('#myModal_ProductSelectData').modal('hide');
-              $('#myModal_alert').modal();
-            }else{
-              $scope.message=result.data.message;
-              $('#myModal_alert').modal();
-            }
-        }, function(err) {
-            console.log('setEquipmentElemenErr',err);
-        });
-    }
-
     function getEquipmentList() {
       $scope.equipmentList = [];
       $scope.checkboxes.checked = false;
@@ -520,9 +433,6 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       });
       $scope.tableParams.reload();
     }
-
-
-
 
     function createEquipmentImpl() {
       var params={};
