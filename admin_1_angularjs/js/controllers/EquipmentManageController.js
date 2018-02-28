@@ -211,6 +211,42 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
         saveRemoveDataGroupImp(ids);
       }
     };
+    $scope.editDataGroupElements = function(){
+      $scope.currentData = {};
+      var checked = 0, index = 0;
+      angular.forEach($scope.checkboxes2.items, function(value,key) {
+        if(value){
+          index = key;
+          checked += 1;
+        }
+      });
+      if(checked == 0){
+        $scope.message = '请选择一个数据组';
+        $('#myModal_alert').modal();
+      }else if(checked > 1){
+        $scope.message = '只能选择一个数据组行编辑';
+        $('#myModal_alert').modal();
+      }else{
+        for(var i=0; i< $scope.dataGroupList.length; i++){
+          if($scope.dataGroupList[i].id == index){
+            $scope.currentData = $scope.dataGroupList[i];
+          }
+        }
+        getDataGroupElements($scope.currentData.equipmentId,$scope.currentData.dataGroupId,$scope.currentData.id);
+      }
+    };
+    $scope.disSlectetElements = function(){
+      $('#myModal_DataGroupSelectData').modal('hide');
+    };
+    $scope.saveSlectetElements = function(){
+      var idArr=$('#dataGroupElements_selector').val();
+      var ids='';
+      for(var i=0;i<idArr.length;i++){
+        ids+=idArr[i]+'::';
+      }
+      console.log('isd',ids,$scope.currentData);
+      saveSlectetElementsImp(ids);
+    };
     $scope.disAddDataGroup = function(){
       $('#myModal_addDataGroup').modal('hide');
     };
@@ -478,6 +514,57 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
             $scope.equipmentCategorylist=[];
           }
           $('#myModal_createEquipment').modal();
+        }, function(err) {
+            console.log('getEquipmentCategoryListErr',err);
+        });
+    }
+
+    function saveSlectetElementsImp(ids){
+      deviceApi.confirmElementsforEquipmentDataGroup($scope.currentData.equipmentId,$scope.currentData.dataGroupId,$scope.currentData.id,ids)
+        .then(function(result){
+            if(result.data.code ==1 ){
+              $scope.message="数据点设置成功！";
+              $('#myModal_alert').modal();
+              $('#myModal_DataGroupSelectData').modal('hide');
+            }else{
+              $scope.message=result.data.message;
+              $('#myModal_alert').modal();
+            }
+        }, function(err) {
+            console.log('confirmElementsforEquipmentDataGroupErr',err);
+        });
+    }
+
+    function getDataGroupElements(equipmentId,dataGroupId,id){
+      angular.element("#dataGroupElements_selector").find("option").remove(); 
+      deviceApi.getElementsListforEquipmentDataGroup(equipmentId,dataGroupId,id,'asc')
+        .then(function(result) {
+          if(result.data.rows) {
+              $scope.dataGroupElements=result.data.rows;
+              $('#myModal_DataGroupSelectData').modal();
+              for(var i=0;i<result.data.rows.length;i++){
+                var x = result.data.rows[i];
+                if(x.checked){
+                  var optionhtml='<option  value="'+x.id+'" selected>'+x.lableName+'</option>';
+                }else{
+                  var optionhtml='<option  value="'+x.id+'">'+x.lableName+'</option>';
+                }
+                var template = angular.element(optionhtml);
+                var mobileDialogElement = $compile(template)($scope);
+                angular.element("#dataGroupElements_selector").append(mobileDialogElement);
+
+              }
+              $('#dataGroupElements_selector').multiSelect({
+                selectableHeader: "<div class='custom-header'>可选数据点</div>",
+                selectionHeader: "<div class='custom-header'>已选数据点</div>",
+              });
+          }else {
+            $scope.dataGroupElements=[];
+          }
+          $('#myModal_DataGroupSelectData').modal();
+
+        }, function(err) {
+            console.log('getElementsListforEquipmentDataGroupErr',err);
         });
     }
 

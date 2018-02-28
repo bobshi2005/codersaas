@@ -2146,6 +2146,39 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           });
           return d.promise;
       };
+      //为设备的 某个数据组 选择数据点，获取可选的数据点表
+      service.getElementsListforEquipmentDataGroup = function(equipmentId,dataGroupId,id,order) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+equipmentId+'/dataGroup/'+dataGroupId+'/'+id+'/list',
+              headers: {"Accept":"application/json"},
+              params: {order:order},
+              withCredentials: true,
+          }).then(function(response) {
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
+      //为设备的 某个数据组 选择数据点 dataids 以::连接
+      service.confirmElementsforEquipmentDataGroup = function(equipmentId,dataGroupId,id,dataids) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+equipmentId+'/dataGroup/'+dataGroupId+'/'+id+'/confirm',
+              headers: {"Accept":"application/json"},
+              params: {ids:dataids},
+              withCredentials: true,
+          }).then(function(response) {
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
+
   return service;
 }]);
 //locals
