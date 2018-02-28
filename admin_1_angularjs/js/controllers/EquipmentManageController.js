@@ -23,18 +23,19 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       checked: false,
       items: {}
     };
+    $scope.checkboxes3 = {
+      checked: false,
+      items: {}
+    };
 
     $scope.discreate = function(){
-      // console.log('zaoban',$scope.currentData.morningShiftStartTime,$scope.currentData.morningShiftEndTime);
         $('#myModal_createEquipment').modal('hide');
-        $scope.isShowmap = false;
     };
     $scope.disdelete = function(){
         $('#myModal_deleteEquipment').modal('hide');
     };
     $scope.disupdate = function(){
       $('#myModal_updateEquipment').modal('hide');
-      $scope.isShowmap = false;
     };
     $scope.disalert = function(){
         $('#myModal_alert').modal('hide')
@@ -138,12 +139,34 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       $scope.showUploader = true;
     };
     $scope.showDataGroupDetail = function(param){
-      getDataGroupList(param.equipmentId);
+      $scope.equipmentId = param.equipmentId;
+      getDataGroupList($scope.equipmentId);
       $('#myModal_dataGroupDetail').modal();
     };
     $scope.disShowDataGroup = function(){
       $('#myModal_dataGroupDetail').modal('hide');
-    }
+    };
+    $scope.showAddDataGroup = function(){
+      getUnselectedDataGroupList($scope.equipmentId);
+    };
+    $scope.saveAddDataGroup = function(){
+      var checked=0,ids='';
+      angular.forEach($scope.checkboxes3.items, function(value,key) {
+        if(value){
+          checked += 1;
+          ids+=key+'::';
+        }
+      });
+      if(checked == 0){
+        $scope.message = '没有选择数据组！'
+        $('#myModal_alert').modal();
+      }else{
+        saveAddDataGroupImp(ids);
+      }
+    };
+    $scope.disAddDataGroup = function(){
+      $('#myModal_addDataGroup').modal('hide');
+    };
     $scope.goback = function(){
       $state.go('main.asset.productmanage')
     };
@@ -203,6 +226,33 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
 
         angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
       }, true);
+    //checkboxes3监听
+    $scope.$watch(function() {
+      return $scope.checkboxes3.checked;
+      }, function(value) {
+      angular.forEach($scope.unselectedDataGroupList, function(item) {
+        $scope.checkboxes3.items[item.id] = value;
+      });
+    });
+
+    $scope.$watch(function() {
+      return $scope.checkboxes3.items;
+      }, function(values) {
+       var checked = 0, unchecked = 0,
+       total = $scope.unselectedDataGroupList.length;
+       angular.forEach($scope.checkboxes3.items, function(item) {
+         if(item){
+           checked += 1;
+         }else{
+           unchecked +=1;
+         }
+     });
+     if ((unchecked == 0) || (checked == 0)) {
+       $scope.checkboxes3.checked = (checked == total && total>0);
+       }
+
+       angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+     }, true);
 
     $scope.$on('$viewContentLoaded', function() {
       getEquipmentList();
@@ -460,17 +510,46 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       $scope.tableParams.reload();
     }
 
+    function getUnselectedDataGroupList(equipmentId){
+      $scope.checkboxes3.checked = false;
+      $scope.checkboxes3.items = {};
+      deviceApi.getUnselectedDataGroupListByEquipmentId(equipmentId,'asc')
+        .then(function(result) {
+            if(result.data.rows) {
+                 $scope.unselectedDataGroupList=result.data.rows;
+            }else {
+              $scope.unselectedDataGroupList=[];
+            }
+            $scope.dataGroup = new NgTableParams({},
+                 {
+                   counts:[],
+                   dataset:$scope.unselectedDataGroupList
+                 }
+            );
+            $('#myModal_addDataGroup').modal();
+        }, function(err) {
+          $scope.unselectedDataGroupList=[];
+          $scope.dataGroup = new NgTableParams({},
+               {
+                 counts:[],
+                 dataset:$scope.unselectedDataGroupList
+               }
+          );
+          console.log('getUnselectedDataGroupListErr',err);
+        });
+    }
+
     function getDataGroupList(equipmentId) {
       $scope.dataGroupList = [];
       $scope.checkboxes2.checked = false;
       $scope.checkboxes2.items = {};
-      $scope.tableDataGroup = new NgTableParams({
+      $scope.equipmentDataGroup = new NgTableParams({
         page: 1,
         count:5
       }, {
         counts:[5,10],
         getData: function(params) {
-          return deviceApi.getDataGroupListByEquipmentId(equipmentId,'asc', (params.page()-1)*params.count(), params.count())
+          return deviceApi.getSelectedDataGroupListByEquipmentId(equipmentId,'asc', (params.page()-1)*params.count(), params.count())
             .then(function(result) {
                 if(result.data.total > 0) {
                      $scope.dataGroupList=result.data.rows;
@@ -487,6 +566,22 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       $scope.tableParams.reload();
     }
 
+    function saveAddDataGroupImp(ids){
+      deviceApi.addDataGroupToEquipment($scope.equipmentId,ids)
+        .then(function(result){
+            if(result.data.code ==1 ){
+                $scope.message = '数据分组添加成功';
+                $('#myModal_alert').modal();
+                $('#myModal_addDataGroup').modal("hide");
+                getDataGroupList($scope.equipmentId);
+            }else{
+              $scope.message = result.data.message;
+              $('#myModal_alert').modal();
+            }
+        }, function(err) {
+            console.log('addDataGroupToEquipmentErr',err);
+        });
+    }
     function createEquipmentImpl() {
       var params={};
       params.name = $scope.currentData.name;

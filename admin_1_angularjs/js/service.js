@@ -2083,15 +2083,47 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           });
           return d.promise;
       };
-      //获取产线设备的数据分组
-      service.getDataGroupListByEquipmentId = function(equipmentId,order, offset, limit) {
+      //获取产线设备的当前 数据分组
+      service.getSelectedDataGroupListByEquipmentId = function(equipmentId,order, offset, limit) {
           var d = $q.defer();
           $http({
               method: 'get',
               url: deviceUrl+ '/manage/'+equipmentId+'/dataGroup/list',
               headers: {"Accept":"application/json"},
               withCredentials: true,
-              params: {order:'asc', offset:offset, limit:limit}
+              params: {order:order, offset:offset, limit:limit}
+          }).then(function(response) {
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
+      //获取产线设备当前 能选择的数据分组
+      service.getUnselectedDataGroupListByEquipmentId = function(equipmentId,order) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+equipmentId+'/dataGroup/all',
+              headers: {"Accept":"application/json"},
+              withCredentials: true,
+              params: {order:order}
+          }).then(function(response) {
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
+      //添加数据分组到当前设备
+      service.addDataGroupToEquipment = function(equipmentId,ids) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+equipmentId+'/dataGroup/confirm',
+              headers: {"Accept":"application/json"},
+              withCredentials: true,
+              params: {ids:ids}
           }).then(function(response) {
               d.resolve(response);
           }).catch(function(err) {
