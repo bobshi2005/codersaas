@@ -2115,7 +2115,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           });
           return d.promise;
       };
-      //添加数据分组到当前设备
+      //添加数据分组到当前设备 ids用 :: 连接
       service.addDataGroupToEquipment = function(equipmentId,ids) {
           var d = $q.defer();
           $http({
@@ -2124,6 +2124,21 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
               headers: {"Accept":"application/json"},
               withCredentials: true,
               params: {ids:ids}
+          }).then(function(response) {
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
+      //移除数据分组 从当前设备 ids用- 连接
+      service.removeDataGroupFromEquipment = function(equipmentId,ids) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+equipmentId+'/dataGroup/delete/'+ids,
+              headers: {"Accept":"application/json"},
+              withCredentials: true,
           }).then(function(response) {
               d.resolve(response);
           }).catch(function(err) {

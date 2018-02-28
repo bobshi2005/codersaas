@@ -149,6 +149,37 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
     $scope.showAddDataGroup = function(){
       getUnselectedDataGroupList($scope.equipmentId);
     };
+    $scope.showRemoveDataGroup = function(){
+      var checked = 0;
+      $scope.deletelist = [];
+      console.log('showRemoveDataGroup',$scope.checkboxes2.items,$scope.dataGroupList);
+      angular.forEach($scope.checkboxes2.items, function(value,key) {
+        if(value){
+          checked += 1;
+          for(var i=0; i< $scope.dataGroupList.length; i++){
+            if($scope.dataGroupList[i].id == key){
+              var tempdata = $scope.dataGroupList[i];
+              $scope.deletelist.push(tempdata);
+              break;
+            }
+          }
+        }
+      });
+      if(checked == 0){
+        $scope.message = '请至少选择一个数据组';
+        $('#myModal_alert').modal();
+      }else{
+        let tempstr = '';
+        for(var i=0; i< $scope.deletelist.length; i++){
+          tempstr =tempstr+ $scope.deletelist[i].dataGroupName;
+          tempstr =tempstr+ ' ';
+        }
+        tempstr =tempstr+ '  共'+ $scope.deletelist.length+'个数据组';
+        $scope.deletestr = tempstr;
+        $('#myModal_removeDataGroup').modal();
+      }
+
+    };
     $scope.saveAddDataGroup = function(){
       var checked=0,ids='';
       angular.forEach($scope.checkboxes3.items, function(value,key) {
@@ -164,8 +195,26 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
         saveAddDataGroupImp(ids);
       }
     };
+    $scope.saveRemoveDataGroup = function(){
+      var checked=0,ids='';
+      angular.forEach($scope.checkboxes2.items, function(value,key) {
+        if(value){
+          checked += 1;
+          ids+=key+'-';
+        }
+      });
+      if(checked == 0){
+        $scope.message = '没有选择数据组！'
+        $('#myModal_alert').modal();
+      }else{
+        saveRemoveDataGroupImp(ids);
+      }
+    };
     $scope.disAddDataGroup = function(){
       $('#myModal_addDataGroup').modal('hide');
+    };
+    $scope.disRemoveDataGroup = function(){
+      $('#myModal_removeDataGroup').modal('hide');
     };
     $scope.goback = function(){
       $state.go('main.asset.productmanage')
@@ -580,6 +629,22 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
             }
         }, function(err) {
             console.log('addDataGroupToEquipmentErr',err);
+        });
+    }
+    function saveRemoveDataGroupImp(ids){
+      deviceApi.removeDataGroupFromEquipment($scope.equipmentId,ids)
+        .then(function(result){
+            if(result.data.code ==1 ){
+                $scope.message = '数据分组移除成功';
+                $('#myModal_alert').modal();
+                $('#myModal_removeDataGroup').modal("hide");
+                getDataGroupList($scope.equipmentId);
+            }else{
+              $scope.message = result.data.message;
+              $('#myModal_alert').modal();
+            }
+        }, function(err) {
+            console.log('removeDataGroupFromEquipmentErr',err);
         });
     }
     function createEquipmentImpl() {
