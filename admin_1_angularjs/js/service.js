@@ -1817,7 +1817,7 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         return d.promise;
     };
 
-    //产线管理
+  //产线管理
       service.getProductLineList = function(order, offset, limit) {
           var d = $q.defer();
           $http({
@@ -2083,7 +2083,22 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           });
           return d.promise;
       };
-
+      //获取产线设备的数据分组
+      service.getDataGroupListByEquipmentId = function(equipmentId,order, offset, limit) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+equipmentId+'/dataGroup/list',
+              headers: {"Accept":"application/json"},
+              withCredentials: true,
+              params: {order:'asc', offset:offset, limit:limit}
+          }).then(function(response) {
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
   return service;
 }]);
 //locals

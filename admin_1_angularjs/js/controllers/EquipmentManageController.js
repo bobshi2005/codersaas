@@ -6,6 +6,7 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
     $scope.deletestr = ''; //删除队列显示字符串
     $scope.message = ''; // 自定义消息提示内容
     $scope.equipmentList = [];//设备列表
+    $scope.dataGroupList =[];//数据分组数据
     $scope.currentData = {};
     $scope.linedataElements=[]; //设备的数据点列表
     $scope.showUploader = false;//UPDATE 界面中 更新图片
@@ -18,7 +19,10 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       checked: false,
       items: {}
     };
-
+    $scope.checkboxes2 = {
+      checked: false,
+      items: {}
+    };
 
     $scope.discreate = function(){
       // console.log('zaoban',$scope.currentData.morningShiftStartTime,$scope.currentData.morningShiftEndTime);
@@ -133,7 +137,13 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       $scope.currentData.imagesrc = '';
       $scope.showUploader = true;
     };
-
+    $scope.showDataGroupDetail = function(param){
+      getDataGroupList(param.equipmentId);
+      $('#myModal_dataGroupDetail').modal();
+    };
+    $scope.disShowDataGroup = function(){
+      $('#myModal_dataGroupDetail').modal('hide');
+    }
     $scope.goback = function(){
       $state.go('main.asset.productmanage')
     };
@@ -146,7 +156,7 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
         $scope.checkboxes.items[item.equipmentId] = value;
       });
     });
-    // watch for data checkboxes
+
     $scope.$watch(function() {
       return $scope.checkboxes.items;
       }, function(values) {
@@ -162,9 +172,37 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
      if ((unchecked == 0) || (checked == 0)) {
        $scope.checkboxes.checked = (checked == total && total>0);
        }
-      //  grayed checkbox
+
        angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
      }, true);
+
+     //datagroup checkbox2监控
+     $scope.$watch(function() {
+       return $scope.checkboxes2.checked;
+       }, function(value) {
+       angular.forEach($scope.dataGroupList, function(item) {
+         $scope.checkboxes2.items[item.id] = value;
+       });
+     });
+
+     $scope.$watch(function() {
+       return $scope.checkboxes2.items;
+       }, function(values) {
+        var checked = 0, unchecked = 0,
+        total = $scope.dataGroupList.length;
+        angular.forEach($scope.checkboxes2.items, function(item) {
+          if(item){
+            checked += 1;
+          }else{
+            unchecked +=1;
+          }
+      });
+      if ((unchecked == 0) || (checked == 0)) {
+        $scope.checkboxes2.checked = (checked == total && total>0);
+        }
+
+        angular.element($element[0].getElementsByClassName("select-all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+      }, true);
 
     $scope.$on('$viewContentLoaded', function() {
       getEquipmentList();
@@ -414,6 +452,33 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
                 }
                 params.total(result.data.total);
                 return $scope.equipmentList;
+            }, function(err) {
+
+            });
+        }
+      });
+      $scope.tableParams.reload();
+    }
+
+    function getDataGroupList(equipmentId) {
+      $scope.dataGroupList = [];
+      $scope.checkboxes2.checked = false;
+      $scope.checkboxes2.items = {};
+      $scope.tableDataGroup = new NgTableParams({
+        page: 1,
+        count:5
+      }, {
+        counts:[5,10],
+        getData: function(params) {
+          return deviceApi.getDataGroupListByEquipmentId(equipmentId,'asc', (params.page()-1)*params.count(), params.count())
+            .then(function(result) {
+                if(result.data.total > 0) {
+                     $scope.dataGroupList=result.data.rows;
+                }else {
+                  $scope.dataGroupList=[];
+                }
+                params.total(result.data.total);
+                return $scope.dataGroupList;
             }, function(err) {
 
             });
