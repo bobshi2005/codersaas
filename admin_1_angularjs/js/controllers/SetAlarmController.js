@@ -538,9 +538,14 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
 
     function deleteAlarmSetImpl(){
       var ids='';
-      for(var i=0; i< $scope.deletelist.length; i++){
-        ids =ids+ $scope.deletelist[i].alarmId+'-';
+      if( $scope.deletelist.length==1){
+        ids =$scope.deletelist[0].alarmId
+      }else{
+        for(var i=0; i< $scope.deletelist.length; i++){
+          ids =ids+ $scope.deletelist[i].alarmId+'-';
+        }
       }
+
       deviceApi.deleteProductLineAlarmSet($scope.productLine.productLineId,ids)
       .then(function(result){
           if(result.data.code ==1 ){
