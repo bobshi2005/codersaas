@@ -331,7 +331,6 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
       for(var i=0;i<idArr.length;i++){
         ids+=idArr[i]+'::';
       }
-      console.log('selected',ids);
       setProductLineElements($scope.currentData.productLineId,ids);
     };
 
@@ -632,12 +631,13 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
 
 
     function getProductLineElements(productLineId){
+      $('#lineElements_selector').multiSelect('clear');
+      $("#lineElements_selector").innerHTML = "";
       deviceApi.getDataElementByProductLineId(productLineId)
         .then(function(result){
           if(result.data.rows){
             $scope.linedataElements=result.data.rows;
-            console.log('linedataElements',$scope.linedataElements);
-            $('#myModal_ProductSelectData').modal();
+
             for(var i=0;i<result.data.rows.length;i++){
               var x = result.data.rows[i];
               if(x.checked){
@@ -654,7 +654,8 @@ angular.module('MetronicApp').controller('ProductManageController', ['$scope', '
               selectableHeader: "<div class='custom-header'>可选数据点</div>",
               selectionHeader: "<div class='custom-header'>已选数据点</div>",
             });
-
+            $('#lineElements_selector').multiSelect('refresh');
+            $('#myModal_ProductSelectData').modal();
           }else{
             $scope.linedataElements=[];
           }
