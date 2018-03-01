@@ -236,6 +236,7 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       }
     };
     $scope.disSlectetElements = function(){
+      // $('#dataGroupElements_selector').multiSelect('clear');
       $('#myModal_DataGroupSelectData').modal('hide');
     };
     $scope.saveSlectetElements = function(){
@@ -244,7 +245,7 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
       for(var i=0;i<idArr.length;i++){
         ids+=idArr[i]+'::';
       }
-      console.log('isd',ids,$scope.currentData);
+      console.log('isd',ids,$scope.currentData,idArr);
       saveSlectetElementsImp(ids);
     };
     $scope.disAddDataGroup = function(){
@@ -526,6 +527,7 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
               $scope.message="数据点设置成功！";
               $('#myModal_alert').modal();
               $('#myModal_DataGroupSelectData').modal('hide');
+              // $('#dataGroupElements_selector').multiSelect('clear');
             }else{
               $scope.message=result.data.message;
               $('#myModal_alert').modal();
@@ -536,28 +538,35 @@ angular.module('MetronicApp').controller('EquipmentManageController', ['$scope',
     }
 
     function getDataGroupElements(equipmentId,dataGroupId,id){
-      angular.element("#dataGroupElements_selector").find("option").remove(); 
+      $('#dataGroupElements_selector').multiSelect('clear');
+      $("#dataGroupElements_selector").innerHTML = "";
       deviceApi.getElementsListforEquipmentDataGroup(equipmentId,dataGroupId,id,'asc')
         .then(function(result) {
           if(result.data.rows) {
               $scope.dataGroupElements=result.data.rows;
-              $('#myModal_DataGroupSelectData').modal();
-              for(var i=0;i<result.data.rows.length;i++){
-                var x = result.data.rows[i];
+              console.log('dataGroupElements',$scope.dataGroupElements);
+
+              for(var i=0;i<$scope.dataGroupElements.length;i++){
+                var x = $scope.dataGroupElements[i];
+                console.log('i',x.checked);
                 if(x.checked){
                   var optionhtml='<option  value="'+x.id+'" selected>'+x.lableName+'</option>';
                 }else{
                   var optionhtml='<option  value="'+x.id+'">'+x.lableName+'</option>';
                 }
+                console.log('selector_template',optionhtml);
                 var template = angular.element(optionhtml);
+
                 var mobileDialogElement = $compile(template)($scope);
                 angular.element("#dataGroupElements_selector").append(mobileDialogElement);
-
               }
+              console.log('innerhtml',$("#dataGroupElements_selector"));
               $('#dataGroupElements_selector').multiSelect({
                 selectableHeader: "<div class='custom-header'>可选数据点</div>",
                 selectionHeader: "<div class='custom-header'>已选数据点</div>",
               });
+              $('#dataGroupElements_selector').multiSelect('refresh');
+              $('#myModal_DataGroupSelectData').modal();
           }else {
             $scope.dataGroupElements=[];
           }

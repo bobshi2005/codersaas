@@ -286,7 +286,7 @@
       }
       if ($nextElem.length > 0){
         $nextElem.addClass('ms-hover');
-        var scrollTo = $list.scrollTop() + $nextElem.position().top - 
+        var scrollTo = $list.scrollTop() + $nextElem.position().top -
                        containerHeight / 2 + elemHeight / 2;
 
         $list.scrollTop(scrollTo);
@@ -339,6 +339,18 @@
       $("#ms-"+this.$element.attr("id")).remove();
       this.$element.css('position', '').css('left', '')
       this.$element.removeData('multiselect');
+    },
+
+    'add': function(option) {
+      this.$element.get(0).options.add(option);
+      this.refresh();
+    },
+
+    'clear': function() {
+      for (var _index in this.$element.get(0).options) {
+        this.$element.get(0).options.remove(0);
+      }
+      this.refresh();
     },
 
     'select' : function(value, method){
