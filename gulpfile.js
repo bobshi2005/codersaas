@@ -7,14 +7,6 @@ var prettify = require('gulp-prettify');
 var minifyCss = require("gulp-minify-css");
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
-<<<<<<< HEAD
-var rtlcss = require("gulp-rtlcss");
-var connect = require('gulp-connect');
-
-//*** Localhost server tast
-gulp.task('localhost', function() {
-  connect.server({port:3000});
-=======
 var rtlcss = require("gulp-rtlcss");  
 var connect = require('gulp-connect');
 
@@ -32,7 +24,7 @@ gulp.task('localhost-live', function() {
   connect.server({
     livereload: true
   });
->>>>>>> cfa1daaeb1216d6ba461a1541f8f435af65855f0
+
 });
 
 //*** SASS compiler task

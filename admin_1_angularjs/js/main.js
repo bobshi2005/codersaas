@@ -751,6 +751,89 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
                 }]
             }
         })
+        .state('main.asset.trainingVideo', {
+            url: "/trainingVideo",
+            templateUrl: "views/asset-trainingVideo.html?version=2018011701",
+            controller: 'TrainingVideoController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                            "../assets/global/plugins/fine-uploader/fine-uploader-gallery.min.css",
+                            "../assets/global/plugins/fine-uploader/fine-uploader.min.js",
+                            'js/controllers/TrainingVideoController.js?version=2018011701'
+
+                    ])
+                }]
+            }
+        })
+        .state('main.asset.trainingDoc', {
+            url: "/trainingDoc",
+            templateUrl: "views/asset-trainingDoc.html?version=2018011701",
+            controller: 'TrainingDocController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                            "../assets/global/plugins/fine-uploader/fine-uploader-gallery.min.css",
+                            "../assets/global/plugins/fine-uploader/fine-uploader.min.js",
+                            'js/controllers/TrainingDocController.js?version=2018011701'
+
+                    ])
+                }]
+            }
+        })
+        .state('main.asset.maintainKnowledge', {
+            url: "/maintainKnowledge",
+            templateUrl: "views/asset-maintainKnowledge.html?version=2018011701",
+            controller: 'MaintainKnowledgeController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                            "../assets/global/plugins/fine-uploader/fine-uploader-gallery.min.css",
+                            "../assets/global/plugins/fine-uploader/fine-uploader.min.js",
+                            'js/controllers/MaintainKnowledgeController.js?version=2018011701'
+
+                    ])
+                }]
+            }
+        })
+        .state('main.asset.repairKnowledge', {
+            url: "/repairKnowledge",
+            templateUrl: "views/asset-repairKnowledge.html?version=2018011701",
+            controller: 'RepairKnowledgeController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                            'js/controllers/RepairKnowledgeController.js?version=2018011701'
+
+                    ])
+                }]
+            }
+        })
+        .state('main.asset.equipmentManual', {
+            url: "/equipmentManual",
+            templateUrl: "views/asset-equipmentManual.html?version=2018011701",
+            controller: 'EquipmentManualController',
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                            "../assets/global/plugins/jquery.min.js",
+                            "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                            "../assets/global/plugins/fine-uploader/fine-uploader-gallery.min.css",
+                            "../assets/global/plugins/fine-uploader/fine-uploader.min.js",
+                            'js/controllers/EquipmentManualController.js?version=2018011701'
+
+                    ])
+                }]
+            }
+        })
         .state('main.asset.partmanage', {
             url: "/partmanage",
             templateUrl: "views/asset-partmanage.html?version=2018011701",

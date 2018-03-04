@@ -1,8 +1,12 @@
 var AppService = angular.module("AppService", []);
 var deviceUrl = "http://139.196.141.29:9999"; //saas manager api  old 118.89.140.11
 var userUrl = "http://139.196.141.29:1111";  //user manager api  http://139.196.141.29/  xmx http://119.3.2.68
-var fileuploaderUrl = "http://139.196.141.29:9498"; //fineUploader huawei http://122.112.237.243
+//var fileuploaderUrl = "http://139.196.141.29:9498"; //fineUploader huawei http://122.112.237.243
 var testUrl = "http://118.89.140.11:3030";//测试保存屏幕元素位置
+
+//var deviceUrl = "http://eam.kuyun.cn:9999"; //saas manager api  old 118.89.140.11
+//var userUrl = "http://upms.kuyun.cn:1111";  //user manager api  http://139.196.141.29/  xmx http://119.3.2.68
+var fileuploaderUrl = "http://122.112.237.243:9498"; //fineUploader huawei http://122.112.237.243
 
 //用户相关api
 AppService.factory('userApi', ['$http', '$q', function($http, $q) {
@@ -1488,6 +1492,406 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
         $http({
             method: 'get',
             url: deviceUrl+ '/manage/part/delete/'+ids,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.getTrainingVideoList = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/training/video/list',
+            headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            sharedataApi.setModeldata(response.data.rows);
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.createTrainingVideo = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/training/video/create',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.updateTrainingVideo = function(id, params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/training/video/update/'+id,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.deleteTrainingVideo = function(ids) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/training/video/delete/'+ids,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.getTrainingDocList = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/training/doc/list',
+            headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            sharedataApi.setModeldata(response.data.rows);
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.createTrainingDoc = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/training/doc/create',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.updateTrainingDoc = function(id, params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/training/doc/update/'+id,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.deleteTrainingDoc = function(ids) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/training/doc/delete/'+ids,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.getMaintainKnowledgeList = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/maintain/list',
+            headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            sharedataApi.setModeldata(response.data.rows);
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.createMaintainKnowledge = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/maintain/create',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.updateMaintainKnowledge = function(id, params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/maintain/update/'+id,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.deleteMaintainKnowledge = function(ids) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/maintain/delete/'+ids,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.getRepairKnowledgeList = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/repair/list',
+            headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            sharedataApi.setModeldata(response.data.rows);
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.createRepairKnowledge = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/repair/create',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.updateRepairKnowledge = function(id, params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/repair/update/'+id,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.deleteRepairKnowledge = function(ids) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/repair/delete/'+ids,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            withCredentials: true,
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.getEquipmentManualList = function(order, offset, limit) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/manual/list',
+            headers: {"Accept":"application/json"},
+            withCredentials: true,
+            params: {order:'asc', offset:offset, limit:limit}
+        }).then(function(response) {
+            sharedataApi.setModeldata(response.data.rows);
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.createEquipmentManual = function(params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/manual/create',
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.updateEquipmentManual = function(id, params) {
+        var d = $q.defer();
+        $http({
+            method: 'post',
+            url: deviceUrl+ '/manage/knowledge/manual/update/'+id,
+            headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
+            data:params,
+            withCredentials: true,
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+
+        }).then(function(response) {
+            d.resolve(response);
+        }).catch(function(err) {
+            d.reject(err);
+        });
+        return d.promise;
+    };
+
+    service.deleteEquipmentManual = function(ids) {
+        var d = $q.defer();
+        $http({
+            method: 'get',
+            url: deviceUrl+ '/manage/knowledge/manual/delete/'+ids,
             headers: {"Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"},
             withCredentials: true,
         }).then(function(response) {
