@@ -1,9 +1,16 @@
-angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element','$state','$stateParams', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element,$state,$stateParams) {
+angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$rootScope','deviceApi','NgTableParams','$timeout','sharedataApi','$element','$state','$stateParams','$compile', function($scope, $rootScope, deviceApi, NgTableParams,$timeout,sharedataApi,$element,$state,$stateParams,$compile) {
     $rootScope.menueName = 'sidebar-asset';
     $scope.menueName = $rootScope.menueName;
     $scope.productLine = $stateParams.productLine;
 
     $scope.AlarmSetList = []; //产线的报警设置数组
+    $scope.localLang = {
+        selectAll       : "全选",
+        selectNone      : "取消选择",
+        reset           : "撤销",
+        search          : "搜索...",
+        nothingSelected : "未选中"         //default-label is deprecated and replaced with this.
+    };
     $scope.alarmTemplateList=[]; //报警模板数组
     $scope.equipmentDataList=[];
     $scope.dataTypelist=[
@@ -57,6 +64,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
             break;
           }
         }
+        getProductLineAlarmSetById($scope.productLine.productLineId,$scope.currentData.alarmId);
         $('#myModal_updateAlarmSet').modal();
       }
     };
@@ -350,6 +358,33 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
       $scope.tableParams.reload();
     }
 
+    function getProductLineAlarmSetById(productLineId,alarmId){
+      deviceApi.getProductLineAlarmSetById(productLineId,alarmId)
+          .then(function(result){
+              if(result.data.code == 1 ){
+                $scope.alarmTargetUsers = result.data.data.alarmTargetUsers;
+                $scope.alarmUsers = result.data.data.users;
+                for(var i=0;i<$scope.alarmUsers.length;i++){
+                   $scope.alarmUsers[i].selected = false;
+                   for(var j=0;j<$scope.alarmTargetUsers.length;j++){
+                     if($scope.alarmTargetUsers[j].userId == $scope.alarmUsers[i].userId){
+                       $scope.alarmUsers[i].selected = true;
+                       break;
+                     }
+                   }
+                }
+                for(var i=0;i<$scope.alarmTargetUsers.length;i++){
+                   $scope.alarmTargetUsers[i].selected = true;
+                }
+                console.log('alarmTargetUsers',$scope.alarmTargetUsers);
+                console.log('alarmUsers',$scope.alarmUsers);
+              }else{
+
+              }
+          }, function(err) {
+            console.log('新建报警设置err',err);
+          });
+    }
     function setNumContent(alarmTypeId){
       switch(alarmTypeId){
           case "same_data_element":

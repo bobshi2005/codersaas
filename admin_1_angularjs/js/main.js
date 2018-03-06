@@ -622,7 +622,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider','$httpProvider',funct
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
-                          'js/controllers/SetAlarmController.js?version=2018011701'
+                        "../assets/global/plugins/jquery.min.js",
+                        "../assets/global/plugins/bootstrap/js/bootstrap.min.js",
+                        "../assets/global/plugins/angular-multi-select/isteven-multi-select.js",
+                        "../assets/global/plugins/angular-multi-select/isteven-multi-select.css",
+                        'js/controllers/SetAlarmController.js?version=2018011701'
 
                     ])
                 }]

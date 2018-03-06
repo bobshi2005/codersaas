@@ -1965,6 +1965,21 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
           });
           return d.promise;
       };
+      //获取产线某一条报警的相关信息
+      service.getProductLineAlarmSetById = function(productLineId,alarmId) {
+          var d = $q.defer();
+          $http({
+              method: 'get',
+              url: deviceUrl+ '/manage/'+productLineId+'/alarm/updateIndex/'+alarmId,
+              headers: {"Accept":"application/json"},
+              withCredentials: true,
+          }).then(function(response) {
+              d.resolve(response);
+          }).catch(function(err) {
+              d.reject(err);
+          });
+          return d.promise;
+      };
       //更新产线报警
       service.updateProductLineAlarmSet = function(productLineId,params) {
           var d = $q.defer();

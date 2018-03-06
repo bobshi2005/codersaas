@@ -71,45 +71,63 @@
                                 <h4 class="modal-title">更新报警<h4>
                             </div>
                             <div class="modal-body form">
-                                <form action="" class="form-horizontal form-row-seperated">
-
-                                  <div class="form-group">
+                                <form action="" class="form-horizontal">
+                                  <br/>
+                                  <div class="form-group ">
                                       <label class="col-sm-4 control-label">报警名称</label>
-                                      <div class="col-sm-8">
+                                      <div class="col-sm-6">
                                           <input type="text" id="name" ng-model="currentData.name" class="form-control" />
                                       </div>
                                   </div>
 
-                                  <div class="form-group last">
+                                  <div class="form-group ">
                                       <label class="col-sm-4 control-label">选择变量</label>
-                                      <div class="col-sm-4">
+                                      <div class="col-sm-6">
                                           <select class="form-control" ng-model="currentData.selectedDataElement" ng-change="selectDataElement()" ng-options="x.name for x in equipmentDataList" required>
                                           </select>
                                       </div>
                                   </div>
-                                  <div class="form-group last">
+                                  <div class="form-group ">
                                       <label class="col-sm-4 control-label">报警类型</label>
-                                      <div class="col-sm-4">
+                                      <div class="col-sm-6">
                                           <select class="form-control" ng-model="currentData.alarmType" ng-change="selectAlarmType()" ng-options="x.name for x in alarmTypeLists" required>
                                           </select>
                                       </div>
                                   </div>
-                                  <div class="form-group upperBound" >
+                                  <div class="form-group upperBound " >
                                       <label class="col-sm-4 control-label">X</label>
                                       <div class="col-sm-6">
                                         <input class="form-control upperBoundNum" type="number" ng-model="currentData.upperBound"  placeholder="请填写数字" ></select>
                                       </div>
                                   </div>
-                                  <div class="form-group lowerBound" >
+                                  <div class="form-group lowerBound " >
                                       <label class="col-sm-4 control-label">Y</label>
                                       <div class="col-sm-6">
                                         <input  class="form-control lowerBoundNum"  type="number" ng-model="currentData.lowerBound" placeholder="请填写数字" ></select>
                                       </div>
                                   </div>
-                                  <div class="form-group duration">
+                                  <div class="form-group duration ">
                                       <label class="col-sm-4 control-label">M</label>
                                       <div class="col-sm-6">
                                         <input  class="form-control durationNum"  type="number" ng-model="currentData.duration"  placeholder="请填写数字" ></select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group ">
+                                      <label class="col-sm-4 control-label">报警提醒人员</label>
+                                      <div class="col-sm-6">
+                                        <!-- <select id="targetuser_selector" multiple="multiple">
+                                        </select> -->
+                                          <div
+                                              isteven-multi-select
+                                              input-model="alarmUsers"
+                                              output-model="alarmTargetUsers"
+                                              button-label="realname"
+                                              item-label="realname"
+                                              tick-property="selected"
+                                              translation="localLang"
+                                              orientation="horizontal"
+                                          >
+                                          </div>
                                       </div>
                                   </div>
                                 </form>
