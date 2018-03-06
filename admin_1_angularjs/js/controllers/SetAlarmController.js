@@ -55,11 +55,12 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         for(var i=0; i< $scope.AlarmSetList.length; i++){
           if($scope.AlarmSetList[i].alarmId == index){
             $scope.currentData = $scope.AlarmSetList[i];
+            console.log('AlarmSetList',$scope.AlarmSetList);
             console.log('updatecurrentData',$scope.currentData);
             $scope.currentData.selectedDataElement=getDataElementById($scope.AlarmSetList[i].eamDataElementId);
             console.log('selectedDataElement',$scope.currentData.selectedDataElement);
-            $scope.currentData.alarmType=getDataTypeById($scope.AlarmSetList[i].alarmType,$scope.currentData.selectedDataElement.dataType);
-            console.log('update',$scope.currentData.alarmType);
+            $scope.currentData.selectedAlarmType=getDataTypeById($scope.AlarmSetList[i].alarmType,$scope.currentData.selectedDataElement.dataType);
+            console.log('update',$scope.currentData.selectedAlarmType);
             setNumContent($scope.currentData.alarmType.id);
             break;
           }
