@@ -1992,7 +1992,21 @@ AppService.factory('deviceApi',['$http', '$q', 'sharedataApi',function($http, $q
               transformRequest: function(obj) {
                   var str = [];
                   for(var p in obj){
+                    if(p=='alarmTargetUser'){
+                      console.log('p',obj[p]);
+                      var alarmstr='';
+                      for(var i=0;i<obj[p].length;i++){
+                        if(i==0){
+                          alarmstr +="alarmTargetUser=" + encodeURIComponent(obj[p][i].userId);
+                        }else{
+                          alarmstr +="&alarmTargetUser=" +  encodeURIComponent(obj[p][i].userId);
+                        }
+                      }
+                      str.push(alarmstr);
+                    }else{
                       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+
+                    }
                   }
                   return str.join("&");
               }

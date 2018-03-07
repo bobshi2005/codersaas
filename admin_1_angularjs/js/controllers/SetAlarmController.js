@@ -4,6 +4,8 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
     $scope.productLine = $stateParams.productLine;
 
     $scope.AlarmSetList = []; //产线的报警设置数组
+    $scope.alarmTargetUsers = [];
+    $scope.alarmUsers = [];
     $scope.localLang = {
         selectAll       : "全选",
         selectNone      : "取消选择",
@@ -55,13 +57,10 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         for(var i=0; i< $scope.AlarmSetList.length; i++){
           if($scope.AlarmSetList[i].alarmId == index){
             $scope.currentData = $scope.AlarmSetList[i];
-            console.log('AlarmSetList',$scope.AlarmSetList);
-            console.log('updatecurrentData',$scope.currentData);
             $scope.currentData.selectedDataElement=getDataElementById($scope.AlarmSetList[i].eamDataElementId);
-            console.log('selectedDataElement',$scope.currentData.selectedDataElement);
             $scope.currentData.selectedAlarmType=getDataTypeById($scope.AlarmSetList[i].alarmType,$scope.currentData.selectedDataElement.dataType);
-            console.log('update',$scope.currentData.selectedAlarmType);
-            setNumContent($scope.currentData.alarmType.id);
+            console.log('selectedAlarmType',$scope.currentData.selectedAlarmType);
+            setNumContent($scope.currentData.selectedAlarmType.id);
             break;
           }
         }
@@ -143,8 +142,11 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         }else if(!$scope.currentData.hasOwnProperty("selectedDataElement") || $scope.currentData.selectedDataElement == ''){
             $scope.message = '必须选择报警变量';
             $('#myModal_alert').modal();
-        }else if(!$scope.currentData.hasOwnProperty("alarmType") || $scope.currentData.alarmType == ''){
+        }else if(!$scope.currentData.hasOwnProperty("selectedAlarmType") || $scope.currentData.selectedAlarmType == ''){
             $scope.message = '必须选择报警类型';
+            $('#myModal_alert').modal();
+        }else if($scope.alarmTargetUsers.length == 0){
+            $scope.message = '必须选择报警提醒对象';
             $('#myModal_alert').modal();
         }else{
            if(checkNumContent()){
@@ -168,7 +170,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
     };
 
     $scope.selectAlarmType = function(){
-      var alarmType = $scope.currentData.alarmType;
+      var alarmType = $scope.currentData.selectedAlarmType;
       console.log('alarmType',alarmType);
       setNumContent(alarmType.id);
 
@@ -380,7 +382,8 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
                 console.log('alarmTargetUsers',$scope.alarmTargetUsers);
                 console.log('alarmUsers',$scope.alarmUsers);
               }else{
-
+                $scope.alarmTargetUsers = [];
+                $scope.alarmUsers = [];
               }
           }, function(err) {
             console.log('新建报警设置err',err);
@@ -437,7 +440,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         var x = $('.upperBoundNum').val();
         var y = $('.lowerBoundNum').val();
         var m = $('.durationNum').val();
-        switch($scope.currentData.alarmType.id){
+        switch($scope.currentData.selectedAlarmType.id){
           case "val_above":
             if(x==null || x==''){
               $scope.message ='请填写 X 的值';
@@ -539,8 +542,15 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
       params.alarmId =$scope.currentData.alarmId;
       params.eamDataElementId = $scope.currentData.selectedDataElement.id;
       params.name = $scope.currentData.name;
-      params.alarmType = $scope.currentData.alarmType.id;
-      params.alarmTargetUser = 1;
+      params.alarmType = $scope.currentData.selectedAlarmType.id;
+      params.alarmTargetUser = $scope.alarmTargetUsers;
+      params.alarmTarget ='';
+      // angular.forEach($scope.alarmTargetUsers,function(item,index){
+      //   params.alarmTargetUser += '&alarmTargetUser='+item.userId
+      // });
+      // params.alarmTargetUser = params.alarmTargetUser.substring(16, params.alarmTargetUser.length);
+      //
+      // console.log('alarmTargetUser',params.alarmTargetUser);
       if($scope.currentData.upperBound){
         params.upperBound = $scope.currentData.upperBound;
       }else{
