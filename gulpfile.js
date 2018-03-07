@@ -24,6 +24,7 @@ gulp.task('localhost-live', function() {
   connect.server({
     livereload: true
   });
+
 });
 
 //*** SASS compiler task
