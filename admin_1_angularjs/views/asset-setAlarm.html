@@ -113,6 +113,13 @@
                                       </div>
                                   </div>
                                   <div class="form-group ">
+                                      <label class="col-sm-4 control-label">报警提醒类型</label>
+                                      <div class="col-sm-6">
+                                          <select class="form-control" ng-model="currentData.selectedAlarmTarget" ng-options="x.name for x in alarmTargetTypes" required>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group ">
                                       <label class="col-sm-4 control-label">报警提醒人员</label>
                                       <div class="col-sm-6">
                                           <div

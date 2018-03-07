@@ -6,6 +6,10 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
     $scope.AlarmSetList = []; //产线的报警设置数组
     $scope.alarmTargetUsers = [];
     $scope.alarmUsers = [];
+    $scope.alarmTargetTypes = [
+      {"id":"SMS","name":"短信"},
+      {"id":"Email","name":"邮件"}
+    ];
     $scope.localLang = {
         selectAll       : "全选",
         selectNone      : "取消选择",
@@ -59,7 +63,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
             $scope.currentData = $scope.AlarmSetList[i];
             $scope.currentData.selectedDataElement=getDataElementById($scope.AlarmSetList[i].eamDataElementId);
             $scope.currentData.selectedAlarmType=getDataTypeById($scope.AlarmSetList[i].alarmType,$scope.currentData.selectedDataElement.dataType);
-            console.log('selectedAlarmType',$scope.currentData.selectedAlarmType);
+            $scope.currentData.selectedAlarmTarget=getAlarmTargetById($scope.currentData.alarmTarget);
             setNumContent($scope.currentData.selectedAlarmType.id);
             break;
           }
@@ -163,7 +167,6 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
     $scope.selectDataElement  =function(){
       var dataElement = $scope.currentData.selectedDataElement;
       getAlarmTypelistByDataType(dataElement.dataType);
-      console.log('dataElement',dataElement);
       $('.upperBound').hide();
       $('.lowerBound').hide();
       $('.duration').hide();
@@ -171,14 +174,12 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
 
     $scope.selectAlarmType = function(){
       var alarmType = $scope.currentData.selectedAlarmType;
-      console.log('alarmType',alarmType);
       setNumContent(alarmType.id);
 
     };
 
 
     $scope.$on('$viewContentLoaded', function() {
-        console.log('productLine',$scope.productLine);
         getEquipmentDataList();
         getAlarmSetList();
     });
@@ -215,7 +216,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         angular.forEach($scope.alarmTemplateList, function(item) {
           $scope.checkboxes2.items[item.alarmModelId] = value;
         });
-        console.log('checkbox2',$scope.checkboxes2);
+        // console.log('checkbox2',$scope.checkboxes2);
       });
       $scope.$watch(function() {
         return $scope.checkboxes2.items;
@@ -265,6 +266,15 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
         if($scope.alarmTypeLists[i].id == id){
           var datatype = $scope.alarmTypeLists[i]
           return datatype;
+          break;
+        }
+      }
+    }
+    function getAlarmTargetById(id){
+      for(var i=0; i<$scope.alarmTargetTypes.length; i++){
+        if($scope.alarmTargetTypes[i].id == id){
+          var alarmTarget = $scope.alarmTargetTypes[i]
+          return alarmTarget;
           break;
         }
       }
@@ -320,7 +330,6 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
             }
             $scope.checkboxes.checked = false;
             $scope.checkboxes.items = {};
-            console.log('alarmTemplateList',$scope.alarmTemplateList);
             $scope.tableTemplate = new NgTableParams({},
               { counts:[],
                 dataset: $scope.alarmTemplateList
@@ -379,8 +388,6 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
                 for(var i=0;i<$scope.alarmTargetUsers.length;i++){
                    $scope.alarmTargetUsers[i].selected = true;
                 }
-                console.log('alarmTargetUsers',$scope.alarmTargetUsers);
-                console.log('alarmUsers',$scope.alarmUsers);
               }else{
                 $scope.alarmTargetUsers = [];
                 $scope.alarmUsers = [];
@@ -544,13 +551,7 @@ angular.module('MetronicApp').controller('SetAlarmController', ['$scope', '$root
       params.name = $scope.currentData.name;
       params.alarmType = $scope.currentData.selectedAlarmType.id;
       params.alarmTargetUser = $scope.alarmTargetUsers;
-      params.alarmTarget ='';
-      // angular.forEach($scope.alarmTargetUsers,function(item,index){
-      //   params.alarmTargetUser += '&alarmTargetUser='+item.userId
-      // });
-      // params.alarmTargetUser = params.alarmTargetUser.substring(16, params.alarmTargetUser.length);
-      //
-      // console.log('alarmTargetUser',params.alarmTargetUser);
+      params.alarmTarget =$scope.currentData.selectedAlarmTarget.id;
       if($scope.currentData.upperBound){
         params.upperBound = $scope.currentData.upperBound;
       }else{
